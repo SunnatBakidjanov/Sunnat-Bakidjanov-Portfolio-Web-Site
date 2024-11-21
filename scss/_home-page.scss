@@ -1,0 +1,1167 @@
+// color
+$orange: #f8aa01;
+$white: #fff;
+$black: #000;
+$gray: #a9a9a9;
+$water-color: #00bfff;
+$html-color: #ff5733;
+$css-color: #0071c5;
+$js-color: #f7df1e;
+$react-color: #61dafb;
+
+// my-name-section
+$my-name-title-color: $orange;
+$my-name-text-color: $white;
+
+// logo-section
+$logo-3d-box-shaodow-color: $white;
+
+// scroll-hmp-section
+$scroll-hmp-line-color: $white;
+$scroll-hmp-text-color: $white;
+
+// cards-section
+$cards-title-color: $orange;
+$cards-box-preserve-box-shadow-color: $white;
+$cards-box-circle-color: $white;
+
+// projects-section
+$projects-title-color: $orange;
+$projects-text-one-color: $white;
+$porjects-text-two-color: $orange;
+$cloud-drop-shadow: $gray;
+$cloud-particle-center-bg-color: $white;
+$cloud-particle-center-box-shadow-color: $gray;
+$cloud-particle-top-bg-color: $white;
+$cloud-particle-top-box-shadow-color: $white;
+$cloud-drop-bg-color: $water-color;
+$cloud-bottom-box-shadow-color: $white;
+$cloud-bottom-border-color: $white;
+
+// exp-section
+$exp-title-text-color: $orange;
+$exp-filter-color: $white;
+$exp-start-text-color: $white;
+$exp-lines-color: $white;
+$exp-circle-color: $white;
+$exp-text-color: $white;
+
+.home-page {
+	position: absolute;
+	left: -9999px;
+}
+
+.getting {
+	.getting__wrapper {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		padding-top: 50px;
+		height: 400px;
+
+		.getting__inner-text {
+			margin-top: 20px;
+			margin-left: 50px;
+		}
+
+		.getting__inner-logo-3d {
+			margin-right: 20px;
+		}
+	}
+
+	.my-name {
+		overflow: hidden;
+
+		&__hidden-title {
+			height: 130px;
+			overflow: hidden;
+		}
+
+		&__title {
+			position: relative;
+			left: -100%;
+			font-style: normal;
+			font-weight: 700;
+			line-height: 115%;
+			font-size: 55px;
+			color: $my-name-title-color;
+			letter-spacing: 0.5px;
+		}
+
+		&__title span {
+			color: white;
+		}
+
+		&__title--animate {
+			@keyframes my-name-title-left {
+				0% {
+					left: -100%;
+				}
+
+				100% {
+					left: 0%;
+				}
+			}
+
+			animation: my-name-title-left 1.3s forwards 0.3s ease;
+		}
+
+		&__text {
+			margin-top: 30px;
+			max-width: 691px;
+			height: 100px;
+			font-style: normal;
+			font-weight: 700;
+			font-size: 40px;
+			color: $my-name-text-color;
+			letter-spacing: 2px;
+			overflow: hidden;
+		}
+
+		&__blink {
+			position: relative;
+			left: -100%;
+		}
+
+		&__blink--animation {
+			@keyframes my-name-blink-start {
+				0% {
+					left: -100%;
+				}
+
+				100% {
+					left: 0%;
+				}
+			}
+
+			@keyframes my-name-blink {
+				0% {
+					opacity: 1;
+				}
+
+				100% {
+					opacity: 0;
+				}
+			}
+
+			animation:
+				my-name-blink 0.7s infinite 0s,
+				my-name-blink-start 0s forwards 0.7s;
+		}
+	}
+
+	.logo-3d {
+		perspective: 550px;
+
+		&__preserve-3d {
+			position: relative;
+			width: 250px;
+			height: 250px;
+			transform-style: preserve-3d;
+		}
+
+		&__preserve-3d--animate {
+			@keyframes logo-3d-rotation {
+				0% {
+					transform: rotateY(0deg);
+				}
+
+				100% {
+					transform: rotateY(360deg);
+				}
+			}
+
+			animation: logo-3d-rotation 25s linear infinite;
+		}
+
+		&__front {
+			position: absolute;
+			height: 92.3%;
+			transform: translateZ(25px);
+			backface-visibility: hidden;
+		}
+
+		&__front--animate {
+			@keyframes logo-3d-front-start {
+				0% {
+					box-shadow: 0 0 0 $logo-3d-box-shaodow-color;
+				}
+
+				100% {
+					box-shadow: 0 0 15px $logo-3d-box-shaodow-color;
+				}
+			}
+
+			animation: logo-3d-front-start 0.5s ease-in forwards;
+		}
+
+		&__img {
+			opacity: 0;
+		}
+
+		&__img--animate {
+			@keyframes logo-3d-img-start {
+				0% {
+					opacity: 0;
+				}
+
+				100% {
+					opacity: 1;
+				}
+			}
+
+			animation: logo-3d-img-start 1s linear forwards;
+		}
+
+		&__line-bottom {
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			width: 0%;
+			height: 2px;
+			background: linear-gradient(-90deg, transparent, white);
+			border-top-right-radius: 1px;
+			border-top-left-radius: 1px;
+		}
+
+		&__line-bottom--animate {
+			@keyframes logo-3d-line-bottom {
+				0% {
+					width: 0%;
+				}
+
+				100% {
+					width: 100%;
+				}
+			}
+
+			animation: logo-3d-line-bottom 1s linear forwards 0.5s;
+		}
+
+		&__line-top {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 0%;
+			height: 2px;
+			background: linear-gradient(90deg, transparent, white);
+			border-top-right-radius: 1px;
+			border-top-left-radius: 1px;
+		}
+
+		&__linte-top--animate {
+			@keyframes logo-3d-line-top {
+				0% {
+					width: 0%;
+				}
+
+				100% {
+					width: 100%;
+				}
+			}
+
+			animation: logo-3d-line-top 1s linear forwards 0.5s;
+		}
+
+		&__line-right {
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			width: 2px;
+			height: 0%;
+			background: linear-gradient(0deg, transparent, white);
+			border-top-right-radius: 1px;
+			border-top-left-radius: 1px;
+		}
+
+		&__line-right--animate {
+			@keyframes logo-3d-line-right {
+				0% {
+					height: 0%;
+				}
+
+				100% {
+					height: 100%;
+				}
+			}
+
+			animation: logo-3d-line-right 1s linear forwards 0.5s;
+		}
+
+		&__line-left {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 2px;
+			height: 0%;
+			background: linear-gradient(180deg, transparent, white);
+			border-top-right-radius: 1px;
+			border-top-left-radius: 1px;
+		}
+
+		&__line-left--animate {
+			@keyframes logo-3d-line-left {
+				0% {
+					height: 0%;
+				}
+
+				100% {
+					height: 100%;
+				}
+			}
+
+			animation: logo-3d-line-left 1s linear forwards 0.5s;
+		}
+
+		&__back {
+			position: absolute;
+			transform: translateZ(-25px) rotateY(180deg);
+			backface-visibility: hidden;
+			box-shadow: 0 0 15px $logo-3d-box-shaodow-color;
+			height: 92.3%;
+		}
+
+		&__left {
+			position: absolute;
+			width: 20%;
+			height: 92.3%;
+			transform: translateX(-26px) rotateY(-90deg);
+			backface-visibility: hidden;
+			box-shadow: 0 0 15px $logo-3d-box-shaodow-color;
+		}
+
+		&__right {
+			position: absolute;
+			width: 20%;
+			height: 92.3%;
+			transform: translateX(203px) rotateY(90deg);
+			backface-visibility: hidden;
+			box-shadow: 0 0 15px $logo-3d-box-shaodow-color;
+		}
+
+		&__shadow {
+			position: absolute;
+			left: 45%;
+			width: 30%;
+			height: 100%;
+			transform: translateY(150px) translateX(-50%) rotateZ(90deg) rotateY(90deg);
+			filter: blur(10px);
+			box-shadow: 0 0 150px $logo-3d-box-shaodow-color;
+			opacity: 0;
+		}
+
+		&__shadow--animate {
+			@keyframes logo-3d-shadow-start {
+				0% {
+					opacity: 0;
+				}
+
+				100% {
+					opacity: 1;
+				}
+			}
+
+			animation: logo-3d-shadow-start 0.5s ease-in forwards;
+		}
+	}
+}
+
+.scroll-hmp {
+	&__wrapper {
+		display: flex;
+		align-items: center;
+		height: calc(100vh - 500px);
+	}
+
+	&__line--animate {
+		@keyframes scroll-hmp-line-start {
+			0% {
+				height: 0%;
+			}
+
+			100% {
+				height: 80%;
+			}
+		}
+
+		animation: scroll-hmp-line-start 1.5s forwards ease-out 0.3s;
+	}
+
+	&__line {
+		margin-left: 150px;
+		width: 3px;
+		height: 0%;
+		background-color: $scroll-hmp-line-color;
+	}
+
+	&__hide-text--animate {
+		@keyframes scroll-hmp-text-start {
+			0% {
+				bottom: 50px;
+			}
+
+			100% {
+				bottom: 0;
+			}
+		}
+
+		animation: scroll-hmp-text-start 1.5s forwards ease-out 0.3s;
+	}
+
+	&__hide-text {
+		overflow: hidden;
+	}
+
+	&__text {
+		position: relative;
+		bottom: 50px;
+		margin-left: 50px;
+		font-weight: 600;
+		font-size: 35px;
+		color: $scroll-hmp-text-color;
+	}
+}
+
+.cards {
+	$colors: (
+		'html': $html-color,
+		'css': $css-color,
+		'js': $js-color,
+		'react': $react-color,
+	);
+
+	@mixin content-box($color, $modifier) {
+		&__circle--#{$modifier} {
+			transition: all 0.2s linear;
+			stroke: $color;
+			filter: drop-shadow(0 0 3px $color);
+		}
+
+		&__value-box--#{$modifier} {
+			filter: drop-shadow(0 0 15px $color);
+		}
+
+		&__progress-text--#{$modifier} {
+			filter: drop-shadow(0 0 15px $color);
+		}
+
+		&__container--#{$modifier}-animate {
+			@keyframes cards-content-container-#{$modifier} {
+				0% {
+					border-top: 1px solid transparent;
+					border-bottom: 1px solid transparent;
+				}
+
+				100% {
+					border-top: 1px solid $color;
+					border-bottom: 1px solid $color;
+				}
+			}
+
+			animation: cards-content-container-#{$modifier} 0.6s ease-out forwards;
+		}
+
+		&__text--#{$modifier} {
+			color: $color;
+		}
+	}
+
+	.cards__wrapper {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding-top: 50px;
+	}
+
+	.cards__title {
+		width: 690px;
+		height: 63px;
+		font-weight: 600;
+		font-size: 50px;
+		color: $cards-title-color;
+		text-align: left;
+	}
+
+	.cards__inner-content {
+		margin-top: 100px;
+		row-gap: 50px;
+	}
+
+	.cards-content {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+
+		&__container {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 60px 0;
+			width: 100%;
+			flex-wrap: wrap;
+			gap: 50px 0;
+			border: 0 solid transparent;
+		}
+
+		&__inner-progress {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			padding: 0 30px;
+			width: 350px;
+			height: 225px;
+			row-gap: 25px;
+		}
+
+		&__svg-box {
+			position: relative;
+			opacity: 0;
+			transform: translateY(-30px);
+		}
+
+		&__svg-box--animate {
+			@keyframes cards-content-svg-box {
+				0% {
+					opacity: 0;
+					transform: translateY(-30px);
+				}
+
+				100% {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+
+			animation: cards-content-svg-box 0.8s forwards ease-out;
+		}
+
+		&__svg {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 150px;
+			height: 150px;
+		}
+
+		&__circle {
+			fill: none;
+			stroke: $cards-box-circle-color;
+			stroke-width: 8;
+			transform: translate(5px, -5px) rotate(-90deg);
+			transform-origin: center;
+		}
+
+		&__value-box {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			display: flex;
+			align-items: flex-end;
+			color: white;
+			transform: translate(-50%, -50%);
+		}
+
+		&__value {
+			font-style: normal;
+			font-weight: 500;
+			line-height: 100%;
+			font-size: 40px;
+		}
+
+		&__precent {
+			position: relative;
+			bottom: 1px;
+			left: 5px;
+			font-style: normal;
+			font-weight: 800;
+			font-size: 20px;
+		}
+
+		&__progress-text {
+			position: relative;
+			left: 5px;
+			font-style: normal;
+			font-weight: 700;
+			font-size: 40px;
+			color: white;
+			letter-spacing: 0.5px;
+			text-align: center;
+			opacity: 0;
+			transform: translateY(30px);
+		}
+
+		&__progress-text--animate {
+			@keyframes cards-content-progress-text {
+				0% {
+					opacity: 0;
+					transform: translateY(30px);
+				}
+
+				100% {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+
+			animation: cards-content-progress-text 0.8s ease-out forwards;
+		}
+
+		&__inner-text {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 65%;
+			height: fit-content;
+			gap: 50px 80px;
+			flex-wrap: wrap;
+		}
+
+		&__text {
+			font-style: normal;
+			font-weight: 700;
+			font-size: 22px;
+			color: white;
+			text-align: center;
+			opacity: 0;
+			transform: translateY(-20px);
+		}
+
+		&__text--animate {
+			@keyframes cards-content-text {
+				0% {
+					opacity: 0;
+					transform: translateY(-20px);
+				}
+
+				100% {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+
+			animation: cards-content-text 0.6s ease-out forwards;
+		}
+
+		@each $modifier, $color in $colors {
+			@include content-box($color, $modifier);
+		}
+	}
+}
+
+.projects {
+	.projects__wrapper {
+		display: flex;
+		flex-direction: column;
+		padding-top: 130px;
+		padding-left: 20px;
+
+		.projects__inner-titile {
+			height: 63px;
+		}
+
+		.projects__inner-content {
+			display: flex;
+			justify-content: space-between;
+			flex-wrap: wrap;
+			column-gap: 100px;
+			padding-top: 50px;
+
+			.projects__inner-text {
+				display: flex;
+				flex-direction: column;
+				padding-top: 30px;
+				padding-bottom: 50px;
+			}
+
+			.projects__inner-animation {
+				margin-right: 20px;
+			}
+		}
+	}
+
+	&__title {
+		font-weight: 600;
+		font-size: 50px;
+		color: $projects-title-color;
+	}
+
+	&__hidden-text-one {
+		position: relative;
+		overflow: hidden;
+	}
+
+	&__text-one--animate {
+		@keyframes projects-text-one-start {
+			0% {
+				top: -200px;
+			}
+
+			100% {
+				top: 0;
+			}
+		}
+
+		animation: projects-text-one-start 1s ease forwards;
+	}
+
+	&__text-one {
+		position: relative;
+		top: -200px;
+		font-weight: 400;
+		font-size: 40px;
+		color: $projects-text-one-color;
+	}
+
+	&__hidden-text-two {
+		position: relative;
+		margin-left: -5px;
+		padding-top: 20px;
+		overflow: hidden;
+	}
+
+	&__text-two--animate {
+		@keyframes projects-text-two-start {
+			0% {
+				left: -100%;
+			}
+
+			100% {
+				left: 0%;
+			}
+		}
+
+		animation: projects-text-two-start 1s ease-out forwards;
+	}
+
+	&__text-two {
+		position: relative;
+		left: -100%;
+		font-weight: 400;
+		font-size: 40px;
+		color: $porjects-text-two-color;
+	}
+
+	.russian-lang-text {
+		font-weight: 600;
+		line-height: 110%;
+	}
+
+	.cloud--animate {
+		@keyframes cloud-container-visible {
+			0% {
+				overflow: hidden;
+			}
+
+			100% {
+				overflow: visible;
+			}
+		}
+
+		@keyframes cloud-container-filter {
+			0% {
+				filter: drop-shadow(0 0 30px transparent);
+			}
+
+			100% {
+				filter: drop-shadow(0 0 30px $cloud-particle-center-box-shadow-color);
+			}
+		}
+
+		animation:
+			cloud-container-visible 0s linear forwards,
+			cloud-container-filter 1s linear forwards;
+	}
+
+	.cloud {
+		position: relative;
+		overflow: hidden;
+		top: -80px;
+		filter: drop-shadow(0 0 30px transparent);
+		perspective: 100px;
+
+		&__preserve-3d {
+			transform-style: preserve-3d;
+		}
+
+		&__particle-center--animate {
+			@keyframes cloud-partilce-center-start {
+				0% {
+					top: -120px;
+				}
+
+				100% {
+					top: 0;
+				}
+			}
+
+			animation: cloud-partilce-center-start 0.7s ease-out forwards;
+		}
+
+		&__particle-center {
+			position: relative;
+			top: -120px;
+			width: 350px;
+			height: 100px;
+			background-color: $cloud-particle-center-bg-color;
+			border-radius: 100px;
+			box-shadow: 3px 3px 3px $cloud-particle-center-box-shadow-color;
+		}
+
+		&__particle-top--animate {
+			@keyframes cloud-particle-top-start {
+				0% {
+					width: 0;
+					height: 0;
+				}
+
+				50% {
+					width: 110px;
+					height: 110px;
+					box-shadow: 0 0 0 0 $cloud-particle-top-box-shadow-color;
+				}
+
+				100% {
+					width: 110px;
+					height: 110px;
+					box-shadow: 90px 10px 0 30px $cloud-particle-top-box-shadow-color;
+				}
+			}
+
+			animation: cloud-particle-top-start 1s ease-out forwards;
+		}
+
+		&__particle-top {
+			position: absolute;
+			z-index: -1;
+			top: -50px;
+			left: 55px;
+			width: 0;
+			height: 0;
+			background-color: $cloud-particle-top-bg-color;
+			border-radius: 100%;
+		}
+
+		&__drop {
+			@keyframes cloud-drop {
+				0% {
+					transform: translateY(0) scaleY(1);
+				}
+
+				70% {
+					transform: translateY(235px) scaleY(1);
+				}
+
+				80% {
+					transform: translateY(235px) scaleY(0.1);
+				}
+
+				100% {
+					transform: translateY(235px) scaleY(0.1) scaleX(5);
+				}
+			}
+
+			position: absolute;
+			z-index: -1;
+			top: 10px;
+			width: 2px;
+			height: 10px;
+			background-color: $cloud-drop-bg-color;
+			transform-origin: bottom;
+			animation: cloud-drop 2s linear infinite;
+		}
+
+		&__bottom {
+			position: absolute;
+			bottom: -170px;
+			width: 340px;
+			height: 20px;
+			background-color: transparent;
+			border: 1px solid transparent;
+			opacity: 0;
+			transform: rotateX(60deg);
+			box-shadow: 0 0 0 transparent;
+		}
+
+		&__bottom--animate {
+			@keyframes cloud-bottom-start {
+				0% {
+					opacity: 0;
+				}
+
+				50% {
+					opacity: 1;
+					box-shadow: 0 0 5px transparent;
+				}
+
+				100% {
+					opacity: 1;
+					box-shadow: 0 0 5px $cloud-bottom-box-shadow-color;
+				}
+			}
+
+			animation: cloud-bottom-start 1s forwards linear;
+		}
+	}
+}
+
+.exp {
+	.exp__wrapper {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding-top: 100px;
+		padding-bottom: 80px;
+
+		.exp__inner-title {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			text-align: left;
+		}
+
+		.exp__inner-content {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-top: 70px;
+			width: 100%;
+		}
+	}
+
+	&__title {
+		width: 300px;
+		height: 63px;
+		font-weight: 600;
+		font-size: 50px;
+		color: $exp-title-text-color;
+	}
+
+	&__box {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 50%;
+		height: 150px;
+	}
+
+	&__hidden-start {
+		overflow: hidden;
+		height: 72px;
+		filter: drop-shadow(0 0 15px $exp-filter-color);
+	}
+
+	&__start {
+		position: relative;
+		top: -100px;
+		margin-bottom: 35px;
+		font-size: 25px;
+		color: $exp-start-text-color;
+	}
+
+	&__start--animate {
+		@keyframes exp-start {
+			0% {
+				top: -100px;
+			}
+
+			100% {
+				top: 0;
+			}
+		}
+
+		animation: exp-start 1s forwards ease-out;
+	}
+
+	&__top {
+		position: absolute;
+		top: -15px;
+		width: 15px;
+		height: 15px;
+		background-color: $exp-circle-color;
+		border-radius: 50%;
+		opacity: 0;
+	}
+
+	&__top--animate {
+		@keyframes exp-top {
+			0% {
+				opacity: 0;
+				filter: drop-shadow(0 0 0 $exp-filter-color);
+			}
+
+			100% {
+				opacity: 1;
+				filter: drop-shadow(0 0 15px $exp-filter-color);
+			}
+		}
+
+		animation: exp-top forwards 0.5s linear;
+	}
+
+	&__center-line {
+		position: absolute;
+		top: 0;
+		display: flex;
+		justify-content: center;
+		width: 4px;
+		height: 0;
+		background-color: $exp-lines-color;
+		background-color: white;
+	}
+
+	&__center-line--animate {
+		@keyframes exp-center-line {
+			0% {
+				height: 0%;
+			}
+
+			100% {
+				height: 100%;
+			}
+		}
+
+		animation: exp-center-line 1s forwards linear;
+	}
+
+	&__horizont-line {
+		position: absolute;
+		display: flex;
+		align-items: center;
+		width: 0;
+		height: 3px;
+		background-color: $exp-lines-color;
+	}
+
+	@mixin exp-horizontal-line($position, $direction, $modifier) {
+		&__horizont-line--#{$modifier} {
+			#{$position}: #{$direction};
+		}
+
+		&__horizont-line--#{$modifier}-animate {
+			@keyframes exp-horizontal-line-#{$modifier} {
+				0% {
+					width: 0;
+				}
+
+				100% {
+					width: 20%;
+				}
+			}
+
+			animation: exp-horizontal-line-#{$modifier} forwards 1s ease-out 0.5s;
+		}
+	}
+
+	@include exp-horizontal-line(left, 50%, right);
+	@include exp-horizontal-line(right, 50%, left);
+
+	&__circle {
+		position: absolute;
+		display: flex;
+		align-items: center;
+		width: 15px;
+		height: 15px;
+		background-color: $exp-circle-color;
+		border-radius: 50%;
+		opacity: 0;
+	}
+
+	@mixin exp-circle($modifier) {
+		&__circle--#{$modifier} {
+			#{$modifier}: -15px;
+
+			@keyframes exp-circle-#{$modifier} {
+				0% {
+					opacity: 0;
+					filter: drop-shadow(0 0 0 $exp-filter-color);
+				}
+
+				100% {
+					opacity: 1;
+					filter: drop-shadow(0 0 15px $exp-filter-color);
+				}
+			}
+
+			animation: exp-circle-#{$modifier} forwards 0.5s linear;
+		}
+	}
+
+	@include exp-circle(left);
+	@include exp-circle(right);
+
+	&__hidden-text {
+		position: absolute;
+		overflow: hidden;
+		width: max-content;
+	}
+
+	@mixin exp-hidden-text($modifier, $position, $margin, $marginDirection) {
+		&__hidden-text--#{$modifier} {
+			#{$position}: 0;
+			#{$margin}: $marginDirection;
+		}
+	}
+
+	@include exp-hidden-text(left, right, margin-right, 25px);
+	@include exp-hidden-text(right, left, margin-left, 30px);
+
+	&__text {
+		position: relative;
+		font-weight: 400;
+		line-height: 110%;
+		font-size: 25px;
+		color: $exp-text-color;
+	}
+
+	.russian-lang-text {
+		font-weight: 600;
+	}
+
+	@mixin exp-text($direction, $modifier) {
+		&__text--#{$modifier} {
+			#{$direction}: -300px;
+		}
+
+		&__text--#{$modifier}-animate {
+			@keyframes exp-text-#{$modifier} {
+				0% {
+					#{$direction}: #{$modifier};
+				}
+
+				100% {
+					#{$direction}: 0;
+				}
+			}
+
+			animation: exp-text-#{$modifier} 1s forwards ease-out;
+		}
+	}
+
+	@include exp-text(right, left);
+	@include exp-text(left, right);
+
+	&__bottom-line {
+		width: 0;
+		height: 3px;
+		background-color: $exp-lines-color;
+	}
+
+	&__bottom-line--animate {
+		@keyframes exp-bottom-line {
+			0% {
+				width: 0;
+			}
+
+			100% {
+				width: 70px;
+			}
+		}
+
+		animation: exp-bottom-line 0.5s forwards linear;
+	}
+}

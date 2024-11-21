@@ -1,0 +1,596 @@
+// colors
+$gradient-color_1: #696969;
+$gradient-color_2: #3a6f8f;
+$gradient-color_3: #9b9686;
+$gradient-color_4: #2b636d;
+$orange: #f8aa01;
+$white: #fff;
+$black: #000;
+$gray: #a9a9a9;
+
+// climb-up
+$climb-up-stroke-color: $white;
+$climb-up-shadow-color: $white;
+
+// aside-menu
+$aside-menu-btn-color: $white;
+
+// switch-animation
+$switch-animation-bg-color: $black;
+$switch-animatin-circle-color: $white;
+$switch-animation-letter-color: $white;
+
+:root {
+	--gradient-color: #696969;
+	--gradient-transition-point: 40%;
+}
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	font-family: Orbitron, sans-serif;
+	text-decoration: none;
+	list-style: none;
+}
+
+.page {
+	background: linear-gradient(90deg, rgb(0 0 0 / 100%) var(--gradient-transition-point), var(--gradient-color) 100%);
+}
+
+$page-background-colors: (
+	1: $gradient-color_1,
+	2: $gradient-color_2,
+	3: $gradient-color_3,
+	4: $gradient-color_4,
+);
+
+@mixin change-bg-color($modifier, $color) {
+	.bg-color--#{$modifier} {
+		--gradient-color: #{$color};
+	}
+}
+
+@each $modifier, $color in $page-background-colors {
+	@include change-bg-color($modifier, $color);
+}
+
+.container {
+	margin: 0 auto;
+	padding: 0 15px;
+	max-width: 1400px;
+}
+
+.visually-hidden {
+	position: absolute;
+	left: -9999px;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+}
+
+.switch-animation {
+	position: static;
+	display: none;
+
+	@mixin switch-animation($modifier) {
+		@keyframes switch-animation-#{$modifier}-side {
+			0% {
+				width: 0;
+			}
+
+			50% {
+				width: 50%;
+			}
+
+			85% {
+				width: 45%;
+			}
+
+			100% {
+				width: 50%;
+			}
+		}
+
+		.switch-animation__#{$modifier}-side--animate {
+			animation: switch-animation-#{$modifier}-side 1s linear forwards;
+		}
+
+		.switch-animation__#{$modifier}-side {
+			width: 0;
+			background-color: black;
+		}
+	}
+
+	@include switch-animation(left);
+	@include switch-animation(right);
+
+	@mixin switch-animation-close($modifier) {
+		@keyframes switch-animation-#{$modifier}-side-close {
+			0% {
+				width: 50%;
+			}
+
+			100% {
+				width: 0;
+			}
+		}
+
+		.switch-animation__#{$modifier}-side--animate-close {
+			animation: switch-animation-#{$modifier}-side-close 1s ease-in forwards;
+		}
+	}
+
+	@include switch-animation-close(left);
+	@include switch-animation-close(right);
+
+	.switch-animation__center {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: fit-content;
+		height: fit-content;
+		transform: translate(-50%, -50%);
+	}
+
+	.switch-animation__img {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		display: none;
+		opacity: 0;
+		transform: translate(-50%, -50%);
+		filter: drop-shadow(0 0 15px transparent);
+	}
+
+	.switch-animation__img--raido-uruz {
+		left: 51%;
+	}
+
+	.switch-animation__img--otilo {
+		left: 49%;
+	}
+
+	.switch-animation__img--turisaz {
+		left: 53%;
+	}
+
+	.switch-animation__img--vunio {
+		left: 52%;
+	}
+
+	.switch-animation__img--animate {
+		display: block;
+
+		@keyframes switch-animation-img {
+			0% {
+				opacity: 0;
+				filter: drop-shadow(0 0 15px transparent);
+			}
+
+			60% {
+				opacity: 0.5;
+				filter: drop-shadow(0 0 15px transparent);
+			}
+
+			100% {
+				opacity: 1;
+				filter: drop-shadow(0 0 15px $switch-animation-letter-color);
+			}
+		}
+
+		animation: switch-animation-img 1.1s linear forwards 0.5s;
+	}
+
+	.switch-animation__img--animate-close {
+		display: block;
+
+		@keyframes switch-animation-img-close {
+			0% {
+				opacity: 1;
+				filter: drop-shadow(0 0 15px $switch-animation-letter-color);
+			}
+
+			60% {
+				opacity: 0.5;
+				filter: drop-shadow(0 0 15px transparent);
+			}
+
+			100% {
+				opacity: 0;
+				filter: drop-shadow(0 0 15px transparent);
+			}
+		}
+
+		animation: switch-animation-img-close 1.1s linear forwards;
+	}
+
+	.switch-animation__svg {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	.switch-animation__circle {
+		filter: drop-shadow(0 0 5px $switch-animatin-circle-color);
+		fill: none;
+		stroke-width: 8;
+		stroke-linecap: square;
+		stroke-dasharray: 1130.97;
+		stroke-dashoffset: 1130.97;
+		transform-origin: center;
+	}
+
+	@mixin switch-animation-circle($modifier, $rotate) {
+		.switch-animation__circle--#{$modifier}-side {
+			stroke: $switch-animatin-circle-color;
+			transform: rotate($rotate);
+
+			@keyframes switch-animation-circle {
+				0% {
+					stroke-dashoffset: 1130.97;
+				}
+
+				100% {
+					stroke-dashoffset: 565.48;
+				}
+			}
+
+			animation: switch-animation-circle 1.2s ease-out forwards;
+		}
+	}
+
+	@include switch-animation-circle(left, 90deg);
+	@include switch-animation-circle(right, -90deg);
+
+	@mixin switch-animation-circle-close($modifier, $rotate) {
+		.switch-animation__circle--#{$modifier}-side-close {
+			stroke: $switch-animatin-circle-color;
+			transform: rotate($rotate);
+
+			@keyframes switch-animation-circle-close {
+				0% {
+					stroke-dashoffset: 565.48;
+				}
+
+				100% {
+					stroke-dashoffset: 1130.97;
+				}
+			}
+
+			animation: switch-animation-circle-close 1s ease-out forwards;
+		}
+	}
+
+	@include switch-animation-circle-close(left, 90deg);
+	@include switch-animation-circle-close(right, -90deg);
+}
+
+.switch-animation--animate {
+	position: fixed;
+	z-index: 8;
+	display: flex;
+	justify-content: space-between;
+	background-color: transparent;
+	inset: 0;
+}
+
+.page--switch-animation {
+	width: 100%;
+	height: 100vh;
+	overflow: hidden;
+}
+
+.climb-up {
+	position: fixed;
+	z-index: 10;
+	right: 5%;
+	bottom: 10%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 10px;
+	width: 70px;
+	height: 70px;
+	background-color: transparent;
+	border: none;
+	transition: filter 0.2s ease;
+
+	@mixin climb-up-img-animate($modifier, $animation, $animationDelay, $opacityStart, $opacityEnd, $translateYStart, $translateYEnd) {
+		&__img--animate-#{$modifier} {
+			@keyframes climb-up-img-#{$animation} {
+				0% {
+					opacity: #{$opacityStart};
+					transform: rotateX(180deg) translateX(-50%) translateY(#{$translateYStart});
+				}
+
+				100% {
+					opacity: #{$opacityEnd};
+					transform: rotateX(180deg) translateX(-50%) translateY(#{$translateYEnd});
+				}
+			}
+
+			animation: climb-up-img-#{$animation} forwards #{$animationDelay} ease-out;
+		}
+	}
+
+	@include climb-up-img-animate(show, show, 0.8s, 0, 1, -10px, 0);
+	@include climb-up-img-animate(hide, hide, 0.6s, 1, 0, 0, 10px);
+
+	&__img {
+		position: absolute;
+		left: 50%;
+		transform: rotateX(180deg) translateX(-50%);
+		opacity: 0;
+	}
+
+	@mixin climb-up-circle($modifier, $animation, $strikeOffsetStart, $strikeOffsetEnd, $animationDelay, $cursor) {
+		&__circle--#{$modifier} {
+			@keyframes climb-up-circle-#{$animation} {
+				0% {
+					stroke-dashoffset: #{$strikeOffsetStart};
+				}
+
+				100% {
+					stroke-dashoffset: #{$strikeOffsetEnd};
+				}
+			}
+
+			cursor: #{$cursor};
+			animation: climb-up-circle-#{$animation} #{$animationDelay} forwards ease-out;
+		}
+	}
+
+	@include climb-up-circle(show, show, 282.6, 0, 0.8s, pointer);
+	@include climb-up-circle(hide, hide, 0, 282.6, 0.6s, default);
+
+	&__circle {
+		position: absolute;
+		fill: none;
+		stroke: $climb-up-stroke-color;
+		stroke-width: 3;
+		stroke-dasharray: 282.6;
+		stroke-dashoffset: 282.6;
+		transform: rotate(-90deg);
+	}
+}
+
+.climb-up--show:hover {
+	filter: drop-shadow(0 0 3px $climb-up-shadow-color);
+}
+
+.climb-up--hidden {
+	display: none;
+}
+
+.aside-menu {
+	position: fixed;
+	z-index: 3;
+	top: 50%;
+	left: -10px;
+	transform: translateY(-50%);
+
+	.aside-menu__wrapper {
+		position: relative;
+		left: -60px;
+		display: flex;
+		align-items: center;
+		width: 60px;
+		height: 350px;
+	}
+
+	@mixin aside-menu($modifier, $value_1, $value_2) {
+		.aside-menu__wrapper--#{$modifier} {
+			@keyframes aside-menu-#{$modifier} {
+				0% {
+					left: #{$value_1};
+				}
+
+				100% {
+					left: #{$value_2};
+				}
+			}
+
+			animation: aside-menu-#{$modifier} 0.6s forwards ease-out;
+		}
+	}
+
+	@include aside-menu(open, -60px, 20px);
+	@include aside-menu(close, 20px, -60px);
+
+	&__btn {
+		overflow: hidden;
+		position: absolute;
+		top: 50%;
+		right: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 20px;
+		height: 150px;
+		background-color: $aside-menu-btn-color;
+		border: none;
+		border-radius: 0 20px 20px 0;
+		cursor: pointer;
+		transform: translateY(-50%);
+		transition:
+			height 0.5s ease,
+			filter 0.3s ease,
+			right 0.6s ease-out 0.3s;
+	}
+
+	&__btn--start {
+		right: -30px;
+	}
+
+	&__btn--close {
+		height: 0;
+	}
+
+	// .aside-menu__btn-img {}
+
+	&__btn:hover {
+		filter: drop-shadow(0 0 5px white);
+	}
+
+	.aside-content {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 100%;
+		background-color: black;
+		backface-visibility: hidden;
+		box-shadow: 0 0 10px white;
+		border-radius: 20px;
+
+		&__active {
+			position: absolute;
+			z-index: 0;
+			top: 15px;
+			width: 100%;
+			height: 60px;
+			background-color: gray;
+			opacity: 0;
+			transition: all 0.3s ease-out;
+		}
+
+		&__btn {
+			z-index: 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 100%;
+			height: 80px;
+			background-color: transparent;
+			border: none;
+			cursor: pointer;
+		}
+
+		&__btn:hover ~ .aside-content__acite--open {
+			opacity: 1;
+		}
+
+		$aside-item-hover: (
+			change-theme: 25px,
+			animation-stop: 105px,
+			translaitor: 185px,
+			close: 265px,
+		);
+
+		@mixin aside-content-btn-hover($modifier, $position) {
+			&__btn--#{$modifier}:hover ~ .aside-content__active {
+				top: #{$position};
+			}
+		}
+
+		@each $modifier, $position in $aside-item-hover {
+			@include aside-content-btn-hover($modifier, $position);
+		}
+
+		&__item {
+			position: absolute;
+			left: 60px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 0;
+			height: 60px;
+			font-weight: 600;
+			font-size: 16px;
+			color: white;
+			white-space: nowrap;
+			background-color: gray;
+			border-radius: 0 20px 20px 0;
+			overflow: hidden;
+			transition: width 0.25s linear 0.2s;
+		}
+
+		&__btn:hover .aside-content__item {
+			width: 180px;
+		}
+
+		&__item--close:hover .aside-content__item {
+			width: 0;
+		}
+
+		&__btn:hover .aside-content__item--close {
+			width: 0;
+		}
+
+		&__item--translaitor {
+			font-size: 14px;
+		}
+
+		.russian-lang-text {
+			font-weight: 700;
+			font-size: 16px;
+		}
+
+		&__img {
+			filter: drop-shadow(0 0 5px white);
+		}
+
+		.aside-colors {
+			display: flex;
+			flex-direction: column;
+			row-gap: 10px;
+
+			&__text {
+				font-weight: 400;
+				font-size: 14px;
+			}
+
+			.russian-lang-text {
+				font-weight: 600;
+				font-size: 15px;
+			}
+
+			&__change-color {
+				display: flex;
+				column-gap: 10px;
+			}
+
+			&__colors {
+				width: 25px;
+				height: 25px;
+				border: 1px solid white;
+				transition: all 0.2s ease-out;
+			}
+
+			&__colors:hover {
+				box-shadow: 0 0 10px white;
+				transform: scale(1.2);
+			}
+
+			&__colors--active {
+				box-shadow: 0 0 10px white;
+				transform: scale(1.2);
+				cursor: default;
+			}
+
+			$aside-colors: (
+				'1st': $gradient-color_1,
+				'2nd': $gradient-color_2,
+				'3rd': $gradient-color_3,
+				'4th': $gradient-color_4,
+			);
+
+			@mixin aside-colors($modifier, $color) {
+				.aside-colors__colors--#{$modifier} {
+					background-color: $color;
+				}
+			}
+
+			@each $modifier, $color in $aside-colors {
+				@include aside-colors($modifier, $color);
+			}
+		}
+	}
+}

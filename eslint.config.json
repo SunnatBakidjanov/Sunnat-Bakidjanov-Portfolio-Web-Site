@@ -1,0 +1,29 @@
+{
+	"env": {
+		"browser": true,
+		"es2021": true
+	},
+	"extends": ["eslint:recommended", "plugin:@eslint/js/recommended", "plugin:prettier/recommended", "plugin:html/recommended"],
+	"plugins": ["prettier", "html"],
+	"overrides": [
+		{
+			"files": ["*.js", "*.jsx", "*.ts", "*.tsx"],
+			"languageOptions": {
+				"globals": {
+					"window": "readonly",
+					"document": "readonly",
+					"navigator": "readonly"
+				}
+			},
+			"rules": {
+				"prettier/prettier": [
+					"warn",
+					{
+						"endOfLine": "auto"
+					}
+				]
+			}
+		}
+	],
+	"rules": {}
+}

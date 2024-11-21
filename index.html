@@ -1,0 +1,710 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Sunnat Bakidjanov</title>
+
+		<link rel="icon" href="img/svg/favicon-icon.svg" type="">
+		<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="scss/main.css">
+	</head>
+	<body>
+		<div class="switch-animation" id="switch-animation">
+			<div class="switch-animation__left-side" id="switch-animation-left"></div>
+			<div class="switch-animation__right-side" id="switch-animation-right"></div>
+			<div class="switch-animation__center">
+				<img class="switch-animation__img switch-animation__img--raido-uruz" src="img/svg/switch-icons(raido).svg" alt="">
+				<img class="switch-animation__img switch-animation__img--raido-uruz" src="img/svg/switch-icons(uruz).svg" alt="">
+				<img class="switch-animation__img switch-animation__img--otilo" src="img/svg/switch-icons(otila).svg" alt="">
+				<img class="switch-animation__img" src="img/svg/switch-icons(pert).svg" alt="">
+				<img class="switch-animation__img switch-animation__img--turisaz" src="img/svg/switch-icons(turisaz).svg" alt="">
+				<img class="switch-animation__img switch-animation__img--vunio" src="img/svg/switch-icons(vunio).svg" alt="">
+				<img class="switch-animation__img" src="img/svg/switch-icons(hagalaz).svg" alt="">
+				<svg class="switch-animation__svg" width="330" height="330" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+					<circle class="switch-animation__circle" cx="200" cy="200" r="180"></circle>
+					<circle class="switch-animation__circle" id="switch-animation-circle-left" cx="200" cy="200" r="180"></circle>
+				</svg>
+				<svg class="switch-animation__svg" width="330" height="330" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+					<circle class="switch-animation__circle" cx="200" cy="200" r="180"></circle>
+					<circle class="switch-animation__circle" id="switch-animation-circle-right" cx="200" cy="200" r="180"></circle>
+				</svg>
+			</div>
+		</div>
+
+		<div class="page" id="page">
+			<header class="header-main">
+				<div class="container">
+					<div class="header-main__wrapper" id="header-main">
+						<button class="logo" id="logo" type="button">
+							<img class="logo__img" src="img/svg/super-man-logo.svg" alt="">
+							<span class="logo__text">Sunnat<br>Bakidjanov</span>
+						</button>
+						<div class="header-mani__nav-container" id="header-nav-container">
+							<nav class="header-main__nav" id="header-main-nav">
+								<ul class="nav">
+									<li class="nav__item">
+										<button data-page="1" type="button" class="nav__btn nav__btn--clicked" id="home-page-btn">
+											<span class="nav__btn-text" id="home-page-btn-text">Home</span>
+											<span class="nav__hover-center-line nav__hover-center-line--clicked"></span>
+											<span class="nav__hover-top-line nav__hover-top-line--clicked"></span>
+											<span class="nav__hover-bottom-line nav__hover-bottom-line--clicked"></span>
+										</button>
+									</li>
+									<li class="nav__item">
+										<button data-page="2" type="button" class="nav__btn" id="uses-page-btn">
+											<span class="nav__btn-text" id="uses-page-btn-text">Uses</span>
+											<span class="nav__hover-center-line"></span>
+											<span class="nav__hover-top-line"></span>
+											<span class="nav__hover-bottom-line"></span>
+										</button>
+									</li>
+									<li class="nav__item">
+										<button data-page="3" type="button" class="nav__btn" id="resume-page-btn">
+											<span class="nav__btn-text" id="resume-page-btn-text">Resume</span> 
+											<span class="nav__hover-center-line"></span>
+											<span class="nav__hover-top-line"></span>
+											<span class="nav__hover-bottom-line"></span>
+										</button>
+									</li>
+									<li class="nav__item">
+										<button data-page="4" type="button" class="nav__btn" id="about-me-page-btn">
+											<span class="nav__btn-text" id="about-me-page-btn-text">About me</span>
+											<span class="nav__hover-center-line"></span>
+											<span class="nav__hover-top-line"></span>
+											<span class="nav__hover-bottom-line"></span>
+										</button>
+									</li>
+								</ul>
+							</nav>
+		
+							<nav class="header-main__social-media social-media" id="social-media">
+								<img class="social-media__img" src="img/svg/social-arrow.svg" alt="">
+								<ul class="social-media__list" id="social-media-list">
+									<li class="social-media__item">
+										<a aria-label="google" href="mailto:sunnatbackidjanov@gmail.com" class="social__link" target="_self">
+											<img class="social-media__icons social-media__icons--google" src="img/svg/icon-google.svg" alt="">
+										</a>
+									</li>
+									<li class="social-media__item">
+										<a aria-label="telegram" rel="noopener" href="https://t.me/Sunnat_Backidjanov" target="_blank" class="social__link">
+											<img class="social-media__icons social-media__icons--telegram" src="img/svg/icon-telegram.svg" alt="">
+										</a>
+									</li>
+									<li class="social-media__item">
+										<a aria-label="whatsapp" rel="noopener" href="https://wa.me/998976168969" target="_blank" class="social__link">
+											<img class="social-media__icons social-media__icons--whatsapp" src="img/svg/icon-whatsapp.svg" alt="">
+										</a>
+									</li>
+									<li class="social-media__item">
+										<a aria-label="facebook" rel="noopener" href="https://m.me/100072060384106" target="_blank" class="social__link">
+											<img class="social-media__icons social-media__icons--facebook" src="img/svg/icon-facebook.svg" alt="">
+										</a>
+									</li>
+								</ul>
+							</nav>
+						</div>
+
+						<div class="burger-menu" id="burger-menu">
+							<span class="burger-menu__line burger-menu__line--top" id="burger-line-top"></span>
+							<span class="burger-menu__line burger-menu__line--center" id="burger-line-center"></span>
+							<span class="burger-menu__line burger-menu__line--bottom" id="burger-line-bottom"></span>
+						</div>
+					</div>
+				</div>
+			</header>
+	
+			<aside class="aside-menu">
+				<div class="aside-menu__wrapper" id="aside-menu">
+					<button class="aside-menu__btn" id="aside-menu-btn" type="button" aria-label="aside-menu">
+						<img class="aside-menu__btn-img" src="img/svg/aside-arrow-icon.svg" alt="">
+					</button>
+		
+					<div class="aside-content">
+						<button class="aside-content__btn aside-content__btn--change-theme" type="button" aria-label="change-theme">
+	
+							<span class="aside-content__item aside-content__item--close aside-colors">
+								<span class="aside-colors__text" id="change-theme">Change background</span>
+								<span class="aside-colors__change-color">
+									<span class="aside-colors__colors aside-colors__colors--1st aside-colors__colors--active" id="aside-colors-1st"></span>
+									<span class="aside-colors__colors aside-colors__colors--2nd" id="aside-colors-2nd"></span>
+									<span class="aside-colors__colors aside-colors__colors--3rd" id="aside-colors-3rd"></span>
+									<span class="aside-colors__colors aside-colors__colors--4th" id="aside-colors-4th"></span>
+								</span>
+							</span>
+	
+							<img class="aside-content__img" src="img/svg/aside-menu-change-theme.svg" alt="">
+						</button>
+	
+						<button class="aside-content__btn aside-content__btn--animation-stop" id="animation-stop" type="button" aria-label="animation-stop">
+							<span class="aside-content__item aside-content__item--close" id="animation-stop-text">Re:Animations: ON</span>
+							<img class="aside-content__img" src="img/svg/off-animations.svg" alt="">
+						</button>
+		
+						<button class="aside-content__btn aside-content__btn--translaitor" id="translator" type="button" aria-label="translator">
+							<span class="aside-content__item aside-content__item--close aside-content__item--translaitor" id="translaite-text">Change language: RU</span>
+							<img class="aside-content__img" src="img/svg/translaitor.svg" alt="">
+						</button>
+	
+						<button class="aside-content__btn aside-content__btn--close" id="aside-menu-close" type="button" aria-label="aside-menu-close">
+							<span class="aside-content__item aside-content__item--close" id="aside-menu-close-text">Close menu</span>
+							<img class="aside-content__img" src="img/svg/aside-menu-close-img.svg" alt="">
+						</button>
+	
+						<div class="aside-content__active" id="aside-menu-acitve"></div>
+					</div>
+				</div>
+			</aside>
+	
+			<button class="climb-up climb-up--hidden" id="climb-up" type="button" aria-label="climb-up">
+				<img class="climb-up__img" id="climb-img" src="img/svg/climb-up-arrow.svg" alt="">
+				<svg class="climb-up__circle" id="climb-circle" width="70" height="70" viewBox="0 0 80 80">
+					<circle class="circle" cx="40" cy="40" r="35"/>
+				</svg>
+			</button>
+	
+			<main>
+				<div class="home-page page page--active" id="page-1">
+					<section class="getting">
+						<div class="container">
+							<div class="getting__wrapper">
+								<div class="getting__inner-text my-name">
+									<div class="my-name__hidden-title" id="my-name-hidden-title">
+										<h1 class="my-name__title" id="my-name-title">
+											Hello,<br>
+											I'm <span>Sunnat</span>
+										</h1>
+									</div>
+	
+									<div class="my-name__text" id="my-name-text">
+										<span id="my-name-write-text"></span>
+										<span class="my-name__blink" id="my-name-blink"> |</span>
+									</div>
+								</div>
+		
+								<div class="getting__inner-logo-3d logo-3d" id="logo-3d">
+									<div class="logo-3d__preserve-3d" id="logo-3d-preverve">
+										<div class="logo-3d__front" id="logo-3d-front">
+											<img class="logo-3d__img" id="logo-3d-img" src="img/svg/super-man-getting.svg" alt="">
+											<span class="logo-3d__line-left" id="logo-3d-line-left"></span>
+											<span class="logo-3d__line-right" id="logo-3d-line-right"></span>
+											<span class="logo-3d__line-top" id="logo-3d-line-top"></span>
+											<span class="logo-3d__line-bottom" id="logo-3d-line-bottom"></span>
+										</div>
+										<div class="logo-3d__back">
+											<img class="logo-3d__img--back" src="img/svg/super-man-getting.svg" alt="">
+										</div>
+										<div class="logo-3d__left"></div>
+										<div class="logo-3d__right"></div>
+										<div class="logo-3d__shadow" id="logo-3d-shadow"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+		
+					<section class="scroll-hmp">
+						<div class="container">
+							<div class="scroll-hmp__wrapper" id="scroll-hmp">
+								<div class="scroll-hmp__line" id="scroll-hmp-line" ></div>
+								<div class="scroll-hmp__hide-text">
+									<div class="scroll-hmp__text" id="scroll-hmp-text">SCROLL</div>
+								</div>
+							</div>
+						</div>
+	
+						<h2 class="visually-hidden">Scroll section</h2>
+					</section>
+		
+					<section class="cards">
+						<div class="container">
+							<div class="cards__wrapper">								
+								<h2 class="cards__title" id="cards-title"></h2>
+		
+								<div class="cards__inner-content cards-content">
+									<div class="cards-content__container" id="cards-content-0">
+										<div class="cards-content__inner-progress">
+											<div class="cards-content__svg-box">
+												<svg class="cards-content__svg">
+													<circle class="cards-content__circle" cx="70" cy="70" r="70"></circle>
+													<circle class="cards-content__circle" id="cards-content-circle-0" cx="70" cy="70" r="70"></circle>
+												</svg>
+
+												<div class="cards-content__value-box cards-content__value-box--html">
+													<div class="cards-content__value" id="cards-content-value-0">0</div>
+													<div class="cards-content__precent">%</div>
+												</div>
+											</div>
+											<div class="cards-content__progress-text cards-content__progress-text--html">HTML</div>
+										</div>
+
+										<div class="cards-content__inner-text" id="cards-content-inner-text-0">
+											<div class="cards-content__text">HTML5</div>
+											<div class="cards-content__text">Semantic layout</div>
+											<div class="cards-content__text">BEM</div>
+											<div class="cards-content__text">HTML Validation Check</div>
+											<div class="cards-content__text">Using browser DevTools to debug markup</div>
+										</div>
+									</div>
+
+									<div class="cards-content__container" id="cards-content-1">
+										<div class="cards-content__inner-progress">
+											<div class="cards-content__svg-box">
+												<svg class="cards-content__svg">
+													<circle class="cards-content__circle" cx="70" cy="70" r="70"></circle>
+													<circle class="cards-content__circle" id="cards-content-circle-1" cx="70" cy="70" r="70"></circle>
+												</svg>
+
+												<div class="cards-content__value-box cards-content__value-box--css">
+													<div class="cards-content__value" id="cards-content-value-1">0</div>
+													<div class="cards-content__precent">%</div>
+												</div>
+											</div>
+											<div class="cards-content__progress-text cards-content__progress-text--css">CSS</div>
+										</div>
+
+										<div class="cards-content__inner-text" id="cards-content-inner-text-1">
+											<div class="cards-content__text">CSS3</div>
+											<div class="cards-content__text">Responsive design for different screens</div>
+											<div class="cards-content__text">CSS animations</div>
+											<div class="cards-content__text">SASS, SCSS, LESS</div>
+											<div class="cards-content__text">CSS Variables</div>
+											<div class="cards-content__text">JavaScript integration</div>
+										</div>
+									</div>
+
+									<div class="cards-content__container" id="cards-content-2">
+										<div class="cards-content__inner-progress">
+											<div class="cards-content__svg-box">
+												<svg class="cards-content__svg">
+													<circle class="cards-content__circle" cx="70" cy="70" r="70"></circle>
+													<circle class="cards-content__circle" id="cards-content-circle-2" cx="70" cy="70" r="70"></circle>
+												</svg>
+
+												<div class="cards-content__value-box cards-content__value-box--js">
+													<div class="cards-content__value" id="cards-content-value-2">0</div>
+													<div class="cards-content__precent">%</div>
+												</div>
+											</div>
+											<div class="cards-content__progress-text cards-content__progress-text--js">JavaScript</div>
+										</div>
+
+										<div class="cards-content__inner-text" id="cards-content-inner-text-2">
+											<div class="cards-content__text">ES6+</div>
+											<div class="cards-content__text">Working with the DOM</div>
+											<div class="cards-content__text">SPA</div>
+											<div class="cards-content__text">Creating and managing animations</div>
+											<div class="cards-content__text">Implementing Custom Components</div>
+											<div class="cards-content__text">Error Handling</div>
+										</div>
+									</div>
+
+									<div class="cards-content__container" id="cards-content-3">
+										<div class="cards-content__inner-progress">
+											<div class="cards-content__svg-box">
+												<svg class="cards-content__svg">
+													<circle class="cards-content__circle" cx="70" cy="70" r="70"></circle>
+													<circle class="cards-content__circle" id="cards-content-circle-3" cx="70" cy="70" r="70"></circle>
+												</svg>
+
+												<div class="cards-content__value-box cards-content__value-box--react">
+													<div class="cards-content__value" id="cards-content-value-3">0</div>
+													<div class="cards-content__precent">%</div>
+												</div>
+											</div>
+											<div class="cards-content__progress-text cards-content__progress-text--react">React</div>
+										</div>
+
+										<div class="cards-content__inner-text" id="cards-content-inner-text-3">
+											<div class="cards-content__text">React</div>
+											<div class="cards-content__text">JSX</div>
+											<div class="cards-content__text">Redux</div>
+											<div class="cards-content__text">React-router-dom</div>
+											<div class="cards-content__text">Next</div>
+											<div class="cards-content__text">React hooks</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+		
+					<section class="projects">
+						<div class="container">
+							<div class="projects__wrapper">
+		
+								<div class="projects__inner-titile">
+									<h2 class="projects__title" id="projects-title"></h2>
+								</div>
+		
+								<div class="projects__inner-content">
+									<div class="projects__inner-text" id="projects-inner-text">
+										<div class="projects__hidden-text-one">
+											<div class="projects__text-one" id="projects-text-one">I don't have any<br>projects to share yet</div>
+										</div>
+										<div class="projects__hidden-text-two">
+											<div class="projects__text-two" id="projects-text-two">But they will appear soon</div>
+										</div>
+									</div>
+									
+									<div class="projects__inner-animation cloud" id="cloud-container">
+										<div class="cloud__preserve-3d">
+											<div class="cloud__particle-center" id="cloud-particle-center">
+												<span class="cloud__particle-top" id="cloud-partilce-top"></span>
+											</div>
+											<div class="cloud__bottom" id="cloud-bottom"></div>
+										</div>
+									</div>
+		
+								</div>
+							</div>
+						</div>
+					</section>
+		
+					<section class="exp">
+						<div class="container">
+							<div class="exp__wrapper">
+		
+								<div class="exp__inner-title">
+									<h2 class="exp__title" id="exp-title"></h2>
+								</div>
+								
+								<div class="exp__inner-content" id="exp-inner-content">									
+									<div class="exp__hidden-start" id="exp-start-hidden">
+										<div class="exp__start" id="exp-start">Start</div>
+									</div>
+		
+									<div class="exp__box" id="exp-element-0">		
+										<div class="exp__center-line">
+											<span class="exp__top" id="exp-top"></span>
+										</div>
+										
+										<div class="exp__horizont-line">
+											<div class="exp__circle">
+												<div class="exp__hidden-text">
+													<div class="exp__text" id="exp-text-0">Coming soon. . .</div>
+												</div>
+											</div>
+										</div>
+									</div>
+		
+									<div class="exp__box" id="exp-element-1">		
+										<span class="exp__center-line"></span>
+		
+										<div class="exp__horizont-line">
+											<div class="exp__circle">
+												<div class="exp__hidden-text">
+													<div class="exp__text" id="exp-text-1">To be continued?</div>
+												</div>
+											</div>
+										</div>
+									</div>
+		
+									<div class="exp__bottom-line" id="exp-bottom-line"></div>
+		
+								</div>
+		
+							</div>
+						</div>
+					</section>
+				</div>
+		
+				<div class="uses-page page" id="page-2">
+					<section class="uses-getting">
+						<div class="container">
+							<div class="uses-getting__wrapper">
+								<h2 class="uses-getting__title" id="uses-getting-title">Uses</h2>
+								<div class="uses-getting__text" id="uses-getting-text"><span class="uses-getting__text-span">Equipment</span> and <span class="uses-getting__text-span">Software</span> I Use for <span class="uses-getting__text-span">Development</span></div>
+								<div class="uses-getting__scroll-container" id="uses-getting-scroll">
+									<div class="uses-getting__scroll-line" id="uses-gettingt-scroll-line"></div>
+									<div class="uses-getting__scroll-text" id="uses-getting-scroll-text">
+										<span class="uses-getting__scroll-letters">S</span>
+										<span class="uses-getting__scroll-letters">C</span>
+										<span class="uses-getting__scroll-letters">R</span>
+										<span class="uses-getting__scroll-letters">O</span>
+										<span class="uses-getting__scroll-letters">L</span>
+										<span class="uses-getting__scroll-letters">L</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+
+					<section class="equipment">
+						<div class="container">
+							<div class="equipment__wrapper">
+								<h2 class="equipment__title" id="equipment-title"></h2>
+
+								<div class="equipment__inner-content equipment-content" id="equipment-content">
+									<div class="equipment-content__item" id="equipment-id-0">
+										<div class="equipment-content__box">
+											<div class="equipment-content__text">Monitor</div> 
+											<img class="equipment-content__img" src="img/svg/equipment-arrow.svg" alt="">
+											<button type="button" aria-label="equipment-button" class="equipment-content__button"></button>
+										</div>
+										<div class="equipment-content__hidden-box">
+											<img class="equipment-content__hidden-img" src="img/png/monitor.png" alt="">
+											<div class="equipment-content__hidden-text">Lenovo – 32″ G32qc-10 Curved Monitor, VA, 144Hz, 1mc, QHD(2560×1440) 2K, HDMI+Display Port</div>
+										</div>
+									</div>
+
+									<div class="equipment-content__item" id="equipment-id-1">
+										<div class="equipment-content__box">
+											<div class="equipment-content__text">PC case</div> 
+											<img class="equipment-content__img" src="img/svg/equipment-arrow.svg" alt="">
+											<button type="button" aria-label="equipment-button" class="equipment-content__button"></button>
+										</div>
+										<div class="equipment-content__hidden-box">
+											<img class="equipment-content__hidden-img" src="img/png/PCcase.png" alt="">
+											<div class="equipment-content__hidden-text">13th Gen Intel(R) Core(TM) i7-13700KF 3.40 GHz<br>2 x Kingston DDR5 8GB 5200Mhz RGB<br>12GB GeForce RTX3060 192Bits GDDR6</div>
+										</div>
+									</div>
+
+									<div class="equipment-content__item" id="equipment-id-2">
+										<div class="equipment-content__box">
+											<div class="equipment-content__text">Chair</div> 
+											<img class="equipment-content__img" src="img/svg/equipment-arrow.svg" alt="">
+											<button type="button" aria-label="equipment-button" class="equipment-content__button"></button>
+										</div>
+										<div class="equipment-content__hidden-box">
+											<img class="equipment-content__hidden-img" src="img/png/chair.png" alt="">
+											<div class="equipment-content__hidden-text">Gaming Chair Cougar ARMOR ONE Sky Blue</div>
+										</div>
+									</div>
+
+									<div class="equipment-content__item" id="equipment-id-3">
+										<div class="equipment-content__box">
+											<div class="equipment-content__text">Desk</div> 
+											<img class="equipment-content__img" src="img/svg/equipment-arrow.svg" alt="">
+											<button type="button" aria-label="equipment-button" class="equipment-content__button"><br></button>
+										</div>
+										<div class="equipment-content__hidden-box">
+											<img class="equipment-content__hidden-img" src="img/png/desk.png" alt="">
+											<div class="equipment-content__hidden-text">Cougar E-Deimus 120</div>
+										</div>
+									</div>
+
+									<div class="equipment-content__item" id="equipment-id-4">
+										<div class="equipment-content__box">
+											<div class="equipment-content__text">Keyboard</div> 
+											<img class="equipment-content__img" src="img/svg/equipment-arrow.svg" alt="">
+											<button type="button" aria-label="equipment-button" class="equipment-content__button"></button>
+										</div>
+										<div class="equipment-content__hidden-box">
+											<img class="equipment-content__hidden-img" src="img/png/keyboard.png" alt="">
+											<div class="equipment-content__hidden-text">Keyboard ASUS | ROG | FALCHION | Wireless/Wired USB | Mechanical | RGB | Wired USB</div>
+										</div>
+									</div>
+
+									<div class="equipment-content__item" id="equipment-id-5">
+										<div class="equipment-content__box">
+											<div class="equipment-content__text">Mouse</div> 
+											<img class="equipment-content__img" src="img/svg/equipment-arrow.svg" alt="">
+											<button type="button" aria-label="equipment-button" class="equipment-content__button"></button>
+										</div>
+										<div class="equipment-content__hidden-box">
+											<img class="equipment-content__hidden-img" src="img/png/mouse.png" alt="">
+											<div class="equipment-content__hidden-text">Cougar Minos X5</div>
+										</div>
+									</div>
+
+									<div class="equipment-content__item" id="equipment-id-6">
+										<div class="equipment-content__box">
+											<div class="equipment-content__text">Webcam</div> 
+											<img class="equipment-content__img" src="img/svg/equipment-arrow.svg" alt="">
+											<button type="button" aria-label="equipment-button" class="equipment-content__button"></button>
+										</div>
+										<div class="equipment-content__hidden-box">
+											<img class="equipment-content__hidden-img" src="img/png/webcam.png" alt="">
+											<div class="equipment-content__hidden-text">Logitech 920 HD Pro Stream</div>
+										</div>
+									</div>
+
+									<div class="equipment-content__item" id="equipment-id-7">
+										<div class="equipment-content__box">
+											<div class="equipment-content__text">Microphone</div> 
+											<img class="equipment-content__img" src="img/svg/equipment-arrow.svg" alt="">
+											<button type="button" aria-label="equipment-button" class="equipment-content__button"></button>
+										</div>
+										<div class="equipment-content__hidden-box">
+											<img class="equipment-content__hidden-img" src="img/png/microphone.png" alt="">
+											<div class="equipment-content__hidden-text">Maono DGM20S</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</section>
+
+					<section class="software">
+						<div class="container">
+							<div class="software__wrapper">
+								<h2 class="software__title" id="software-title"></h2>
+
+								<div class="software__inner-content software-content">
+									<div class="software-content__item" id="software-item-0">
+										<img class="software-content__img" src="img/svg/vscode.svg" alt="">
+										<div class="software-content__text" id="software-text-0"></div>
+									</div>
+
+									<div class="software-content__item" id="software-item-1">
+										<img class="software-content__img" src="img/svg/figma.svg" alt="">
+										<div class="software-content__text" id="software-text-1"></div>
+									</div>
+
+									<div class="software-content__item" id="software-item-2">
+										<img class="software-content__img" src="img/png/pixel-perfect.png" alt="">
+										<div class="software-content__text" id="software-text-2"></div>
+									</div>
+
+									<div class="software-content__item" id="software-item-3">
+										<img class="software-content__img" src="img/svg/photoshop.svg" alt="">
+										<div class="software-content__text" id="software-text-3"></div>
+									</div>
+
+									
+									<div class="software-content__item" id="software-item-4">
+										<img class="software-content__img" src="img/svg/bootstrap.svg" alt="">
+										<div class="software-content__text" id="software-text-4"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+
+					<section class="linters">
+						<div class="container">
+							<div class="linters__wrapper">
+								<h2 class="linters__title" id="linters-title"></h2>
+
+								<div class="linters__subtitles-box" id="linters-subtitle-box">
+									<!-- для чистоты кода -->
+									<div class="linters__subtitle">for code cleanliness</div>
+									<!-- для отладки -->
+									<div class="linters__subtitle">for debugging</div>
+									<!-- для качества кода -->
+									<div class="linters__subtitle">for code quality</div>
+									<!-- для проверки и исправления кода -->
+									<div class="linters__subtitle">for code review and fixes</div>
+									<!-- для улучшения кода -->
+									<div class="linters__subtitle">for code improvement</div>
+								</div>
+
+								<div class="linters__inner-settings settings-linters">
+									<h3 class="settings-linters__subtitle" id="settings-linters-subtitle">Settings</h3>
+
+									<div class="settings-linters__item" id="settings-linters-item-0">
+										<button class="settings-linters__btn" type="button" aria-label="settings-linters-btn">
+											<span class="settings-linters__text">Prettier</span>
+											<img class="settings-linters__img" src="img/svg/equipment-arrow.svg" alt="">
+										</button>
+
+										<div class="settings-linters__hidden-box">
+											{<br>
+												&emsp;"semi": <span class="settings-linters__text-span">false</span>,<br>
+												&emsp;"bracketSpacing": <span class="settings-linters__text-span">true</span>,<br>
+												&emsp;"useTabs": <span class="settings-linters__text-span">true</span>,<br>
+												&emsp;"singleQuote": <span class="settings-linters__text-span">true</span>,<br>
+												&emsp;"quoteProps": <span class="settings-linters__text-span">"as-needed"</span>,<br>
+												&emsp;"arrowParens": <span class="settings-linters__text-span">"avoid"</span>,<br>
+												&emsp;"trailingComma": <span class="settings-linters__text-span">"es5"</span>,<br>
+												&emsp;"printWidth": <span class="settings-linters__text-span">250</span>,<br>
+												&emsp;"proseWrap": <span class="settings-linters__text-span">"never"</span>,<br>
+												&emsp;"endOfLine": <span class="settings-linters__text-span">"auto"</span><br>
+											}
+										</div>
+									</div>
+
+									<div class="settings-linters__item" id="settings-linters-item-1">
+										<button class="settings-linters__btn" type="button" aria-label="settings-linters-btn">
+											<span class="settings-linters__text">ESLint</span>
+											<img class="settings-linters__img" src="img/svg/equipment-arrow.svg" alt="">
+										</button>
+
+										<div class="settings-linters__hidden-box">
+											{
+												<br>
+												&emsp;"env": {<br>
+												&emsp;&emsp;"browser": <span class="settings-linters__text-span">true</span>,<br>
+												&emsp;&emsp;"es2021": <span class="settings-linters__text-span">true</span><br>
+												&emsp;},<br>
+												&emsp;"extends": [<br>
+												&emsp;&emsp;<span class="settings-linters__text-span">"eslint:recommended"</span>,<br>
+												&emsp;&emsp;<span class="settings-linters__text-span">"plugin:@eslint/js/recommended"</span>,<br>
+												&emsp;&emsp;<span class="settings-linters__text-span">"plugin:prettier/recommended"</span>,<br>
+												&emsp;&emsp;<span class="settings-linters__text-span">"plugin:html/recommended"</span><br>
+												&emsp;],<br>
+												&emsp;"plugins": [<br>
+												&emsp;&emsp;<span class="settings-linters__text-span">"prettier"</span>,<br>
+												&emsp;&emsp;<span class="settings-linters__text-span">"html"</span><br>
+												&emsp;],<br>
+												&emsp;"overrides": [<br>
+												&emsp;&emsp;{<br>
+												&emsp;&emsp;&emsp;"files": [<br>
+												&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"*.js"</span>,<br>
+												&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"*.jsx"</span>,<br>
+												&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"*.ts"</span>,<br>
+												&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"*.tsx"</span><br>
+												&emsp;&emsp;&emsp;],<br>
+												&emsp;&emsp;&emsp;"languageOptions": {<br>
+												&emsp;&emsp;&emsp;&emsp;"globals": {<br>
+												&emsp;&emsp;&emsp;&emsp;&emsp;"window": <span class="settings-linters__text-span">"readonly"</span>,<br>
+												&emsp;&emsp;&emsp;&emsp;&emsp;"document": <span class="settings-linters__text-span">"readonly"</span>,<br>
+												&emsp;&emsp;&emsp;&emsp;&emsp;"navigator": <span class="settings-linters__text-span">"readonly"</span><br>
+												&emsp;&emsp;&emsp;&emsp;}<br>
+												&emsp;&emsp;&emsp;},<br>
+												&emsp;&emsp;&emsp;"rules": {<br>
+												&emsp;&emsp;&emsp;&emsp;"prettier/prettier": [<br>
+												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"warn"</span>,<br>
+												&emsp;&emsp;&emsp;&emsp;&emsp;{<br>
+												&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;"endOfLine": <span class="settings-linters__text-span">"auto"</span><br>
+												&emsp;&emsp;&emsp;&emsp;&emsp;}<br>
+												&emsp;&emsp;&emsp;&emsp;]<br>
+												&emsp;&emsp;&emsp;}<br>
+												&emsp;&emsp;}<br>
+												&emsp;],<br>
+												&emsp;"rules": {}<br>
+											}										
+										</div>
+									</div>
+
+									<div class="settings-linters__item" id="settings-linters-item-2">
+										<button class="settings-linters__btn" type="button" aria-label="settings-linters-btn">
+											<span class="settings-linters__text">Prettier</span>
+											<img class="settings-linters__img" src="img/svg/equipment-arrow.svg" alt="">
+										</button>
+
+										<div class="settings-linters__hidden-box"></div>
+									</div>
+									
+								</div>
+							</div>
+						</div>
+					</section>
+				</div>
+		
+				<div class="resume-page page" id="page-3"></div>
+		
+				<div class="about-me-page page" id="page-4"></div>
+			</main>
+	
+			<footer class="footer" id="footer">
+				<div class="container">
+					<div class="footer__wrapper" id="footer-wrapper">
+						<div class="footer__inner-copyright copyright">
+							<span class="copyright__symbol" id="footer-symbol">©</span>
+							<span class="copyright__name" id="footer-my-name"></span>
+							<span class="copyright__date" id="footer-current-date"></span>
+						</div>
+						<div class="footer__inner-version version">
+							<div class="version__text" id="footer-version-text"></div>
+						</div>
+					</div>
+				</div>
+			</footer>
+		</div>
+
+		<script src="js/main.js"></script>
+	</body>
+</html>

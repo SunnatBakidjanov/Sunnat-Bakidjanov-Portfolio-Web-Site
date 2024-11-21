@@ -1,0 +1,11 @@
+@use 'base.scss';
+@use 'header.scss';
+@use 'home-page.scss';
+@use 'uses-page.scss';
+@use 'resume-page.scss';
+@use 'about-me-page.scss';
+@use 'footer.scss';
+
+.page--active {
+	position: static;
+}
