@@ -2523,7 +2523,7 @@
   font-style: normal;
   font-weight: 600;
   font-size: 40px;
-  color: white;
+  color: #fff;
   opacity: 0;
   transform: translateY(-20px);
 }
@@ -2556,7 +2556,7 @@
     box-shadow: 0 0 0 transparent;
   }
   100% {
-    box-shadow: 0 0 3px white;
+    box-shadow: 0 0 3px #fff;
   }
 }
 .linters .settings-linters__btn {
@@ -2566,7 +2566,7 @@
   padding: 0 10px;
   width: 100%;
   height: 55px;
-  color: white;
+  color: #fff;
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -2643,7 +2643,7 @@
   font-weight: 400;
   line-height: 130%;
   font-size: 22px;
-  color: white;
+  color: #fff;
   overflow: hidden;
   transform: translateX(-20px);
   opacity: 0;
@@ -2722,7 +2722,7 @@
 }
 .linters .settings-linters__text-span {
   font-weight: 600;
-  color: orange;
+  color: #f8aa01;
   opacity: 0;
 }
 .linters .settings-linters__text-span--animate {
