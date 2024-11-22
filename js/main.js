@@ -2206,26 +2206,63 @@ function main() {
 				}
 
 				function copyText() {
-					const btns = [...queryElements.hiddenBtn];
-					const texts = [...queryElements.hiddenText];
-				
-					btns.forEach((element, index) => {
-						const newBtn = element.cloneNode(true);
+					const btns = [...queryElements.hiddenBtn]
+					const texts = [...queryElements.hiddenText]
 
-						element.replaceWith(newBtn);
+					let isClicked = false
+
+					function showModalWindow(message) {
+						const modalWindow = document.createElement('div')
+						modalWindow.className = 'linters__modal-window'
+						modalWindow.textContent = message
+						document.body.appendChild(modalWindow)
+
+						setTimeout(() => {
+							modalWindow.remove()
+						}, 2000)
+					}
+
+					function cleanText(text) {
+						let cleanedText = text.replace(/<\/?[^>]+(>|$)/g, '')
+						cleanedText = cleanedText.replace(/\s+/g, ' ').trim()
+						return cleanedText
+					}
+
+					btns.forEach((element, index) => {
+						const newBtn = element.cloneNode(true)
+
+						element.replaceWith(newBtn)
 
 						newBtn.addEventListener('click', () => {
-							const textToCopy = texts[index].innerText.trim()
-				
-							navigator.clipboard.writeText(textToCopy)
+							if (isClicked) return
+							isClicked = true
+
+							let textToCopy = texts[index].textContent
+
+							textToCopy = cleanText(textToCopy)
+
+							try {
+								const jsonObject = JSON.parse(textToCopy)
+								textToCopy = JSON.stringify(jsonObject, null, '\t')
+							} catch (error) {
+								console.warn('Текст не является валидным JSON:', textToCopy)
+							}
+
+							navigator.clipboard
+								.writeText(textToCopy)
 								.then(() => {
-									alert('Текст скопирован!');
+									showModalWindow('Text Copied')
 								})
 								.catch(err => {
-									console.error('Ошибка копирования текста:', err);
-								});
-						});
-					});
+									showModalWindow('Copy Error')
+								})
+								.finally(() => {
+									setTimeout(() => {
+										isClicked = false
+									}, 2000)
+								})
+						})
+					})
 				}
 
 				function animate() {
