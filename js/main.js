@@ -2025,9 +2025,9 @@ function main() {
 
 				const subtitles = document.querySelectorAll('.linters__subtitle')
 
-				const ids = [subBox]
-				const elementKeys = ['linters-title']
-				const startHeight = 0
+				const ids = [title, subBox]
+				const elementKeys = ['linters-title', 'linters-subtitle-box']
+				const startHeight = 30
 
 				const timeouts = []
 
@@ -2051,13 +2051,15 @@ function main() {
 					})
 				}
 
-				const handleTextWirte = writeAndResetText(title, 'Linters', 'Линтеры', 80, 'linters-title', subtitlesAnimate)
-
 				function animate() {
-					handleTextWirte.write()
+					title.classList.add('linters__title--animate')
+
+					subtitlesAnimate()
 				}
 
 				function reset() {
+					title.classList.remove('linters__title--animate')
+
 					subtitles.forEach((element, index) => {
 						element.classList.remove('linters__subtitle--animate')
 
@@ -2088,7 +2090,7 @@ function main() {
 
 				const ids = [subtitle]
 				const elementKey = ['settings-linters-subtitle']
-				const startHeight = 50
+				const startHeight = 100
 
 				const elementSeen = []
 				const timeouts = []
@@ -2148,7 +2150,7 @@ function main() {
 						textSpans.forEach((element, spanIndex) => {
 							const timeout = setTimeout(() => {
 								element.classList.add('settings-linters__text-span--animate')
-							}, 70 * spanIndex)
+							}, 30 * spanIndex)
 
 							spanTimeouts.push(timeout)
 						})
@@ -2175,7 +2177,7 @@ function main() {
 							clearTimeout(timeout)
 							timeout = setTimeout(() => {
 								clickState[index].isClicked = true
-							}, 1000)
+							}, 1500)
 
 							queryElements.hiddenBox[index].classList.add('settings-linters__hidden-box--animate')
 
@@ -2188,7 +2190,7 @@ function main() {
 							clearTimeout(timeout)
 							timeout = setTimeout(() => {
 								clickState[index].isClicked = false
-							}, 1000)
+							}, 1500)
 
 							queryElements.hiddenBox[index].classList.remove(`settings-linters__hidden-box--open-${index}`)
 							queryElements.img[index].classList.remove('settings-linters__img--open')

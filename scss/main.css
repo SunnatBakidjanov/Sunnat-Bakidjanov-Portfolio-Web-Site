@@ -2471,12 +2471,25 @@
   margin-top: 150px;
 }
 .linters .linters__title {
+  opacity: 0;
+  letter-spacing: 50px;
   height: 70px;
   font-style: normal;
   font-weight: 600;
   font-size: 50px;
   color: #f8aa01;
   letter-spacing: 0.5px;
+}
+.linters .linters__title--animate {
+  animation: linter-title 1s ease-out forwards;
+}
+@keyframes linter-title {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 .linters .linters__inner-settings {
   width: 100%;
@@ -2727,7 +2740,7 @@
     height: 0;
   }
   100% {
-    height: 350px;
+    height: 5870px;
   }
 }
 .linters .settings-linters__hidden-box--close-2 {
@@ -2735,7 +2748,7 @@
 }
 @keyframes settings-linters-hidden-box-close-2 {
   0% {
-    height: 350px;
+    height: 5870px;
   }
   100% {
     height: 0;

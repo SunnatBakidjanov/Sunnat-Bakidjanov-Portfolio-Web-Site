@@ -479,7 +479,24 @@ $uses-linters-box-shadow-color: $white;
 	}
 
 	.linters__title {
+		opacity: 0;
+		letter-spacing: 50px;
+
 		@include uses-title($uses-linters-title-color);
+	}
+
+	.linters__title--animate {
+		@keyframes linter-title {
+			0%{
+				opacity: 0;
+			}
+
+			100% {
+				opacity: 1;
+			}
+		}
+
+		animation: linter-title 1s ease-out forwards;
 	}
 
 	.linters__inner-settings {
@@ -535,7 +552,7 @@ $uses-linters-box-shadow-color: $white;
 			color: $uses-linters-text-color;
 			opacity: 0;
 			transform: translateY(-20px);
-		}
+		}	
 
 		&__subtitle--animate {
 			@keyframes settings-linters {
@@ -716,7 +733,7 @@ $uses-linters-box-shadow-color: $white;
 		$heights: (
 			0: '350px',
 			1: '1210px',
-			2: '350px',
+			2: '5870px',
 		);
 
 		@mixin settings-linters-hidden-box-close-open($index, $height) {
