@@ -731,7 +731,7 @@ $uses-linters-box-shadow-color: $white;
 		}
 
 		$heights: (
-			0: '350px',
+			0: '410px',
 			1: '1210px',
 			2: '5870px',
 		);
@@ -768,6 +768,30 @@ $uses-linters-box-shadow-color: $white;
 
 		@each $index, $height in $heights {
 			@include settings-linters-hidden-box-close-open($index, $height);
+		}
+
+		&__hidden-btn {
+			margin: 10px 0;
+			color: $uses-linters-text-color;
+			background-color: transparent;
+			border: none;
+			width: 180px;
+			box-shadow: 0 0 5px white;
+			font-size: 22px;
+			font-style: normal;
+			font-weight: 500;
+			padding: 5px;
+			cursor: pointer;
+			transition: all 0.3s ease-out;
+		}
+
+		&__hidden-btn:hover {
+			color: $uses-linters-accent-text-color;
+			box-shadow: 0 0 10px white;
+		}
+
+		&__hidden-text {
+			
 		}
 
 		&__text-span {

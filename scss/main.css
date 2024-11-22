@@ -2696,7 +2696,7 @@
     height: 0;
   }
   100% {
-    height: 350px;
+    height: 410px;
   }
 }
 .linters .settings-linters__hidden-box--close-0 {
@@ -2704,7 +2704,7 @@
 }
 @keyframes settings-linters-hidden-box-close-0 {
   0% {
-    height: 350px;
+    height: 410px;
   }
   100% {
     height: 0;
@@ -2753,6 +2753,24 @@
   100% {
     height: 0;
   }
+}
+.linters .settings-linters__hidden-btn {
+  margin: 10px 0;
+  color: #fff;
+  background-color: transparent;
+  border: none;
+  width: 180px;
+  box-shadow: 0 0 5px white;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 500;
+  padding: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+}
+.linters .settings-linters__hidden-btn:hover {
+  color: #f8aa01;
+  box-shadow: 0 0 10px white;
 }
 .linters .settings-linters__text-span {
   font-weight: 600;

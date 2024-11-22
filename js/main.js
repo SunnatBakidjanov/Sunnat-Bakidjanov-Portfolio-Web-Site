@@ -2085,6 +2085,8 @@ function main() {
 					btn: document.querySelectorAll('.settings-linters__btn'),
 					img: document.querySelectorAll('.settings-linters__img'),
 					hiddenBox: document.querySelectorAll('.settings-linters__hidden-box'),
+					hiddenText: document.querySelectorAll('.settings-linters__hidden-text'),
+					hiddenBtn: document.querySelectorAll('.settings-linters__hidden-btn'),
 					textSpan: document.querySelectorAll('.settings-linters__text-span'),
 				}
 
@@ -2203,10 +2205,34 @@ function main() {
 					}
 				}
 
+				function copyText() {
+					const btns = [...queryElements.hiddenBtn];
+					const texts = [...queryElements.hiddenText];
+				
+					btns.forEach((element, index) => {
+						const newBtn = element.cloneNode(true);
+
+						element.replaceWith(newBtn);
+
+						newBtn.addEventListener('click', () => {
+							const textToCopy = texts[index].innerText.trim()
+				
+							navigator.clipboard.writeText(textToCopy)
+								.then(() => {
+									alert('Текст скопирован!');
+								})
+								.catch(err => {
+									console.error('Ошибка копирования текста:', err);
+								});
+						});
+					});
+				}
+
 				function animate() {
 					document.addEventListener('click', handleHiddenBoxOpen)
 					document.addEventListener('animationend', handleAnimationEnd)
 					handleAnimation()
+					copyText()
 
 					subtitle.classList.add('settings-linters__subtitle--animate')
 					titleH4.classList.add('settings-linters__h4-title--animate')
