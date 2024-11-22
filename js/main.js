@@ -3,8 +3,6 @@ function main() {
 	const logo = document.getElementById('logo')
 
 	const homePage = document.getElementById('page-1')
-	const usesPage = document.getElementById('page-2')
-
 	const homePageBtn = document.getElementById('home-page-btn')
 
 	const changeLanguageButton = document.getElementById('translator')
@@ -2077,6 +2075,7 @@ function main() {
 
 			function contentAnimate() {
 				const subtitle = document.getElementById('settings-linters-subtitle')
+				const titleH4 = document.getElementById('settings-linters-h4-title')
 
 				const queryElements = {
 					item: document.querySelectorAll('.settings-linters__item'),
@@ -2208,6 +2207,7 @@ function main() {
 					handleAnimation()
 
 					subtitle.classList.add('settings-linters__subtitle--animate')
+					titleH4.classList.add('settings-linters__h4-title--animate')
 				}
 
 				function reset() {
@@ -2234,6 +2234,7 @@ function main() {
 					document.removeEventListener('click', handleHiddenBoxOpen)
 
 					subtitle.classList.remove('settings-linters__subtitle--animate')
+					titleH4.classList.remove('settings-linters__h4-title--animate')
 				}
 
 				createAnimation(ids, elementKey, startHeight, animate, reset)

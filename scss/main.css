@@ -2519,7 +2519,6 @@
   row-gap: 15px;
 }
 .linters .settings-linters__subtitle {
-  margin-bottom: 20px;
   font-style: normal;
   font-weight: 600;
   font-size: 40px;
@@ -2538,6 +2537,28 @@
   100% {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+.linters .settings-linters__h4-title {
+  margin-bottom: 35px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 22px;
+  color: #fff;
+  opacity: 0;
+  transform: translateX(20px);
+}
+.linters .settings-linters__h4-title--animate {
+  animation: settings-linters-h4-title 0.8s ease-out forwards;
+}
+@keyframes settings-linters-h4-title {
+  0% {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 .linters .settings-linters__item {
