@@ -10,6 +10,7 @@ function main() {
 	const tickingState = {}
 	const clickState = {}
 	const scrollState = {}
+	const heightValue = {}
 
 	let isAnimationStopped = false
 	let isLanguageRussian = false
@@ -114,7 +115,15 @@ function main() {
 	function handleVisibilityChange(element, startingHeight, elementKey) {
 		const rect = element.getBoundingClientRect()
 
-		const isVisible = rect.top >= 0 && rect.left >= 0 && rect.bottom <= (window.innerHeight - startingHeight || document.documentElement.clientHeight - startingHeight) && rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+		if (!heightValue[elementKey]) {
+			heightValue[elementKey] = { value: startingHeight }
+		}
+
+		const isVisible =
+			rect.top >= 0 &&
+			rect.left >= 0 &&
+			rect.bottom <= (window.innerHeight - heightValue[elementKey].value || document.documentElement.clientHeight - heightValue[elementKey].value) &&
+			rect.right <= (window.innerWidth || document.documentElement.clientWidth)
 
 		if (isVisible && element !== undefined && elementKey !== undefined) seenElements.add(elementKey)
 
@@ -2031,21 +2040,11 @@ function main() {
 
 				const timeouts = []
 
-				function shuffle(list) {
-					for (let i = list.length - 1; i > 0; i--) {
-						const j = Math.floor(Math.random() * (i + 1))
-						;[list[i], list[j]] = [list[j], list[i]]
-					}
-				}
-
 				function subtitlesAnimate() {
-					const shuffleList = [...subtitles]
-					shuffle(shuffleList)
-
-					shuffleList.forEach((element, index) => {
+					subtitles.forEach((element, index) => {
 						const timeout = setTimeout(() => {
 							element.classList.add('linters__subtitle--animate')
-						}, 150 * index)
+						}, 100 * index)
 
 						timeouts.push(timeout)
 					})
@@ -2067,7 +2066,6 @@ function main() {
 					})
 
 					timeouts.length = 0
-					handleTextWirte.reset()
 				}
 
 				createAnimation(ids, elementKeys, startHeight, animate, reset)
@@ -2075,10 +2073,30 @@ function main() {
 
 			titleAnimate()
 
-			function contentAnimate() {
+			function settingsTitleAnimate() {
 				const subtitle = document.getElementById('settings-linters-subtitle')
 				const titleH4 = document.getElementById('settings-linters-h4-title')
 
+				const ids = [subtitle, titleH4]
+				const elementKey = ['settings-linters-subtitle', 'settings-linters-h4-title']
+				const startHeight = 80
+
+				function animate() {
+					subtitle.classList.add('settings-linters__subtitle--animate')
+					titleH4.classList.add('settings-linters__h4-title--animate')
+				}
+
+				function reset() {
+					subtitle.classList.remove('settings-linters__subtitle--animate')
+					titleH4.classList.remove('settings-linters__h4-title--animate')
+				}
+
+				createAnimation(ids, elementKey, startHeight, animate, reset)
+			}
+
+			settingsTitleAnimate()
+
+			function contentAnimate() {
 				const queryElements = {
 					item: document.querySelectorAll('.settings-linters__item'),
 					text: document.querySelectorAll('.settings-linters__text'),
@@ -2090,9 +2108,9 @@ function main() {
 					textSpan: document.querySelectorAll('.settings-linters__text-span'),
 				}
 
-				const ids = [subtitle]
-				const elementKey = ['settings-linters-subtitle']
-				const startHeight = 100
+				const ids = []
+				const elementKey = []
+				const startHeight = 0
 
 				const elementSeen = []
 				const timeouts = []
@@ -2181,7 +2199,12 @@ function main() {
 								clickState[index].isClicked = true
 							}, 1200)
 
+							setTimeout(() => {
+								queryElements.btn[index].scrollIntoView({ behavior: 'smooth' })
+							}, 500)
+
 							queryElements.hiddenBox[index].classList.add('settings-linters__hidden-box--animate')
+							queryElements.btn[index].classList.add('settings-linters__btn--animate')
 
 							queryElements.img[index].classList.remove('settings-linters__img--close')
 							queryElements.hiddenBox[index].classList.remove(`settings-linters__hidden-box--close-${index}`)
@@ -2200,6 +2223,7 @@ function main() {
 							queryElements.hiddenBox[index].classList.add(`settings-linters__hidden-box--close-${index}`)
 							queryElements.img[index].classList.add('settings-linters__img--close')
 
+							queryElements.btn[index].classList.remove('settings-linters__btn--animate')
 							queryElements.hiddenBox[index].classList.remove('settings-linters__hidden-box--animate')
 						}
 					}
@@ -2270,9 +2294,6 @@ function main() {
 					document.addEventListener('animationend', handleAnimationEnd)
 					handleAnimation()
 					copyText()
-
-					subtitle.classList.add('settings-linters__subtitle--animate')
-					titleH4.classList.add('settings-linters__h4-title--animate')
 				}
 
 				function reset() {
@@ -2297,9 +2318,6 @@ function main() {
 					timeouts.length = 0
 
 					document.removeEventListener('click', handleHiddenBoxOpen)
-
-					subtitle.classList.remove('settings-linters__subtitle--animate')
-					titleH4.classList.remove('settings-linters__h4-title--animate')
 				}
 
 				createAnimation(ids, elementKey, startHeight, animate, reset)

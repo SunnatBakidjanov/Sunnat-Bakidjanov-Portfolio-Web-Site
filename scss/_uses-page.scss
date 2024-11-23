@@ -542,7 +542,7 @@ $uses-linters-box-shadow-color: $white;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		margin-bottom: 500px;
+		margin-bottom: 50px;
 		row-gap: 15px;
 
 		&__subtitle {
@@ -605,17 +605,8 @@ $uses-linters-box-shadow-color: $white;
 		}
 
 		&__item--animate {
-			@keyframes settings-linters-item {
-				0% {
-					box-shadow: 0 0 0 transparent;
-				}
-
-				100% {
-					box-shadow: 0 0 3px $uses-linters-box-shadow-color;
-				}
-			}
-
-			animation: settings-linters-item 0.8s ease-out forwards;
+			box-shadow: 0 0 3px $uses-linters-box-shadow-color;
+			transition: all 0.8s ease-out;
 		}
 
 		&__btn {
@@ -628,24 +619,20 @@ $uses-linters-box-shadow-color: $white;
 			color: $uses-linters-text-color;
 			background-color: transparent;
 			border: none;
+			border-bottom: 1px solid transparent;
 			cursor: pointer;
+			transition:
+				border-bottom 0.6s ease-in,
+				box-shadow 0.2s ease-in;
+			box-shadow: 0 0 0 transparent;
 
 			&:hover {
+				box-shadow: 0 0 12px $uses-linters-box-shadow-color;
 			}
 		}
 
 		&__btn--animate {
-			@keyframes settings-linters-btn {
-				0% {
-					border-bottom: 1px solid transparent;
-				}
-
-				100% {
-					border-bottom: 1px solid $uses-linters-box-shadow-color;
-				}
-			}
-
-			animation: settings-linters-btn 0.6s ease-out forwards;
+			border-bottom: 1px solid $uses-linters-box-shadow-color;
 		}
 
 		&__text {
@@ -730,11 +717,6 @@ $uses-linters-box-shadow-color: $white;
 		&__hidden-box {
 			padding-left: 15px;
 			height: 0;
-			font-style: normal;
-			font-weight: 400;
-			line-height: 130%;
-			font-size: 22px;
-			color: $uses-linters-text-color;
 			overflow: hidden;
 			transform: translateX(-20px);
 			opacity: 0;
@@ -748,9 +730,10 @@ $uses-linters-box-shadow-color: $white;
 		}
 
 		$heights: (
-			0: '425px',
+			0: '475px',
 			1: '1285px',
-			2: '5945px',
+			2: '6035px',
+			3: '1570px',
 		);
 
 		@mixin settings-linters-hidden-box-close-open($index, $height) {
@@ -807,8 +790,37 @@ $uses-linters-box-shadow-color: $white;
 			}
 		}
 
+		&__warning {
+			display: flex;
+			align-items: center;
+			column-gap: 10px;
+			margin-bottom: 20px;
+		}
+
+		&__img-warning {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 28px;
+			height: 28px;
+		}
+
+		&__text-warning {
+			font-weight: 500;
+			font-size: 18px;
+			color: $uses-linters-text-color;
+
+			& span {
+				color: $uses-linters-accent-text-color;
+			}
+		}
+
 		&__hidden-text {
-			flex-shrink: 0;
+			font-style: normal;
+			font-weight: 400;
+			line-height: 130%;
+			font-size: 22px;
+			color: $uses-linters-text-color;
 		}
 
 		&__text-span {

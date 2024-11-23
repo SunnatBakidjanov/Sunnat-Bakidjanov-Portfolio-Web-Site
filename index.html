@@ -603,6 +603,11 @@
 
 										<div class="settings-linters__hidden-box">
 											<button class="settings-linters__hidden-btn" type="button" aria-label="Copy Text">Copy Text</button>
+
+											<div class="settings-linters__warning">
+												<img class="settings-linters__img-warning" src="img/svg/warningIcon.svg" alt="">
+												<p class="settings-linters__text-warning">Paste this code into <span>.prettierrc</span></p>
+											</div>
 											
 											<div class="settings-linters__hidden-text">
 												{<br>
@@ -630,6 +635,11 @@
 										<div class="settings-linters__hidden-box">
 											<button class="settings-linters__hidden-btn" type="button" aria-label="Copy Text">Copy Text</button>
 											
+											<div class="settings-linters__warning">
+												<img class="settings-linters__img-warning" src="img/svg/warningIcon.svg" alt="">
+												<p class="settings-linters__text-warning">Paste this code into <span>eslint.config.json</span></p>
+											</div>
+
 											<div class="settings-linters__hidden-text">
 												{<br>
 													&emsp;"env": {<br>
@@ -685,6 +695,11 @@
 
 										<div class="settings-linters__hidden-box">
 											<button class="settings-linters__hidden-btn" type="button" aria-label="Copy Text">Copy Text</button>
+
+											<div class="settings-linters__warning">
+												<img class="settings-linters__img-warning" src="img/svg/warningIcon.svg" alt="">
+												<p class="settings-linters__text-warning">Paste this code into <span>.stylelintrc.json</span></p>
+											</div>
 
 											<div class="settings-linters__hidden-text">
 												{<br>
@@ -899,6 +914,77 @@
 										</div>
 									</div>
 									
+									<div class="settings-linters__item" id="settings-linters-item-3">
+										<button class="settings-linters__btn" type="button" aria-label="settings-linters-btn">
+											<span class="settings-linters__text">Settings.json</span>
+											<img class="settings-linters__img" src="img/svg/equipment-arrow.svg" alt="">
+										</button>
+
+										<div class="settings-linters__hidden-box">
+											<button class="settings-linters__hidden-btn" type="button" aria-label="Copy Text">Copy Text</button>
+
+											<div class="settings-linters__warning">
+												<img class="settings-linters__img-warning" src="img/svg/warningIcon.svg" alt="">
+												<p class="settings-linters__text-warning">Paste this code into <span>settings.json</span></p>
+											</div>
+											
+											<div class="settings-linters__hidden-text">
+												{<br>
+												&emsp;"editor.defaultFormatter": <span class="settings-linters__text-span">"esbenp.prettier-vscode"</span>,<br>
+												&emsp;"editor.codeActionsOnSave": {<br>
+												&emsp;&emsp;"source.fixAll.stylelint": <span class="settings-linters__text-span">"always"</span>,<br>
+												&emsp;&emsp;"source.fixAll": <span class="settings-linters__text-span">"always"</span><br>
+												&emsp;},<br>
+												&emsp;"stylelint.validate": [<br>
+												&emsp;&emsp;<span class="settings-linters__text-span">"css"</span>,<br>
+												&emsp;&emsp;<span class="settings-linters__text-span">"scss"</span><br>
+												&emsp;],<br>
+												&emsp;"editor.formatOnSave": <span class="settings-linters__text-span">true</span>,<br>
+												&emsp;"prettier.requireConfig": <span class="settings-linters__text-span">true</span>,<br>
+												&emsp;"workbench.iconTheme": <span class="settings-linters__text-span">"vscode-icons"</span>,<br>
+												&emsp;"editor.linkedEditing": <span class="settings-linters__text-span">true</span>,<br>
+												&emsp;"[html]": {<br>
+												&emsp;&emsp;"editor.defaultFormatter": <span class="settings-linters__text-span">null</span><br>
+												&emsp;},<br>
+												&emsp;"liveServer.settings.donotShowInfoMsg": <span class="settings-linters__text-span">true</span>,<br>
+												&emsp;"htmlhint.enable": <span class="settings-linters__text-span">true</span>,<br>
+												&emsp;"htmlhint.documentSelector": [<br>
+												&emsp;&emsp;<span class="settings-linters__text-span">"html"</span><br>
+												&emsp;],<br>
+												&emsp;"htmlhint.options": {<br>
+												&emsp;&emsp;"attr-lowercase": <span class="settings-linters__text-span">true</span>,<br>
+												&emsp;&emsp;"attr-value-double-quotes": <span class="settings-linters__text-span">true</span>,<br>
+												&emsp;&emsp;"attr-no-duplication": <span class="settings-linters__text-span">true</span>,<br>
+												&emsp;&emsp;"attr-value-not-empty": <span class="settings-linters__text-span">true</span>,<br>
+												&emsp;&emsp;"title-require": <span class="settings-linters__text-span">true</span>,<br>
+												&emsp;&emsp;"alt-require": <span class="settings-linters__text-span">true</span>,<br>
+												&emsp;&emsp;"attr-unsafe-chars": <span class="settings-linters__text-span">true</span>,<br>
+												&emsp;&emsp;"tag-pair": <span class="settings-linters__text-span">true</span>,<br>
+												&emsp;&emsp;"tagname-lowercase": <span class="settings-linters__text-span">true</span>,<br>
+												&emsp;&emsp;"doctype-first": <span class="settings-linters__text-span">true</span>,<br>
+												&emsp;&emsp;"tag-self-close": <span class="settings-linters__text-span">false</span>,<br>
+												&emsp;&emsp;"spec-char-escape": <span class="settings-linters__text-span">true</span>,<br>
+												&emsp;&emsp;"style-disabled": <span class="settings-linters__text-span">true</span>,<br>
+												&emsp;&emsp;"inline-style-disabled": <span class="settings-linters__text-span">true</span>,<br>
+												&emsp;&emsp;"inline-script-disabled": <span class="settings-linters__text-span">true</span>,<br>
+												&emsp;&emsp;"head-script-disabled": <span class="settings-linters__text-span">true</span>,<br>
+												&emsp;&emsp;"id-unique": <span class="settings-linters__text-span">true</span>,<br>
+												&emsp;&emsp;"src-not-empty": <span class="settings-linters__text-span">true</span>,<br>
+												&emsp;&emsp;"space-tab-mixed-disabled": <span class="settings-linters__text-span">true</span>,<br>
+												&emsp;&emsp;"doctype-html5": <span class="settings-linters__text-span">true</span>,<br>
+												&emsp;&emsp;"input-requires-label": <span class="settings-linters__text-span">true</span><br>
+												&emsp;},<br>
+												&emsp;"workbench.editor.enablePreview": <span class="settings-linters__text-span">false</span>,<br>
+												&emsp;"vscode-edge-devtools.webhintInstallNotification": <span class="settings-linters__text-span">true</span>,<br>
+												&emsp;"git.autofetch": <span class="settings-linters__text-span">true</span>,<br>
+												&emsp;"workbench.editorAssociations": {<br>
+												&emsp;&emsp;"*.scss": <span class="settings-linters__text-span">"default"</span><br>
+												&emsp;}<br>
+												}<br>
+											</div>
+										</div>
+									</div>
+
 								</div>
 							</div>
 						</div>
