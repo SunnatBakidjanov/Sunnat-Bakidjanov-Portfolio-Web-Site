@@ -2179,7 +2179,7 @@ function main() {
 							clearTimeout(timeout)
 							timeout = setTimeout(() => {
 								clickState[index].isClicked = true
-							}, 1500)
+							}, 1200)
 
 							queryElements.hiddenBox[index].classList.add('settings-linters__hidden-box--animate')
 
@@ -2192,7 +2192,7 @@ function main() {
 							clearTimeout(timeout)
 							timeout = setTimeout(() => {
 								clickState[index].isClicked = false
-							}, 1500)
+							}, 1200)
 
 							queryElements.hiddenBox[index].classList.remove(`settings-linters__hidden-box--open-${index}`)
 							queryElements.img[index].classList.remove('settings-linters__img--open')
