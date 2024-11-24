@@ -1922,19 +1922,25 @@ function main() {
 		equipment()
 
 		function software() {
-			function softwareTitleWrite() {
+			function title() {
 				const title = document.getElementById('software-title')
 
 				const ids = [title]
 				const elementKeys = ['software-title']
-				const startHeight = 50
+				const startHeight = 30
 
-				const handleTextWrite = writeAndResetText(title, 'Software', 'Софт', 80, 'software-title', null)
+				function animate() {
+					title.classList.add('software__title--animate')
+				}
 
-				createAnimation(ids, elementKeys, startHeight, handleTextWrite.write, handleTextWrite.reset)
+				function reset() {
+					title.classList.remove('software__title--animate')
+				}
+
+				createAnimation(ids, elementKeys, startHeight, animate, reset)
 			}
 
-			softwareTitleWrite()
+			title()
 
 			function softwareAnimate() {
 				const queryElements = {
@@ -1943,11 +1949,7 @@ function main() {
 					img: document.querySelectorAll('.software-content__img'),
 				}
 
-				const textElements = []
-				const texts = ['VSCode', 'Figma', 'PerfectPixel', 'Photoshop', 'Bootstrap']
-				const textsElementKeys = []
 				const elementSeen = []
-				const handleTexts = []
 				const timeouts = []
 				const timeout = {}
 				const textWriten = {}
@@ -1957,11 +1959,8 @@ function main() {
 				const startingHeight = 0
 
 				queryElements.item.forEach((_, index) => {
-					const elementTextId = document.getElementById(`software-text-${index}`)
 					const elementId = document.getElementById(`software-item-${index}`)
 
-					textElements.push(elementTextId)
-					textsElementKeys.push(`software-text-${index}`)
 					ids.push(elementId)
 					elementSeen.push(`software-item-${index}`)
 					elementKeys.push(`software-item-${index}`)
@@ -1973,23 +1972,18 @@ function main() {
 					if (stepIndex >= queryElements.text.length) return
 
 					if (!textWriten[stepIndex]) {
-						textWriten[stepIndex] = { isWriten: false }
+						textWriten[stepIndex] = { isAnimated: false }
 					}
 
-					if (seenElements.has(elementSeen[stepIndex]) && !textWriten[stepIndex].isWriten) {
-						textWriten[stepIndex].isWriten = true
-
-						const handleTextWrite = writeAndResetText(textElements[stepIndex], texts[stepIndex], null, 80, textsElementKeys[stepIndex], null)
-
-						handleTexts.push(handleTextWrite)
-						handleTextWrite.write()
+					if (seenElements.has(elementSeen[stepIndex]) && !textWriten[stepIndex].isAnimated) {
+						textWriten[stepIndex].isAnimated = true
 
 						queryElements.img[stepIndex].classList.add('software-content__img--animate')
 						queryElements.text[stepIndex].classList.add('software-content__text--animate')
 						timeout[stepIndex] = setTimeout(() => {
 							currentStepIndex = stepIndex + 1
 							contentAnimate(currentStepIndex)
-						}, 400)
+						}, 200)
 
 						timeouts.push(timeout[stepIndex])
 					}
@@ -2007,12 +2001,8 @@ function main() {
 						clearTimeout(timeout[index])
 
 						if (textWriten[index]) {
-							textWriten[index] = { isWriten: false }
+							textWriten[index] = { isAnimated: false }
 						}
-					})
-
-					handleTexts.forEach(handleTextWirte => {
-						handleTextWirte.reset()
 					})
 
 					timeouts.length = 0
@@ -2028,37 +2018,79 @@ function main() {
 		software()
 
 		function linters() {
-			function titleAnimate() {
+			function title() {
 				const title = document.getElementById('linters-title')
-				const subBox = document.getElementById('linters-subtitle-box')
 
-				const subtitles = document.querySelectorAll('.linters__subtitle')
-
-				const ids = [title, subBox]
-				const elementKeys = ['linters-title', 'linters-subtitle-box']
-				const startHeight = 30
-
-				const timeouts = []
-
-				function subtitlesAnimate() {
-					subtitles.forEach((element, index) => {
-						const timeout = setTimeout(() => {
-							element.classList.add('linters__subtitle--animate')
-						}, 100 * index)
-
-						timeouts.push(timeout)
-					})
-				}
+				const ids = [title]
+				const elementKeys = ['linters-title']
+				const startHeight = 0
 
 				function animate() {
 					title.classList.add('linters__title--animate')
-
-					subtitlesAnimate()
 				}
 
 				function reset() {
 					title.classList.remove('linters__title--animate')
+				}
 
+				createAnimation(ids, elementKeys, startHeight, animate, reset)
+			}
+
+			title()
+
+			function subtitles() {
+				const subtitles = document.querySelectorAll('.linters__subtitle')
+
+				const ids = []
+				const elementKeys = []
+				const startHeight = 0
+
+				const elementSeen = []
+
+				subtitles.forEach((_, index) => {
+					const id = document.getElementById(`linters-subtitle-${index}`)
+
+					elementKeys.push(`linters__subtitle-${index}`)
+					elementSeen.push(`linters__subtitle-${index}`)
+
+					ids.push(id)
+				})
+
+				const timeouts = []
+				const animation = {}
+				let currentIndex = 0
+
+				function subtitlesAnimate(index = currentIndex) {
+					if (currentIndex >= subtitles.length) return
+
+					if (seenElements.has(elementKeys[index])) {
+						if (!animation[index]) {
+							animation[index] = { isAnimated: false }
+						}
+
+						if (!animation[index].isAnimated) {
+							animation[index].isAnimated = true
+
+							subtitles[index].classList.add('linters__subtitle--animate')
+
+							console.log(subtitles[index])
+							console.log(index)
+
+							const timeout = setTimeout(() => {
+								currentIndex = index + 1
+								subtitlesAnimate(index + 1)
+							}, 120)
+
+							timeouts.push(timeout)
+						}
+					}
+				}
+
+				function animate() {
+					subtitlesAnimate()
+				}
+
+				function reset() {
 					subtitles.forEach((element, index) => {
 						element.classList.remove('linters__subtitle--animate')
 
@@ -2071,7 +2103,7 @@ function main() {
 				createAnimation(ids, elementKeys, startHeight, animate, reset)
 			}
 
-			titleAnimate()
+			subtitles()
 
 			function settingsTitleAnimate() {
 				const subtitle = document.getElementById('settings-linters-subtitle')
@@ -2105,6 +2137,7 @@ function main() {
 					hiddenBox: document.querySelectorAll('.settings-linters__hidden-box'),
 					hiddenText: document.querySelectorAll('.settings-linters__hidden-text'),
 					hiddenBtn: document.querySelectorAll('.settings-linters__hidden-btn'),
+					hiddenScrollBtn: document.querySelectorAll('.settings-linters__up-btn'),
 					textSpan: document.querySelectorAll('.settings-linters__text-span'),
 				}
 
@@ -2192,7 +2225,7 @@ function main() {
 						clickState[index] = { isClicked: false }
 					}
 
-					if (index !== -1 && queryElements.hiddenBox[index]) {
+					if (index !== -1 && queryElements.btn[index] === event.target) {
 						if (!clickState[index].isClicked) {
 							clearTimeout(timeout)
 							timeout = setTimeout(() => {
@@ -2226,6 +2259,14 @@ function main() {
 							queryElements.btn[index].classList.remove('settings-linters__btn--animate')
 							queryElements.hiddenBox[index].classList.remove('settings-linters__hidden-box--animate')
 						}
+					}
+				}
+
+				function handleScrollUpOnClick(event) {
+					const index = [...queryElements.hiddenScrollBtn].indexOf(event.target)
+
+					if (index !== -1 && queryElements.hiddenScrollBtn[index] === event.target) {
+						queryElements.btn[index + 1].scrollIntoView({ behavior: 'smooth' })
 					}
 				}
 
@@ -2291,7 +2332,9 @@ function main() {
 
 				function animate() {
 					document.addEventListener('click', handleHiddenBoxOpen)
+					document.addEventListener('click', handleScrollUpOnClick)
 					document.addEventListener('animationend', handleAnimationEnd)
+
 					handleAnimation()
 					copyText()
 				}
@@ -2303,6 +2346,7 @@ function main() {
 						queryElements.item[index].classList.remove('settings-linters__item--animate')
 						queryElements.text[index].classList.remove('settings-linters__text--animate')
 						queryElements.img[index].classList.remove('settings-linters__img--animate', 'settings-linters__img--close', 'settings-linters__img--open')
+						queryElements.btn[index].classList.remove('settings-linters__btn--animate')
 						queryElements.hiddenBox[index].classList.remove(`settings-linters__hidden-box--close-${index}`, `settings-linters__hidden-box--open-${index}`, 'settings-linters__hidden-box--animate')
 
 						animationEnd[index] = { isEnded: false }
@@ -2318,6 +2362,8 @@ function main() {
 					timeouts.length = 0
 
 					document.removeEventListener('click', handleHiddenBoxOpen)
+					document.removeEventListener('click', handleScrollUpOnClick)
+					document.removeEventListener('animationend', handleAnimationEnd)
 				}
 
 				createAnimation(ids, elementKey, startHeight, animate, reset)

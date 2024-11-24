@@ -3,6 +3,13 @@ $white: #fff;
 $black: #000;
 $gray: #a9a9a9;
 
+// soft-colors
+$vs-code: #007acc;
+$pixel-perfect: #ff84af;
+$photoshop: #31a8ff;
+$bootstrap: #7952b3;
+$git: #f34f29;
+
 // uses-getting-color
 $uses-getting-title-color: $white;
 $uses-getting-text-color: $white;
@@ -398,7 +405,26 @@ $uses-linters-box-shadow-color: $white;
 	}
 
 	.software__title {
+		opacity: 0;
+		transform: translateY(-30px);
+
 		@include uses-title($uses-software-title-color);
+	}
+
+	.software__title--animate {
+		@keyframes software-title {
+			0% {
+				opacity: 0;
+				transform: translateY(-30px);
+			}
+
+			100% {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		animation: software-title 1s ease-out forwards;
 	}
 
 	.software__inner-content {
@@ -409,7 +435,7 @@ $uses-linters-box-shadow-color: $white;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		gap: 60px 50px;
+		gap: 70px 200px;
 		flex-wrap: wrap;
 
 		&__item {
@@ -446,10 +472,28 @@ $uses-linters-box-shadow-color: $white;
 			font-style: normal;
 			font-weight: 600;
 			font-size: 30px;
-			color: $uses-software-text-color;
 			letter-spacing: 0.5px;
 			opacity: 0;
 			transform: translateX(50px);
+		}
+
+		$colors: (
+			0: $vs-code,
+			1: $white,
+			2: $pixel-perfect,
+			3: $photoshop,
+			4: $bootstrap,
+			5: $git,
+		);
+
+		@mixin software-colors($index, $color) {
+			.software-content__text--color-#{$index} {
+				color: $color;
+			}
+		}
+
+		@each $index, $color in $colors {
+			@include software-colors($index, $color);
 		}
 
 		&__text--animate {
@@ -465,7 +509,7 @@ $uses-linters-box-shadow-color: $white;
 				}
 			}
 
-			animation: software-content-text 0.8s forwards ease-out;
+			animation: software-content-text 1.2s forwards ease-out;
 		}
 	}
 }
@@ -479,24 +523,26 @@ $uses-linters-box-shadow-color: $white;
 	}
 
 	.linters__title {
-		letter-spacing: 50px;
+		transform: translateY(30px);
 		opacity: 0;
 
 		@include uses-title($uses-linters-title-color);
 	}
 
 	.linters__title--animate {
-		@keyframes linter-title {
+		@keyframes a {
 			0% {
+				transform: translateY(-30px);
 				opacity: 0;
 			}
 
 			100% {
+				transform: translateY(0);
 				opacity: 1;
 			}
 		}
 
-		animation: linter-title 1s ease-out forwards;
+		animation: a 1s ease-out forwards;
 	}
 
 	.linters__inner-settings {
@@ -518,6 +564,7 @@ $uses-linters-box-shadow-color: $white;
 		font-weight: 500;
 		font-size: 30px;
 		color: white;
+		text-align: center;
 		opacity: 0;
 		transform: translateY(20px);
 	}
@@ -715,6 +762,7 @@ $uses-linters-box-shadow-color: $white;
 		}
 
 		&__hidden-box {
+			position: relative;
 			padding-left: 15px;
 			height: 0;
 			overflow: hidden;
@@ -730,10 +778,10 @@ $uses-linters-box-shadow-color: $white;
 		}
 
 		$heights: (
-			0: '475px',
-			1: '1285px',
-			2: '6035px',
-			3: '1570px',
+			0: '465px',
+			1: '1200px',
+			2: '5945px',
+			3: '1490px',
 		);
 
 		@mixin settings-linters-hidden-box-close-open($index, $height) {
@@ -743,8 +791,12 @@ $uses-linters-box-shadow-color: $white;
 						height: 0;
 					}
 
-					100% {
+					99% {
 						height: #{$height};
+					}
+
+					100% {
+						height: auto;
 					}
 				}
 
@@ -762,7 +814,7 @@ $uses-linters-box-shadow-color: $white;
 					}
 				}
 
-				animation: settings-linters-hidden-box-close-#{$index} 0.6s ease-out forwards;
+				animation: settings-linters-hidden-box-close-#{$index} 1s ease-out forwards;
 			}
 		}
 
@@ -772,8 +824,8 @@ $uses-linters-box-shadow-color: $white;
 
 		&__hidden-btn {
 			margin: 20px 0;
-			padding: 5px;
-			width: 180px;
+			width: 200px;
+			height: 35px;
 			font-style: normal;
 			font-weight: 500;
 			font-size: 22px;
@@ -823,6 +875,28 @@ $uses-linters-box-shadow-color: $white;
 			color: $uses-linters-text-color;
 		}
 
+		&__up-btn {
+			position: absolute;
+			right: 25px;
+			bottom: 25px;
+			width: 55px;
+			height: 55px;
+			background-color: transparent;
+			border: solid 2px $orange;
+			border-radius: 50%;
+			cursor: pointer;
+			transition: all 0.3s ease-out;
+
+			&:hover {
+				filter: drop-shadow(0 0 3px $uses-linters-box-shadow-color);
+			}
+		}
+
+		&__up-img {
+			pointer-events: none;
+			filter: drop-shadow(0 0 1px $uses-linters-box-shadow-color);
+		}
+
 		&__text-span {
 			font-weight: 600;
 			color: $uses-linters-accent-text-color;
@@ -840,11 +914,14 @@ $uses-linters-box-shadow-color: $white;
 	position: fixed;
 	bottom: 3%;
 	left: 50%;
+	padding: 5px 15px;
+	box-shadow: 0 0 5px white;
 	font-style: normal;
 	font-weight: 600;
 	font-size: 22px;
-	color: $orange;
+	color: $white;
 	letter-spacing: 0.5px;
+	background-color: black;
 	opacity: 0;
 	transform: translateX(-50%);
 	animation: linters-modal-windows 2s linear;
