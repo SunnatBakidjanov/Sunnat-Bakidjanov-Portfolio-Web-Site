@@ -41,7 +41,9 @@ $colors: (
 	'facebook': $facebook-icon-bg,
 );
 
-// .header-main {}
+.header-main {
+	display: none;
+}
 
 .header-main__wrapper {
 	position: relative;

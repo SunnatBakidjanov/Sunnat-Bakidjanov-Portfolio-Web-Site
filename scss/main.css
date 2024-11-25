@@ -550,6 +550,10 @@
   background-color: #2b636d;
 }
 
+.header-main {
+  display: none;
+}
+
 .header-main__wrapper {
   position: relative;
   top: -100px;
@@ -2151,6 +2155,7 @@
   align-items: center;
   margin-left: 200px;
   height: calc(100vh - 300px);
+  transition: all 0.4s ease-out;
 }
 .uses-getting__scroll-line {
   width: 3px;
@@ -2924,6 +2929,45 @@
   }
 }
 
+@media (width <= 1000px) {
+  .uses-getting__scroll-container {
+    margin-left: 100px;
+  }
+  .uses-getting__title {
+    font-size: 40px;
+  }
+  .uses-getting__text {
+    font-size: 26px;
+  }
+}
+@media (width <= 600px) {
+  .uses-getting__scroll-container {
+    margin-left: 50px;
+  }
+  .uses-getting__title {
+    font-size: 32px;
+  }
+  .uses-getting__text {
+    font-size: 22px;
+  }
+  .uses-getting__scroll-text {
+    font-size: 30px;
+  }
+}
+@media (width <= 400px) {
+  .uses-getting__scroll-container {
+    margin-left: 20px;
+  }
+  .uses-getting__title {
+    font-size: 24px;
+  }
+  .uses-getting__text {
+    font-size: 20px;
+  }
+  .uses-getting__scroll-text {
+    font-size: 24px;
+  }
+}
 .resume-page {
   position: absolute;
   left: -9999px;
