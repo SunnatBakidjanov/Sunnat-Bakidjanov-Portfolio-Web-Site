@@ -1749,11 +1749,17 @@ function main() {
 
 				const ids = [title]
 				const elementKeys = ['equipment-title']
-				const startHeight = 0
+				const startHeight = 30
 
-				const handleTextWrite = writeAndResetText(title, 'Equipment', 'Оборудование', 80, 'equipment-title', null)
+				function animate() {
+					title.classList.add('equipment__title--animate')
+				}
 
-				createAnimation(ids, elementKeys, startHeight, handleTextWrite.write, handleTextWrite.reset)
+				function reset() {
+					title.classList.remove('equipment__title--animate')
+				}
+
+				createAnimation(ids, elementKeys, startHeight, animate, reset)
 			}
 
 			titleWrite()
@@ -1772,7 +1778,7 @@ function main() {
 				const ids = []
 				const elementKeys = []
 				const startHeight = 50
-				const closeHeight = 0
+				const closeHeight = -300
 
 				const elementsSeen = []
 				const timeouts = []
@@ -1802,10 +1808,9 @@ function main() {
 					if (seenElements.has(elementsSeen[stepIndex]) && !animatiosStart[stepIndex].isStarted) {
 						animatiosStart[currentStepIndex].isStarted = true
 
-						elements.button[stepIndex].classList.add('equipment-content__button--animate')
-						elements.item[stepIndex].classList.add('equipment-content__item--animate')
-						elements.text[stepIndex].classList.add('equipment-content__text--animate')
-						elements.img[stepIndex].classList.add('equipment-content__img--animate')
+						elements.item[currentStepIndex].classList.add('equipment-content__item--animate')
+						elements.text[currentStepIndex].classList.add('equipment-content__text--animate')
+						elements.img[currentStepIndex].classList.add('equipment-content__img--animate')
 
 						const timeout = setTimeout(() => {
 							currentStepIndex = stepIndex + 1
@@ -1823,7 +1828,7 @@ function main() {
 						clickState[index] = { isClicked: false }
 					}
 
-					if (index !== -1 && elements.hiddenBox[index]) {
+					if (index !== -1 && event.target === elements.button[index]) {
 						if (!clickState[index].isClicked) {
 							timeout = setTimeout(() => {
 								clickState[index].isClicked = true
@@ -1832,7 +1837,10 @@ function main() {
 							elements.hiddenBox[index].classList.add('equipment-content__hidden-box--open')
 							elements.hiddenBox[index].classList.remove('equipment-content__hidden-box--close')
 
+							elements.button[index].classList.add('equipment-content__button--open')
+
 							elements.img[index].classList.add('equipment-content__img--open')
+							elements.img[index].classList.remove('equipment-content__img--close')
 
 							elements.hiddenImg[index].classList.add('equipment-content__hidden-img--animate')
 							elements.hiddenText[index].classList.add('equipment-content__hidden-text--animate')
@@ -1844,7 +1852,10 @@ function main() {
 							elements.hiddenBox[index].classList.remove('equipment-content__hidden-box--open')
 							elements.hiddenBox[index].classList.add('equipment-content__hidden-box--close')
 
+							elements.button[index].classList.remove('equipment-content__button--open')
+
 							elements.img[index].classList.remove('equipment-content__img--open')
+							elements.img[index].classList.add('equipment-content__img--close')
 
 							elements.hiddenImg[index].classList.remove('equipment-content__hidden-img--animate')
 							elements.hiddenText[index].classList.remove('equipment-content__hidden-text--animate')
@@ -1856,6 +1867,9 @@ function main() {
 					ids.forEach((element, index) => {
 						if (elements.hiddenBox[index].classList.contains('equipment-content__hidden-box--open') && !handleVisibilityChange(element, closeHeight, elementKeys)) {
 							elements.hiddenBox[index].classList.add('equipment-content__hidden-box--close')
+							elements.img[index].classList.add('equipment-content__img--close')
+
+							elements.button[index].classList.remove('equipment-content__button--open')
 							elements.hiddenBox[index].classList.remove('equipment-content__hidden-box--open')
 							elements.hiddenText[index].classList.remove('equipment-content__hidden-text--animate')
 							elements.hiddenImg[index].classList.remove('equipment-content__hidden-img--animate')
@@ -1872,10 +1886,7 @@ function main() {
 
 				function animate() {
 					document.addEventListener('scroll', closeHiddenMenuOnScroll)
-
-					elements.button.forEach(element => {
-						element.addEventListener('click', openHiddenMenu)
-					})
+					document.addEventListener('click', openHiddenMenu)
 
 					handleAnimation()
 				}
@@ -1903,10 +1914,7 @@ function main() {
 						clearTimeout(timeouts[index])
 					})
 
-					elements.button.forEach(element => {
-						element.removeEventListener('click', openHiddenMenu)
-					})
-
+					document.removeEventListener('click', removeEventListener)
 					document.removeEventListener('scroll', closeHiddenMenuOnScroll)
 
 					currentStepIndex = 0
@@ -1927,7 +1935,7 @@ function main() {
 
 				const ids = [title]
 				const elementKeys = ['software-title']
-				const startHeight = 30
+				const startHeight = 50
 
 				function animate() {
 					title.classList.add('software__title--animate')
@@ -2073,9 +2081,6 @@ function main() {
 
 							subtitles[index].classList.add('linters__subtitle--animate')
 
-							console.log(subtitles[index])
-							console.log(index)
-
 							const timeout = setTimeout(() => {
 								currentIndex = index + 1
 								subtitlesAnimate(index + 1)
@@ -2091,8 +2096,12 @@ function main() {
 				}
 
 				function reset() {
+					currentIndex = 0
+
 					subtitles.forEach((element, index) => {
 						element.classList.remove('linters__subtitle--animate')
+
+						animation[index] = { isAnimated: false }
 
 						clearTimeout(timeouts[index])
 					})
