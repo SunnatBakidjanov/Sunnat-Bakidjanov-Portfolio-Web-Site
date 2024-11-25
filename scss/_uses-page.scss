@@ -1126,7 +1126,19 @@ $uses-linters-box-shadow-color: $white;
 			}
 
 			&__hidden-text {
-				font-size: 11px;
+				font-size: 14px;
+			}
+
+			&__up-btn {
+				right: 15px;
+				bottom: 15px;
+				width: 45px;
+				height: 45px;
+			}
+
+			&__up-img {
+				width: 28px;
+				height: 28px;
 			}
 		}
 	}
@@ -1187,16 +1199,8 @@ $uses-linters-box-shadow-color: $white;
 				font-size: 30px;
 			}
 
-			&__up-btn {
-				right: 15px;
-				bottom: 15px;
-				width: 45px;
-				height: 45px;
-			}
-
-			&__up-img {
-				width: 28px;
-				height: 28px;
+			&__hidden-text {
+				font-size: 12px;
 			}
 		}
 	}

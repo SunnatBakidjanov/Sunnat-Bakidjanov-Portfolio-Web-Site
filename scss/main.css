@@ -3039,7 +3039,17 @@
     font-size: 20px;
   }
   .linters .settings-linters__hidden-text {
-    font-size: 11px;
+    font-size: 14px;
+  }
+  .linters .settings-linters__up-btn {
+    right: 15px;
+    bottom: 15px;
+    width: 45px;
+    height: 45px;
+  }
+  .linters .settings-linters__up-img {
+    width: 28px;
+    height: 28px;
   }
 }
 @media (width <= 400px) {
@@ -3076,15 +3086,8 @@
   .linters .settings-linters__subtitle {
     font-size: 30px;
   }
-  .linters .settings-linters__up-btn {
-    right: 15px;
-    bottom: 15px;
-    width: 45px;
-    height: 45px;
-  }
-  .linters .settings-linters__up-img {
-    width: 28px;
-    height: 28px;
+  .linters .settings-linters__hidden-text {
+    font-size: 12px;
   }
 }
 .resume-page {
