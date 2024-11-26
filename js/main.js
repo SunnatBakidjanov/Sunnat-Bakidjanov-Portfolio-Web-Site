@@ -1744,7 +1744,7 @@ function main() {
 		gettingAnimate()
 
 		function equipment() {
-			function titleWrite() {
+			function title() {
 				const title = document.getElementById('equipment-title')
 
 				const ids = [title]
@@ -1762,7 +1762,7 @@ function main() {
 				createAnimation(ids, elementKeys, startHeight, animate, reset)
 			}
 
-			titleWrite()
+			title()
 
 			function equipmentAnimate() {
 				const elements = {
@@ -1778,12 +1778,9 @@ function main() {
 				const ids = []
 				const elementKeys = []
 				const startHeight = 50
-				const closeHeight = -300
 
 				const elementsSeen = []
 				const timeouts = []
-
-				let timeout = null
 
 				elements.item.forEach((_, index) => {
 					const elementId = document.getElementById(`equipment-id-${index}`)
@@ -1821,79 +1818,69 @@ function main() {
 					}
 				}
 
+				function closeElement(index) {
+					elements.hiddenBox[index].classList.remove('equipment-content__hidden-box--open')
+					elements.hiddenBox[index].classList.add('equipment-content__hidden-box--close')
+
+					elements.button[index].classList.remove('equipment-content__button--open')
+
+					elements.img[index].classList.remove('equipment-content__img--open')
+					elements.img[index].classList.add('equipment-content__img--close')
+
+					elements.hiddenImg[index].classList.remove('equipment-content__hidden-img--animate')
+					elements.hiddenText[index].classList.remove('equipment-content__hidden-text--animate')
+
+					clickState[index].isClicked = false
+				}
+
 				function openHiddenMenu(event) {
 					const index = Array.from(elements.button).indexOf(event.target)
 
-					if (!clickState[index]) {
-						clickState[index] = { isClicked: false }
-					}
+					if (index === -1) return
 
-					if (index !== -1 && event.target === elements.button[index]) {
-						if (!clickState[index].isClicked) {
-							timeout = setTimeout(() => {
-								clickState[index].isClicked = true
-							}, 700)
-
-							elements.hiddenBox[index].classList.add('equipment-content__hidden-box--open')
-							elements.hiddenBox[index].classList.remove('equipment-content__hidden-box--close')
-
-							elements.button[index].classList.add('equipment-content__button--open')
-
-							elements.img[index].classList.add('equipment-content__img--open')
-							elements.img[index].classList.remove('equipment-content__img--close')
-
-							elements.hiddenImg[index].classList.add('equipment-content__hidden-img--animate')
-							elements.hiddenText[index].classList.add('equipment-content__hidden-text--animate')
-						} else {
-							timeout = setTimeout(() => {
-								clickState[index].isClicked = false
-							}, 700)
-
-							elements.hiddenBox[index].classList.remove('equipment-content__hidden-box--open')
-							elements.hiddenBox[index].classList.add('equipment-content__hidden-box--close')
-
-							elements.button[index].classList.remove('equipment-content__button--open')
-
-							elements.img[index].classList.remove('equipment-content__img--open')
-							elements.img[index].classList.add('equipment-content__img--close')
-
-							elements.hiddenImg[index].classList.remove('equipment-content__hidden-img--animate')
-							elements.hiddenText[index].classList.remove('equipment-content__hidden-text--animate')
-						}
-					}
-				}
-
-				function closeHiddenMenuOnScroll() {
-					ids.forEach((element, index) => {
-						if (elements.hiddenBox[index].classList.contains('equipment-content__hidden-box--open') && !handleVisibilityChange(element, closeHeight, elementKeys)) {
-							elements.hiddenBox[index].classList.add('equipment-content__hidden-box--close')
-							elements.img[index].classList.add('equipment-content__img--close')
-
-							elements.button[index].classList.remove('equipment-content__button--open')
-							elements.hiddenBox[index].classList.remove('equipment-content__hidden-box--open')
-							elements.hiddenText[index].classList.remove('equipment-content__hidden-text--animate')
-							elements.hiddenImg[index].classList.remove('equipment-content__hidden-img--animate')
-							elements.img[index].classList.remove('equipment-content__img--open')
-
-							clearTimeout(timeout)
-
-							if (clickState[index]) {
-								clickState[index].isClicked = false
-							}
+					elements.button.forEach((_, i) => {
+						if (!clickState[i]) {
+							clickState[i] = { isClicked: false }
 						}
 					})
+
+					if (!clickState[index].isClicked) {
+						clickState[index].isClicked = true
+
+						elements.hiddenBox.forEach((_, i) => {
+							if (i !== index) {
+								closeElement(i)
+							}
+						})
+
+						elements.hiddenBox[index].classList.add('equipment-content__hidden-box--open')
+						elements.hiddenBox[index].classList.remove('equipment-content__hidden-box--close')
+
+						elements.button[index].classList.add('equipment-content__button--open')
+
+						elements.img[index].classList.add('equipment-content__img--open')
+						elements.img[index].classList.remove('equipment-content__img--close')
+
+						elements.hiddenImg[index].classList.add('equipment-content__hidden-img--animate')
+						elements.hiddenText[index].classList.add('equipment-content__hidden-text--animate')
+
+						setTimeout(() => {
+							elements.button[index].scrollIntoView({ behavior: 'smooth' })
+						}, 400)
+					} else {
+						clickState[index].isClicked = false
+
+						closeElement(index)
+					}
 				}
 
 				function animate() {
-					document.addEventListener('scroll', closeHiddenMenuOnScroll)
 					document.addEventListener('click', openHiddenMenu)
 
 					handleAnimation()
 				}
 
 				function reset() {
-					clearTimeout(timeout)
-
 					elements.item.forEach((_, index) => {
 						elements.item[index].classList.remove('equipment-content__item--animate')
 						elements.text[index].classList.remove('equipment-content__text--animate')
@@ -1915,7 +1902,6 @@ function main() {
 					})
 
 					document.removeEventListener('click', removeEventListener)
-					document.removeEventListener('scroll', closeHiddenMenuOnScroll)
 
 					currentStepIndex = 0
 					timeouts.length = 0

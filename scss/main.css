@@ -2236,6 +2236,7 @@
   display: flex;
   flex-direction: column;
   row-gap: 15px;
+  width: 100%;
 }
 .equipment .equipment-content__item {
   position: relative;
@@ -2259,7 +2260,6 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 10px;
-  width: 100%;
   height: 60px;
   background-color: transparent;
   border: none;
@@ -2572,6 +2572,9 @@
   color: #fff;
   opacity: 0;
   transform: translateX(20px);
+}
+.linters .settings-linters__h4-title span {
+  color: #f8aa01;
 }
 .linters .settings-linters__h4-title--animate {
   animation: settings-linters-h4-title 0.8s ease-out forwards;
