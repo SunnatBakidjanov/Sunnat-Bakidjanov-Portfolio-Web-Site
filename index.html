@@ -435,6 +435,8 @@
 							<div class="equipment__wrapper">
 								<h2 class="equipment__title" id="equipment-title">Equipment</h2>
 
+								<div class="uses-line" id="uses-line-0"></div>
+
 								<div class="equipment__inner-content equipment-content" id="equipment-content">
 									<div class="equipment-content__item" id="equipment-id-0">
 										<button type="button" aria-label="equipment-button" class="equipment-content__button">
@@ -542,6 +544,8 @@
 							<div class="software__wrapper">
 								<h2 class="software__title" id="software-title">Software</h2>
 
+								<div class="uses-line" id="uses-line-1"></div>
+
 								<div class="software__inner-content software-content">
 									<div class="software-content__item" id="software-item-0">
 										<img class="software-content__img" src="img/svg/vscode.svg" alt="">
@@ -583,6 +587,8 @@
 							<div class="linters__wrapper">
 								<h2 class="linters__title" id="linters-title">Linters</h2>
 
+								<div class="uses-line" id="uses-line-2"></div>
+
 								<div class="linters__subtitles-box">
 									<!-- для чистоты кода -->
 									<div class="linters__subtitle" id="linters-subtitle-0">for code cleanliness</div>
@@ -614,7 +620,7 @@
 												<p class="settings-linters__text-warning">Paste this code into <span>.prettierrc</span></p>
 											</div>
 											
-											<div class="settings-linters__hidden-text">
+											<p class="settings-linters__hidden-text">
 												{<br>
 												&emsp;"semi": <span class="settings-linters__text-span">false</span>,<br>
 												&emsp;"bracketSpacing": <span class="settings-linters__text-span">true</span>,<br>
@@ -627,7 +633,7 @@
 												&emsp;"proseWrap": <span class="settings-linters__text-span">"never"</span>,<br>
 												&emsp;"endOfLine": <span class="settings-linters__text-span">"auto"</span><br>
 												}
-											</div>
+											</p>
 										</div>
 									</div>
 
@@ -649,7 +655,7 @@
 												<img class="settings-linters__up-img" src="img/svg/up-settings.svg" alt="">
 											</button>
 
-											<div class="settings-linters__hidden-text">
+											<p class="settings-linters__hidden-text">
 												{<br>
 													&emsp;"env": {<br>
 													&emsp;&emsp;"browser":<span class="settings-linters__text-span">true</span>,<br>
@@ -692,7 +698,7 @@
 													&emsp;],<br>
 													&emsp;"rules": {}<br>
 												}
-											</div>										
+											</p>										
 										</div>
 									</div>
 
@@ -714,7 +720,7 @@
 												<img class="settings-linters__up-img" src="img/svg/up-settings.svg" alt="">
 											</button>
 
-											<div class="settings-linters__hidden-text">
+											<p class="settings-linters__hidden-text">
 												{<br>
 												&emsp;"extends": [<br>
 												&emsp;&emsp;<span class="settings-linters__text-span">"stylelint-config-standard"</span>,<br>
@@ -923,7 +929,7 @@
 												&emsp;&emsp;}<br>
 												&emsp;]<br>
 												}<br>
-											</div>
+											</p>
 										</div>
 									</div>
 									
@@ -945,7 +951,7 @@
 												<img class="settings-linters__up-img" src="img/svg/up-settings.svg" alt="">
 											</button>
 											
-											<div class="settings-linters__hidden-text">
+											<p class="settings-linters__hidden-text">
 												{<br>
 												&emsp;"editor.defaultFormatter": <span class="settings-linters__text-span">"esbenp.prettier-vscode"</span>,<br>
 												&emsp;"editor.codeActionsOnSave": {<br>
@@ -998,7 +1004,7 @@
 												&emsp;&emsp;"*.scss": <span class="settings-linters__text-span">"default"</span><br>
 												&emsp;}<br>
 												}<br>
-											</div>
+											</p>
 										</div>
 									</div>
 
@@ -1006,10 +1012,43 @@
 
 								<div class="linters__inner-plugins plugins-linters">
 									<h3 class="plugins-linters__subtitle">Plugins</h3>
-									<h4 class="plugins-linters__h4-title"><span>VSCode</span> <span class="plugins-linters__h4-title-span">plugins</span> that I use</h4>
+									<h4 class="plugins-linters__h4-title">Useful <span>plugins</span> in VSCode that I use</h4>
 
 									<div class="plugins-linters__content">
-										<div class="plugins-linters__item"></div>
+										<div class="plugins-linters__item">
+											<span class="plugins-linters__plugin-name">Git Graph</span>
+											<p class="plugins-linters__text">for a visual representation of branches, commits and their connections in the repository</p>
+										</div>
+
+										<div class="plugins-linters__item">
+											<span class="plugins-linters__plugin-name">HTMLHint</span>
+											<p class="plugins-linters__text">to check HTML code for compliance with standards</p>
+										</div>
+
+										<div class="plugins-linters__item">
+											<span class="plugins-linters__plugin-name">ESLint</span>
+											<p class="plugins-linters__text">a tool for analyzing and checking JavaScript code for compliance with standards and eliminating errors</p>
+										</div>
+
+										<div class="plugins-linters__item">
+											<span class="plugins-linters__plugin-name">Prettier</span>
+											<p class="plugins-linters__text">automatic code formatting tool</p>
+										</div>
+
+										<div class="plugins-linters__item">
+											<span class="plugins-linters__plugin-name">Stylelint</span>
+											<p class="plugins-linters__text">is a tool for checking and standardizing CSS code (as well as SCSS, Less and other styles)</p>
+										</div>
+
+										<div class="plugins-linters__item">
+											<span class="plugins-linters__plugin-name">Live Server</span>
+											<p class="plugins-linters__text">is a tool that creates a local server for development and automatically updates the web page in the browser when changes are made to the code</p>
+										</div>
+
+										<div class="plugins-linters__item">
+											<span class="plugins-linters__plugin-name">Live Sass Compiller</span>
+											<p class="plugins-linters__text">is a tool that compiles Sass or SCSS files to CSS in real time</p>
+										</div>
 									</div>
 								</div>
 							</div>

@@ -45,6 +45,19 @@ $uses-linters-box-shadow-color: $white;
 	letter-spacing: 0.5px;
 }
 
+.uses-line {
+	width: 0;
+	height: 4px;
+	background-color: $uses-equipment-border-color;
+	opacity: 0;
+	transition: all 1s ease-out;
+}
+
+.uses-line--animate {
+	width: 100%;
+	opacity: 1;
+}
+
 .uses-getting {
 	&__wrapper {
 		display: flex;
@@ -169,25 +182,26 @@ $uses-linters-box-shadow-color: $white;
 }
 
 .equipment {
-	.equipment__wrapper {
+	&__wrapper {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		margin-top: 70px;
 	}
 
-	.equipment__inner-content {
+	&__inner-content {
 		margin-top: 50px;
 	}
 
-	.equipment__title {
+	&__title {
+		margin-bottom: 30px;
 		opacity: 0;
 		transform: translateY(-30px);
 
 		@include uses-title($uses-equipment-title-color);
 	}
 
-	.equipment__title--animate {
+	&__title--animate {
 		@keyframes equipment-title {
 			0% {
 				opacity: 0;
@@ -370,21 +384,22 @@ $uses-linters-box-shadow-color: $white;
 }
 
 .software {
-	.software__wrapper {
+	&__wrapper {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		margin-top: 100px;
 	}
 
-	.software__title {
+	&__title {
+		margin-bottom: 30px;
 		opacity: 0;
 		transform: translateY(-30px);
 
 		@include uses-title($uses-software-title-color);
 	}
 
-	.software__title--animate {
+	&__title--animate {
 		@keyframes software-title {
 			0% {
 				opacity: 0;
@@ -400,7 +415,7 @@ $uses-linters-box-shadow-color: $white;
 		animation: software-title 1s ease-out forwards;
 	}
 
-	.software__inner-content {
+	&__inner-content {
 		padding-top: 50px;
 	}
 
@@ -488,21 +503,22 @@ $uses-linters-box-shadow-color: $white;
 }
 
 .linters {
-	.linters__wrapper {
+	&__wrapper {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		margin-top: 150px;
 	}
 
-	.linters__title {
+	&__title {
+		margin-bottom: 30px;
 		transform: translateY(30px);
 		opacity: 0;
 
 		@include uses-title($uses-linters-title-color);
 	}
 
-	.linters__title--animate {
+	&__title--animate {
 		@keyframes a {
 			0% {
 				transform: translateY(-30px);
@@ -518,7 +534,13 @@ $uses-linters-box-shadow-color: $white;
 		animation: a 1s ease-out forwards;
 	}
 
-	.linters__inner-settings {
+	&__inner-settings {
+		margin-bottom: 50px;
+		width: 100%;
+	}
+
+	&__inner-plugins {
+		margin-bottom: 50px;
 		width: 100%;
 	}
 
@@ -562,7 +584,6 @@ $uses-linters-box-shadow-color: $white;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		margin-bottom: 50px;
 		row-gap: 15px;
 
 		&__subtitle {
@@ -885,6 +906,63 @@ $uses-linters-box-shadow-color: $white;
 			opacity: 1;
 		}
 	}
+
+	.plugins-linters {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		&__subtitle {
+			margin-bottom: 15px;
+			font-style: normal;
+			font-weight: 600;
+			font-size: 40px;
+			color: $uses-linters-text-color;
+			opacity: 1;
+			transform: translateY(0);
+		}
+
+		&__h4-title {
+			margin-bottom: 45px;
+			font-style: normal;
+			font-weight: 600;
+			font-size: 22px;
+			color: $uses-linters-text-color;
+			opacity: 1;
+			transform: translateX(0);
+
+			& span {
+				color: $uses-linters-accent-text-color;
+			}
+		}
+
+		&__content {
+			display: flex;
+			flex-direction: column;
+			row-gap: 40px;
+			width: 100%;
+		}
+
+		&__item {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			row-gap: 10px;
+		}
+
+		&__plugin-name {
+			font-weight: 700;
+			font-size: 28px;
+			color: $uses-linters-accent-text-color;
+		}
+
+		&__text {
+			font-weight: 600;
+			font-size: 22px;
+			color: $uses-linters-text-color;
+			text-align: center;
+		}
+	}
 }
 
 .linters__modal-window {
@@ -892,13 +970,12 @@ $uses-linters-box-shadow-color: $white;
 	bottom: 3%;
 	left: 50%;
 	padding: 5px 15px;
-	box-shadow: 0 0 5px white;
 	font-style: normal;
 	font-weight: 600;
 	font-size: 22px;
 	color: $white;
 	letter-spacing: 0.5px;
-	background-color: black;
+	background-color: transparent;
 	opacity: 0;
 	transform: translateX(-50%);
 	animation: linters-modal-windows 2s linear;

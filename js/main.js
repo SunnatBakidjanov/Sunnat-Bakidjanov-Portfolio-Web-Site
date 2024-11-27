@@ -2012,6 +2012,39 @@ function main() {
 		software()
 
 		function linters() {
+			function lineAnimate() {
+				const lines = document.querySelectorAll('.uses-line')
+
+				const ids = []
+				const elementKeys = []
+				const startHeight = 30
+
+				lines.forEach((_, index) => {
+					const id = document.getElementById(`uses-line-${index}`)
+
+					ids.push(id)
+					elementKeys.push(`uses-line-${index}`)
+				})
+
+				function animateLines() {
+					lines.forEach((element, index) => {
+						if (seenElements.has(elementKeys[index])) {
+							element.classList.add('uses-line--animate')
+						}
+					})
+				}
+
+				function animate() {
+					animateLines()
+				}
+
+				function reset() {}
+
+				createAnimation(ids, elementKeys, startHeight, animate, reset)
+			}
+
+			lineAnimate()
+
 			function title() {
 				const title = document.getElementById('linters-title')
 
@@ -2039,51 +2072,38 @@ function main() {
 				const elementKeys = []
 				const startHeight = 0
 
-				const elementSeen = []
-
 				subtitles.forEach((_, index) => {
 					const id = document.getElementById(`linters-subtitle-${index}`)
 
 					elementKeys.push(`linters__subtitle-${index}`)
-					elementSeen.push(`linters__subtitle-${index}`)
 
 					ids.push(id)
 				})
 
 				const timeouts = []
 				const animation = {}
-				let currentIndex = 0
-
-				function subtitlesAnimate(index = currentIndex) {
-					if (currentIndex >= subtitles.length) return
-
-					if (seenElements.has(elementKeys[index])) {
-						if (!animation[index]) {
-							animation[index] = { isAnimated: false }
-						}
-
-						if (!animation[index].isAnimated) {
-							animation[index].isAnimated = true
-
-							subtitles[index].classList.add('linters__subtitle--animate')
-
-							const timeout = setTimeout(() => {
-								currentIndex = index + 1
-								subtitlesAnimate(index + 1)
-							}, 120)
-
-							timeouts.push(timeout)
-						}
-					}
-				}
 
 				function animate() {
-					subtitlesAnimate()
+					subtitles.forEach((_, index) => {
+						if (seenElements.has(elementKeys[index])) {
+							if (!animation[index]) {
+								animation[index] = { isAnimated: false }
+							}
+
+							if (!animation[index].isAnimated) {
+								animation[index].isAnimated = true
+
+								const timeout = setTimeout(() => {
+									subtitles[index].classList.add('linters__subtitle--animate')
+								}, 150 * index)
+
+								timeouts.push(timeout)
+							}
+						}
+					})
 				}
 
 				function reset() {
-					currentIndex = 0
-
 					subtitles.forEach((element, index) => {
 						element.classList.remove('linters__subtitle--animate')
 
@@ -2137,7 +2157,7 @@ function main() {
 				}
 
 				const ids = []
-				const elementKey = []
+				const elementKeys = []
 				const startHeight = 0
 
 				const elementSeen = []
@@ -2152,8 +2172,11 @@ function main() {
 
 					ids.push(id)
 					scrollIds.push(id)
-					elementKey.push(`settings-linters-item-${index}`)
-					elementSeen.push(`settings-linters-item-${index}`)
+					elementKeys.push(`settings-linters-item-${index}`)
+				})
+
+				queryElements.textSpan.forEach((_, index) => {
+					elementKeys.push(`settings-linters__text-span-${index}`)
 				})
 
 				queryElements.hiddenBox.forEach((element, index) => {
@@ -2192,15 +2215,17 @@ function main() {
 
 					if (index === -1) return
 
-					const textSpans = queryElements.hiddenBox[index]?.querySelectorAll('.settings-linters__text-span')
+					const textSpans = queryElements.hiddenBox[index].querySelectorAll('.settings-linters__text-span')
 
 					if (event.animationName === `settings-linters-hidden-box-open-${index}`) {
 						textSpans.forEach((element, spanIndex) => {
-							const timeout = setTimeout(() => {
-								element.classList.add('settings-linters__text-span--animate')
-							}, 30 * spanIndex)
+							if (seenElements.has(`settings-linters__text-span-${spanIndex}`)) {
+								const timeout = setTimeout(() => {
+									element.classList.add('settings-linters__text-span--animate')
+								}, 30 * spanIndex)
 
-							spanTimeouts.push(timeout)
+								spanTimeouts.push(timeout)
+							}
 						})
 					}
 
@@ -2225,7 +2250,7 @@ function main() {
 							clearTimeout(timeout)
 							timeout = setTimeout(() => {
 								clickState[index].isClicked = true
-							}, 1200)
+							}, 1800)
 
 							setTimeout(() => {
 								queryElements.btn[index].scrollIntoView({ behavior: 'smooth' })
@@ -2243,7 +2268,7 @@ function main() {
 							clearTimeout(timeout)
 							timeout = setTimeout(() => {
 								clickState[index].isClicked = false
-							}, 1200)
+							}, 1800)
 
 							queryElements.hiddenBox[index].classList.remove(`settings-linters__hidden-box--open-${index}`)
 							queryElements.img[index].classList.remove('settings-linters__img--open')
@@ -2361,7 +2386,7 @@ function main() {
 					document.removeEventListener('animationend', handleAnimationEnd)
 				}
 
-				createAnimation(ids, elementKey, startHeight, animate, reset)
+				createAnimation(ids, elementKeys, startHeight, animate, reset)
 			}
 
 			contentAnimate()

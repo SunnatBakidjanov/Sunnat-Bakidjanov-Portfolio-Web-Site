@@ -2099,6 +2099,19 @@
   left: -9999px;
 }
 
+.uses-line {
+  width: 0;
+  height: 4px;
+  background-color: #fff;
+  opacity: 0;
+  transition: all 1s ease-out;
+}
+
+.uses-line--animate {
+  width: 100%;
+  opacity: 1;
+}
+
 .uses-getting__wrapper {
   display: flex;
   flex-direction: column;
@@ -2201,16 +2214,17 @@
   }
 }
 
-.equipment .equipment__wrapper {
+.equipment__wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 70px;
 }
-.equipment .equipment__inner-content {
+.equipment__inner-content {
   margin-top: 50px;
 }
-.equipment .equipment__title {
+.equipment__title {
+  margin-bottom: 30px;
   opacity: 0;
   transform: translateY(-30px);
   font-style: normal;
@@ -2219,7 +2233,7 @@
   color: #f8aa01;
   letter-spacing: 0.5px;
 }
-.equipment .equipment__title--animate {
+.equipment__title--animate {
   animation: equipment-title 1s ease-out forwards;
 }
 @keyframes equipment-title {
@@ -2371,13 +2385,14 @@
   opacity: 1;
 }
 
-.software .software__wrapper {
+.software__wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 100px;
 }
-.software .software__title {
+.software__title {
+  margin-bottom: 30px;
   opacity: 0;
   transform: translateY(-30px);
   font-style: normal;
@@ -2386,7 +2401,7 @@
   color: #f8aa01;
   letter-spacing: 0.5px;
 }
-.software .software__title--animate {
+.software__title--animate {
   animation: software-title 1s ease-out forwards;
 }
 @keyframes software-title {
@@ -2399,7 +2414,7 @@
     transform: translateY(0);
   }
 }
-.software .software__inner-content {
+.software__inner-content {
   padding-top: 50px;
 }
 .software .software-content {
@@ -2474,13 +2489,14 @@
   }
 }
 
-.linters .linters__wrapper {
+.linters__wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 150px;
 }
-.linters .linters__title {
+.linters__title {
+  margin-bottom: 30px;
   transform: translateY(30px);
   opacity: 0;
   font-style: normal;
@@ -2489,7 +2505,7 @@
   color: #f8aa01;
   letter-spacing: 0.5px;
 }
-.linters .linters__title--animate {
+.linters__title--animate {
   animation: a 1s ease-out forwards;
 }
 @keyframes a {
@@ -2502,7 +2518,12 @@
     opacity: 1;
   }
 }
-.linters .linters__inner-settings {
+.linters__inner-settings {
+  margin-bottom: 50px;
+  width: 100%;
+}
+.linters__inner-plugins {
+  margin-bottom: 50px;
   width: 100%;
 }
 .linters__subtitles-box {
@@ -2540,7 +2561,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 50px;
   row-gap: 15px;
 }
 .linters .settings-linters__subtitle {
@@ -2876,19 +2896,67 @@
   transition: all 0.6s ease-out;
   opacity: 1;
 }
+.linters .plugins-linters {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.linters .plugins-linters__subtitle {
+  margin-bottom: 15px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 40px;
+  color: #fff;
+  opacity: 1;
+  transform: translateY(0);
+}
+.linters .plugins-linters__h4-title {
+  margin-bottom: 45px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 22px;
+  color: #fff;
+  opacity: 1;
+  transform: translateX(0);
+}
+.linters .plugins-linters__h4-title span {
+  color: #f8aa01;
+}
+.linters .plugins-linters__content {
+  display: flex;
+  flex-direction: column;
+  row-gap: 40px;
+  width: 100%;
+}
+.linters .plugins-linters__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 10px;
+}
+.linters .plugins-linters__plugin-name {
+  font-weight: 700;
+  font-size: 28px;
+  color: #f8aa01;
+}
+.linters .plugins-linters__text {
+  font-weight: 600;
+  font-size: 22px;
+  color: #fff;
+  text-align: center;
+}
 
 .linters__modal-window {
   position: fixed;
   bottom: 3%;
   left: 50%;
   padding: 5px 15px;
-  box-shadow: 0 0 5px white;
   font-style: normal;
   font-weight: 600;
   font-size: 22px;
   color: #fff;
   letter-spacing: 0.5px;
-  background-color: black;
+  background-color: transparent;
   opacity: 0;
   transform: translateX(-50%);
   animation: linters-modal-windows 2s linear;
