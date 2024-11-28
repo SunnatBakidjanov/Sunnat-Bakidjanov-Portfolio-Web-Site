@@ -1695,10 +1695,21 @@ function main() {
 				}
 
 				function reset() {
-					title.classList.remove('uses-getting__title--animate')
-					text.classList.remove('uses-getting__text--animate')
+					title.classList.remove('uses-getting__title--animate', 'uses-getting__title--scroll-animate')
+					text.classList.remove('uses-getting__text--animate', 'uses-getting__text--scroll-animate')
 				}
 
+				function scrollAnimate() {
+					title.classList.add('uses-getting__title--scroll-animate')
+					text.classList.add('uses-getting__text--scroll-animate')
+				}
+
+				function scrollReset() {
+					title.classList.remove('uses-getting__title--scroll-animate')
+					text.classList.remove('uses-getting__text--scroll-animate')
+				}
+
+				handleAnimationOnScroll(ids, 'uses-getting__title--animate', elementKeys, scrollAnimate, scrollReset)
 				createAnimation(ids, elementKeys, startHeight, animate, reset)
 			}
 
@@ -1707,22 +1718,23 @@ function main() {
 			function scrollAnimate() {
 				const container = document.getElementById('uses-getting-scroll')
 				const line = document.getElementById('uses-gettingt-scroll-line')
+				const text = document.getElementById('uses-getting-scroll-text')
 				const letters = document.querySelectorAll('.uses-getting__scroll-letters')
 
-				let timeouts = []
+				const timeouts = []
 
 				const ids = [container]
 				const elementKeys = ['uses-getting-scroll']
-				const startHeight = 0
+				const startHeight = -100
+
+				const scrollElements = [text, line]
+				const scrollKeys = ['uses-gettingt-scroll-line', 'uses-getting-scroll-text']
 
 				function lettersAnimate() {
 					letters.forEach((element, index) => {
-						const timeout = setTimeout(
-							() => {
-								element.classList.add('uses-getting__scroll-letters--animate')
-							},
-							200 * (index + 1)
-						)
+						const timeout = setTimeout(() => {
+							element.classList.add('uses-getting__scroll-letters--animate')
+						}, 180 * index)
 
 						timeouts.push(timeout)
 					})
@@ -1730,7 +1742,7 @@ function main() {
 
 				function letterRemove() {
 					timeouts.forEach(timeout => clearTimeout(timeout))
-					timeouts = []
+					timeouts.length = 0
 
 					letters.forEach(element => {
 						element.classList.remove('uses-getting__scroll-letters--animate')
@@ -1746,9 +1758,21 @@ function main() {
 				function reset() {
 					letterRemove()
 
-					line.classList.remove('uses-getting__scroll-line--animate')
+					text.classList.remove('uses-getting__scroll-text--scroll-animate')
+					line.classList.remove('uses-getting__scroll-line--animate', 'uses-getting__scroll-line--scroll-animate')
 				}
 
+				function scrollAnimate() {
+					text.classList.add('uses-getting__scroll-text--scroll-animate')
+					line.classList.add('uses-getting__scroll-line--scroll-animate')
+				}
+
+				function scrollReset() {
+					text.classList.remove('uses-getting__scroll-text--scroll-animate')
+					line.classList.remove('uses-getting__scroll-line--scroll-animate')
+				}
+
+				handleAnimationOnScroll(scrollElements, 'uses-getting__scroll-line--animate', scrollKeys, scrollAnimate, scrollReset)
 				createAnimation(ids, elementKeys, startHeight, animate, reset)
 			}
 
@@ -1758,7 +1782,7 @@ function main() {
 		gettingAnimate()
 
 		function equipment() {
-			;(function title() {
+			function title() {
 				const title = document.getElementById('equipment-title')
 
 				const ids = [title]
@@ -1770,11 +1794,22 @@ function main() {
 				}
 
 				function reset() {
-					title.classList.remove('equipment__title--animate')
+					title.classList.remove('equipment__title--animate', 'equipment__title--scroll-animate')
 				}
 
+				function scrollAnimate() {
+					title.classList.add('equipment__title--scroll-animate')
+				}
+
+				function scrollReset() {
+					title.classList.remove('equipment__title--scroll-animate')
+				}
+
+				handleAnimationOnScroll(ids, 'equipment__title--animate', elementKeys, scrollAnimate, scrollReset)
 				createAnimation(ids, elementKeys, startHeight, animate, reset)
-			})()
+			}
+
+			title()
 
 			function equipmentAnimate() {
 				const elements = {
@@ -1791,67 +1826,78 @@ function main() {
 				const elementKeys = []
 				const startHeight = 50
 
-				const elementsSeen = []
-				const timeouts = []
-
 				elements.item.forEach((_, index) => {
 					const elementId = document.getElementById(`equipment-id-${index}`)
 					if (elementId) ids.push(elementId)
 
 					elementKeys.push(`equipment-${index}-item`)
-					elementsSeen.push(`equipment-${index}-item`)
 				})
 
-				let currentStepIndex = 0
-
-				const animatiosStart = {}
+				const animationStart = {}
 				const clickState = {}
 
-				function handleAnimation(stepIndex = currentStepIndex) {
-					if (stepIndex >= elements.item.length) return
+				const visibleIndexes = []
 
+				function handleAnimation() {
 					elements.item.forEach((_, index) => {
-						if (!animatiosStart[stepIndex]) {
-							animatiosStart[stepIndex] = { isStarted: false }
+						if (!animationStart[index]) {
+							animationStart[index] = { isEnded: false, timeout: null }
 						}
 
 						if (seenElements.has(elementKeys[index])) {
+							if (!animationStart[index].isEnded) {
+								animationStart[index].isEnded = true
+
+								visibleIndexes.push(index)
+
+								const delay = visibleIndexes.indexOf(index) * 70
+
+								const timeout = setTimeout(() => {
+									elements.item[index].classList.add('equipment-content__item--animate')
+									elements.text[index].classList.add('equipment-content__text--animate')
+									elements.img[index].classList.add('equipment-content__img--animate')
+								}, delay)
+
+								animationStart[index].timeout = timeout
+							}
 						}
 					})
-
-					if (seenElements.has(elementsSeen[stepIndex]) && !animatiosStart[stepIndex].isStarted) {
-						animatiosStart[currentStepIndex].isStarted = true
-
-						elements.item[currentStepIndex].classList.add('equipment-content__item--animate')
-						elements.text[currentStepIndex].classList.add('equipment-content__text--animate')
-						elements.img[currentStepIndex].classList.add('equipment-content__img--animate')
-
-						const timeout = setTimeout(() => {
-							currentStepIndex = stepIndex + 1
-							handleAnimation(currentStepIndex)
-						}, 150)
-
-						timeouts.push(timeout)
-					}
 				}
 
 				function closeElement(index) {
-					elements.hiddenBox[index].classList.remove('equipment-content__hidden-box--open')
-					elements.hiddenBox[index].classList.add('equipment-content__hidden-box--close')
+					if (elements.item[index].classList.contains('equipment-content__item--animate')) {
+						elements.text[index].classList.remove('equipment-content__text--open')
 
-					elements.button[index].classList.remove('equipment-content__button--open')
+						elements.hiddenBox[index].classList.remove('equipment-content__hidden-box--open')
+						elements.hiddenBox[index].classList.add('equipment-content__hidden-box--close')
 
-					elements.img[index].classList.remove('equipment-content__img--open')
-					elements.img[index].classList.add('equipment-content__img--close')
+						elements.button[index].classList.remove('equipment-content__button--open')
 
-					elements.hiddenImg[index].classList.remove('equipment-content__hidden-img--animate')
-					elements.hiddenText[index].classList.remove('equipment-content__hidden-text--animate')
+						elements.img[index].classList.remove('equipment-content__img--open')
+						elements.img[index].classList.add('equipment-content__img--close')
 
-					clickState[index].isClicked = false
+						elements.hiddenImg[index].classList.remove('equipment-content__hidden-img--animate')
+						elements.hiddenText[index].classList.remove('equipment-content__hidden-text--animate')
+
+						setTimeout(() => {
+							if (clickState[index]) {
+								clickState[index].isClicked = false
+							}
+							elements.img[index].classList.remove('equipment-content__img--close')
+						}, 700)
+					}
+				}
+
+				function handleCloseMenuOnScroll() {
+					elements.item.forEach((element, index) => {
+						if (!handleVisibilityChange(element, startHeight, elementKeys)) {
+							closeElement(index)
+						}
+					})
 				}
 
 				function openHiddenMenu(event) {
-					const index = Array.from(elements.button).indexOf(event.target)
+					const index = [...elements.button].indexOf(event.target)
 
 					if (index === -1) return
 
@@ -1861,14 +1907,20 @@ function main() {
 						}
 					})
 
+					let timeout = null
+
 					if (!clickState[index].isClicked) {
-						clickState[index].isClicked = true
+						timeout = setTimeout(() => {
+							clickState[index].isClicked = true
+						}, 700)
 
 						elements.hiddenBox.forEach((_, i) => {
 							if (i !== index) {
 								closeElement(i)
 							}
 						})
+
+						elements.text[index].classList.add('equipment-content__text--open')
 
 						elements.hiddenBox[index].classList.add('equipment-content__hidden-box--open')
 						elements.hiddenBox[index].classList.remove('equipment-content__hidden-box--close')
@@ -1885,45 +1937,57 @@ function main() {
 							elements.button[index].scrollIntoView({ behavior: 'smooth' })
 						}, 400)
 					} else {
-						clickState[index].isClicked = false
-
 						closeElement(index)
 					}
 				}
 
 				function animate() {
 					document.addEventListener('click', openHiddenMenu)
+					document.addEventListener('scroll', handleCloseMenuOnScroll)
 
 					handleAnimation()
 				}
 
 				function reset() {
 					elements.item.forEach((_, index) => {
-						elements.item[index].classList.remove('equipment-content__item--animate')
-						elements.text[index].classList.remove('equipment-content__text--animate')
+						elements.item[index].classList.remove('equipment-content__item--animate', 'equipment-content__item--scroll-animate')
+						elements.text[index].classList.remove('equipment-content__text--animate', 'equipment-content__text--scroll-animate', 'equipment-content__text--open')
 						elements.img[index].classList.remove('equipment-content__img--animate', 'equipment-content__img--open')
-						elements.button[index].classList.remove('equipment-content__button--animate')
+						elements.button[index].classList.remove('equipment-content__button--animate', 'equipment-content__img--scroll-animate', 'equipment-content__button--open')
 						elements.hiddenBox[index].classList.remove('equipment-content__hidden-box--open')
 						elements.hiddenText[index].classList.remove('equipment-content__hidden-text--animate')
 						elements.hiddenImg[index].classList.remove('equipment-content__hidden-img--animate')
 
-						if (animatiosStart[index]) {
-							animatiosStart[index].isStarted = false
+						if (animationStart[index]) {
+							animationStart[index] = { isEnded: false, timeouts: null }
+						}
+
+						if (animationStart[index]?.timeout) {
+							clearTimeout(animationStart[index].timeout)
+							animationStart[index] = { timeout: null }
 						}
 
 						if (clickState[index]) {
 							clickState[index].isClicked = false
 						}
-
-						clearTimeout(timeouts[index])
 					})
 
 					document.removeEventListener('click', removeEventListener)
-
-					currentStepIndex = 0
-					timeouts.length = 0
 				}
 
+				function scrollAnimate(_, index) {
+					elements.item[index].classList.add('equipment-content__item--scroll-animate')
+					elements.text[index].classList.add('equipment-content__text--scroll-animate')
+					elements.img[index].classList.add('equipment-content__img--scroll-animate')
+				}
+
+				function scrollReset(_, index) {
+					elements.item[index].classList.remove('equipment-content__item--scroll-animate')
+					elements.text[index].classList.remove('equipment-content__text--scroll-animate')
+					elements.img[index].classList.remove('equipment-content__img--scroll-animate')
+				}
+
+				handleAnimationOnScroll(elements.item, 'equipment-content__item--animate', elementKeys, scrollAnimate, scrollReset)
 				createAnimation(ids, elementKeys, startHeight, animate, reset)
 			}
 
@@ -1969,66 +2033,87 @@ function main() {
 					img: document.querySelectorAll('.software-content__img'),
 				}
 
-				const elementSeen = []
-				const timeouts = []
-				const timeout = {}
-				const textWriten = {}
-
 				const ids = []
 				const elementKeys = []
 				const startingHeight = 0
+
+				const textKeys = []
+				const imgKeys = []
 
 				queryElements.item.forEach((_, index) => {
 					const elementId = document.getElementById(`software-item-${index}`)
 
 					ids.push(elementId)
-					elementSeen.push(`software-item-${index}`)
+
+					imgKeys.push(`software-content-img-${index}`)
+					textKeys.push(`software-content-text-${index}`)
 					elementKeys.push(`software-item-${index}`)
 				})
 
-				let currentStepIndex = 0
-
-				function contentAnimate(stepIndex = currentStepIndex) {
-					if (stepIndex >= queryElements.text.length) return
-
-					if (!textWriten[stepIndex]) {
-						textWriten[stepIndex] = { isAnimated: false }
-					}
-
-					if (seenElements.has(elementSeen[stepIndex]) && !textWriten[stepIndex].isAnimated) {
-						textWriten[stepIndex].isAnimated = true
-
-						queryElements.img[stepIndex].classList.add('software-content__img--animate')
-						queryElements.text[stepIndex].classList.add('software-content__text--animate')
-						timeout[stepIndex] = setTimeout(() => {
-							currentStepIndex = stepIndex + 1
-							contentAnimate(currentStepIndex)
-						}, 200)
-
-						timeouts.push(timeout[stepIndex])
-					}
-				}
+				const animationStart = {}
+				const visibleIndexes = []
 
 				function animate() {
-					contentAnimate()
+					queryElements.item.forEach((_, index) => {
+						if (!animationStart[index]) {
+							animationStart[index] = { isEnded: false, timeout: null }
+						}
+
+						if (seenElements.has(elementKeys[index])) {
+							if (!animationStart[index].isEnded) {
+								animationStart[index].isEnded = true
+
+								visibleIndexes.push(index)
+
+								setTimeout(() => {
+									visibleIndexes.length = 0
+								}, 400)
+
+								const delay = visibleIndexes.indexOf(index) * 200
+
+								animationStart[index].timeout = setTimeout(() => {
+									queryElements.img[index].classList.add('software-content__img--animate')
+									queryElements.text[index].classList.add('software-content__text--animate')
+								}, delay)
+							}
+						}
+					})
 				}
 
 				function reset() {
 					queryElements.item.forEach((_, index) => {
-						queryElements.img[index].classList.remove('software-content__img--animate')
-						queryElements.text[index].classList.remove('software-content__text--animate')
+						queryElements.img[index].classList.remove('software-content__img--animate', 'software-content__img--scroll-animate')
+						queryElements.text[index].classList.remove('software-content__text--animate', 'software-content__text--scroll-animate')
 
-						clearTimeout(timeout[index])
+						animationStart[index] = { isEnded: false, timeout: null }
 
-						if (textWriten[index]) {
-							textWriten[index] = { isAnimated: false }
+						if (animationStart[index]?.timeout) {
+							clearTimeout(animationStart[index].timeout)
+							animationStart[index] = { timeout: null }
 						}
 					})
 
-					timeouts.length = 0
-					currentStepIndex = 0
+					visibleIndexes.length = 0
 				}
 
+				function scrollTextAnimate(_, index) {
+					queryElements.text[index].classList.add('software-content__text--scroll-animate')
+				}
+
+				function scrollTextReset(_, index) {
+					queryElements.text[index].classList.remove('software-content__text--scroll-animate')
+				}
+
+				function scrollImgAnimate(_, index) {
+					queryElements.img[index].classList.add('software-content__img--scroll-animate')
+				}
+
+				function scrollImgReset(_, index) {
+					queryElements.img[index].classList.remove('software-content__img--scroll-animate')
+				}
+
+				handleAnimationOnScroll(queryElements.img, 'software-content__img--animate', imgKeys, scrollImgAnimate, scrollImgReset)
+				handleAnimationOnScroll(queryElements.text, 'software-content__text--animate', textKeys, scrollTextAnimate, scrollTextReset)
 				createAnimation(ids, elementKeys, startingHeight, animate, reset)
 			}
 
@@ -2126,6 +2211,7 @@ function main() {
 
 				const timeouts = []
 				const animation = {}
+				const visibleIndexes = []
 
 				function animate() {
 					subtitles.forEach((_, index) => {
@@ -2137,9 +2223,17 @@ function main() {
 							if (!animation[index].isAnimated) {
 								animation[index].isAnimated = true
 
+								visibleIndexes.push(index)
+
+								setTimeout(() => {
+									visibleIndexes.length = 0
+								}, 200)
+
+								const delay = visibleIndexes.indexOf(index) * 100
+
 								const timeout = setTimeout(() => {
 									subtitles[index].classList.add('linters__subtitle--animate')
-								}, 100 * index)
+								}, delay)
 
 								timeouts.push(timeout)
 							}
@@ -2250,7 +2344,11 @@ function main() {
 
 								visibleIndexes.push(index)
 
-								const delay = visibleIndexes.indexOf(index) * 100
+								setTimeout(() => {
+									visibleIndexes.length = 0
+								}, 240)
+
+								const delay = visibleIndexes.indexOf(index) * 120
 
 								const timeout = setTimeout(() => {
 									queryElements.item[index].classList.add('settings-linters__item--animate')
@@ -2284,6 +2382,7 @@ function main() {
 							}, 500)
 
 							queryElements.text[index].classList.add('settings-linters__text--open')
+							queryElements.item[index].classList.add('settings-linters__item--open')
 
 							queryElements.hiddenBox[index].classList.add('settings-linters__hidden-box--animate')
 							queryElements.btn[index].classList.add('settings-linters__btn--animate')
@@ -2298,7 +2397,12 @@ function main() {
 								clickState[index].isClicked = false
 							}, 1000)
 
+							setTimeout(() => {
+								queryElements.btn[index].scrollIntoView({ behavior: 'smooth', block: 'center' })
+							}, 700)
+
 							queryElements.text[index].classList.remove('settings-linters__text--open')
+							queryElements.item[index].classList.remove('settings-linters__item--open')
 
 							queryElements.hiddenBox[index].classList.remove(`settings-linters__hidden-box--open-${index}`)
 							queryElements.img[index].classList.remove('settings-linters__img--open')
@@ -2390,7 +2494,7 @@ function main() {
 
 				function reset() {
 					queryElements.item.forEach((_, index) => {
-						queryElements.item[index].classList.remove('settings-linters__item--animate')
+						queryElements.item[index].classList.remove('settings-linters__item--animate', 'settings-linters__item--scroll-animate')
 						queryElements.text[index].classList.remove('settings-linters__text--animate', 'settings-linters__text--open', 'settings-linters__text--scroll-animate')
 						queryElements.img[index].classList.remove('settings-linters__img--animate', 'settings-linters__img--close', 'settings-linters__img--open', 'settings-linters__img--scroll-animate')
 						queryElements.btn[index].classList.remove('settings-linters__btn--animate')
@@ -2420,11 +2524,13 @@ function main() {
 				function scrollAnimate(element, index) {
 					element.classList.add('settings-linters__text--scroll-animate')
 					queryElements.img[index].classList.add('settings-linters__img--scroll-animate')
+					queryElements.item[index].classList.add('settings-linters__item--scroll-animate')
 				}
 
 				function scrollReset(element, index) {
 					element.classList.remove('settings-linters__text--scroll-animate')
 					queryElements.img[index].classList.remove('settings-linters__img--scroll-animate')
+					queryElements.item[index].classList.remove('settings-linters__item--scroll-animate')
 				}
 
 				handleAnimationOnScroll(queryElements.text, 'settings-linters__text--animate', elementKeys, scrollAnimate, scrollReset)
