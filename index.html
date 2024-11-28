@@ -620,20 +620,20 @@
 												<p class="settings-linters__text-warning">Paste this code into <span>.prettierrc</span></p>
 											</div>
 											
-											<p class="settings-linters__hidden-text">
-												{<br>
-												&emsp;"semi": <span class="settings-linters__text-span">false</span>,<br>
-												&emsp;"bracketSpacing": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;"useTabs": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;"singleQuote": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;"quoteProps": <span class="settings-linters__text-span">"as-needed"</span>,<br>
-												&emsp;"arrowParens": <span class="settings-linters__text-span">"avoid"</span>,<br>
-												&emsp;"trailingComma": <span class="settings-linters__text-span">"es5"</span>,<br>
-												&emsp;"printWidth": <span class="settings-linters__text-span">250</span>,<br>
-												&emsp;"proseWrap": <span class="settings-linters__text-span">"never"</span>,<br>
-												&emsp;"endOfLine": <span class="settings-linters__text-span">"auto"</span><br>
-												}
-											</p>
+											<pre class="settings-linters__hidden-text">
+{
+	"semi": <span class="settings-linters__text-span">false</span>,
+	"bracketSpacing": <span class="settings-linters__text-span">true</span>,
+	"useTabs": <span class="settings-linters__text-span">true</span>,
+	"singleQuote": <span class="settings-linters__text-span">true</span>,
+	"quoteProps": <span class="settings-linters__text-span">"as-needed"</span>,
+	"arrowParens": <span class="settings-linters__text-span">"avoid"</span>,
+	"trailingComma": <span class="settings-linters__text-span">"es5"</span>,
+	"printWidth": <span class="settings-linters__text-span">250</span>,
+	"proseWrap": <span class="settings-linters__text-span">"never"</span>,
+	"endOfLine": <span class="settings-linters__text-span">"auto"</span>
+}
+											</pre>
 										</div>
 									</div>
 
@@ -655,50 +655,50 @@
 												<img class="settings-linters__up-img" src="img/svg/up-settings.svg" alt="">
 											</button>
 
-											<p class="settings-linters__hidden-text">
-												{<br>
-													&emsp;"env": {<br>
-													&emsp;&emsp;"browser":<span class="settings-linters__text-span">true</span>,<br>
-													&emsp;&emsp;"es2021":<span class="settings-linters__text-span">true</span><br>
-													&emsp;},<br>
-													&emsp;"extends": [<br>
-													&emsp;&emsp;<span class="settings-linters__text-span">"eslint:recommended"</span>,<br>
-													&emsp;&emsp;<span class="settings-linters__text-span">"plugin:@eslint/js/recommended"</span>,<br>
-													&emsp;&emsp;<span class="settings-linters__text-span">"plugin:prettier/recommended"</span>,<br>
-													&emsp;&emsp;<span class="settings-linters__text-span">"plugin:html/recommended"</span><br>
-													&emsp;],<br>
-													&emsp;"plugins": [<br>
-													&emsp;&emsp;<span class="settings-linters__text-span">"prettier"</span>,<br>
-													&emsp;&emsp;<span class="settings-linters__text-span">"html"</span><br>
-													&emsp;],<br>
-													&emsp;"overrides": [<br>
-													&emsp;&emsp;{<br>
-													&emsp;&emsp;&emsp;"files": [<br>
-													&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"*.js"</span>,<br>
-													&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"*.jsx"</span>,<br>
-													&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"*.ts"</span>,<br>
-													&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"*.tsx"</span><br>
-													&emsp;&emsp;&emsp;],<br>
-													&emsp;&emsp;&emsp;"languageOptions": {<br>
-													&emsp;&emsp;&emsp;&emsp;"globals": {<br>
-													&emsp;&emsp;&emsp;&emsp;&emsp;"window": <span class="settings-linters__text-span">"readonly"</span>,<br>
-													&emsp;&emsp;&emsp;&emsp;&emsp;"document": <span class="settings-linters__text-span">"readonly"</span>,<br>
-													&emsp;&emsp;&emsp;&emsp;&emsp;"navigator": <span class="settings-linters__text-span">"readonly"</span><br>
-													&emsp;&emsp;&emsp;&emsp;}<br>
-													&emsp;&emsp;&emsp;},<br>
-													&emsp;&emsp;&emsp;"rules": {<br>
-													&emsp;&emsp;&emsp;&emsp;"prettier/prettier": [<br>
-													&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"warn"</span>,<br>
-													&emsp;&emsp;&emsp;&emsp;&emsp;{<br>
-													&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;"endOfLine": <span class="settings-linters__text-span">"auto"</span><br>
-													&emsp;&emsp;&emsp;&emsp;&emsp;}<br>
-													&emsp;&emsp;&emsp;&emsp;]<br>
-													&emsp;&emsp;&emsp;}<br>
-													&emsp;&emsp;}<br>
-													&emsp;],<br>
-													&emsp;"rules": {}<br>
-												}
-											</p>										
+											<pre class="settings-linters__hidden-text">
+{
+	"env": {
+		"browser": <span class="settings-linters__text-span">true</span>,
+		"es2021": <span class="settings-linters__text-span">true</span>
+	},
+	"extends": [
+		<span class="settings-linters__text-span">"eslint:recommended"</span>,
+		<span class="settings-linters__text-span">"plugin:@eslint/js/recommended"</span>,
+		<span class="settings-linters__text-span">"plugin:prettier/recommended"</span>,
+		<span class="settings-linters__text-span">"plugin:html/recommended"</span>
+	],
+	"plugins": [
+		<span class="settings-linters__text-span">"prettier"</span>,
+		<span class="settings-linters__text-span">"html"</span>
+	],
+	"overrides": [
+		{
+			"files": [
+				<span class="settings-linters__text-span">"*.js"</span>,
+				<span class="settings-linters__text-span">"*.jsx"</span>,
+				<span class="settings-linters__text-span">"*.ts"</span>,
+				<span class="settings-linters__text-span">"*.tsx"</span>
+			],
+			"languageOptions": {
+				"globals": {
+					"window": <span class="settings-linters__text-span">"readonly"</span>,
+					"document": <span class="settings-linters__text-span">"readonly"</span>,
+					"navigator": <span class="settings-linters__text-span">"readonly"</span>
+				}
+			},
+			"rules": {
+				"prettier/prettier": [
+					<span class="settings-linters__text-span">"warn"</span>,
+					{
+						"endOfLine": <span class="settings-linters__text-span">"auto"</span>
+					}
+				]
+			}
+		}
+	],
+	"rules": {}
+}
+											</pre>										
 										</div>
 									</div>
 
@@ -720,216 +720,216 @@
 												<img class="settings-linters__up-img" src="img/svg/up-settings.svg" alt="">
 											</button>
 
-											<p class="settings-linters__hidden-text">
-												{<br>
-												&emsp;"extends": [<br>
-												&emsp;&emsp;<span class="settings-linters__text-span">"stylelint-config-standard"</span>,<br>
-												&emsp;&emsp;<span class="settings-linters__text-span">"stylelint-config-standard-scss"</span>,<br>
-												&emsp;&emsp;<span class="settings-linters__text-span">"stylelint-prettier/recommended"</span><br>
-												&emsp;],<br>
-												&emsp;"plugins": [<br>
-												&emsp;&emsp;<span class="settings-linters__text-span">"stylelint-prettier"</span>, <br>
-												&emsp;&emsp;<span class="settings-linters__text-span">"stylelint-order"</span>,<br>
-												&emsp;&emsp;<span class="settings-linters__text-span">"stylelint-scss"</span><br>
-												&emsp;],<br>
-												&emsp;"rules": {<br>
-												&emsp;&emsp;"prettier/prettier": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;&emsp;"color-hex-length": <span class="settings-linters__text-span">"short"</span>,<br>
-												&emsp;&emsp;"order/order": [<br>
-												&emsp;&emsp;&emsp;[<br>
-												&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"dollar-variables"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"custom-properties"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"at-rules"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"declarations"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;{<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;"type": <span class="settings-linters__text-span">"at-rule"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;"name": <span class="settings-linters__text-span">"supports"</span><br>
-												&emsp;&emsp;&emsp;&emsp;},<br>
-												&emsp;&emsp;&emsp;&emsp;{<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;"type": <span class="settings-linters__text-span">"at-rule"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;"name": <span class="settings-linters__text-span">"media"</span><br>
-												&emsp;&emsp;&emsp;&emsp;},<br>
-												&emsp;&emsp;&emsp;&emsp;"rules"<br>
-												&emsp;&emsp;&emsp;],<br>
-												&emsp;&emsp;&emsp;{ "severity": <span class="settings-linters__text-span">"warning"</span> }<br>
-												&emsp;&emsp;],<br>
-												&emsp;&emsp;"order/properties-order": [<br>
-												&emsp;&emsp;&emsp;{<br>
-												&emsp;&emsp;&emsp;&emsp;"groupName": <span class="settings-linters__text-span">"CSSModule"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;"properties": [<span class="settings-linters__text-span">"composes"</span>],<br>
-												&emsp;&emsp;&emsp;&emsp;"emptyLineBefore": <span class="settings-linters__text-span">"never"</span><br>
-												&emsp;&emsp;&emsp;},<br>
-												&emsp;&emsp;&emsp;{<br>
-												&emsp;&emsp;&emsp;&emsp;"groupName": <span class="settings-linters__text-span">"Positioning"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;"properties": [<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"position"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"z-index"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"top"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"right"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"bottom"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"left"</span><br>
-												&emsp;&emsp;&emsp;&emsp;],<br>
-												&emsp;&emsp;&emsp;&emsp;"emptyLineBefore": <span class="settings-linters__text-span">"never"</span><br>
-												&emsp;&emsp;&emsp;},<br>
-												&emsp;&emsp;&emsp;{<br>
-												&emsp;&emsp;&emsp;&emsp;"groupName": <span class="settings-linters__text-span"></span>"Display",<br>
-												&emsp;&emsp;&emsp;&emsp;"properties": [<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"display"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"grid"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"flex"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"flex-direction"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"align-items"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"justify-content"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"flex-grow"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"flex-shrink"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"flex-basis"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"grid-gap"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"grid-template-columns"</span><br>
-												&emsp;&emsp;&emsp;&emsp;],<br>
-												&emsp;&emsp;&emsp;&emsp;"emptyLineBefore": <span class="settings-linters__text-span">"never"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;"noEmptyLineBetween": <span class="settings-linters__text-span">true</span><br>
-												&emsp;&emsp;&emsp;},<br>
-												&emsp;&emsp;&emsp;{<br>
-												&emsp;&emsp;&emsp;&emsp;"groupName": <span class="settings-linters__text-span">"Box model"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;"properties": [<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"box-sizing"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"margin"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"margin-top"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"margin-right"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"margin-bottom"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"margin-left"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"padding"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"padding-top"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"padding-right"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"padding-bottom"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"padding-left"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"width"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"min-width"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"max-width"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"height"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"min-height"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"max-height"</span><br>
-												&emsp;&emsp;&emsp;&emsp;],<br>
-												&emsp;&emsp;&emsp;&emsp;"emptyLineBefore": <span class="settings-linters__text-span">"never"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;"noEmptyLineBetween": <span class="settings-linters__text-span">true</span><br>
-												&emsp;&emsp;&emsp;},<br>
-												&emsp;&emsp;&emsp;{<br>
-												&emsp;&emsp;&emsp;&emsp;"groupName": <span class="settings-linters__text-span">"Typography"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;"properties": [<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"font"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"font-family"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"font-style"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"font-variant"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"font-weight"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"line-height"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"font-size"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"color"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"letter-spacing"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"text-indent"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"text-align"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"text-decoration"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"text-transform"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"text-shadow"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"text-overflow"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"white-space"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"word-spacing"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"word-break"</span><br>
-												&emsp;&emsp;&emsp;&emsp;],<br>
-												&emsp;&emsp;&emsp;&emsp;"emptyLineBefore": <span class="settings-linters__text-span">"never"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;"noEmptyLineBetween": <span class="settings-linters__text-span">true</span><br>
-												&emsp;&emsp;&emsp;},<br>
-												&emsp;&emsp;&emsp;{<br>
-												&emsp;&emsp;&emsp;&emsp;"groupName": <span class="settings-linters__text-span">"Backgrounds"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;"properties": [<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"background"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"background-image"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"background-position"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"background-size"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"background-repeat"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"background-origin"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"background-clip"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"background-attachment"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"background-color"</span><br>
-												&emsp;&emsp;&emsp;&emsp;],<br>
-												&emsp;&emsp;&emsp;&emsp;"emptyLineBefore": <span class="settings-linters__text-span">"never"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;"noEmptyLineBetween": <span class="settings-linters__text-span">true</span><br>
-												&emsp;&emsp;&emsp;},<br>
-												&emsp;&emsp;&emsp;{<br>
-												&emsp;&emsp;&emsp;&emsp;"groupName": <span class="settings-linters__text-span">"Borders"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;"properties": [<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"border"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"border-top"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"border-right"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"border-bottom"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"border-left"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"border-width"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"border-top-width"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"border-right-width"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"border-bottom-width"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"border-left-width"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"border-style"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"border-top-style"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"border-right-style"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"border-bottom-style"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"border-left-style"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"border-color"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"border-top-color"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"border-right-color"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"border-bottom-color"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"border-left-color"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"border-radius"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"border-top-right-radius"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"border-top-left-radius"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"border-bottom-right-radius"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"border-bottom-left-radius"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"border-collapse"</span><br>
-												&emsp;&emsp;&emsp;&emsp;],<br>
-												&emsp;&emsp;&emsp;&emsp;"emptyLineBefore": <span class="settings-linters__text-span">"never"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;"noEmptyLineBetween": <span class="settings-linters__text-span">true</span><br>
-												&emsp;&emsp;&emsp;},<br>
-												&emsp;&emsp;&emsp;{<br>
-												&emsp;&emsp;&emsp;&emsp;"groupName": <span class="settings-linters__text-span">"Others"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;"properties": [<br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"opacity"</span>, <br>
-												&emsp;&emsp;&emsp;&emsp;&emsp;<span class="settings-linters__text-span">"cursor"</span><br>
-												&emsp;&emsp;&emsp;&emsp;],<br>
-												&emsp;&emsp;&emsp;&emsp;"emptyLineBefore": <span class="settings-linters__text-span">"never"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;"unspecified": <span class="settings-linters__text-span">"bottom"</span><br>
-												&emsp;&emsp;&emsp;}<br>
-												&emsp;&emsp;]<br>
-												&emsp;},<br>
-												&emsp;"overrides": [<br>
-												&emsp;&emsp;{<br>
-												&emsp;&emsp;&emsp;"files": [<span class="settings-linters__text-span">"*.scss"</span>],<br>
-												&emsp;&emsp;&emsp;"rules": {<br>
-												&emsp;&emsp;&emsp;&emsp;"scss/at-each-key-value-single-line": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;"scss/at-extend-no-missing-placeholder": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;"scss/load-no-partial-leading-underscore": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;"scss/load-partial-extension": <span class="settings-linters__text-span">"always"</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;"selector-class-pattern": <span class="settings-linters__text-span">null</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;"scss/dollar-variable-pattern": <span class="settings-linters__text-span">null</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;"block-no-empty": <span class="settings-linters__text-span">null</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;"order/order": <span class="settings-linters__text-span">null</span><br>
-												&emsp;&emsp;&emsp;}<br>
-												&emsp;&emsp;},<br>
-												&emsp;&emsp;{<br>
-												&emsp;&emsp;&emsp;"files": [<span class="settings-linters__text-span">"*.css"</span>],<br>
-												&emsp;&emsp;&emsp;"rules": {<br>
-												&emsp;&emsp;&emsp;&emsp;"prettier/prettier": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;"selector-class-pattern": <span class="settings-linters__text-span">null</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;"no-descending-specificity": <span class="settings-linters__text-span">null</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;"no-duplicate-selectors": <span class="settings-linters__text-span">null</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;"value-no-vendor-prefix": <span class="settings-linters__text-span">null</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;"rule-empty-line-before": <span class="settings-linters__text-span">null</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;"at-rule-empty-line-before": <span class="settings-linters__text-span">null</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;"color-function-notation": <span class="settings-linters__text-span">null</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;"alpha-value-notation": <span class="settings-linters__text-span">null</span>,<br>
-												&emsp;&emsp;&emsp;&emsp;"property-no-vendor-prefix": <span class="settings-linters__text-span">null</span><br>
-												&emsp;&emsp;&emsp;}<br>
-												&emsp;&emsp;}<br>
-												&emsp;]<br>
-												}<br>
-											</p>
+											<pre class="settings-linters__hidden-text">
+{
+	"extends": [
+		<span class="settings-linters__text-span">"stylelint-config-standard"</span>,
+		<span class="settings-linters__text-span">"stylelint-config-standard-scss"</span>,
+		<span class="settings-linters__text-span">"stylelint-prettier/recommended"</span>
+	],
+	"plugins": [
+		<span class="settings-linters__text-span">"stylelint-prettier"</span>, 
+		<span class="settings-linters__text-span">"stylelint-order"</span>,
+		<span class="settings-linters__text-span">"stylelint-scss"</span>
+	],
+	"rules": {
+		"prettier/prettier": <span class="settings-linters__text-span">true</span>,
+		"color-hex-length": <span class="settings-linters__text-span">"short"</span>,
+		"order/order": [
+			[
+				<span class="settings-linters__text-span">"dollar-variables"</span>,
+				<span class="settings-linters__text-span">"custom-properties"</span>,
+				<span class="settings-linters__text-span">"at-rules"</span>,
+				<span class="settings-linters__text-span">"declarations"</span>,
+				{
+					"type": <span class="settings-linters__text-span">"at-rule"</span>,
+					"name": <span class="settings-linters__text-span">"supports"</span>
+				},
+				{
+					"type": <span class="settings-linters__text-span">"at-rule"</span>,
+					"name": <span class="settings-linters__text-span">"media"</span>
+				},
+				"rules"
+			],
+			{ "severity": <span class="settings-linters__text-span">"warning"</span> }
+		],
+		"order/properties-order": [
+			{
+				"groupName": <span class="settings-linters__text-span">"CSSModule"</span>,
+				"properties": [<span class="settings-linters__text-span">"composes"</span>],
+				"emptyLineBefore": <span class="settings-linters__text-span">"never"</span>
+			},
+			{
+				"groupName": <span class="settings-linters__text-span">"Positioning"</span>,
+				"properties": [
+					<span class="settings-linters__text-span">"position"</span>,
+					<span class="settings-linters__text-span">"z-index"</span>,
+					<span class="settings-linters__text-span">"top"</span>,
+					<span class="settings-linters__text-span">"right"</span>,
+					<span class="settings-linters__text-span">"bottom"</span>,
+					<span class="settings-linters__text-span">"left"</span>
+				],
+				"emptyLineBefore": <span class="settings-linters__text-span">"never"</span>
+			},
+			{
+				"groupName": <span class="settings-linters__text-span"></span>"Display",
+				"properties": [
+					<span class="settings-linters__text-span">"display"</span>,
+					<span class="settings-linters__text-span">"grid"</span>,
+					<span class="settings-linters__text-span">"flex"</span>,
+					<span class="settings-linters__text-span">"flex-direction"</span>,
+					<span class="settings-linters__text-span">"align-items"</span>,
+					<span class="settings-linters__text-span">"justify-content"</span>,
+					<span class="settings-linters__text-span">"flex-grow"</span>,
+					<span class="settings-linters__text-span">"flex-shrink"</span>,
+					<span class="settings-linters__text-span">"flex-basis"</span>,
+					<span class="settings-linters__text-span">"grid-gap"</span>,
+					<span class="settings-linters__text-span">"grid-template-columns"</span>
+				],
+				"emptyLineBefore": <span class="settings-linters__text-span">"never"</span>,
+				"noEmptyLineBetween": <span class="settings-linters__text-span">true</span>
+			},
+			{
+				"groupName": <span class="settings-linters__text-span">"Box model"</span>,
+				"properties": [
+					<span class="settings-linters__text-span">"box-sizing"</span>,
+					<span class="settings-linters__text-span">"margin"</span>,
+					<span class="settings-linters__text-span">"margin-top"</span>,
+					<span class="settings-linters__text-span">"margin-right"</span>,
+					<span class="settings-linters__text-span">"margin-bottom"</span>,
+					<span class="settings-linters__text-span">"margin-left"</span>,
+					<span class="settings-linters__text-span">"padding"</span>,
+					<span class="settings-linters__text-span">"padding-top"</span>,
+					<span class="settings-linters__text-span">"padding-right"</span>,
+					<span class="settings-linters__text-span">"padding-bottom"</span>,
+					<span class="settings-linters__text-span">"padding-left"</span>,
+					<span class="settings-linters__text-span">"width"</span>,
+					<span class="settings-linters__text-span">"min-width"</span>,
+					<span class="settings-linters__text-span">"max-width"</span>,
+					<span class="settings-linters__text-span">"height"</span>,
+					<span class="settings-linters__text-span">"min-height"</span>,
+					<span class="settings-linters__text-span">"max-height"</span>
+				],
+				"emptyLineBefore": <span class="settings-linters__text-span">"never"</span>,
+				"noEmptyLineBetween": <span class="settings-linters__text-span">true</span>
+			},
+			{
+				"groupName": <span class="settings-linters__text-span">"Typography"</span>,
+				"properties": [
+					<span class="settings-linters__text-span">"font"</span>,
+					<span class="settings-linters__text-span">"font-family"</span>,
+					<span class="settings-linters__text-span">"font-style"</span>,
+					<span class="settings-linters__text-span">"font-variant"</span>,
+					<span class="settings-linters__text-span">"font-weight"</span>,
+					<span class="settings-linters__text-span">"line-height"</span>,
+					<span class="settings-linters__text-span">"font-size"</span>,
+					<span class="settings-linters__text-span">"color"</span>,
+					<span class="settings-linters__text-span">"letter-spacing"</span>,
+					<span class="settings-linters__text-span">"text-indent"</span>,
+					<span class="settings-linters__text-span">"text-align"</span>,
+					<span class="settings-linters__text-span">"text-decoration"</span>,
+					<span class="settings-linters__text-span">"text-transform"</span>,
+					<span class="settings-linters__text-span">"text-shadow"</span>,
+					<span class="settings-linters__text-span">"text-overflow"</span>,
+					<span class="settings-linters__text-span">"white-space"</span>,
+					<span class="settings-linters__text-span">"word-spacing"</span>,
+					<span class="settings-linters__text-span">"word-break"</span>
+				],
+				"emptyLineBefore": <span class="settings-linters__text-span">"never"</span>,
+				"noEmptyLineBetween": <span class="settings-linters__text-span">true</span>
+			},
+			{
+				"groupName": <span class="settings-linters__text-span">"Backgrounds"</span>,
+				"properties": [
+					<span class="settings-linters__text-span">"background"</span>,
+					<span class="settings-linters__text-span">"background-image"</span>,
+					<span class="settings-linters__text-span">"background-position"</span>,
+					<span class="settings-linters__text-span">"background-size"</span>,
+					<span class="settings-linters__text-span">"background-repeat"</span>,
+					<span class="settings-linters__text-span">"background-origin"</span>,
+					<span class="settings-linters__text-span">"background-clip"</span>,
+					<span class="settings-linters__text-span">"background-attachment"</span>,
+					<span class="settings-linters__text-span">"background-color"</span>
+				],
+				"emptyLineBefore": <span class="settings-linters__text-span">"never"</span>,
+				"noEmptyLineBetween": <span class="settings-linters__text-span">true</span>
+			},
+			{
+				"groupName": <span class="settings-linters__text-span">"Borders"</span>,
+				"properties": [
+					<span class="settings-linters__text-span">"border"</span>,
+					<span class="settings-linters__text-span">"border-top"</span>,
+					<span class="settings-linters__text-span">"border-right"</span>,
+					<span class="settings-linters__text-span">"border-bottom"</span>,
+					<span class="settings-linters__text-span">"border-left"</span>,
+					<span class="settings-linters__text-span">"border-width"</span>,
+					<span class="settings-linters__text-span">"border-top-width"</span>,
+					<span class="settings-linters__text-span">"border-right-width"</span>,
+					<span class="settings-linters__text-span">"border-bottom-width"</span>,
+					<span class="settings-linters__text-span">"border-left-width"</span>,
+					<span class="settings-linters__text-span">"border-style"</span>,
+					<span class="settings-linters__text-span">"border-top-style"</span>,
+					<span class="settings-linters__text-span">"border-right-style"</span>,
+					<span class="settings-linters__text-span">"border-bottom-style"</span>,
+					<span class="settings-linters__text-span">"border-left-style"</span>,
+					<span class="settings-linters__text-span">"border-color"</span>,
+					<span class="settings-linters__text-span">"border-top-color"</span>,
+					<span class="settings-linters__text-span">"border-right-color"</span>,
+					<span class="settings-linters__text-span">"border-bottom-color"</span>,
+					<span class="settings-linters__text-span">"border-left-color"</span>,
+					<span class="settings-linters__text-span">"border-radius"</span>,
+					<span class="settings-linters__text-span">"border-top-right-radius"</span>,
+					<span class="settings-linters__text-span">"border-top-left-radius"</span>,
+					<span class="settings-linters__text-span">"border-bottom-right-radius"</span>,
+					<span class="settings-linters__text-span">"border-bottom-left-radius"</span>,
+					<span class="settings-linters__text-span">"border-collapse"</span>
+				],
+				"emptyLineBefore": <span class="settings-linters__text-span">"never"</span>,
+				"noEmptyLineBetween": <span class="settings-linters__text-span">true</span>
+			},
+			{
+				"groupName": <span class="settings-linters__text-span">"Others"</span>,
+				"properties": [
+					<span class="settings-linters__text-span">"opacity"</span>, 
+					<span class="settings-linters__text-span">"cursor"</span>
+				],
+				"emptyLineBefore": <span class="settings-linters__text-span">"never"</span>,
+				"unspecified": <span class="settings-linters__text-span">"bottom"</span>
+			}
+		]
+	},
+	"overrides": [
+		{
+			"files": [<span class="settings-linters__text-span">"*.scss"</span>],
+			"rules": {
+				"scss/at-each-key-value-single-line": <span class="settings-linters__text-span">true</span>,
+				"scss/at-extend-no-missing-placeholder": <span class="settings-linters__text-span">true</span>,
+				"scss/load-no-partial-leading-underscore": <span class="settings-linters__text-span">true</span>,
+				"scss/load-partial-extension": <span class="settings-linters__text-span">"always"</span>,
+				"selector-class-pattern": <span class="settings-linters__text-span">null</span>,
+				"scss/dollar-variable-pattern": <span class="settings-linters__text-span">null</span>,
+				"block-no-empty": <span class="settings-linters__text-span">null</span>,
+				"order/order": <span class="settings-linters__text-span">null</span>
+			}	
+		},
+		{
+			"files": [<span class="settings-linters__text-span">"*.css"</span>],
+			"rules": {
+				"prettier/prettier": <span class="settings-linters__text-span">true</span>,
+				"selector-class-pattern": <span class="settings-linters__text-span">null</span>,
+				"no-descending-specificity": <span class="settings-linters__text-span">null</span>,
+				"no-duplicate-selectors": <span class="settings-linters__text-span">null</span>,
+				"value-no-vendor-prefix": <span class="settings-linters__text-span">null</span>,
+				"rule-empty-line-before": <span class="settings-linters__text-span">null</span>,
+				"at-rule-empty-line-before": <span class="settings-linters__text-span">null</span>,
+				"color-function-notation": <span class="settings-linters__text-span">null</span>,
+				"alpha-value-notation": <span class="settings-linters__text-span">null</span>,
+				"property-no-vendor-prefix": <span class="settings-linters__text-span">null</span>
+			}
+		}
+	]
+}
+											</pre>
 										</div>
 									</div>
 									
@@ -951,60 +951,60 @@
 												<img class="settings-linters__up-img" src="img/svg/up-settings.svg" alt="">
 											</button>
 											
-											<p class="settings-linters__hidden-text">
-												{<br>
-												&emsp;"editor.defaultFormatter": <span class="settings-linters__text-span">"esbenp.prettier-vscode"</span>,<br>
-												&emsp;"editor.codeActionsOnSave": {<br>
-												&emsp;&emsp;"source.fixAll.stylelint": <span class="settings-linters__text-span">"always"</span>,<br>
-												&emsp;&emsp;"source.fixAll": <span class="settings-linters__text-span">"always"</span><br>
-												&emsp;},<br>
-												&emsp;"stylelint.validate": [<br>
-												&emsp;&emsp;<span class="settings-linters__text-span">"css"</span>,<br>
-												&emsp;&emsp;<span class="settings-linters__text-span">"scss"</span><br>
-												&emsp;],<br>
-												&emsp;"editor.formatOnSave": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;"prettier.requireConfig": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;"workbench.iconTheme": <span class="settings-linters__text-span">"vscode-icons"</span>,<br>
-												&emsp;"editor.linkedEditing": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;"[html]": {<br>
-												&emsp;&emsp;"editor.defaultFormatter": <span class="settings-linters__text-span">null</span><br>
-												&emsp;},<br>
-												&emsp;"liveServer.settings.donotShowInfoMsg": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;"htmlhint.enable": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;"htmlhint.documentSelector": [<br>
-												&emsp;&emsp;<span class="settings-linters__text-span">"html"</span><br>
-												&emsp;],<br>
-												&emsp;"htmlhint.options": {<br>
-												&emsp;&emsp;"attr-lowercase": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;&emsp;"attr-value-double-quotes": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;&emsp;"attr-no-duplication": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;&emsp;"attr-value-not-empty": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;&emsp;"title-require": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;&emsp;"alt-require": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;&emsp;"attr-unsafe-chars": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;&emsp;"tag-pair": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;&emsp;"tagname-lowercase": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;&emsp;"doctype-first": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;&emsp;"tag-self-close": <span class="settings-linters__text-span">false</span>,<br>
-												&emsp;&emsp;"spec-char-escape": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;&emsp;"style-disabled": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;&emsp;"inline-style-disabled": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;&emsp;"inline-script-disabled": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;&emsp;"head-script-disabled": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;&emsp;"id-unique": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;&emsp;"src-not-empty": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;&emsp;"space-tab-mixed-disabled": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;&emsp;"doctype-html5": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;&emsp;"input-requires-label": <span class="settings-linters__text-span">true</span><br>
-												&emsp;},<br>
-												&emsp;"workbench.editor.enablePreview": <span class="settings-linters__text-span">false</span>,<br>
-												&emsp;"vscode-edge-devtools.webhintInstallNotification": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;"git.autofetch": <span class="settings-linters__text-span">true</span>,<br>
-												&emsp;"workbench.editorAssociations": {<br>
-												&emsp;&emsp;"*.scss": <span class="settings-linters__text-span">"default"</span><br>
-												&emsp;}<br>
-												}<br>
-											</p>
+											<pre class="settings-linters__hidden-text">
+{
+	"editor.defaultFormatter": <span class="settings-linters__text-span">"esbenp.prettier-vscode"</span>,
+	"editor.codeActionsOnSave": {
+		"source.fixAll.stylelint": <span class="settings-linters__text-span">"always"</span>,
+		"source.fixAll": <span class="settings-linters__text-span">"always"</span>
+	},
+	"stylelint.validate": [
+		<span class="settings-linters__text-span">"css"</span>,
+		<span class="settings-linters__text-span">"scss"</span>
+	],
+	"editor.formatOnSave": <span class="settings-linters__text-span">true</span>,
+	"prettier.requireConfig": <span class="settings-linters__text-span">true</span>,
+	"workbench.iconTheme": <span class="settings-linters__text-span">"vscode-icons"</span>,
+	"editor.linkedEditing": <span class="settings-linters__text-span">true</span>,
+	"[html]": {
+		"editor.defaultFormatter": <span class="settings-linters__text-span">null</span>
+	},
+	"liveServer.settings.donotShowInfoMsg": <span class="settings-linters__text-span">true</span>,
+	"htmlhint.enable": <span class="settings-linters__text-span">true</span>,
+	"htmlhint.documentSelector": [
+		<span class="settings-linters__text-span">"html"</span><br>
+	],
+	"htmlhint.options": {
+		"attr-lowercase": <span class="settings-linters__text-span">true</span>,
+		"attr-value-double-quotes": <span class="settings-linters__text-span">true</span>,
+		"attr-no-duplication": <span class="settings-linters__text-span">true</span>,
+		"attr-value-not-empty": <span class="settings-linters__text-span">true</span>,
+		"title-require": <span class="settings-linters__text-span">true</span>,
+		"alt-require": <span class="settings-linters__text-span">true</span>,
+		"attr-unsafe-chars": <span class="settings-linters__text-span">true</span>,
+		"tag-pair": <span class="settings-linters__text-span">true</span>,
+		"tagname-lowercase": <span class="settings-linters__text-span">true</span>,
+		"doctype-first": <span class="settings-linters__text-span">true</span>,
+		"tag-self-close": <span class="settings-linters__text-span">false</span>,
+		"spec-char-escape": <span class="settings-linters__text-span">true</span>,
+		"style-disabled": <span class="settings-linters__text-span">true</span>,
+		"inline-style-disabled": <span class="settings-linters__text-span">true</span>,
+		"inline-script-disabled": <span class="settings-linters__text-span">true</span>,
+		"head-script-disabled": <span class="settings-linters__text-span">true</span>,
+		"id-unique": <span class="settings-linters__text-span">true</span>,
+		"src-not-empty": <span class="settings-linters__text-span">true</span>,
+		"space-tab-mixed-disabled": <span class="settings-linters__text-span">true</span>,
+		"doctype-html5": <span class="settings-linters__text-span">true</span>,
+		"input-requires-label": <span class="settings-linters__text-span">true</span>
+	},
+	"workbench.editor.enablePreview": <span class="settings-linters__text-span">false</span>,
+	"vscode-edge-devtools.webhintInstallNotification": <span class="settings-linters__text-span">true</span>,
+	"git.autofetch": <span class="settings-linters__text-span">true</span>,
+	"workbench.editorAssociations": {
+		"*.scss": <span class="settings-linters__text-span">"default"</span>
+	}
+}
+											</pre>
 										</div>
 									</div>
 

@@ -155,6 +155,20 @@ function main() {
 		})
 	}
 
+	function handleAnimationOnScroll(elements, classList, elementKeys, startCallback, removeCallback) {
+		elements.forEach((element, index) => {
+			document.addEventListener('scroll', () => {
+				if (element.classList.contains(classList)) {
+					if (handleVisibilityChange(element, 0, elementKeys)) {
+						removeCallback(element, index)
+					} else {
+						startCallback(element, index)
+					}
+				}
+			})
+		})
+	}
+
 	function checkLanguageState(russianTexts, englishTexts, elements, toggleClasses) {
 		changeLanguageButton.addEventListener('click', () => {
 			elements.forEach((element, index) => {
@@ -1744,7 +1758,7 @@ function main() {
 		gettingAnimate()
 
 		function equipment() {
-			function title() {
+			;(function title() {
 				const title = document.getElementById('equipment-title')
 
 				const ids = [title]
@@ -1760,9 +1774,7 @@ function main() {
 				}
 
 				createAnimation(ids, elementKeys, startHeight, animate, reset)
-			}
-
-			title()
+			})()
 
 			function equipmentAnimate() {
 				const elements = {
@@ -1798,9 +1810,14 @@ function main() {
 				function handleAnimation(stepIndex = currentStepIndex) {
 					if (stepIndex >= elements.item.length) return
 
-					if (!animatiosStart[stepIndex]) {
-						animatiosStart[stepIndex] = { isStarted: false }
-					}
+					elements.item.forEach((_, index) => {
+						if (!animatiosStart[stepIndex]) {
+							animatiosStart[stepIndex] = { isStarted: false }
+						}
+
+						if (seenElements.has(elementKeys[index])) {
+						}
+					})
 
 					if (seenElements.has(elementsSeen[stepIndex]) && !animatiosStart[stepIndex].isStarted) {
 						animatiosStart[currentStepIndex].isStarted = true
@@ -1928,9 +1945,18 @@ function main() {
 				}
 
 				function reset() {
-					title.classList.remove('software__title--animate')
+					title.classList.remove('software__title--animate', 'software__title--scroll-animate')
 				}
 
+				function scrollAnimate() {
+					title.classList.add('software__title--scroll-animate')
+				}
+
+				function scrollReset() {
+					title.classList.remove('software__title--scroll-animate')
+				}
+
+				handleAnimationOnScroll(ids, 'software__title--animate', elementKeys, scrollAnimate, scrollReset)
 				createAnimation(ids, elementKeys, startHeight, animate, reset)
 			}
 
@@ -2026,7 +2052,7 @@ function main() {
 					elementKeys.push(`uses-line-${index}`)
 				})
 
-				function animateLines() {
+				function animate() {
 					lines.forEach((element, index) => {
 						if (seenElements.has(elementKeys[index])) {
 							element.classList.add('uses-line--animate')
@@ -2034,12 +2060,21 @@ function main() {
 					})
 				}
 
-				function animate() {
-					animateLines()
+				function reset() {
+					lines.forEach(element => {
+						element.classList.remove('uses-line--animate', 'uses-line--scroll-animate')
+					})
 				}
 
-				function reset() {}
+				function scrollAnimate(element) {
+					element.classList.add('uses-line--scroll-animate')
+				}
 
+				function scrollReset(element) {
+					element.classList.remove('uses-line--scroll-animate')
+				}
+
+				handleAnimationOnScroll(lines, 'uses-line--animate', elementKeys, scrollAnimate, scrollReset)
 				createAnimation(ids, elementKeys, startHeight, animate, reset)
 			}
 
@@ -2050,16 +2085,25 @@ function main() {
 
 				const ids = [title]
 				const elementKeys = ['linters-title']
-				const startHeight = 0
+				const startHeight = 30
 
 				function animate() {
 					title.classList.add('linters__title--animate')
 				}
 
 				function reset() {
-					title.classList.remove('linters__title--animate')
+					title.classList.remove('linters__title--animate', 'linters__title--scroll-animate')
 				}
 
+				function scrollAnimate() {
+					title.classList.add('linters__title--scroll-animate')
+				}
+
+				function scrollReset() {
+					title.classList.remove('linters__title--scroll-animate')
+				}
+
+				handleAnimationOnScroll(ids, 'linters__title--animate', elementKeys, scrollAnimate, scrollReset)
 				createAnimation(ids, elementKeys, startHeight, animate, reset)
 			}
 
@@ -2095,7 +2139,7 @@ function main() {
 
 								const timeout = setTimeout(() => {
 									subtitles[index].classList.add('linters__subtitle--animate')
-								}, 150 * index)
+								}, 100 * index)
 
 								timeouts.push(timeout)
 							}
@@ -2105,7 +2149,7 @@ function main() {
 
 				function reset() {
 					subtitles.forEach((element, index) => {
-						element.classList.remove('linters__subtitle--animate')
+						element.classList.remove('linters__subtitle--animate', 'linters__subtitle--scroll-animate')
 
 						animation[index] = { isAnimated: false }
 
@@ -2115,6 +2159,15 @@ function main() {
 					timeouts.length = 0
 				}
 
+				function scrollAnimate(element) {
+					element.classList.add('linters__subtitle--scroll-animate')
+				}
+
+				function scrollReset(element) {
+					element.classList.remove('linters__subtitle--scroll-animate')
+				}
+
+				handleAnimationOnScroll(ids, 'linters__subtitle--animate', elementKeys, scrollAnimate, scrollReset)
 				createAnimation(ids, elementKeys, startHeight, animate, reset)
 			}
 
@@ -2134,10 +2187,21 @@ function main() {
 				}
 
 				function reset() {
-					subtitle.classList.remove('settings-linters__subtitle--animate')
-					titleH4.classList.remove('settings-linters__h4-title--animate')
+					subtitle.classList.remove('settings-linters__subtitle--animate', 'settings-linters__subtitle--scroll-animate')
+					titleH4.classList.remove('settings-linters__h4-title--animate', 'settings-linters__h4-title-scroll--animate')
 				}
 
+				function scrollAnimate(element, index) {
+					ids[0].classList.add('settings-linters__subtitle--scroll-animate')
+					ids[1].classList.add('settings-linters__h4-title-scroll--animate')
+				}
+
+				function scrollReset(element, index) {
+					ids[0].classList.remove('settings-linters__subtitle--scroll-animate')
+					ids[1].classList.remove('settings-linters__h4-title-scroll--animate')
+				}
+
+				handleAnimationOnScroll(ids, 'settings-linters__subtitle--animate', elementKey, scrollAnimate, scrollReset)
 				createAnimation(ids, elementKey, startHeight, animate, reset)
 			}
 
@@ -2153,108 +2217,73 @@ function main() {
 					hiddenText: document.querySelectorAll('.settings-linters__hidden-text'),
 					hiddenBtn: document.querySelectorAll('.settings-linters__hidden-btn'),
 					hiddenScrollBtn: document.querySelectorAll('.settings-linters__up-btn'),
-					textSpan: document.querySelectorAll('.settings-linters__text-span'),
 				}
 
 				const ids = []
 				const elementKeys = []
-				const startHeight = 0
-
-				const elementSeen = []
-				const timeouts = []
-				const spanTimeouts = []
-				const scrollIds = []
-				const animationEnd = {}
-				const clickState = {}
+				const startHeight = 20
 
 				queryElements.item.forEach((_, index) => {
 					const id = document.getElementById(`settings-linters-item-${index}`)
 
 					ids.push(id)
-					scrollIds.push(id)
 					elementKeys.push(`settings-linters-item-${index}`)
-				})
-
-				queryElements.textSpan.forEach((_, index) => {
-					elementKeys.push(`settings-linters__text-span-${index}`)
 				})
 
 				queryElements.hiddenBox.forEach((element, index) => {
 					element.classList.add(`settings-linters__hidden-box-${index}`)
 				})
 
-				let currentStepIndex = 0
+				const clickState = {}
+				const visibleIndexes = []
+				const animationStart = {}
 
-				function handleAnimation(stepIndex = currentStepIndex) {
-					if (stepIndex >= queryElements.item.length) return
+				function handleAnimation() {
+					queryElements.item.forEach((_, index) => {
+						if (!animationStart[index]) {
+							animationStart[index] = { isEnded: false, timeout: null }
+						}
 
-					if (!animationEnd[stepIndex]) {
-						animationEnd[stepIndex] = { isEnded: false }
-					}
+						if (seenElements.has(elementKeys[index])) {
+							if (!animationStart[index].isEnded) {
+								animationStart[index].isEnded = true
 
-					if (!seenElements.has(elementSeen[stepIndex])) return
+								visibleIndexes.push(index)
 
-					if (!animationEnd[stepIndex].isEnded) {
-						animationEnd[stepIndex].isEnded = true
+								const delay = visibleIndexes.indexOf(index) * 100
 
-						queryElements.item[stepIndex].classList.add('settings-linters__item--animate')
-						queryElements.text[stepIndex].classList.add('settings-linters__text--animate')
-						queryElements.img[stepIndex].classList.add('settings-linters__img--animate')
-
-						const timeout = setTimeout(() => {
-							currentStepIndex = stepIndex + 1
-							handleAnimation(currentStepIndex)
-						}, 200)
-
-						timeouts.push(timeout)
-					}
-				}
-
-				function handleAnimationEnd(event) {
-					const index = [...queryElements.hiddenBox].indexOf(event.target)
-
-					if (index === -1) return
-
-					const textSpans = queryElements.hiddenBox[index].querySelectorAll('.settings-linters__text-span')
-
-					if (event.animationName === `settings-linters-hidden-box-open-${index}`) {
-						textSpans.forEach((element, spanIndex) => {
-							if (seenElements.has(`settings-linters__text-span-${spanIndex}`)) {
 								const timeout = setTimeout(() => {
-									element.classList.add('settings-linters__text-span--animate')
-								}, 30 * spanIndex)
+									queryElements.item[index].classList.add('settings-linters__item--animate')
+									queryElements.text[index].classList.add('settings-linters__text--animate')
+									queryElements.img[index].classList.add('settings-linters__img--animate')
+								}, delay)
 
-								spanTimeouts.push(timeout)
+								animationStart[index].timeout = timeout
 							}
-						})
-					}
-
-					if (event.animationName === `settings-linters-hidden-box-close-${index}`) {
-						textSpans.forEach((element, index) => {
-							element.classList.remove('settings-linters__text-span--animate')
-							clearTimeout(spanTimeouts[index])
-						})
-					}
+						}
+					})
 				}
 
 				function handleHiddenBoxOpen(event) {
 					const index = [...queryElements.btn].indexOf(event.target)
-					let timeout = null
+
+					if (index === -1) return
 
 					if (!clickState[index]) {
-						clickState[index] = { isClicked: false }
+						clickState[index] = { isClicked: false, timeout: null }
 					}
 
 					if (index !== -1 && queryElements.btn[index] === event.target) {
 						if (!clickState[index].isClicked) {
-							clearTimeout(timeout)
-							timeout = setTimeout(() => {
+							clickState[index].timeout = setTimeout(() => {
 								clickState[index].isClicked = true
-							}, 1800)
+							}, 1000)
 
 							setTimeout(() => {
 								queryElements.btn[index].scrollIntoView({ behavior: 'smooth' })
 							}, 500)
+
+							queryElements.text[index].classList.add('settings-linters__text--open')
 
 							queryElements.hiddenBox[index].classList.add('settings-linters__hidden-box--animate')
 							queryElements.btn[index].classList.add('settings-linters__btn--animate')
@@ -2265,10 +2294,11 @@ function main() {
 							queryElements.hiddenBox[index].classList.add(`settings-linters__hidden-box--open-${index}`)
 							queryElements.img[index].classList.add('settings-linters__img--open')
 						} else {
-							clearTimeout(timeout)
-							timeout = setTimeout(() => {
+							clickState[index].timeout = setTimeout(() => {
 								clickState[index].isClicked = false
-							}, 1800)
+							}, 1000)
+
+							queryElements.text[index].classList.remove('settings-linters__text--open')
 
 							queryElements.hiddenBox[index].classList.remove(`settings-linters__hidden-box--open-${index}`)
 							queryElements.img[index].classList.remove('settings-linters__img--open')
@@ -2353,39 +2383,51 @@ function main() {
 				function animate() {
 					document.addEventListener('click', handleHiddenBoxOpen)
 					document.addEventListener('click', handleScrollUpOnClick)
-					document.addEventListener('animationend', handleAnimationEnd)
 
 					handleAnimation()
 					copyText()
 				}
 
 				function reset() {
-					currentStepIndex = 0
-
 					queryElements.item.forEach((_, index) => {
 						queryElements.item[index].classList.remove('settings-linters__item--animate')
-						queryElements.text[index].classList.remove('settings-linters__text--animate')
-						queryElements.img[index].classList.remove('settings-linters__img--animate', 'settings-linters__img--close', 'settings-linters__img--open')
+						queryElements.text[index].classList.remove('settings-linters__text--animate', 'settings-linters__text--open', 'settings-linters__text--scroll-animate')
+						queryElements.img[index].classList.remove('settings-linters__img--animate', 'settings-linters__img--close', 'settings-linters__img--open', 'settings-linters__img--scroll-animate')
 						queryElements.btn[index].classList.remove('settings-linters__btn--animate')
 						queryElements.hiddenBox[index].classList.remove(`settings-linters__hidden-box--close-${index}`, `settings-linters__hidden-box--open-${index}`, 'settings-linters__hidden-box--animate')
 
-						animationEnd[index] = { isEnded: false }
-						clickState[index] = { isClicked: false }
+						if (animationStart[index]?.timeout) {
+							clearTimeout(animationStart[index].timeout)
+							animationStart[index].timeout = null
+						}
 
-						clearTimeout(timeouts[index])
+						animationStart[index] = { isEnded: false, timeout: null }
+
+						if (clickState[index]?.timeout) {
+							clearTimeout(clickState[index].timeout)
+							clickState[index].timeout = 0
+						}
+
+						clickState[index] = { isClicked: false, timeout: null }
 					})
 
-					queryElements.textSpan.forEach(element => {
-						element.classList.remove('settings-linters__text-span--animate')
-					})
-
-					timeouts.length = 0
+					visibleIndexes.length = 0
 
 					document.removeEventListener('click', handleHiddenBoxOpen)
 					document.removeEventListener('click', handleScrollUpOnClick)
-					document.removeEventListener('animationend', handleAnimationEnd)
 				}
 
+				function scrollAnimate(element, index) {
+					element.classList.add('settings-linters__text--scroll-animate')
+					queryElements.img[index].classList.add('settings-linters__img--scroll-animate')
+				}
+
+				function scrollReset(element, index) {
+					element.classList.remove('settings-linters__text--scroll-animate')
+					queryElements.img[index].classList.remove('settings-linters__img--scroll-animate')
+				}
+
+				handleAnimationOnScroll(queryElements.text, 'settings-linters__text--animate', elementKeys, scrollAnimate, scrollReset)
 				createAnimation(ids, elementKeys, startHeight, animate, reset)
 			}
 

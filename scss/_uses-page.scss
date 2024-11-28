@@ -58,6 +58,10 @@ $uses-linters-box-shadow-color: $white;
 	opacity: 1;
 }
 
+.uses-line--scroll-animate {
+	width: 85%;
+}
+
 .uses-getting {
 	&__wrapper {
 		display: flex;
@@ -395,24 +399,19 @@ $uses-linters-box-shadow-color: $white;
 		margin-bottom: 30px;
 		opacity: 0;
 		transform: translateY(-30px);
+		transition: all 1s ease-out;
 
 		@include uses-title($uses-software-title-color);
 	}
 
 	&__title--animate {
-		@keyframes software-title {
-			0% {
-				opacity: 0;
-				transform: translateY(-30px);
-			}
+		opacity: 1;
+		transform: translateY(0);
+	}
 
-			100% {
-				opacity: 1;
-				transform: translateY(0);
-			}
-		}
-
-		animation: software-title 1s ease-out forwards;
+	&__title--scroll-animate {
+		opacity: 0;
+		transform: translateY(-15px);
 	}
 
 	&__inner-content {
@@ -512,26 +511,21 @@ $uses-linters-box-shadow-color: $white;
 
 	&__title {
 		margin-bottom: 30px;
-		transform: translateY(30px);
+		transform: translateY(-30px);
 		opacity: 0;
+		transition: all 1s ease-out;
 
 		@include uses-title($uses-linters-title-color);
 	}
 
 	&__title--animate {
-		@keyframes a {
-			0% {
-				transform: translateY(-30px);
-				opacity: 0;
-			}
+		transform: translateY(0);
+		opacity: 1;
+	}
 
-			100% {
-				transform: translateY(0);
-				opacity: 1;
-			}
-		}
-
-		animation: a 1s ease-out forwards;
+	&__title--scroll-animate {
+		transform: translateY(-10px);
+		opacity: 0;
 	}
 
 	&__inner-settings {
@@ -562,22 +556,17 @@ $uses-linters-box-shadow-color: $white;
 		text-align: center;
 		opacity: 0;
 		transform: translateY(20px);
+		transition: all 1s ease-out;
 	}
 
 	&__subtitle--animate {
-		@keyframes linters-subtitle {
-			0% {
-				opacity: 0;
-				transform: translateY(20px);
-			}
+		opacity: 1;
+		transform: translateY(0);
+	}
 
-			100% {
-				opacity: 1;
-				transform: translateY(0);
-			}
-		}
-
-		animation: linters-subtitle 0.8s forwards ease-out;
+	&__subtitle--scroll-animate {
+		transform: translateY(10px);
+		opacity: 0;
 	}
 
 	.settings-linters {
@@ -593,22 +582,17 @@ $uses-linters-box-shadow-color: $white;
 			color: $uses-linters-text-color;
 			opacity: 0;
 			transform: translateY(-20px);
+			transition: all 1.2s ease-out;
 		}
 
 		&__subtitle--animate {
-			@keyframes settings-linters {
-				0% {
-					opacity: 0;
-					transform: translateY(-20px);
-				}
+			opacity: 1;
+			transform: translateY(0);
+		}
 
-				100% {
-					opacity: 1;
-					transform: translateY(0);
-				}
-			}
-
-			animation: settings-linters 0.8s ease-out forwards;
+		&__subtitle--scroll-animate {
+			transform: translateX(-10px);
+			opacity: 0;
 		}
 
 		&__h4-title {
@@ -619,6 +603,7 @@ $uses-linters-box-shadow-color: $white;
 			color: $uses-linters-text-color;
 			opacity: 0;
 			transform: translateX(20px);
+			transition: all 1s ease-out;
 
 			& span {
 				color: $uses-linters-accent-text-color;
@@ -626,19 +611,13 @@ $uses-linters-box-shadow-color: $white;
 		}
 
 		&__h4-title--animate {
-			@keyframes settings-linters-h4-title {
-				0% {
-					opacity: 0;
-					transform: translateX(20px);
-				}
+			opacity: 1;
+			transform: translateX(0);
+		}
 
-				100% {
-					opacity: 1;
-					transform: translateX(0);
-				}
-			}
-
-			animation: settings-linters-h4-title 0.8s ease-out forwards;
+		&__h4-title-scroll--animate {
+			transform: translateX(10px);
+			opacity: 0;
 		}
 
 		&__item {
@@ -687,76 +666,47 @@ $uses-linters-box-shadow-color: $white;
 			font-size: 30px;
 			transform: translateX(-10px);
 			opacity: 0;
+			transition: all 1s ease-out;
 		}
 
 		&__text--animate {
-			@keyframes settings-linters-text {
-				0% {
-					transform: translateX(-10px);
-					opacity: 0;
-				}
+			transform: translateX(0);
+			opacity: 1;
+		}
 
-				100% {
-					transform: translateX(0);
-					opacity: 1;
-				}
-			}
+		&__text--scroll-animate {
+			transform: translateX(-10px);
+		}
 
-			animation: settings-linters-text 0.8s ease-out forwards;
+		&__text--open {
+			transform: translateX(0);
 		}
 
 		&__img {
 			pointer-events: none;
 			opacity: 0;
 			transform: translateX(15px) rotate(90deg);
+			transition: all 1s ease-out;
 		}
 
 		&__img--animate {
-			@keyframes settings-linters-img {
-				0% {
-					opacity: 0;
-					transform: translateX(15px) rotate(90deg);
-				}
+			opacity: 1;
+			transform: translateX(0) rotate(90deg);
+		}
 
-				100% {
-					opacity: 1;
-					transform: translateX(0) rotate(90deg);
-				}
-			}
-
-			animation: settings-linters-img 0.8s ease-out forwards;
+		&__img--scroll-animate {
+			transform: translateX(10px) rotate(90deg);
 		}
 
 		&__img--open {
-			@keyframes settings-linters-img-open {
-				0% {
-					opacity: 1;
-					transform: rotate(90deg);
-				}
-
-				100% {
-					opacity: 1;
-					transform: rotate(0);
-				}
-			}
-
-			animation: settings-linters-img-open 0.6s ease-out forwards;
+			transition: all 0.6s ease-out;
+			opacity: 1;
+			transform: rotate(0);
 		}
 
 		&__img--close {
-			@keyframes settings-linters-img-close {
-				0% {
-					opacity: 1;
-					transform: rotate(0);
-				}
-
-				100% {
-					opacity: 1;
-					transform: rotate(90deg);
-				}
-			}
-
-			animation: settings-linters-img-close 0.6s ease-out forwards;
+			transition: all 0.7s linear;
+			transform: rotate(90deg);
 		}
 
 		&__hidden-box {
@@ -776,10 +726,10 @@ $uses-linters-box-shadow-color: $white;
 		}
 
 		$heights: (
-			0: '465px',
-			1: '1200px',
-			2: '5945px',
-			3: '1490px',
+			0: '500px',
+			1: '1360px',
+			2: '6105px',
+			3: '1675px',
 		);
 
 		@mixin settings-linters-hidden-box-close-open($index, $height) {
@@ -823,10 +773,10 @@ $uses-linters-box-shadow-color: $white;
 		&__hidden-btn {
 			margin: 20px 0;
 			width: 220px;
-			height: 40px;
+			height: 30px;
 			font-style: normal;
 			font-weight: 500;
-			font-size: 22px;
+			font-size: 20px;
 			color: $uses-linters-text-color;
 			background-color: transparent;
 			border: none;
@@ -871,6 +821,7 @@ $uses-linters-box-shadow-color: $white;
 			line-height: 130%;
 			font-size: 22px;
 			color: $uses-linters-text-color;
+			text-align: left;
 		}
 
 		&__up-btn {
@@ -898,12 +849,6 @@ $uses-linters-box-shadow-color: $white;
 		&__text-span {
 			font-weight: 600;
 			color: $uses-linters-accent-text-color;
-			opacity: 0;
-		}
-
-		&__text-span--animate {
-			transition: all 0.6s ease-out;
-			opacity: 1;
 		}
 	}
 
