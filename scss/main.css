@@ -270,8 +270,8 @@
 .climb-up {
   position: fixed;
   z-index: 10;
-  right: 5%;
-  bottom: 10%;
+  right: 2%;
+  bottom: 5%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2110,6 +2110,7 @@
 
 .uses-line--scroll-animate {
   width: 85%;
+  opacity: 0.3;
 }
 
 .uses-getting__wrapper {
@@ -2125,7 +2126,7 @@
   font-weight: 700;
   font-size: 50px;
   color: #fff;
-  opacity: 0.2;
+  opacity: 0;
   transform: translateX(-40px);
 }
 .uses-getting__title--animate {
@@ -2134,7 +2135,7 @@
   transform: translateX(0);
 }
 .uses-getting__title--scroll-animate {
-  opacity: 0.5;
+  opacity: 0.3;
   transform: translateY(-10px);
 }
 .uses-getting__text {
@@ -2150,7 +2151,7 @@
   transform: translateY(0);
 }
 .uses-getting__text--scroll-animate {
-  opacity: 0.5;
+  opacity: 0.3;
   transform: translateX(10px);
 }
 .uses-getting__text-span {
@@ -2174,6 +2175,7 @@
 }
 .uses-getting__scroll-line--scroll-animate {
   height: 40%;
+  opacity: 0.3;
 }
 .uses-getting__scroll-text {
   position: relative;
@@ -2186,7 +2188,7 @@
   transition: all 0.8s ease-out;
 }
 .uses-getting__scroll-text--scroll-animate {
-  opacity: 0.5;
+  opacity: 0.3;
   transform: translateX(10px);
 }
 .uses-getting__scroll-letters {
@@ -2225,7 +2227,7 @@
   transform: translateY(0);
 }
 .equipment__title--scroll-animate {
-  opacity: 0;
+  opacity: 0.3;
   transform: translateY(-10px);
 }
 .equipment .equipment-content {
@@ -2388,7 +2390,7 @@
   transform: translateY(0);
 }
 .software__title--scroll-animate {
-  opacity: 0;
+  opacity: 0.3;
   transform: translateY(-15px);
 }
 .software__inner-content {
@@ -2419,7 +2421,7 @@
   transform: translateY(0);
 }
 .software .software-content__img--scroll-animate {
-  opacity: 0;
+  opacity: 0.3;
   transform: translateY(10px);
 }
 .software .software-content__text {
@@ -2436,7 +2438,7 @@
   transform: translateX(0);
 }
 .software .software-content__text--scroll-animate {
-  opacity: 0;
+  opacity: 0.3;
   transform: translateX(-10px);
 }
 .software .software-content .software-content__text--color-0 {
@@ -2481,7 +2483,7 @@
 }
 .linters__title--scroll-animate {
   transform: translateY(-10px);
-  opacity: 0;
+  opacity: 0.3;
 }
 .linters__inner-settings {
   margin-bottom: 50px;
@@ -2516,7 +2518,7 @@
 }
 .linters__subtitle--scroll-animate {
   transform: translateY(10px);
-  opacity: 0;
+  opacity: 0.3;
 }
 .linters .settings-linters {
   display: flex;
@@ -2539,7 +2541,7 @@
 }
 .linters .settings-linters__subtitle--scroll-animate {
   transform: translateX(-10px);
-  opacity: 0;
+  opacity: 0.3;
 }
 .linters .settings-linters__h4-title {
   margin-bottom: 35px;

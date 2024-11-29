@@ -1850,7 +1850,7 @@ function main() {
 
 								visibleIndexes.push(index)
 
-								const delay = visibleIndexes.indexOf(index) * 70
+								const delay = visibleIndexes.indexOf(index) * 30
 
 								const timeout = setTimeout(() => {
 									elements.item[index].classList.add('equipment-content__item--animate')
@@ -1934,7 +1934,7 @@ function main() {
 						elements.hiddenText[index].classList.add('equipment-content__hidden-text--animate')
 
 						setTimeout(() => {
-							elements.button[index].scrollIntoView({ behavior: 'smooth' })
+							elements.button[index].scrollIntoView({ behavior: 'smooth', block: 'center' })
 						}, 400)
 					} else {
 						closeElement(index)

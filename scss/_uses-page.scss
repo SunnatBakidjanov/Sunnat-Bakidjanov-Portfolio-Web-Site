@@ -60,6 +60,7 @@ $uses-linters-box-shadow-color: $white;
 
 .uses-line--scroll-animate {
 	width: 85%;
+	opacity: 0.3;
 }
 
 .uses-getting {
@@ -77,7 +78,7 @@ $uses-linters-box-shadow-color: $white;
 		font-weight: 700;
 		font-size: 50px;
 		color: $uses-getting-title-color;
-		opacity: 0.2;
+		opacity: 0;
 		transform: translateX(-40px);
 	}
 
@@ -88,7 +89,7 @@ $uses-linters-box-shadow-color: $white;
 	}
 
 	&__title--scroll-animate {
-		opacity: 0.5;
+		opacity: 0.3;
 		transform: translateY(-10px);
 	}
 
@@ -107,7 +108,7 @@ $uses-linters-box-shadow-color: $white;
 	}
 
 	&__text--scroll-animate {
-		opacity: 0.5;
+		opacity: 0.3;
 		transform: translateX(10px);
 	}
 
@@ -136,6 +137,7 @@ $uses-linters-box-shadow-color: $white;
 
 	&__scroll-line--scroll-animate {
 		height: 40%;
+		opacity: 0.3;
 	}
 
 	&__scroll-text {
@@ -150,7 +152,7 @@ $uses-linters-box-shadow-color: $white;
 	}
 
 	&__scroll-text--scroll-animate {
-		opacity: 0.5;
+		opacity: 0.3;
 		transform: translateX(10px);
 	}
 
@@ -194,7 +196,7 @@ $uses-linters-box-shadow-color: $white;
 	}
 
 	&__title--scroll-animate {
-		opacity: 0;
+		opacity: 0.3;
 		transform: translateY(-10px);
 	}
 
@@ -387,7 +389,7 @@ $uses-linters-box-shadow-color: $white;
 	}
 
 	&__title--scroll-animate {
-		opacity: 0;
+		opacity: 0.3;
 		transform: translateY(-15px);
 	}
 
@@ -423,7 +425,7 @@ $uses-linters-box-shadow-color: $white;
 		}
 
 		&__img--scroll-animate {
-			opacity: 0;
+			opacity: 0.3;
 			transform: translateY(10px);
 		}
 
@@ -443,7 +445,7 @@ $uses-linters-box-shadow-color: $white;
 		}
 
 		&__text--scroll-animate {
-			opacity: 0;
+			opacity: 0.3;
 			transform: translateX(-10px);
 		}
 
@@ -492,7 +494,7 @@ $uses-linters-box-shadow-color: $white;
 
 	&__title--scroll-animate {
 		transform: translateY(-10px);
-		opacity: 0;
+		opacity: 0.3;
 	}
 
 	&__inner-settings {
@@ -533,7 +535,7 @@ $uses-linters-box-shadow-color: $white;
 
 	&__subtitle--scroll-animate {
 		transform: translateY(10px);
-		opacity: 0;
+		opacity: 0.3;
 	}
 
 	.settings-linters {
@@ -559,7 +561,7 @@ $uses-linters-box-shadow-color: $white;
 
 		&__subtitle--scroll-animate {
 			transform: translateX(-10px);
-			opacity: 0;
+			opacity: 0.3;
 		}
 
 		&__h4-title {
