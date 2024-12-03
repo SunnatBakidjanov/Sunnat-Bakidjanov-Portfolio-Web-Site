@@ -22,7 +22,7 @@ $switch-animation-letter-color: $white;
 
 :root {
 	--gradient-color: #696969;
-	--gradient-transition-point: 40%;
+	--gradient-transition-point: 30%;
 }
 
 * {
@@ -35,7 +35,7 @@ $switch-animation-letter-color: $white;
 }
 
 .page {
-	background: linear-gradient(90deg, rgb(0 0 0 / 100%) var(--gradient-transition-point), var(--gradient-color) 100%);
+	background: linear-gradient(90deg, rgb(0 0 0 / 100%) var(--gradient-transition-point), var(--gradient-color) 130%);
 }
 
 $page-background-colors: (

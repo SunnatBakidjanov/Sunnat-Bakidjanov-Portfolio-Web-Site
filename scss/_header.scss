@@ -568,6 +568,42 @@ $colors: (
 	}
 }
 
+@media (width <= 600px) {
+	.header-main__wrapper {
+		height: 80px;
+	}
+
+	.logo {
+		&__text {
+			font-size: 20px;
+		}
+
+		&__img {
+			width: 90px;
+			height: 70px;
+		}
+	}
+}
+
+@media (width <= 400px) {
+	.logo {
+		&__text {
+			font-size: 16px;
+		}
+
+		&__img {
+			margin-right: 5px;
+			width: 70px;
+			height: 60px;
+		}
+	}
+
+	.burger-menu {
+		margin-right: 10px;
+		width: 45px;
+	}
+}
+
 @media (hover: none) and (pointer: coarse) {
 	.logo:hover .logo__img,
 	.logo:hover .logo__text {

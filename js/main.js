@@ -633,7 +633,7 @@ function main() {
 				isTransitioning = true
 				currentClass = className
 
-				let transitionPoint = 40
+				let transitionPoint = 30
 				const interval = setInterval(() => {
 					transitionPoint++
 					root.style.setProperty('--gradient-transition-point', `${transitionPoint}%`)
@@ -644,12 +644,12 @@ function main() {
 						root.classList.remove(...classes)
 						root.classList.add(className)
 
-						let returnPoint = 105
+						let returnPoint = 100
 						const returnInterval = setInterval(() => {
 							returnPoint--
 							root.style.setProperty('--gradient-transition-point', `${returnPoint}%`)
 
-							if (returnPoint <= 40) {
+							if (returnPoint <= 30) {
 								clearInterval(returnInterval)
 								isTransitioning = false
 							}
@@ -1850,7 +1850,11 @@ function main() {
 
 								visibleIndexes.push(index)
 
-								const delay = visibleIndexes.indexOf(index) * 30
+								setTimeout(() => {
+									visibleIndexes.length = 0
+								}, 120)
+
+								const delay = visibleIndexes.indexOf(index) * 120
 
 								const timeout = setTimeout(() => {
 									elements.item[index].classList.add('equipment-content__item--animate')
@@ -1883,6 +1887,7 @@ function main() {
 							if (clickState[index]) {
 								clickState[index].isClicked = false
 							}
+
 							elements.img[index].classList.remove('equipment-content__img--close')
 						}, 700)
 					}
@@ -1938,6 +1943,10 @@ function main() {
 						}, 400)
 					} else {
 						closeElement(index)
+
+						setTimeout(() => {
+							elements.button[index].scrollIntoView({ behavior: 'smooth' })
+						}, 400)
 					}
 				}
 
@@ -1952,7 +1961,7 @@ function main() {
 					elements.item.forEach((_, index) => {
 						elements.item[index].classList.remove('equipment-content__item--animate', 'equipment-content__item--scroll-animate')
 						elements.text[index].classList.remove('equipment-content__text--animate', 'equipment-content__text--scroll-animate', 'equipment-content__text--open')
-						elements.img[index].classList.remove('equipment-content__img--animate', 'equipment-content__img--open')
+						elements.img[index].classList.remove('equipment-content__img--animate', 'equipment-content__img--open', 'equipment-content__img--scroll-animate')
 						elements.button[index].classList.remove('equipment-content__button--animate', 'equipment-content__img--scroll-animate', 'equipment-content__button--open')
 						elements.hiddenBox[index].classList.remove('equipment-content__hidden-box--open')
 						elements.hiddenText[index].classList.remove('equipment-content__hidden-text--animate')
@@ -2301,7 +2310,7 @@ function main() {
 
 			settingsTitleAnimate()
 
-			function contentAnimate() {
+			function settingsAnimate() {
 				const queryElements = {
 					item: document.querySelectorAll('.settings-linters__item'),
 					text: document.querySelectorAll('.settings-linters__text'),
@@ -2379,7 +2388,9 @@ function main() {
 
 							setTimeout(() => {
 								queryElements.btn[index].scrollIntoView({ behavior: 'smooth' })
-							}, 500)
+							}, 520)
+
+							queryElements.hiddenBox[index].style.height = `${queryElements.hiddenBox[index].scrollHeight}px`
 
 							queryElements.text[index].classList.add('settings-linters__text--open')
 							queryElements.item[index].classList.add('settings-linters__item--open')
@@ -2388,9 +2399,7 @@ function main() {
 							queryElements.btn[index].classList.add('settings-linters__btn--animate')
 
 							queryElements.img[index].classList.remove('settings-linters__img--close')
-							queryElements.hiddenBox[index].classList.remove(`settings-linters__hidden-box--close-${index}`)
 
-							queryElements.hiddenBox[index].classList.add(`settings-linters__hidden-box--open-${index}`)
 							queryElements.img[index].classList.add('settings-linters__img--open')
 						} else {
 							clickState[index].timeout = setTimeout(() => {
@@ -2399,21 +2408,53 @@ function main() {
 
 							setTimeout(() => {
 								queryElements.btn[index].scrollIntoView({ behavior: 'smooth', block: 'center' })
-							}, 700)
+							}, 500)
+
+							const currentHeight = queryElements.hiddenBox[index].scrollHeight
+							queryElements.hiddenBox[index].style.height = `${currentHeight}px`
+
+							queryElements.hiddenBox[index].style.height = '0px'
 
 							queryElements.text[index].classList.remove('settings-linters__text--open')
 							queryElements.item[index].classList.remove('settings-linters__item--open')
 
-							queryElements.hiddenBox[index].classList.remove(`settings-linters__hidden-box--open-${index}`)
 							queryElements.img[index].classList.remove('settings-linters__img--open')
 
-							queryElements.hiddenBox[index].classList.add(`settings-linters__hidden-box--close-${index}`)
 							queryElements.img[index].classList.add('settings-linters__img--close')
+
+							setTimeout(() => {
+								queryElements.img[index].classList.remove('settings-linters__img--close')
+							}, 900)
 
 							queryElements.btn[index].classList.remove('settings-linters__btn--animate')
 							queryElements.hiddenBox[index].classList.remove('settings-linters__hidden-box--animate')
 						}
 					}
+				}
+
+				function handleCloseBoxOnResize() {
+					queryElements.item.forEach((_, index) => {
+						queryElements.text[index].classList.remove('settings-linters__text--open')
+						queryElements.item[index].classList.remove('settings-linters__item--open')
+						queryElements.img[index].classList.remove('settings-linters__img--open')
+						queryElements.img[index].classList.add('settings-linters__img--close')
+						queryElements.btn[index].classList.remove('settings-linters__btn--animate')
+						queryElements.hiddenBox[index].classList.remove('settings-linters__hidden-box--animate')
+
+						setTimeout(() => {
+							queryElements.img[index].classList.remove('settings-linters__img--close')
+						}, 900)
+
+						queryElements.hiddenBox[index].removeAttribute('style')
+
+						if (clickState[index]?.timeout) {
+							clearTimeout(clickState[index].timeout)
+						}
+
+						if (clickState[index]) {
+							clickState[index] = { isOpen: false, timeout: null }
+						}
+					})
 				}
 
 				function handleScrollUpOnClick(event) {
@@ -2470,10 +2511,10 @@ function main() {
 							navigator.clipboard
 								.writeText(textToCopy)
 								.then(() => {
-									showModalWindow('Text Copied')
+									showModalWindow(!isLanguageRussian ? 'Text Copied' : 'Текст скопирован')
 								})
 								.catch(err => {
-									showModalWindow('Copy Error')
+									showModalWindow(!isLanguageRussian ? 'Copy Error' : 'Ошибка копирования')
 								})
 								.finally(() => {
 									setTimeout(() => {
@@ -2487,6 +2528,7 @@ function main() {
 				function animate() {
 					document.addEventListener('click', handleHiddenBoxOpen)
 					document.addEventListener('click', handleScrollUpOnClick)
+					window.addEventListener('resize', handleCloseBoxOnResize)
 
 					handleAnimation()
 					copyText()
@@ -2498,7 +2540,7 @@ function main() {
 						queryElements.text[index].classList.remove('settings-linters__text--animate', 'settings-linters__text--open', 'settings-linters__text--scroll-animate')
 						queryElements.img[index].classList.remove('settings-linters__img--animate', 'settings-linters__img--close', 'settings-linters__img--open', 'settings-linters__img--scroll-animate')
 						queryElements.btn[index].classList.remove('settings-linters__btn--animate')
-						queryElements.hiddenBox[index].classList.remove(`settings-linters__hidden-box--close-${index}`, `settings-linters__hidden-box--open-${index}`, 'settings-linters__hidden-box--animate')
+						queryElements.hiddenBox[index].classList.remove('settings-linters__hidden-box--animate')
 
 						if (animationStart[index]?.timeout) {
 							clearTimeout(animationStart[index].timeout)
@@ -2519,6 +2561,7 @@ function main() {
 
 					document.removeEventListener('click', handleHiddenBoxOpen)
 					document.removeEventListener('click', handleScrollUpOnClick)
+					window.removeEventListener('resize', handleCloseBoxOnResize)
 				}
 
 				function scrollAnimate(element, index) {
@@ -2537,7 +2580,220 @@ function main() {
 				createAnimation(ids, elementKeys, startHeight, animate, reset)
 			}
 
-			contentAnimate()
+			settingsAnimate()
+
+			function pluginsTitleAnimate() {
+				const title = document.getElementById('plugins-linters-subtitle')
+				const subtitle = document.getElementById('plugins-linters-h4-title')
+
+				const ids = [title, subtitle]
+				const elementKeys = ['plugins-linters-subtitle', 'plugins-linters-h4-title']
+				const startHeight = 30
+
+				function animate() {
+					title.classList.add('plugins-linters__subtitle--animate')
+					subtitle.classList.add('plugins-linters__h4-title--animate')
+				}
+
+				function reset() {
+					title.classList.remove('plugins-linters__subtitle--animate', 'plugins-linters__subtitle--scroll-animate')
+					subtitle.classList.remove('plugins-linters__h4-title--animate', 'plugins-linters__h4-title--scroll-animate')
+				}
+
+				function scrollAnimate() {
+					title.classList.add('plugins-linters__subtitle--scroll-animate')
+					subtitle.classList.add('plugins-linters__h4-title--scroll-animate')
+				}
+
+				function scrollReset() {
+					title.classList.remove('plugins-linters__subtitle--scroll-animate')
+					subtitle.classList.remove('plugins-linters__h4-title--scroll-animate')
+				}
+
+				handleAnimationOnScroll(ids, 'plugins-linters__subtitle--animate', elementKeys, scrollAnimate, scrollReset)
+				createAnimation(ids, elementKeys, startHeight, animate, reset)
+			}
+
+			pluginsTitleAnimate()
+
+			function pluginsAnimate() {
+				const queryElements = {
+					item: document.querySelectorAll('.plugins-linters__item'),
+					text: document.querySelectorAll('.plugins-linters__text'),
+					btn: document.querySelectorAll('.plugins-linters__btn'),
+					img: document.querySelectorAll('.plugins-linters__img'),
+					hiddenBox: document.querySelectorAll('.plugins-linters__hidden-box'),
+					hiddenText: document.querySelectorAll('.plugins-linters__hidden-text'),
+				}
+
+				const ids = []
+				const elementKeys = []
+				const startHeight = 30
+
+				queryElements.item.forEach((_, index) => {
+					const id = document.getElementById(`plugins-linters-item-${index}`)
+
+					ids.push(id)
+					elementKeys.push(`plugins-linters-item-${index}`)
+				})
+
+				const animationStart = {}
+				const visibleIndexes = []
+
+				function handleAnimation() {
+					queryElements.item.forEach((_, index) => {
+						if (seenElements.has(elementKeys[index])) {
+							if (!animationStart[index]) {
+								animationStart[index] = { isEnded: false, timeout: null }
+							}
+
+							if (!animationStart[index].isEnded) {
+								animationStart[index].isEnded = true
+
+								visibleIndexes.push(index)
+
+								setTimeout(() => {
+									visibleIndexes.length = 0
+								}, 120)
+
+								const delay = visibleIndexes.indexOf(index) * 120
+
+								animationStart[index].timeout = setTimeout(() => {
+									queryElements.item[index].classList.add('plugins-linters__item--animate')
+									queryElements.text[index].classList.add('plugins-linters__text--animate')
+									queryElements.img[index].classList.add('plugins-linters__img--animate')
+								}, delay)
+							}
+						}
+					})
+				}
+
+				const clickState = {}
+
+				function handleOpenAnimation(event) {
+					const index = [...queryElements.btn].indexOf(event.target)
+
+					if (index !== -1 && queryElements.btn[index] === event.target) {
+						if (!clickState[index]) {
+							clickState[index] = { isOpen: false, timeout: null }
+						}
+
+						if (!clickState[index].isOpen) {
+							clickState[index].timeout = setTimeout(() => {
+								clickState[index].isOpen = true
+							}, 1000)
+
+							setTimeout(() => {
+								queryElements.hiddenBox[index].scrollIntoView({ behavior: 'smooth', block: 'center' })
+							}, 500)
+
+							queryElements.btn[index].classList.add('plugins-linters__btn--open')
+							queryElements.text[index].classList.add('plugins-linters__text--open')
+							queryElements.img[index].classList.add('plugins-linters__img--open')
+							queryElements.item[index].classList.add('plugins-linters__item--open')
+
+							const currentHeight = queryElements.hiddenBox[index].scrollHeight
+							queryElements.hiddenBox[index].style.cssText = `
+								height: ${currentHeight + 40}px;
+								padding: 20px 20px;
+							`
+						} else {
+							clickState[index].timeout = setTimeout(() => {
+								clickState[index].isOpen = false
+							}, 1000)
+
+							queryElements.item[index].classList.remove('plugins-linters__item--open')
+							queryElements.btn[index].classList.remove('plugins-linters__btn--open')
+							queryElements.text[index].classList.remove('plugins-linters__text--open')
+							queryElements.img[index].classList.remove('plugins-linters__img--open')
+
+							setTimeout(() => {
+								queryElements.btn[index].scrollIntoView({ behavior: 'smooth', block: 'center' })
+							}, 600)
+
+							queryElements.hiddenBox[index].style.cssText = `
+								height: 0px;
+								padding: 0 20px;
+							`
+						}
+					}
+				}
+
+				function handleCloseBoxOnResize() {
+					queryElements.item.forEach((_, index) => {
+						queryElements.item[index].classList.remove('plugins-linters__item--open')
+						queryElements.btn[index].classList.remove('plugins-linters__btn--open')
+						queryElements.text[index].classList.remove('plugins-linters__text--open')
+						queryElements.img[index].classList.remove('plugins-linters__img--open')
+
+						queryElements.hiddenBox[index].removeAttribute('style')
+
+						if (clickState[index]?.timeout) {
+							clearTimeout(clickState[index].timeout)
+						}
+
+						if (clickState[index]) {
+							clickState[index] = { isOpen: false, timeout: null }
+						}
+					})
+				}
+
+				function animate() {
+					document.addEventListener('click', handleOpenAnimation)
+					window.addEventListener('resize', handleCloseBoxOnResize)
+
+					handleAnimation()
+				}
+
+				function reset() {
+					queryElements.item.forEach((_, index) => {
+						queryElements.item[index].classList.remove('plugins-linters__item--animate', 'plugins-linters__item--scroll-animate', 'plugins-linters__item--open')
+						queryElements.text[index].classList.remove('plugins-linters__text--animate', 'plugins-linters__text--open', 'plugins-linters__text--scroll-animate')
+						queryElements.img[index].classList.remove('plugins-linters__img--animate', 'plugins-linters__img--open', 'plugins-linters__img--scroll-animate')
+						queryElements.btn[index].classList.remove('plugins-linters__btn--open')
+
+						queryElements.hiddenBox[index].removeAttribute('style')
+
+						if (animationStart[index]?.timeout) {
+							clearTimeout(animationStart[index].timeout)
+						}
+
+						if (animationStart[index]) {
+							animationStart[index] = { isEnded: false, timeout: null }
+						}
+
+						if (clickState[index]?.timeout) {
+							clearTimeout(clickState[index].timeout)
+						}
+
+						if (clickState[index]) {
+							clickState[index] = { isOpen: false, timeout: null }
+						}
+					})
+
+					visibleIndexes.length = 0
+
+					document.removeEventListener('click', handleOpenAnimation)
+					window.removeEventListener('resize', handleCloseBoxOnResize)
+				}
+
+				function scrollAnimate(_, index) {
+					queryElements.item[index].classList.add('plugins-linters__item--scroll-animate')
+					queryElements.text[index].classList.add('plugins-linters__text--scroll-animate')
+					queryElements.img[index].classList.add('plugins-linters__img--scroll-animate')
+				}
+
+				function scrollReset(_, index) {
+					queryElements.item[index].classList.remove('plugins-linters__item--scroll-animate')
+					queryElements.text[index].classList.remove('plugins-linters__text--scroll-animate')
+					queryElements.img[index].classList.remove('plugins-linters__img--scroll-animate')
+				}
+
+				handleAnimationOnScroll(ids, 'plugins-linters__item--animate', elementKeys, scrollAnimate, scrollReset)
+				createAnimation(ids, elementKeys, startHeight, animate, reset)
+			}
+
+			pluginsAnimate()
 		}
 
 		linters()
@@ -2570,7 +2826,7 @@ function main() {
 		function animateFooter() {
 			const ids = [elements.footer]
 			const elementKeys = ['footer']
-			const startingHeight = -50
+			const startingHeight = -150
 
 			function handleAnimationEnd(event) {
 				if (event.animationName === 'footer-wrapper') {

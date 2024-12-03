@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Sunnat Bakidjanov</title>
 
-		<link rel="icon" href="img/svg/favicon-icon.svg" type="">
+		<link rel="icon" href="img/svg/favicon-icon.svg">
 		<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="scss/main.css">
 	</head>
@@ -164,7 +164,7 @@
 			</button>
 	
 			<main>
-				<div class="home-page page" id="page-1">
+				<div class="home-page page page--active" id="page-1">
 					<section class="getting">
 						<div class="container">
 							<div class="getting__wrapper">
@@ -235,6 +235,7 @@
 													<div class="cards-content__precent">%</div>
 												</div>
 											</div>
+
 											<div class="cards-content__progress-text cards-content__progress-text--html">HTML</div>
 										</div>
 
@@ -260,6 +261,7 @@
 													<div class="cards-content__precent">%</div>
 												</div>
 											</div>
+
 											<div class="cards-content__progress-text cards-content__progress-text--css">CSS</div>
 										</div>
 
@@ -286,6 +288,7 @@
 													<div class="cards-content__precent">%</div>
 												</div>
 											</div>
+
 											<div class="cards-content__progress-text cards-content__progress-text--js">JavaScript</div>
 										</div>
 
@@ -312,6 +315,7 @@
 													<div class="cards-content__precent">%</div>
 												</div>
 											</div>
+											
 											<div class="cards-content__progress-text cards-content__progress-text--react">React</div>
 										</div>
 
@@ -409,7 +413,7 @@
 					</section>
 				</div>
 		
-				<div class="uses-page page page--active" id="page-2">
+				<div class="uses-page page" id="page-2">
 					<section class="uses-getting">
 						<div class="container">
 							<div class="uses-getting__wrapper">
@@ -440,7 +444,7 @@
 								<div class="equipment__inner-content equipment-content" id="equipment-content">
 									<div class="equipment-content__item" id="equipment-id-0">
 										<button type="button" aria-label="equipment-button" class="equipment-content__button">
-											<p class="equipment-content__text">Monitor</p> 
+											<span class="equipment-content__text">Monitor</span> 
 											<img class="equipment-content__img" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
@@ -452,7 +456,7 @@
 
 									<div class="equipment-content__item" id="equipment-id-1">
 										<button type="button" aria-label="equipment-button" class="equipment-content__button">
-											<p class="equipment-content__text">PC Case</p> 
+											<span class="equipment-content__text">PC Case</span> 
 											<img class="equipment-content__img" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
@@ -464,7 +468,7 @@
 
 									<div class="equipment-content__item" id="equipment-id-2">
 										<button type="button" aria-label="equipment-button" class="equipment-content__button">
-											<p class="equipment-content__text">Chair</p> 
+											<span class="equipment-content__text">Chair</span> 
 											<img class="equipment-content__img" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
@@ -476,7 +480,7 @@
 
 									<div class="equipment-content__item" id="equipment-id-3">
 										<button type="button" aria-label="equipment-button" class="equipment-content__button">
-											<p class="equipment-content__text">Desk</p> 
+											<span class="equipment-content__text">Desk</span> 
 											<img class="equipment-content__img" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
@@ -488,7 +492,7 @@
 
 									<div class="equipment-content__item" id="equipment-id-4">
 										<button type="button" aria-label="equipment-button" class="equipment-content__button">
-											<p class="equipment-content__text">Keyboard</p> 
+											<span class="equipment-content__text">Keyboard</span> 
 											<img class="equipment-content__img" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
@@ -500,7 +504,7 @@
 
 									<div class="equipment-content__item" id="equipment-id-5">
 										<button type="button" aria-label="equipment-button" class="equipment-content__button">
-											<p class="equipment-content__text">Mouse</p> 
+											<span class="equipment-content__text">Mouse</span> 
 											<img class="equipment-content__img" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
@@ -512,7 +516,7 @@
 
 									<div class="equipment-content__item" id="equipment-id-6">
 										<button type="button" aria-label="equipment-button" class="equipment-content__button">
-											<p class="equipment-content__text">Webcam</p> 
+											<span class="equipment-content__text">Webcam</span> 
 											<img class="equipment-content__img" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
@@ -524,7 +528,7 @@
 
 									<div class="equipment-content__item" id="equipment-id-7">
 										<button type="button" aria-label="equipment-button" class="equipment-content__button">
-											<p class="equipment-content__text">Microphone</p> 
+											<span class="equipment-content__text">Microphone</span> 
 											<img class="equipment-content__img" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
@@ -1011,43 +1015,85 @@
 								</div>
 
 								<div class="linters__inner-plugins plugins-linters">
-									<h3 class="plugins-linters__subtitle">Plugins</h3>
-									<h4 class="plugins-linters__h4-title">Useful <span>plugins</span> in VSCode that I use</h4>
+									<h3 class="plugins-linters__subtitle" id="plugins-linters-subtitle">Plugins</h3>
+									<h4 class="plugins-linters__h4-title" id="plugins-linters-h4-title">Useful <span>plugins</span> in VSCode that I use</h4>
 
 									<div class="plugins-linters__content">
-										<div class="plugins-linters__item">
-											<span class="plugins-linters__plugin-name">Git Graph</span>
-											<p class="plugins-linters__text">for a visual representation of branches, commits and their connections in the repository</p>
+										<div class="plugins-linters__item" id="plugins-linters-item-0">
+											<button class="plugins-linters__btn" type="button" aria-label="plugin-btn-0">
+												<span class="plugins-linters__text">Plugins for linters</span>
+												<img class="plugins-linters__img" src="img/svg/equipment-arrow.svg" alt="">
+											</button>
+
+											<div class="plugins-linters__hidden-box">
+												<div class="plugins-linters__hidden-item">
+													<span class="plugins-linters__hidden-title">Git Graph</span>
+													<p class="plugins-linters__hidden-text">for a visual representation of branches, commits and their connections in the repository</p>
+												</div>
+		
+												<div class="plugins-linters__hidden-item">
+													<span class="plugins-linters__hidden-title">HTMLHint</span>
+													<p class="plugins-linters__hidden-text">to check HTML code for compliance with standards</p>
+												</div>
+		
+												<div class="plugins-linters__hidden-item">
+													<span class="plugins-linters__hidden-title">ESLint</span>
+													<p class="plugins-linters__hidden-text">a tool for analyzing and checking JavaScript code for compliance with standards and eliminating errors</p>
+												</div>
+		
+												<div class="plugins-linters__hidden-item">
+													<span class="plugins-linters__hidden-title">Prettier</span>
+													<p class="plugins-linters__hidden-text">automatic code formatting tool</p>
+												</div>
+		
+												<div class="plugins-linters__hidden-item">
+													<span class="plugins-linters__hidden-title">Stylelint</span>
+													<p class="plugins-linters__hidden-text">is a tool for checking and standardizing CSS code (as well as SCSS, Less and other styles)</p>
+												</div>
+											</div>
 										</div>
 
-										<div class="plugins-linters__item">
-											<span class="plugins-linters__plugin-name">HTMLHint</span>
-											<p class="plugins-linters__text">to check HTML code for compliance with standards</p>
+										<div class="plugins-linters__item" id="plugins-linters-item-1">
+											<button class="plugins-linters__btn" type="button" aria-label="plugin-btn-1">
+												<span class="plugins-linters__text">Live Coding Plugins</span>
+												<img class="plugins-linters__img" src="img/svg/equipment-arrow.svg" alt="">
+											</button>
+
+											<div class="plugins-linters__hidden-box">
+												<div class="plugins-linters__hidden-item">
+													<span class="plugins-linters__hidden-title">Live Server</span>
+													<p class="plugins-linters__hidden-text">is a tool that creates a local server for development and automatically updates the web page in the browser when changes are made to the code</p>
+												</div>
+		
+												<div class="plugins-linters__hidden-item">
+													<span class="plugins-linters__hidden-title">Live Sass Compiller</span>
+													<p class="plugins-linters__hidden-text">is a tool that compiles Sass or SCSS files to CSS in real time</p>
+												</div>
+											</div>
 										</div>
 
-										<div class="plugins-linters__item">
-											<span class="plugins-linters__plugin-name">ESLint</span>
-											<p class="plugins-linters__text">a tool for analyzing and checking JavaScript code for compliance with standards and eliminating errors</p>
-										</div>
+										<div class="plugins-linters__item" id="plugins-linters-item-2">
+											<button class="plugins-linters__btn" type="button" aria-label="plugin-btn-1">
+												<span class="plugins-linters__text">Other Plugins</span>
+												<img class="plugins-linters__img" src="img/svg/equipment-arrow.svg" alt="">
+											</button>
 
-										<div class="plugins-linters__item">
-											<span class="plugins-linters__plugin-name">Prettier</span>
-											<p class="plugins-linters__text">automatic code formatting tool</p>
-										</div>
+											<div class="plugins-linters__hidden-box">
+												<div class="plugins-linters__hidden-item">
+													<span class="plugins-linters__hidden-title">VSCode-icons</span>
+													<p class="plugins-linters__hidden-text">to improve the visual perception of the project structure</p>
+												</div>
+		
+												<div class="plugins-linters__hidden-item">
+													<span class="plugins-linters__hidden-title">eCSStractor for VSCode</span>
+													<p class="plugins-linters__hidden-text">for convenient and fast extraction of classes from HTML</p>
+												</div>
 
-										<div class="plugins-linters__item">
-											<span class="plugins-linters__plugin-name">Stylelint</span>
-											<p class="plugins-linters__text">is a tool for checking and standardizing CSS code (as well as SCSS, Less and other styles)</p>
-										</div>
-
-										<div class="plugins-linters__item">
-											<span class="plugins-linters__plugin-name">Live Server</span>
-											<p class="plugins-linters__text">is a tool that creates a local server for development and automatically updates the web page in the browser when changes are made to the code</p>
-										</div>
-
-										<div class="plugins-linters__item">
-											<span class="plugins-linters__plugin-name">Live Sass Compiller</span>
-											<p class="plugins-linters__text">is a tool that compiles Sass or SCSS files to CSS in real time</p>
+												<div class="plugins-linters__hidden-item">
+													<span class="plugins-linters__hidden-title">Auto Rename Tag</span>
+													<p class="plugins-linters__hidden-text">to quickly and easily rename tags in HTML</p>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>

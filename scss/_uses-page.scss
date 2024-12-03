@@ -231,19 +231,19 @@ $uses-linters-box-shadow-color: $white;
 			align-items: center;
 			justify-content: space-between;
 			padding: 0 10px;
-			height: 60px;
+			height: 55px;
 			background-color: transparent;
 			border: none;
 			border-bottom: 0 solid transparent;
 			cursor: pointer;
 			box-shadow: 0 0 5px transparent;
 			transition:
-				box-shadow 0.4s ease-out,
+				box-shadow 0.2s ease-out,
 				border-bottom 0.3s 0.1s ease-out;
 
 			&:hover {
 				transition:
-					box-shadow 0.4s ease-out,
+					box-shadow 0.2s ease-out,
 					border-bottom 0.4s 0.2s ease-out;
 				box-shadow: 0 0 10px $uses-equipment-border-color;
 			}
@@ -275,10 +275,12 @@ $uses-linters-box-shadow-color: $white;
 		}
 
 		&__text--scroll-animate {
+			opacity: 0.3;
 			transform: translateX(10px);
 		}
 
 		&__text--open {
+			opacity: 1;
 			transform: translateX(0);
 		}
 
@@ -307,6 +309,7 @@ $uses-linters-box-shadow-color: $white;
 		}
 
 		&__img--scroll-animate {
+			opacity: 0.3;
 			transform: translateX(-10px) rotate(90deg);
 		}
 
@@ -586,7 +589,7 @@ $uses-linters-box-shadow-color: $white;
 
 		&__h4-title-scroll--animate {
 			transform: translateX(10px);
-			opacity: 0;
+			opacity: 0.3;
 		}
 
 		&__item {
@@ -652,10 +655,12 @@ $uses-linters-box-shadow-color: $white;
 		}
 
 		&__text--scroll-animate {
+			opacity: 0.3;
 			transform: translateX(-10px);
 		}
 
 		&__text--open {
+			opacity: 1;
 			transform: translateX(0);
 		}
 
@@ -672,6 +677,7 @@ $uses-linters-box-shadow-color: $white;
 		}
 
 		&__img--scroll-animate {
+			opacity: 0.3;
 			transform: translateX(10px) rotate(90deg);
 		}
 
@@ -682,7 +688,7 @@ $uses-linters-box-shadow-color: $white;
 		}
 
 		&__img--close {
-			transition: all 0.7s linear;
+			transition: all 0.5s linear;
 			transform: rotate(90deg);
 		}
 
@@ -693,64 +699,17 @@ $uses-linters-box-shadow-color: $white;
 			overflow: hidden;
 			transform: translateX(-20px);
 			opacity: 0;
-			transition: all 0.4s ease-in;
+			transition: all 0.5s linear;
 		}
 
 		&__hidden-box--animate {
-			transition: all 0.8s 0.2s ease-out;
 			transform: translateX(0);
 			opacity: 1;
 		}
 
-		$heights: (
-			0: '500px',
-			1: '1360px',
-			2: '6105px',
-			3: '1675px',
-		);
-
-		@mixin settings-linters-hidden-box-close-open($index, $height) {
-			&__hidden-box--open-#{$index} {
-				@keyframes settings-linters-hidden-box-open-#{$index} {
-					0% {
-						height: 0;
-					}
-
-					99% {
-						height: #{$height};
-					}
-
-					100% {
-						height: auto;
-					}
-				}
-
-				animation: settings-linters-hidden-box-open-#{$index} 0.6s ease-out forwards;
-			}
-
-			&__hidden-box--close-#{$index} {
-				@keyframes settings-linters-hidden-box-close-#{$index} {
-					0% {
-						height: #{$height};
-					}
-
-					100% {
-						height: 0;
-					}
-				}
-
-				animation: settings-linters-hidden-box-close-#{$index} 1s ease-out forwards;
-			}
-		}
-
-		@each $index, $height in $heights {
-			@include settings-linters-hidden-box-close-open($index, $height);
-		}
-
 		&__hidden-btn {
 			margin: 20px 0;
-			width: 220px;
-			height: 30px;
+			padding: 5px 70px;
 			font-style: normal;
 			font-weight: 500;
 			font-size: 20px;
@@ -830,9 +789,10 @@ $uses-linters-box-shadow-color: $white;
 	}
 
 	.plugins-linters {
-		display: none;
+		display: flex;
 		flex-direction: column;
 		align-items: center;
+		margin-top: 40px;
 
 		&__subtitle {
 			margin-bottom: 15px;
@@ -840,8 +800,19 @@ $uses-linters-box-shadow-color: $white;
 			font-weight: 600;
 			font-size: 40px;
 			color: $uses-linters-text-color;
-			opacity: 1;
+			opacity: 0;
+			transform: translateY(-20px);
+		}
+
+		&__subtitle--animate {
+			transition: all 0.8s ease-out;
 			transform: translateY(0);
+			opacity: 1;
+		}
+
+		&__subtitle--scroll-animate {
+			transform: translateX(10px);
+			opacity: 0.3;
 		}
 
 		&__h4-title {
@@ -850,38 +821,153 @@ $uses-linters-box-shadow-color: $white;
 			font-weight: 600;
 			font-size: 22px;
 			color: $uses-linters-text-color;
-			opacity: 1;
-			transform: translateX(0);
+			text-align: center;
+			opacity: 0;
+			transform: translateX(20px);
 
 			& span {
 				color: $uses-linters-accent-text-color;
 			}
 		}
 
+		&__h4-title--animate {
+			transition: all 0.8s ease-out;
+			opacity: 1;
+			transform: translateX(0);
+		}
+
+		&__h4-title--scroll-animate {
+			opacity: 0.3;
+			transform: translateY(-10px);
+		}
+
 		&__content {
 			display: flex;
 			flex-direction: column;
-			row-gap: 40px;
-			width: 100%;
+			row-gap: 15px;
 		}
 
 		&__item {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			box-shadow: 0 0 0 transparent;
+		}
+
+		&__item--animate {
+			transition: all 1s ease-out;
+			box-shadow: 0 0 5px white;
+		}
+
+		&__item--scroll-animate {
+			box-shadow: 0 0 3px transparent;
+		}
+
+		&__item--open {
+			box-shadow: 0 0 5px white;
+		}
+
+		&__btn {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 0 15px;
+			width: 100%;
+			height: 60px;
+			background-color: transparent;
+			border: none;
+			border-bottom: 0 solid transparent;
+			cursor: pointer;
+			transition: all 0.2s ease-out;
+
+			&:hover {
+				box-shadow: 0 0 10px white;
+			}
+		}
+
+		&__btn--open {
+			transition: all 0.6s ease-out;
+			border-bottom: 1px solid white;
+		}
+
+		&__text {
+			font-style: normal;
+			font-weight: 500;
+			font-size: 28px;
+			color: white;
+			transform: translateX(-20px);
+			opacity: 0;
+			pointer-events: none;
+		}
+
+		&__text--animate {
+			transition: all 1s ease-out;
+			transform: translateX(0);
+			opacity: 1;
+		}
+
+		&__text--scroll-animate {
+			opacity: 0.3;
+			transform: translateX(-10px);
+		}
+
+		&__text--open {
+			transform: translateX(0);
+			opacity: 1;
+		}
+
+		&__img {
+			transform: translateX(20px) rotate(90deg);
+			opacity: 0;
+			pointer-events: none;
+		}
+
+		&__img--animate {
+			transition: all 0.7s ease-out;
+			opacity: 1;
+			transform: translateX(0) rotate(90deg);
+		}
+
+		&__img--scroll-animate {
+			opacity: 0.3;
+			transform: translateX(10px) rotate(90deg);
+		}
+
+		&__img--open {
+			transition: all 0.5s ease-out;
+			transform: translateX(0) rotate(0);
+		}
+
+		&__hidden-box {
+			display: flex;
+			flex-direction: column;
+			padding: 0 20px;
+			row-gap: 30px;
+			height: 0;
+			overflow: hidden;
+			transition: all 0.5s ease-out;
+		}
+
+		&__hidden-item {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
 			row-gap: 10px;
 		}
 
-		&__plugin-name {
-			font-weight: 700;
-			font-size: 28px;
-			color: $uses-linters-accent-text-color;
+		&__hidden-title {
+			font-weight: 600;
+			line-height: 100%;
+			font-size: 24px;
+			color: #f8aa01;
+			text-align: center;
 		}
 
-		&__text {
-			font-weight: 600;
-			font-size: 22px;
-			color: $uses-linters-text-color;
+		&__hidden-text {
+			font-weight: 500;
+			font-size: 18px;
+			color: white;
+			letter-spacing: 0.5px;
 			text-align: center;
 		}
 	}
@@ -889,6 +975,7 @@ $uses-linters-box-shadow-color: $white;
 
 .linters__modal-window {
 	position: fixed;
+	z-index: 10;
 	bottom: 3%;
 	left: 50%;
 	font-style: normal;
@@ -983,6 +1070,16 @@ $uses-linters-box-shadow-color: $white;
 			&__subtitle {
 				font-size: 38px;
 			}
+
+			&__hidden-text {
+				font-size: 20px;
+			}
+		}
+
+		.plugins-linters {
+			&__subtitle {
+				font-size: 38px;
+			}
 		}
 	}
 }
@@ -1025,8 +1122,17 @@ $uses-linters-box-shadow-color: $white;
 	.linters {
 		.settings-linters {
 			&__hidden-text {
-				font-size: 18px;
-				letter-spacing: -0.2px;
+				font-size: 15px;
+			}
+		}
+
+		.plugins-linters {
+			&__hidden-title {
+				font-size: 22px;
+			}
+
+			&__hidden-text {
+				font-size: 16px;
 			}
 		}
 	}
@@ -1131,7 +1237,8 @@ $uses-linters-box-shadow-color: $white;
 			}
 
 			&__hidden-text {
-				font-size: 14px;
+				font-size: 13px;
+				white-space: pre-line;
 			}
 
 			&__up-btn {
@@ -1144,6 +1251,33 @@ $uses-linters-box-shadow-color: $white;
 			&__up-img {
 				width: 28px;
 				height: 28px;
+			}
+		}
+
+		.plugins-linters {
+			&__subtitle {
+				font-size: 34px;
+			}
+
+			&__h4-title {
+				font-size: 18px;
+			}
+
+			&__btn {
+				padding: 0 10px;
+				height: 50px;
+			}
+
+			&__text {
+				font-size: 26px;
+			}
+
+			&__hidden-title {
+				font-size: 20px;
+			}
+
+			&__hidden-text {
+				font-size: 14px;
 			}
 		}
 	}
@@ -1207,8 +1341,42 @@ $uses-linters-box-shadow-color: $white;
 			}
 
 			&__hidden-text {
-				font-size: 12px;
+				font-size: 11px;
 			}
 		}
+
+		.plugins-linters {
+			&__subtitle {
+				font-size: 30px;
+			}
+
+			&__text {
+				font-size: 22px;
+			}
+		}
+	}
+}
+
+@media (hover: none) and (pointer: coarse) {
+	.equipment-content__button:hover {
+		transition: 0s !important;
+		box-shadow: none !important;
+	}
+
+	.settings-linters__btn:hover {
+		box-shadow: none !important;
+	}
+
+	.settings-linters__hidden-btn:hover {
+		color: $white !important;
+		box-shadow: 0 0 5px $white !important;
+	}
+
+	.settings-linters__up-btn:hover {
+		filter: none !important;
+	}
+
+	.plugins-linters__btn:hover {
+		box-shadow: none !important;
 	}
 }
