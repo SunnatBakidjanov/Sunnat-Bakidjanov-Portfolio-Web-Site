@@ -1184,6 +1184,10 @@ $exp-text-color: $white;
 
 @media (width <= 1000px) {
 	.getting {
+		.getting__inner-text {
+			margin-left: 0;
+		}
+
 		.getting__wrapper {
 			align-items: center;
 			justify-content: center;
