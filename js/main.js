@@ -1142,268 +1142,258 @@ function main() {
 				textsElements: document.querySelectorAll('.cards-content__text'),
 			}
 
-			const ids = []
-			const elementKeys = []
-			const startHeight = 0
+			function animateProgress() {
+				const ids = []
+				const elementKeys = []
+				const startHeight = 30
 
-			const fluctuateStatus = {}
-			const timeouts = []
-			const intervals = []
-			const animationFrames = []
-			const circles = []
-			const progressSeenElements = []
+				const circles = []
+				const intervals = []
+				const animationFrames = []
+				const timeouts = []
+				const visibleIndexes = []
+				const animationEnd = {}
+				const fluctuateStatus = {}
+				let handleAnimation = null
 
-			let currentStepIndex = 0
-			let handleAnimation = null
-			const animationEnd = {}
+				queryElements.container.forEach((_, index) => {
+					const id = document.getElementById(`cards-inner-progress-${index}`)
+					const circle = document.getElementById(`cards-content-circle-${index}`)
 
-			let textIndex = 0
-			const textSeenElements = []
-			const textAnimation = {}
-			const textIds = []
+					elementKeys.push(`cards-inner-progress-${index}`)
+					ids.push(id)
+					circles.push(circle)
+				})
 
-			queryElements.container.forEach((_, index) => {
-				const id = document.getElementById(`cards-content-${index}`)
-				const textId = document.getElementById(`cards-content-inner-text-${index}`)
-				const circle = document.getElementById(`cards-content-circle-${index}`)
+				function getPrecentCards(circleId, numberId, elementKey, targetPercent, duration, precentChangeTime) {
+					const progressCircle = document.getElementById(circleId)
+					const percentValue = document.getElementById(numberId)
+					const radius = progressCircle.r.baseVal.value
+					const circumference = 2 * Math.PI * radius
+					const initialOffset = circumference * 0.99
 
-				elementKeys.push(`cards-content-${index}`, `cards-content-inner-text-${index}`)
-				progressSeenElements.push(`cards-content-${index}`)
-				textSeenElements.push(`cards-content-inner-text-${index}`)
-				circles.push(circle)
-				textIds.push(textId)
-				ids.push(textId, id)
-			})
+					let intervalFluctuateProgress = null
 
-			function getPrecentCards(circleId, numberId, elementKey, targetPercent, duration, precentChangeTime) {
-				const progressCircle = document.getElementById(circleId)
-				const percentValue = document.getElementById(numberId)
-				const radius = progressCircle.r.baseVal.value
-				const circumference = 2 * Math.PI * radius
-				const initialOffset = circumference * 0.99
-
-				let intervalFluctuateProgress = null
-				fluctuateStatus[elementKey] = { isStart: false }
-
-				progressCircle.style.strokeDasharray = `${circumference}`
-				progressCircle.style.strokeDashoffset = `${initialOffset}`
-
-				function setProgress(percent) {
-					const offset = circumference - (percent / 100) * circumference
-					progressCircle.style.strokeDashoffset = offset
-					percentValue.textContent = `${percent}`
-				}
-
-				function animateProgress() {
-					let start = null
-					let initialPercent = 0
-
-					function step(timestamp) {
-						if (!start) start = timestamp
-						const progress = timestamp - start
-						const percent = Math.min(initialPercent + (progress / duration) * targetPercent, targetPercent)
-						setProgress(Math.floor(percent))
-
-						if (progress < duration) {
-							const animationFrame = requestAnimationFrame(step)
-							animationFrames.push(animationFrame)
-						} else if (!fluctuateStatus[elementKey].isStart) {
-							fluctuateStatus[elementKey].isStart = true
-
-							fluctuateProgress()
-						}
+					if (!fluctuateStatus[elementKeys]) {
+						fluctuateStatus[elementKey] = { isStart: false }
 					}
 
-					const animationFrame = requestAnimationFrame(step)
-					animationFrames.push(animationFrame)
+					progressCircle.style.strokeDasharray = `${circumference}`
+					progressCircle.style.strokeDashoffset = `${initialOffset}`
+
+					function setProgress(percent) {
+						const offset = circumference - (percent / 100) * circumference
+						progressCircle.style.strokeDashoffset = offset
+						percentValue.textContent = `${percent}`
+					}
+
+					function animateProgress() {
+						let start = null
+						let initialPercent = 0
+
+						function step(timestamp) {
+							if (!start) start = timestamp
+							const progress = timestamp - start
+							const percent = Math.min(initialPercent + (progress / duration) * targetPercent, targetPercent)
+							setProgress(Math.floor(percent))
+
+							if (progress < duration) {
+								const animationFrame = requestAnimationFrame(step)
+								animationFrames.push(animationFrame)
+							} else if (!fluctuateStatus[elementKey].isStart) {
+								fluctuateStatus[elementKey].isStart = true
+
+								fluctuateProgress()
+							}
+						}
+
+						const animationFrame = requestAnimationFrame(step)
+						animationFrames.push(animationFrame)
+					}
+
+					setProgress(0)
+					animateProgress()
+
+					function fluctuateProgress() {
+						if (intervalFluctuateProgress) return
+
+						intervalFluctuateProgress = setInterval(() => {
+							const currentPercent = parseInt(percentValue.textContent, 10)
+							const fluctuation = Math.floor(Math.random() * 3) - 1
+							let newPercent = currentPercent + fluctuation
+
+							if (newPercent <= 0) {
+								newPercent = 0
+							} else if (newPercent >= 100) {
+								newPercent = 100
+							}
+
+							if (newPercent > targetPercent + 5 && targetPercent >= 0) {
+								newPercent = targetPercent + 5
+							} else if (newPercent < targetPercent - 5 && targetPercent >= 0) {
+								newPercent = targetPercent - 5
+							}
+
+							if (precentChangeTime != 0) {
+								setProgress(newPercent)
+							}
+						}, precentChangeTime)
+
+						intervals.push(intervalFluctuateProgress)
+					}
 				}
 
-				setProgress(0)
-				animateProgress()
-
-				function fluctuateProgress() {
-					if (intervalFluctuateProgress) return
-
-					intervalFluctuateProgress = setInterval(() => {
-						const currentPercent = parseInt(percentValue.textContent, 10)
-						const fluctuation = Math.floor(Math.random() * 3) - 1
-						let newPercent = currentPercent + fluctuation
-
-						if (newPercent <= 0) {
-							newPercent = 0
-						} else if (newPercent >= 100) {
-							newPercent = 100
+				function animate() {
+					queryElements.svgBox.forEach((_, index) => {
+						if (!animationEnd[index]) {
+							animationEnd[index] = { isEnded: false, isStarted: false }
 						}
 
-						if (newPercent > targetPercent + 5 && targetPercent >= 0) {
-							newPercent = targetPercent + 5
-						} else if (newPercent < targetPercent - 5 && targetPercent >= 0) {
-							newPercent = targetPercent - 5
-						}
+						if (seenElements.has(elementKeys[index])) {
+							if (!animationEnd[index].isStarted) {
+								animationEnd[index].isStarted = true
 
-						if (precentChangeTime != 0) {
-							setProgress(newPercent)
-						}
-					}, precentChangeTime)
+								const { id, className, precent, progressDuration, precentChangeTime } = configProgress[index]
 
-					intervals.push(intervalFluctuateProgress)
+								const svgBox = queryElements.svgBox[index]
+								const progressText = queryElements.text[index]
+								const container = queryElements.container[index]
+
+								visibleIndexes.push(index)
+
+								setTimeout(() => {
+									visibleIndexes.length = 0
+								}, 200)
+
+								const delay = visibleIndexes.indexOf(index) * 200
+
+								const timeout = setTimeout(() => {
+									svgBox.classList.add('cards-content__svg-box--animate')
+									progressText.classList.add('cards-content__progress-text--animate')
+									container.classList.add(`cards-content__container--${className}-animate`)
+								}, delay)
+
+								timeouts.push(timeout)
+
+								handleAnimation = event => {
+									if (event.target === queryElements.svgBox[index] && event.animationName === 'cards-content-svg-box' && !animationEnd[index].isEnded) {
+										animationEnd[index].isEnded = true
+
+										getPrecentCards(`cards-content-circle-${id}`, `cards-content-value-${id}`, `cards-content-content-${id}`, precent, progressDuration, precentChangeTime)
+
+										const timeout = setTimeout(() => {
+											circles[index].classList.add(`cards-content__circle--${className}`)
+										}, 200)
+
+										timeouts.push(timeout)
+									}
+								}
+
+								document.addEventListener('animationend', handleAnimation)
+							}
+						}
+					})
 				}
+
+				function reset() {
+					queryElements.svgBox.forEach((element, index) => {
+						const { className } = configProgress[index]
+
+						animationEnd[index] = { isEnded: false, isStarted: false }
+						fluctuateStatus[index] = { isStart: false }
+
+						queryElements.container[index].classList.remove(`cards-content__container--${className}-animate`)
+						queryElements.svgBox[index].classList.remove('cards-content__svg-box--animate')
+						queryElements.text[index].classList.remove('cards-content__progress-text--animate')
+						circles[index].classList.remove(`cards-content__circle--${className}`)
+
+						queryElements.value[index].textContent = 0
+						clearInterval(intervals[index])
+					})
+
+					animationFrames.forEach(frame => cancelAnimationFrame(frame))
+
+					animationFrames.length = 0
+					intervals.length = 0
+				}
+
+				createAnimation(ids, elementKeys, startHeight, animate, reset)
 			}
 
-			function animateProgress(stepIndex = currentStepIndex) {
-				if (stepIndex >= configProgress.length) return
+			animateProgress()
 
-				const elementsSeen = progressSeenElements[stepIndex]
-				if (!seenElements.has(elementsSeen)) return
+			function animateTexts() {
+				const ids = []
+				const elementKeys = []
+				const startHeight = 170
 
-				if (!animationEnd[stepIndex]) {
-					animationEnd[stepIndex] = { nextIndex: false, isEnded: false }
-				}
+				queryElements.textsElements.forEach((element, index) => {
+					const id = `cards-content-text-${index}`
+					element.setAttribute('id', id)
 
-				const { id, className, precent, progressDuration, precentChangeTime } = configProgress[stepIndex]
+					elementKeys.push(`cards-content-text-${index}`)
+					ids.push(element)
+				})
 
-				const svgBox = queryElements.svgBox[stepIndex]
-				const progressText = queryElements.text[stepIndex]
-				const container = queryElements.container[stepIndex]
-
-				svgBox.classList.add('cards-content__svg-box--animate')
-				progressText.classList.add('cards-content__progress-text--animate')
-				container.classList.add(`cards-content__container--${className}-animate`)
-
-				handleAnimation = event => {
-					if (event.target === queryElements.svgBox[stepIndex] && event.animationName === 'cards-content-svg-box' && !animationEnd[stepIndex].isEnded) {
-						animationEnd[stepIndex].isEnded = true
-
-						getPrecentCards(`cards-content-circle-${id}`, `cards-content-value-${id}`, `cards-content-content-${id}`, precent, progressDuration, precentChangeTime)
-
-						const timeout = setTimeout(() => {
-							circles[stepIndex].classList.add(`cards-content__circle--${className}`)
-						}, 200)
-
-						timeouts.push(timeout)
-					}
-				}
-
-				document.removeEventListener('animationend', handleAnimation)
-				document.addEventListener('animationend', handleAnimation)
-
-				if (!animationEnd[stepIndex].nextIndex) {
-					animationEnd[stepIndex].nextIndex = true
-
-					const timeout = setTimeout(() => {
-						currentStepIndex = stepIndex + 1
-						animateProgress(currentStepIndex)
-					}, 200)
-
-					timeouts.push(timeout)
-				}
-			}
-
-			function animateTexts(stepIndex = textIndex) {
-				if (stepIndex >= queryElements.textBox.length) return
-
-				if (!textAnimation[stepIndex]) {
-					textAnimation[stepIndex] = { nextIndex: false, isAnimation: false }
-				}
-
-				const { className } = configProgress[stepIndex]
-
-				const elementSeen = textSeenElements[stepIndex]
-				if (!seenElements.has(elementSeen)) return
-
-				const textElements = [...textIds[stepIndex].childNodes].filter(node => node.nodeType === 1 && node.classList.contains('cards-content__text'))
-
-				function shuffle(list) {
-					for (let i = list.length - 1; i > 0; i--) {
-						const j = Math.floor(Math.random() * (i + 1))
-						;[list[i], list[j]] = [list[j], list[i]]
-					}
-				}
-
-				if (!textAnimation[stepIndex].isAnimation) {
-					textAnimation[stepIndex].isAnimation = true
+				queryElements.container.forEach((_, index) => {
+					const { className } = configProgress[index]
+					const textElements = [...queryElements.textBox[index].childNodes].filter(node => node.nodeType === 1 && node.classList.contains('cards-content__text'))
 
 					textElements.forEach((element, index) => {
 						if (index % 2 === 0) {
 							element.classList.add(`cards-content__text--${className}`)
 						}
 					})
+				})
 
-					const shuffleList = textElements
-					shuffle(shuffleList)
+				const timeouts = []
+				const visibleIndexes = []
+				const animationEnd = {}
 
-					shuffleList.forEach((element, index) => {
-						const timeout = setTimeout(() => {
-							element.classList.add('cards-content__text--animate')
-						}, 150 * index)
+				function animate() {
+					queryElements.textsElements.forEach((element, index) => {
+						if (!animationEnd[index]) {
+							animationEnd[index] = { isStarted: false }
+						}
 
-						timeouts.push(timeout)
+						if (seenElements.has(elementKeys[index])) {
+							if (!animationEnd[index].isStarted) {
+								animationEnd[index].isStarted = true
+
+								visibleIndexes.push(index)
+
+								setTimeout(() => {
+									visibleIndexes.length = 0
+								}, 80)
+
+								const delay = visibleIndexes.indexOf(index) * 80
+
+								const timeout = setTimeout(() => {
+									element.classList.add('cards-content__text--animate')
+								}, delay)
+
+								timeouts.push(timeout)
+							}
+						}
 					})
 				}
 
-				if (!textAnimation[stepIndex].nextIndex) {
-					textAnimation[stepIndex].nextIndex = false
+				function reset() {
+					queryElements.textsElements.forEach((element, index) => {
+						element.classList.remove('cards-content__text--animate')
 
-					const timeout = setTimeout(() => {
-						textIndex = stepIndex + 1
-						animateTexts(textIndex)
-					}, 200)
+						clearTimeout(timeouts[index])
 
-					timeouts.push(timeout)
+						animationEnd[index] = { isStarted: false }
+					})
+
+					timeouts.length = 0
 				}
+
+				createAnimation(ids, elementKeys, startHeight, animate, reset)
 			}
 
-			function resetProgress() {
-				currentStepIndex = 0
-
-				queryElements.container.forEach((element, index) => {
-					const { className } = configProgress[index]
-
-					animationEnd[index] = { nextIndex: false, isEnded: false }
-					fluctuateStatus[index] = { isStart: false }
-
-					element.classList.remove(`cards-content__container--${className}-animate`)
-					queryElements.svgBox[index].classList.remove('cards-content__svg-box--animate')
-					queryElements.text[index].classList.remove('cards-content__progress-text--animate')
-					circles[index].classList.remove(`cards-content__circle--${className}`)
-
-					queryElements.value[index].textContent = 0
-					clearInterval(intervals[index])
-				})
-
-				animationFrames.forEach(frame => cancelAnimationFrame(frame))
-
-				animationFrames.length = 0
-				intervals.length = 0
-			}
-
-			function resetTexts() {
-				textIndex = 0
-
-				queryElements.container.forEach((_, index) => {
-					textAnimation[index] = { nextIndex: false, isAnimation: false }
-				})
-
-				queryElements.textsElements.forEach((element, index) => {
-					element.classList.remove('cards-content__text--animate')
-
-					clearTimeout(timeouts[index])
-				})
-
-				timeouts.length = 0
-			}
-
-			function animate() {
-				animateProgress()
-				animateTexts()
-			}
-
-			function reset() {
-				resetProgress()
-				resetTexts()
-			}
-
-			createAnimation(ids, elementKeys, startHeight, animate, reset)
+			animateTexts()
 		}
 
 		animateCards()
@@ -1893,14 +1883,6 @@ function main() {
 					}
 				}
 
-				function handleCloseMenuOnScroll() {
-					elements.item.forEach((element, index) => {
-						if (!handleVisibilityChange(element, startHeight, elementKeys)) {
-							closeElement(index)
-						}
-					})
-				}
-
 				function openHiddenMenu(event) {
 					const index = [...elements.button].indexOf(event.target)
 
@@ -1952,7 +1934,6 @@ function main() {
 
 				function animate() {
 					document.addEventListener('click', openHiddenMenu)
-					document.addEventListener('scroll', handleCloseMenuOnScroll)
 
 					handleAnimation()
 				}
