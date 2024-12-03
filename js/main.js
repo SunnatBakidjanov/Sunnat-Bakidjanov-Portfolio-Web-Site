@@ -923,8 +923,8 @@ function main() {
 			const startHeight = 0
 
 			const texts = {
-				en: ['a junior-frontend developer', 'I want to learn a lot. . .', 'HTML is easy!', 'Javascript is my choice!', 'I love CSS animations!', 'HTML, CSS and JS.', 'Coming soon... React!', 'I like cats (=^.^=)', '. . .'],
-				ru: ['junior-frontend разработчик', 'Я хочу многому научиться. . .', 'HTML — это просто!', 'JavaScript — мой выбор!', 'Обожаю CSS-анимации!', 'HTML, CSS и JS', 'Скоро. . . React!', 'Я люблю кошек (=^.^=)', '. . .'],
+				en: ['a junior-frontend developer', 'I want to learn a lot. . .', 'HTML is easy!', 'Javascript is my choice!', 'I love CSS animations!', 'HTML, CSS and JS.', 'Coming soon... React!', '. . .'],
+				ru: ['junior-frontend разработчик', 'Я хочу многому научиться. . .', 'HTML — это просто!', 'JavaScript — мой выбор!', 'Обожаю CSS-анимации!', 'HTML, CSS и JS', 'Скоро. . . React!', '. . .'],
 			}
 
 			let textIndex = 0
@@ -1325,7 +1325,7 @@ function main() {
 			function animateTexts() {
 				const ids = []
 				const elementKeys = []
-				const startHeight = 170
+				let startHeight = document.documentElement.clientWidth < 1030 ? 50 : 215
 
 				queryElements.textsElements.forEach((element, index) => {
 					const id = `cards-content-text-${index}`
@@ -1350,7 +1350,13 @@ function main() {
 				const visibleIndexes = []
 				const animationEnd = {}
 
+				function updateStartingHeight() {
+					startHeight = document.documentElement.clientWidth < 1030 ? 50 : 215
+				}
+
 				function animate() {
+					window.addEventListener('resize', updateStartingHeight)
+
 					queryElements.textsElements.forEach((element, index) => {
 						if (!animationEnd[index]) {
 							animationEnd[index] = { isStarted: false }
@@ -1379,6 +1385,8 @@ function main() {
 				}
 
 				function reset() {
+					window.removeEventListener('resize', updateStartingHeight)
+
 					queryElements.textsElements.forEach((element, index) => {
 						element.classList.remove('cards-content__text--animate')
 

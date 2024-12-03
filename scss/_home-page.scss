@@ -49,6 +49,7 @@ $exp-text-color: $white;
 .home-page {
 	position: absolute;
 	left: -9999px;
+	min-height: 100vh;
 }
 
 .getting {
@@ -59,22 +60,21 @@ $exp-text-color: $white;
 		flex-wrap: wrap;
 		padding-top: 50px;
 		height: 400px;
+	}
 
-		.getting__inner-text {
-			margin-top: 20px;
-			margin-left: 50px;
-		}
+	.getting__inner-text {
+		margin-top: 20px;
+		margin-left: 30px;
+	}
 
-		.getting__inner-logo-3d {
-			margin-right: 20px;
-		}
+	.getting__inner-logo-3d {
+		margin-right: 20px;
 	}
 
 	.my-name {
 		overflow: hidden;
 
 		&__hidden-title {
-			height: 130px;
 			overflow: hidden;
 		}
 
@@ -87,10 +87,10 @@ $exp-text-color: $white;
 			font-size: 55px;
 			color: $my-name-title-color;
 			letter-spacing: 0.5px;
-		}
 
-		&__title span {
-			color: white;
+			& span {
+				color: $my-name-text-color;
+			}
 		}
 
 		&__title--animate {
@@ -108,14 +108,15 @@ $exp-text-color: $white;
 		}
 
 		&__text {
+			display: inline-block;
 			margin-top: 30px;
-			max-width: 691px;
-			height: 100px;
+			margin-bottom: 70px;
 			font-style: normal;
 			font-weight: 700;
-			font-size: 40px;
+			font-size: 36px;
 			color: $my-name-text-color;
-			letter-spacing: 2px;
+			letter-spacing: 1px;
+			text-align: center;
 			overflow: hidden;
 		}
 
@@ -153,11 +154,13 @@ $exp-text-color: $white;
 
 	.logo-3d {
 		perspective: 550px;
+		width: 250px;
+		height: 250px;
 
 		&__preserve-3d {
 			position: relative;
-			width: 250px;
-			height: 250px;
+			width: 100%;
+			height: 100%;
 			transform-style: preserve-3d;
 		}
 
@@ -173,6 +176,12 @@ $exp-text-color: $white;
 			}
 
 			animation: logo-3d-rotation 25s linear infinite;
+		}
+
+		&__sides {
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 
 		&__front {
@@ -398,7 +407,7 @@ $exp-text-color: $white;
 	&__hide-text--animate {
 		@keyframes scroll-hmp-text-start {
 			0% {
-				bottom: 50px;
+				bottom: 70px;
 			}
 
 			100% {
@@ -415,15 +424,18 @@ $exp-text-color: $white;
 
 	&__text {
 		position: relative;
-		bottom: 50px;
+		bottom: 70px;
 		margin-left: 50px;
 		font-weight: 600;
 		font-size: 35px;
 		color: $scroll-hmp-text-color;
+		letter-spacing: 0.5px;
 	}
 }
 
 .cards {
+	display: none;
+
 	$colors: (
 		'html': $html-color,
 		'css': $css-color,
@@ -652,6 +664,8 @@ $exp-text-color: $white;
 }
 
 .projects {
+	display: none;
+
 	.projects__wrapper {
 		display: flex;
 		flex-direction: column;
@@ -908,6 +922,8 @@ $exp-text-color: $white;
 }
 
 .exp {
+	display: none;
+
 	.exp__wrapper {
 		display: flex;
 		flex-direction: column;
@@ -1163,5 +1179,188 @@ $exp-text-color: $white;
 		}
 
 		animation: exp-bottom-line 0.5s forwards linear;
+	}
+}
+
+@media (width <= 1000px) {
+	.getting {
+		.getting__wrapper {
+			align-items: center;
+			justify-content: center;
+		}
+
+		.getting__inner-logo-3d {
+			margin-top: 80px;
+			margin-right: 0;
+			margin-left: 40px;
+		}
+
+		.getting__inner-text {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			width: 100%;
+		}
+
+		.my-name {
+			&__title {
+				top: -140px;
+				left: 0;
+				text-align: center;
+			}
+
+			&__title--animate {
+				@keyframes my-name-title-left {
+					0% {
+						top: -140px;
+					}
+
+					100% {
+						top: 0;
+					}
+				}
+
+				animation: my-name-title-left 1.3s forwards 0.3s ease;
+			}
+
+			&__text {
+				width: auto;
+			}
+		}
+	}
+
+	.scroll-hmp {
+		&__wrapper {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			margin-top: 350px;
+			width: 100%;
+			height: 200px;
+		}
+
+		&__line {
+			margin-left: 0;
+			width: 0;
+			height: 4px;
+			transition: all 1s ease-out;
+		}
+
+		&__line--animate {
+			width: 90%;
+			height: 4px;
+			animation: none;
+		}
+
+		&__text {
+			margin-top: 20px;
+			margin-left: 0;
+		}
+	}
+}
+
+@media (width <= 800px) {
+	.getting {
+		.my-name {
+			&__title {
+				font-size: 50px;
+			}
+
+			&__text {
+				font-size: 32px;
+			}
+		}
+	}
+}
+
+@media (width <= 600px) {
+	.getting {
+		.my-name {
+			&__title {
+				font-size: 42px;
+			}
+
+			&__text {
+				margin-top: 20px;
+				height: 75px;
+				font-size: 30px;
+			}
+		}
+	}
+
+	.scroll-hmp {
+		&__text {
+			font-size: 32px;
+		}
+	}
+}
+
+@media (width <= 400px) {
+	.getting {
+		.my-name {
+			&__title {
+				font-size: 38px;
+			}
+
+			&__text {
+				height: 65px;
+				font-size: 26px;
+				letter-spacing: 0.5px;
+			}
+		}
+	}
+
+	.scroll-hmp {
+		&__text {
+			font-size: 30px;
+		}
+	}
+
+	.logo-3d {
+		width: 200px !important;
+		height: 200px !important;
+
+		&__img {
+			width: 170px;
+			height: 170px;
+		}
+
+		&__img--back {
+			width: 170px;
+			height: 170px;
+		}
+
+		&__front {
+			transform: translateZ(22px) !important;
+		}
+
+		&__back {
+			transform: translateZ(-22px) rotateY(180deg) !important;
+		}
+
+		&__left {
+			transform: translateX(-21px) rotateY(-90deg) !important;
+		}
+
+		&__right {
+			transform: translateX(152px) rotateY(90deg) !important;
+		}
+	}
+}
+
+@media (height <= 800px) and (width > 1000px) {
+	.scroll-hmp {
+		&__wrapper {
+			height: calc(100vh - 250px);
+		}
+	}
+}
+
+@media (height <= 500px) and (width > 1000px) {
+	.scroll-hmp {
+		&__wrapper {
+			height: calc(100vh - 100px);
+		}
 	}
 }
