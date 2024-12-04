@@ -1118,7 +1118,7 @@ function main() {
 			const elementKeys = ['cards-title']
 			const startHeight = 200
 
-			const handleTextWrite = writeAndResetText(title, 'Progress of my skills . . .', 'Прогресс моих навыков . . .', 50, 'cards-title', null)
+			const handleTextWrite = writeAndResetText(title, 'Progress of my skills', 'Прогресс моих навыков', 50, 'cards-title', null)
 
 			createAnimation(ids, elementKeys, startHeight, handleTextWrite.write, handleTextWrite.reset)
 		}

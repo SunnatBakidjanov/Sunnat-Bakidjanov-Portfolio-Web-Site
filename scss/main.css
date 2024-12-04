@@ -1404,9 +1404,6 @@
   letter-spacing: 0.5px;
 }
 
-.cards {
-  display: none;
-}
 .cards .cards__wrapper {
   display: flex;
   flex-direction: column;
@@ -1414,7 +1411,7 @@
   padding-top: 50px;
 }
 .cards .cards__title {
-  width: 690px;
+  width: 605px;
   height: 63px;
   font-weight: 600;
   font-size: 50px;
@@ -2195,6 +2192,9 @@
     margin-top: 20px;
     margin-left: 0;
   }
+  .cards .cards__wrapper {
+    padding-top: 20px;
+  }
 }
 @media (width <= 800px) {
   .getting .my-name__title {
@@ -2202,6 +2202,16 @@
   }
   .getting .my-name__text {
     font-size: 32px;
+  }
+  .cards .cards__wrapper {
+    padding-top: 0;
+  }
+  .cards .cards__title {
+    width: 510px;
+    font-size: 42px;
+  }
+  .cards .cards__inner-content {
+    margin-top: 50px;
   }
 }
 @media (width <= 600px) {
@@ -2221,6 +2231,23 @@
   }
   .scroll-hmp__text {
     font-size: 32px;
+  }
+  .cards .cards__title {
+    width: auto;
+    height: 105px;
+    text-align: center;
+  }
+  .cards .cards__inner-content {
+    row-gap: 40px;
+  }
+  .cards .cards-content__inner-progress {
+    row-gap: 15px;
+  }
+  .cards .cards-content__inner-text {
+    row-gap: 35px;
+  }
+  .cards .cards-content__progress-text {
+    font-size: 36px;
   }
 }
 @media (width <= 400px) {
@@ -2263,6 +2290,28 @@
   }
   .scroll-hmp__text {
     font-size: 30px;
+  }
+  .cards .cards__title {
+    font-size: 36px;
+  }
+  .cards .cards__inner-content {
+    row-gap: 30px;
+  }
+  .cards .cards-content__container {
+    row-gap: 35px;
+  }
+  .cards .cards-content__inner-progress {
+    padding: 0;
+    width: 240px;
+  }
+  .cards .cards-content__inner-text {
+    row-gap: 25px;
+  }
+  .cards .cards-content__progress-text {
+    font-size: 34px;
+  }
+  .cards .cards-content__text {
+    font-size: 20px;
   }
 }
 @media (height <= 800px) and (width > 1000px) {

@@ -434,8 +434,6 @@ $exp-text-color: $white;
 }
 
 .cards {
-	display: none;
-
 	$colors: (
 		'html': $html-color,
 		'css': $css-color,
@@ -487,7 +485,7 @@ $exp-text-color: $white;
 	}
 
 	.cards__title {
-		width: 690px;
+		width: 605px;
 		height: 63px;
 		font-weight: 600;
 		font-size: 50px;
@@ -1260,6 +1258,12 @@ $exp-text-color: $white;
 			margin-left: 0;
 		}
 	}
+
+	.cards {
+		.cards__wrapper {
+			padding-top: 20px;
+		}
+	}
 }
 
 @media (width <= 800px) {
@@ -1272,6 +1276,21 @@ $exp-text-color: $white;
 			&__text {
 				font-size: 32px;
 			}
+		}
+	}
+
+	.cards {
+		.cards__wrapper {
+			padding-top: 0;
+		}
+
+		.cards__title {
+			width: 510px;
+			font-size: 42px;
+		}
+
+		.cards__inner-content {
+			margin-top: 50px;
 		}
 	}
 }
@@ -1302,6 +1321,32 @@ $exp-text-color: $white;
 
 		&__text {
 			font-size: 32px;
+		}
+	}
+
+	.cards {
+		.cards__title {
+			width: auto;
+			height: 105px;
+			text-align: center;
+		}
+
+		.cards__inner-content {
+			row-gap: 40px;
+		}
+
+		.cards-content {
+			&__inner-progress {
+				row-gap: 15px;
+			}
+
+			&__inner-text {
+				row-gap: 35px;
+			}
+
+			&__progress-text {
+				font-size: 36px;
+			}
 		}
 	}
 }
@@ -1361,6 +1406,39 @@ $exp-text-color: $white;
 
 		&__text {
 			font-size: 30px;
+		}
+	}
+
+	.cards {
+		.cards__title {
+			font-size: 36px;
+		}
+
+		.cards__inner-content {
+			row-gap: 30px;
+		}
+
+		.cards-content {
+			&__container {
+				row-gap: 35px;
+			}
+
+			&__inner-progress {
+				padding: 0;
+				width: 240px;
+			}
+
+			&__inner-text {
+				row-gap: 25px;
+			}
+
+			&__progress-text {
+				font-size: 34px;
+			}
+
+			&__text {
+				font-size: 20px;
+			}
 		}
 	}
 }
