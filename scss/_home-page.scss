@@ -1184,13 +1184,10 @@ $exp-text-color: $white;
 
 @media (width <= 1000px) {
 	.getting {
-		.getting__inner-text {
-			margin-left: 0;
-		}
-
 		.getting__wrapper {
 			align-items: center;
 			justify-content: center;
+			padding-top: 20px;
 		}
 
 		.getting__inner-logo-3d {
@@ -1203,6 +1200,7 @@ $exp-text-color: $white;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
+			margin-left: 0;
 			width: 100%;
 		}
 
@@ -1291,9 +1289,17 @@ $exp-text-color: $white;
 				font-size: 30px;
 			}
 		}
+
+		.logo-3d {
+			margin-top: 20px;
+		}
 	}
 
 	.scroll-hmp {
+		&__wrapper {
+			margin-top: 250px;
+		}
+
 		&__text {
 			font-size: 32px;
 		}
@@ -1313,42 +1319,48 @@ $exp-text-color: $white;
 				letter-spacing: 0.5px;
 			}
 		}
+
+		.logo-3d {
+			margin-top: 20px;
+			margin-left: 20px;
+			width: 200px;
+			height: 200px;
+
+			&__img {
+				width: 170px;
+				height: 170px;
+			}
+
+			&__img--back {
+				width: 170px;
+				height: 170px;
+			}
+
+			&__front {
+				transform: translateZ(22px);
+			}
+
+			&__back {
+				transform: translateZ(-22px) rotateY(180deg);
+			}
+
+			&__left {
+				transform: translateX(-21px) rotateY(-90deg);
+			}
+
+			&__right {
+				transform: translateX(152px) rotateY(90deg);
+			}
+		}
 	}
 
 	.scroll-hmp {
+		&__wrapper {
+			margin-top: 200px;
+		}
+
 		&__text {
 			font-size: 30px;
-		}
-	}
-
-	.logo-3d {
-		width: 200px !important;
-		height: 200px !important;
-
-		&__img {
-			width: 170px;
-			height: 170px;
-		}
-
-		&__img--back {
-			width: 170px;
-			height: 170px;
-		}
-
-		&__front {
-			transform: translateZ(22px) !important;
-		}
-
-		&__back {
-			transform: translateZ(-22px) rotateY(180deg) !important;
-		}
-
-		&__left {
-			transform: translateX(-21px) rotateY(-90deg) !important;
-		}
-
-		&__right {
-			transform: translateX(152px) rotateY(90deg) !important;
 		}
 	}
 }

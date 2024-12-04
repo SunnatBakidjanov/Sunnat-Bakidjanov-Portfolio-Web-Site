@@ -2135,12 +2135,10 @@
 }
 
 @media (width <= 1000px) {
-  .getting .getting__inner-text {
-    margin-left: 0;
-  }
   .getting .getting__wrapper {
     align-items: center;
     justify-content: center;
+    padding-top: 20px;
   }
   .getting .getting__inner-logo-3d {
     margin-top: 80px;
@@ -2151,6 +2149,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-left: 0;
     width: 100%;
   }
   .getting .my-name__title {
@@ -2214,6 +2213,12 @@
     height: 75px;
     font-size: 30px;
   }
+  .getting .logo-3d {
+    margin-top: 20px;
+  }
+  .scroll-hmp__wrapper {
+    margin-top: 250px;
+  }
   .scroll-hmp__text {
     font-size: 32px;
   }
@@ -2227,32 +2232,37 @@
     font-size: 26px;
     letter-spacing: 0.5px;
   }
+  .getting .logo-3d {
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 200px;
+    height: 200px;
+  }
+  .getting .logo-3d__img {
+    width: 170px;
+    height: 170px;
+  }
+  .getting .logo-3d__img--back {
+    width: 170px;
+    height: 170px;
+  }
+  .getting .logo-3d__front {
+    transform: translateZ(22px);
+  }
+  .getting .logo-3d__back {
+    transform: translateZ(-22px) rotateY(180deg);
+  }
+  .getting .logo-3d__left {
+    transform: translateX(-21px) rotateY(-90deg);
+  }
+  .getting .logo-3d__right {
+    transform: translateX(152px) rotateY(90deg);
+  }
+  .scroll-hmp__wrapper {
+    margin-top: 200px;
+  }
   .scroll-hmp__text {
     font-size: 30px;
-  }
-  .logo-3d {
-    width: 200px !important;
-    height: 200px !important;
-  }
-  .logo-3d__img {
-    width: 170px;
-    height: 170px;
-  }
-  .logo-3d__img--back {
-    width: 170px;
-    height: 170px;
-  }
-  .logo-3d__front {
-    transform: translateZ(22px) !important;
-  }
-  .logo-3d__back {
-    transform: translateZ(-22px) rotateY(180deg) !important;
-  }
-  .logo-3d__left {
-    transform: translateX(-21px) rotateY(-90deg) !important;
-  }
-  .logo-3d__right {
-    transform: translateX(152px) rotateY(90deg) !important;
   }
 }
 @media (height <= 800px) and (width > 1000px) {
