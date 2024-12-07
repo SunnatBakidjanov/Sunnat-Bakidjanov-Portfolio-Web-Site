@@ -923,8 +923,8 @@ function main() {
 			const startHeight = 0
 
 			const texts = {
-				en: ['a junior-frontend developer', 'I want to learn a lot. . .', 'HTML is easy!', 'Javascript is my choice!', 'I love CSS animations!', 'HTML, CSS and JS.', 'Coming soon... React!', '. . .'],
-				ru: ['junior-frontend разработчик', 'Я хочу многому научиться. . .', 'HTML — это просто!', 'JavaScript — мой выбор!', 'Обожаю CSS-анимации!', 'HTML, CSS и JS', 'Скоро. . . React!', '. . .'],
+				en: ['frontend developer', 'I want to learn a lot. . .', 'HTML is easy!', 'Javascript is my choice!', 'I love CSS animations!', 'HTML, CSS and JS.', 'Coming soon... React!', '. . .'],
+				ru: ['frontend разработчик', 'Я хочу многому научиться. . .', 'HTML — это просто!', 'JavaScript — мой выбор!', 'Обожаю CSS-анимации!', 'HTML, CSS и JS', 'Скоро. . . React!', '. . .'],
 			}
 
 			let textIndex = 0
@@ -1116,11 +1116,27 @@ function main() {
 
 			const ids = [title]
 			const elementKeys = ['cards-title']
-			const startHeight = 200
+			let startHeight = document.documentElement.clientWidth > 600 ? 0 : 100
 
-			const handleTextWrite = writeAndResetText(title, 'Progress of my skills', 'Прогресс моих навыков', 50, 'cards-title', null)
+			const handleTextWrite = writeAndResetText(title, 'Progress of my skills', 'Прогресс моих навыков', 60, 'cards-title', null)
 
-			createAnimation(ids, elementKeys, startHeight, handleTextWrite.write, handleTextWrite.reset)
+			function handleChangeOnResize() {
+				startHeight = document.documentElement.clientWidth > 600 ? 0 : 100
+			}
+
+			function animate() {
+				window.addEventListener('resize', handleChangeOnResize)
+
+				handleTextWrite.write()
+			}
+
+			function reset() {
+				window.removeEventListener('resize', handleChangeOnResize)
+
+				handleTextWrite.reset()
+			}
+
+			createAnimation(ids, elementKeys, startHeight, animate, reset)
 		}
 
 		writeCardsTitle()
@@ -1452,10 +1468,14 @@ function main() {
 
 			const ids = [cloudContainer]
 			const elementKeys = ['cloud-container']
-			const startHeight = 130
+			let startHeight = document.documentElement.clientWidth > 1100 ? 130 : 200
 
 			let timeout
 			let interval
+
+			function handleChangeOnResize() {
+				startHeight = document.documentElement.clientWidth > 1100 ? 130 : 200
+			}
 
 			function handleAnimationEnd(event) {
 				const { animationName } = event
@@ -1499,6 +1519,7 @@ function main() {
 				cloud.classList.add('cloud__particle-center--animate')
 
 				document.addEventListener('animationend', handleAnimationEnd)
+				window.addEventListener('resize', handleChangeOnResize)
 			}
 
 			function reset() {
@@ -1517,7 +1538,8 @@ function main() {
 				cloudTop.classList.remove('cloud__particle-top--animate')
 				cloudBottom.classList.remove('cloud__bottom--animate')
 
-				document.addEventListener('animationend', handleAnimationEnd)
+				window.removeEventListener('resize', handleChangeOnResize)
+				document.removeEventListener('animationend', handleAnimationEnd)
 			}
 
 			createAnimation(ids, elementKeys, startHeight, animate, reset)

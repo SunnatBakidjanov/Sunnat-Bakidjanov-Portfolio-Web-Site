@@ -1669,19 +1669,16 @@
   color: #61dafb;
 }
 
-.projects {
-  display: none;
-}
 .projects .projects__wrapper {
   display: flex;
   flex-direction: column;
   padding-top: 130px;
   padding-left: 20px;
 }
-.projects .projects__wrapper .projects__inner-titile {
+.projects .projects__inner-titile {
   height: 63px;
 }
-.projects .projects__wrapper .projects__inner-content {
+.projects .projects__inner-content {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -1689,13 +1686,13 @@
        column-gap: 100px;
   padding-top: 50px;
 }
-.projects .projects__wrapper .projects__inner-content .projects__inner-text {
+.projects .projects__inner-text {
   display: flex;
   flex-direction: column;
   padding-top: 30px;
   padding-bottom: 50px;
 }
-.projects .projects__wrapper .projects__inner-content .projects__inner-animation {
+.projects .projects__inner-animation {
   margin-right: 20px;
 }
 .projects__title {
@@ -1718,11 +1715,9 @@
     top: 0;
   }
 }
-.projects__text-one {
+.projects__text--one {
   position: relative;
   top: -200px;
-  font-weight: 400;
-  font-size: 40px;
   color: #fff;
 }
 .projects__hidden-text-two {
@@ -1742,12 +1737,14 @@
     left: 0%;
   }
 }
-.projects__text-two {
+.projects__text--two {
   position: relative;
   left: -100%;
+  color: #f8aa01;
+}
+.projects__text {
   font-weight: 400;
   font-size: 40px;
-  color: #f8aa01;
 }
 .projects .russian-lang-text {
   font-weight: 600;
@@ -2131,6 +2128,28 @@
   }
 }
 
+@media (width <= 1100px) {
+  .projects .projects__wrapper {
+    padding-top: 50px;
+    padding-left: 0;
+  }
+  .projects .projects__inner-titile {
+    text-align: center;
+  }
+  .projects .projects__inner-content {
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+  }
+  .projects .projects__inner-text {
+    text-align: center;
+  }
+  .projects .projects__inner-animation {
+    margin-top: 170px;
+    margin-right: 0;
+    margin-bottom: 200px;
+  }
+}
 @media (width <= 1000px) {
   .getting .getting__wrapper {
     align-items: center;
@@ -2213,6 +2232,12 @@
   .cards .cards__inner-content {
     margin-top: 50px;
   }
+  .projects .projects__title {
+    font-size: 42px;
+  }
+  .projects__text {
+    font-size: 34px;
+  }
 }
 @media (width <= 600px) {
   .getting .my-name__title {
@@ -2233,7 +2258,7 @@
     font-size: 32px;
   }
   .cards .cards__title {
-    width: auto;
+    width: 390px;
     height: 105px;
     text-align: center;
   }
@@ -2248,6 +2273,42 @@
   }
   .cards .cards-content__progress-text {
     font-size: 36px;
+  }
+  .projects .projects__inner-text {
+    padding-bottom: 30px;
+  }
+  .projects__text {
+    font-size: 32px;
+  }
+  .projects .cloud__particle-center {
+    width: 300px;
+    height: 90px;
+  }
+  .projects .cloud__particle-top {
+    top: -40px;
+    left: 50px;
+  }
+  .projects .cloud__particle-top--animate {
+    animation: cloud-particle-top-start 1s ease-out forwards;
+  }
+  @keyframes cloud-particle-top-start {
+    0% {
+      width: 0;
+      height: 0;
+    }
+    50% {
+      width: 90px;
+      height: 80px;
+      box-shadow: 0 0 0 0 #fff;
+    }
+    100% {
+      width: 90px;
+      height: 80px;
+      box-shadow: 80px 10px 0 30px #fff;
+    }
+  }
+  .projects .cloud__bottom {
+    width: 300px;
   }
 }
 @media (width <= 400px) {
@@ -2292,6 +2353,7 @@
     font-size: 30px;
   }
   .cards .cards__title {
+    width: 320px;
     font-size: 36px;
   }
   .cards .cards__inner-content {
@@ -2312,6 +2374,45 @@
   }
   .cards .cards-content__text {
     font-size: 20px;
+  }
+  .projects .projects__title {
+    font-size: 36px;
+  }
+  .projects .projects__inner-text {
+    padding: 15px 0;
+  }
+  .projects__text {
+    font-size: 26px;
+  }
+  .projects .cloud__particle-center {
+    width: 270px;
+    height: 90px;
+  }
+  .projects .cloud__particle-top {
+    top: -35px;
+    left: 45px;
+  }
+  .projects .cloud__particle-top--animate {
+    animation: cloud-particle-top-start 1s ease-out forwards;
+  }
+  @keyframes cloud-particle-top-start {
+    0% {
+      width: 0;
+      height: 0;
+    }
+    50% {
+      width: 90px;
+      height: 80px;
+      box-shadow: 0 0 0 0 #fff;
+    }
+    100% {
+      width: 90px;
+      height: 80px;
+      box-shadow: 65px 5px 0 25px #fff;
+    }
+  }
+  .projects .cloud__bottom {
+    width: 270px;
   }
 }
 @media (height <= 800px) and (width > 1000px) {
