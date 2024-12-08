@@ -1554,7 +1554,7 @@ function main() {
 			const elementKeys = ['exp-title']
 			const startHeight = 150
 
-			const handleTextWrite = writeAndResetText(title, 'My way. . .', 'Мой путь. . .', 50, 'exp-title', null)
+			const handleTextWrite = writeAndResetText(title, 'My way', 'Мой путь', 70, 'exp-title', null)
 
 			createAnimation(ids, elementKeys, startHeight, handleTextWrite.write, handleTextWrite.reset)
 		}

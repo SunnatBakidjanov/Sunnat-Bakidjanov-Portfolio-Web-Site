@@ -1747,7 +1747,7 @@
   font-size: 40px;
 }
 .projects .russian-lang-text {
-  font-weight: 600;
+  font-weight: 500;
   line-height: 110%;
 }
 .projects .cloud--animate {
@@ -1880,9 +1880,6 @@
   }
 }
 
-.exp {
-  display: none;
-}
 .exp .exp__wrapper {
   display: flex;
   flex-direction: column;
@@ -1891,13 +1888,7 @@
   padding-top: 100px;
   padding-bottom: 80px;
 }
-.exp .exp__wrapper .exp__inner-title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: left;
-}
-.exp .exp__wrapper .exp__inner-content {
+.exp .exp__inner-content {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1905,11 +1896,11 @@
   width: 100%;
 }
 .exp__title {
-  width: 300px;
   height: 63px;
   font-weight: 600;
   font-size: 50px;
   color: #f8aa01;
+  text-align: left;
 }
 .exp__box {
   position: relative;
@@ -2018,7 +2009,7 @@
     width: 0;
   }
   100% {
-    width: 20%;
+    width: 18%;
   }
 }
 .exp__circle {
@@ -2081,7 +2072,7 @@
   color: #fff;
 }
 .exp .russian-lang-text {
-  font-weight: 600;
+  font-weight: 500;
 }
 .exp__text--left {
   right: -300px;
@@ -2091,7 +2082,7 @@
 }
 @keyframes exp-text-left {
   0% {
-    right: left;
+    right: -100%;
   }
   100% {
     right: 0;
@@ -2105,7 +2096,7 @@
 }
 @keyframes exp-text-right {
   0% {
-    left: right;
+    left: -100%;
   }
   100% {
     left: 0;
@@ -2134,7 +2125,10 @@
     padding-left: 0;
   }
   .projects .projects__inner-titile {
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
   }
   .projects .projects__inner-content {
     flex-direction: column;
@@ -2148,6 +2142,15 @@
     margin-top: 170px;
     margin-right: 0;
     margin-bottom: 200px;
+  }
+  .projects__title {
+    width: 330px;
+  }
+  .exp .exp__wrapper {
+    padding-top: 0;
+  }
+  .exp .exp__inner-content {
+    margin-top: 40px;
   }
 }
 @media (width <= 1000px) {
@@ -2214,6 +2217,86 @@
   .cards .cards__wrapper {
     padding-top: 20px;
   }
+  .exp .exp__wrapper {
+    align-items: flex-start;
+    margin-left: 70px;
+    padding-bottom: 50px;
+  }
+  .exp .exp__inner-content {
+    align-items: flex-start;
+  }
+  .exp__box {
+    justify-content: flex-start;
+    margin-left: 8px;
+    width: 100%;
+  }
+  .exp__hidden-start {
+    height: auto;
+  }
+  .exp__horizont-line--right {
+    left: 0;
+  }
+  .exp__horizont-line--right-animate {
+    animation: exp-horizontal-line-right forwards 1s ease-out 0.5s;
+  }
+  @keyframes exp-horizontal-line-right {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 35%;
+    }
+  }
+  .exp__horizont-line--left {
+    left: 0;
+  }
+  .exp__horizont-line--left-animate {
+    animation: exp-horizontal-line-left forwards 1s ease-out 0.5s;
+  }
+  @keyframes exp-horizontal-line-left {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 40%;
+    }
+  }
+  .exp__circle--left {
+    right: -15px;
+    left: auto;
+  }
+  .exp__text--left-animate {
+    animation: exp-text-left 1s forwards ease-out;
+  }
+  @keyframes exp-text-left {
+    0% {
+      left: -100%;
+    }
+    100% {
+      left: 0;
+    }
+  }
+  .exp__hidden-text--left {
+    right: auto;
+    left: 0;
+    margin-right: 0;
+    margin-left: 30px;
+  }
+  .exp__bottom-line {
+    position: relative;
+    right: 8px;
+  }
+  .exp__bottom-line--animate {
+    animation: exp-bottom-line 0.5s forwards linear;
+  }
+  @keyframes exp-bottom-line {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 36px;
+    }
+  }
 }
 @media (width <= 800px) {
   .getting .my-name__title {
@@ -2233,10 +2316,45 @@
     margin-top: 50px;
   }
   .projects .projects__title {
+    width: 277px;
     font-size: 42px;
   }
   .projects__text {
     font-size: 34px;
+  }
+  .exp .exp__inner-content {
+    margin-top: 20px;
+  }
+  .exp__title {
+    font-size: 42px;
+  }
+  .exp__horizont-line--right {
+    left: 0;
+  }
+  .exp__horizont-line--right-animate {
+    animation: exp-horizontal-line-right forwards 1s ease-out 0.5s;
+  }
+  @keyframes exp-horizontal-line-right {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 20%;
+    }
+  }
+  .exp__horizont-line--left {
+    left: 0;
+  }
+  .exp__horizont-line--left-animate {
+    animation: exp-horizontal-line-left forwards 1s ease-out 0.5s;
+  }
+  @keyframes exp-horizontal-line-left {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 25%;
+    }
   }
 }
 @media (width <= 600px) {
@@ -2310,6 +2428,46 @@
   .projects .cloud__bottom {
     width: 300px;
   }
+  .exp .exp__wrapper {
+    margin-left: 30px;
+  }
+  .exp .exp__inner-content {
+    margin-top: 15px;
+  }
+  .exp__start {
+    font-size: 22px;
+  }
+  .exp__text {
+    font-size: 22px;
+  }
+  .exp__horizont-line--right {
+    left: 0;
+  }
+  .exp__horizont-line--right-animate {
+    animation: exp-horizontal-line-right forwards 1s ease-out 0.5s;
+  }
+  @keyframes exp-horizontal-line-right {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 15%;
+    }
+  }
+  .exp__horizont-line--left {
+    left: 0;
+  }
+  .exp__horizont-line--left-animate {
+    animation: exp-horizontal-line-left forwards 1s ease-out 0.5s;
+  }
+  @keyframes exp-horizontal-line-left {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 10%;
+    }
+  }
 }
 @media (width <= 400px) {
   .getting .my-name__title {
@@ -2376,6 +2534,7 @@
     font-size: 20px;
   }
   .projects .projects__title {
+    width: 237px;
     font-size: 36px;
   }
   .projects .projects__inner-text {
@@ -2413,6 +2572,49 @@
   }
   .projects .cloud__bottom {
     width: 270px;
+  }
+  .exp .exp__wrapper {
+    margin-left: 15px;
+  }
+  .exp .exp__inner-content {
+    margin-top: 0;
+  }
+  .exp__title {
+    font-size: 36px;
+  }
+  .exp__start {
+    font-size: 20px;
+  }
+  .exp__text {
+    font-size: 20px;
+  }
+  .exp__horizont-line--right {
+    left: 0;
+  }
+  .exp__horizont-line--right-animate {
+    animation: exp-horizontal-line-right forwards 1s ease-out 0.5s;
+  }
+  @keyframes exp-horizontal-line-right {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 10%;
+    }
+  }
+  .exp__horizont-line--left {
+    left: 0;
+  }
+  .exp__horizont-line--left-animate {
+    animation: exp-horizontal-line-left forwards 1s ease-out 0.5s;
+  }
+  @keyframes exp-horizontal-line-left {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 5%;
+    }
   }
 }
 @media (height <= 800px) and (width > 1000px) {
