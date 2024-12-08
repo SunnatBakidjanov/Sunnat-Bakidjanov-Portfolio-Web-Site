@@ -2853,7 +2853,7 @@ function main() {
 		function animateFooter() {
 			const ids = [elements.footer]
 			const elementKeys = ['footer']
-			const startingHeight = -200
+			const startingHeight = 0
 
 			function handleAnimationEnd(event) {
 				if (event.animationName === 'footer-wrapper') {
