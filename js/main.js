@@ -2832,7 +2832,7 @@ function main() {
 			name: document.getElementById('footer-my-name'),
 			version: document.getElementById('footer-version-text'),
 			wrapper: document.getElementById('footer-wrapper'),
-			footer: document.getElementById('footer'),
+			hiddenbox: document.getElementById('footer-hidden-box'),
 			symbol: document.getElementById('footer-symbol'),
 		}
 
@@ -2851,9 +2851,9 @@ function main() {
 		const handleVersionWrite = writeAndResetText(elements.version, 'Version 1.0.0', null, 70, null, null)
 
 		function animateFooter() {
-			const ids = [elements.footer]
-			const elementKeys = ['footer']
-			const startingHeight = 0
+			const ids = [elements.hiddenbox]
+			const elementKeys = ['footer-hidden-box']
+			const startingHeight = -30
 
 			function handleAnimationEnd(event) {
 				if (event.animationName === 'footer-wrapper') {
