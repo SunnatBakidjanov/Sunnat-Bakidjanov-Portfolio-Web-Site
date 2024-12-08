@@ -1552,11 +1552,27 @@ function main() {
 
 			const ids = [title]
 			const elementKeys = ['exp-title']
-			const startHeight = 150
+			let startHeight = document.documentElement.clientWidth >= 1000 ? 150 : 30
 
 			const handleTextWrite = writeAndResetText(title, 'My way', 'Мой путь', 70, 'exp-title', null)
 
-			createAnimation(ids, elementKeys, startHeight, handleTextWrite.write, handleTextWrite.reset)
+			function handleChanageOnResize() {
+				startHeight = document.documentElement.clientWidth >= 1000 ? 150 : 30
+			}
+
+			function animate() {
+				window.addEventListener('resize', handleChanageOnResize)
+
+				handleTextWrite.write()
+			}
+
+			function reset() {
+				handleTextWrite.reset()
+
+				window.removeEventListener('resize', handleChanageOnResize)
+			}
+
+			createAnimation(ids, elementKeys, startHeight, animate, reset)
 		}
 
 		writeExperienceTitle()
@@ -2837,7 +2853,7 @@ function main() {
 		function animateFooter() {
 			const ids = [elements.footer]
 			const elementKeys = ['footer']
-			const startingHeight = -150
+			const startingHeight = -200
 
 			function handleAnimationEnd(event) {
 				if (event.animationName === 'footer-wrapper') {
