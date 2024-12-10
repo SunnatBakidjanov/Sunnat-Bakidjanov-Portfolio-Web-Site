@@ -859,7 +859,6 @@
     height: 30px;
     border-radius: 50%;
     cursor: pointer;
-    transition: box-shadow 0s;
   }
   .burger-menu__line {
     position: absolute;
@@ -901,8 +900,6 @@
     transition: all 0.4s ease-out;
   }
   .burger-menu--animate-open {
-    transition: box-shadow 0.5s ease-out;
-    box-shadow: 0 0 10px #fff;
     height: 50px;
     animation: burger-menu-open 1s ease-out forwards;
   }
@@ -915,8 +912,6 @@
     }
   }
   .burger-menu--open {
-    transition: box-shadow 0.5s ease-out;
-    box-shadow: 0 0 10px #fff;
     height: 50px;
   }
   .burger-menu--animate-close {
@@ -1050,6 +1045,20 @@
   .burger-menu {
     margin-right: 10px;
     width: 45px;
+  }
+}
+@media (height <= 600px) and (width <= 1000px) {
+  .header-main__nav-container--burger-open {
+    padding-top: 60px;
+  }
+}
+@media (height <= 450px) and (width <= 1000px) {
+  .header-main__nav-container--burger-open {
+    padding-top: 80px;
+  }
+  .nav {
+    flex-flow: row wrap;
+    margin: 0 15px;
   }
 }
 @media (hover: none) and (pointer: coarse) {
@@ -2697,7 +2706,7 @@
 .uses-getting__scroll-container {
   display: flex;
   align-items: center;
-  margin-left: 200px;
+  margin-left: 100px;
   height: calc(100vh - 300px);
   transition: all 0.4s ease-out;
 }
@@ -2707,8 +2716,8 @@
   background-color: #fff;
 }
 .uses-getting__scroll-line--animate {
-  transition: all 1.5s ease-out;
   height: 80%;
+  transition: all 1.5s ease-out;
 }
 .uses-getting__scroll-line--scroll-animate {
   height: 40%;
@@ -3457,9 +3466,6 @@
 }
 
 @media (width <= 1000px) {
-  .uses-getting__scroll-container {
-    margin-left: 100px;
-  }
   .uses-getting__title {
     font-size: 46px;
   }
@@ -3504,6 +3510,9 @@
   }
 }
 @media (width <= 800px) {
+  .uses-getting__scroll-container {
+    margin-top: -25px;
+  }
   .equipment .equipment-content__hidden-box {
     flex-flow: column nowrap;
     justify-content: center;
@@ -3676,6 +3685,31 @@
   }
   .linters .plugins-linters__text {
     font-size: 22px;
+  }
+}
+@media (height <= 580px) {
+  .uses-getting__scroll-container {
+    flex-direction: column;
+    margin-top: 70px;
+    margin-bottom: 40px;
+    row-gap: 30px;
+    margin-left: -40px;
+    height: auto;
+  }
+  .uses-getting__scroll-line {
+    width: 0;
+    height: 2px;
+  }
+  .uses-getting__scroll-line--animate {
+    width: 100%;
+    opacity: 1;
+  }
+  .uses-getting__scroll-line--scroll-animate {
+    width: 80%;
+    opacity: 0.3;
+  }
+  .uses-getting__scroll-text {
+    margin: 0;
   }
 }
 @media (hover: none) and (pointer: coarse) {

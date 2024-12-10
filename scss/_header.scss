@@ -377,7 +377,6 @@ $colors: (
 		height: 30px;
 		border-radius: 50%;
 		cursor: pointer;
-		transition: box-shadow 0s;
 
 		&__line {
 			position: absolute;
@@ -427,8 +426,6 @@ $colors: (
 	}
 
 	.burger-menu--animate-open {
-		transition: box-shadow 0.5s ease-out;
-		box-shadow: 0 0 10px $burger-menu-sadow-color;
 		height: 50px;
 
 		@keyframes burger-menu-open {
@@ -445,8 +442,6 @@ $colors: (
 	}
 
 	.burger-menu--open {
-		transition: box-shadow 0.5s ease-out;
-		box-shadow: 0 0 10px $burger-menu-sadow-color;
 		height: 50px;
 	}
 
@@ -601,6 +596,23 @@ $colors: (
 	.burger-menu {
 		margin-right: 10px;
 		width: 45px;
+	}
+}
+
+@media (height <= 600px) and (width <= 1000px) {
+	.header-main__nav-container--burger-open {
+		padding-top: 60px;
+	}
+}
+
+@media (height <= 450px) and (width <= 1000px) {
+	.header-main__nav-container--burger-open {
+		padding-top: 80px;
+	}
+
+	.nav {
+		flex-flow: row wrap;
+		margin: 0 15px;
 	}
 }
 

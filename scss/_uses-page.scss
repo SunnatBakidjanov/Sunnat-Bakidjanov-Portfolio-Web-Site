@@ -119,7 +119,7 @@ $uses-linters-box-shadow-color: $white;
 	&__scroll-container {
 		display: flex;
 		align-items: center;
-		margin-left: 200px;
+		margin-left: 100px;
 		height: calc(100vh - 300px);
 		transition: all 0.4s ease-out;
 	}
@@ -131,8 +131,8 @@ $uses-linters-box-shadow-color: $white;
 	}
 
 	&__scroll-line--animate {
-		transition: all 1.5s ease-out;
 		height: 80%;
+		transition: all 1.5s ease-out;
 	}
 
 	&__scroll-line--scroll-animate {
@@ -1010,10 +1010,6 @@ $uses-linters-box-shadow-color: $white;
 	$title-font-size: 46px;
 
 	.uses-getting {
-		&__scroll-container {
-			margin-left: 100px;
-		}
-
 		&__title {
 			font-size: $title-font-size;
 		}
@@ -1085,6 +1081,12 @@ $uses-linters-box-shadow-color: $white;
 }
 
 @media (width <= 800px) {
+	.uses-getting {
+		&__scroll-container {
+			margin-top: -25px;
+		}
+	}
+
 	.equipment {
 		.equipment-content {
 			&__hidden-box {
@@ -1353,6 +1355,38 @@ $uses-linters-box-shadow-color: $white;
 			&__text {
 				font-size: 22px;
 			}
+		}
+	}
+}
+
+@media (height <= 580px) {
+	.uses-getting {
+		&__scroll-container {
+			flex-direction: column;
+			margin-top: 70px;
+			margin-bottom: 40px;
+			row-gap: 30px;
+			margin-left: -40px;
+			height: auto;
+		}
+
+		&__scroll-line {
+			width: 0;
+			height: 2px;
+		}
+
+		&__scroll-line--animate {
+			width: 100%;
+			opacity: 1;
+		}
+
+		&__scroll-line--scroll-animate {
+			width: 80%;
+			opacity: 0.3;
+		}
+
+		&__scroll-text {
+			margin: 0;
 		}
 	}
 }

@@ -7,6 +7,8 @@ function main() {
 
 	const changeLanguageButton = document.getElementById('translator')
 
+	const allElements = document.querySelectorAll('*')
+
 	const tickingState = {}
 	const clickState = {}
 	const scrollState = {}
@@ -47,6 +49,8 @@ function main() {
 			if (!isAnimationStopped) {
 				resetCallback(clickState[elementKey].previousPage)
 				seenElements.clear()
+
+				allElements.forEach(element => element.removeAttribute('style'))
 
 				clickState[elementKey].isClicked = false
 			}
@@ -162,6 +166,7 @@ function main() {
 					if (handleVisibilityChange(element, 0, elementKeys)) {
 						removeCallback(element, index)
 					} else {
+						element.style.transition = 'all 0.6s ease-out'
 						startCallback(element, index)
 					}
 				}
@@ -248,6 +253,18 @@ function main() {
 			write,
 			reset,
 		}
+	}
+
+	function removeScrollAnimateClasses() {
+		const elements = document.querySelectorAll("[class*='scroll-animate']")
+
+		elements.forEach(el => {
+			el.classList.forEach(className => {
+				if (className.includes('scroll-animate')) {
+					el.classList.remove(className)
+				}
+			})
+		})
 	}
 
 	function pageUpdate() {
@@ -455,6 +472,7 @@ function main() {
 		let animationFrameTop = null
 		let animationFrameScroll = null
 		let isScrolling = false
+		let isUserScrolling = false
 
 		const config = {
 			scrollSpeed: 20,
@@ -466,7 +484,15 @@ function main() {
 			element.classList.remove(...removeClasses)
 		}
 
+		function handleUserScrollEndAnimation() {
+			isUserScrolling = false
+			cancelAnimationFrame(animationFrameTop)
+			animationFrameTop = null
+		}
+
 		function scrollToTop() {
+			if (!isUserScrolling) return
+
 			const scrollStep = window.scrollY / config.scrollSpeed
 
 			if (window.scrollY > 0) {
@@ -501,7 +527,10 @@ function main() {
 				toggleClasses(circle, ['climb-up__circle--show'], ['climb-up__circle--hide'])
 
 				if (!button.hasEventListener) {
-					button.addEventListener('click', scrollToTop)
+					button.addEventListener('click', () => {
+						isUserScrolling = true
+						scrollToTop()
+					})
 					button.hasEventListener = true
 				}
 
@@ -510,11 +539,6 @@ function main() {
 				toggleClasses(img, ['climb-up__img--animate-hide'], ['climb-up__img--animate-show'])
 				toggleClasses(circle, ['climb-up__circle--hide'], ['climb-up__circle--show'])
 				button.classList.remove('climb-up--show')
-
-				if (button.hasEventListener) {
-					button.removeEventListener('click', scrollToTop)
-					button.hasEventListener = false
-				}
 
 				document.addEventListener('animationend', handleAnimationEnd)
 			}
@@ -527,6 +551,9 @@ function main() {
 
 			isScrolling = false
 		}
+
+		window.addEventListener('wheel', handleUserScrollEndAnimation)
+		window.addEventListener('touchstart', handleUserScrollEndAnimation)
 
 		window.addEventListener('scroll', () => {
 			if (!isScrolling) {
@@ -1761,10 +1788,13 @@ function main() {
 
 				const ids = [container]
 				const elementKeys = ['uses-getting-scroll']
-				const startHeight = -100
+				const startHeight = -50
 
 				const scrollElements = [text, line]
 				const scrollKeys = ['uses-gettingt-scroll-line', 'uses-getting-scroll-text']
+
+				let timeout = null
+				let isChanged = false
 
 				function lettersAnimate() {
 					letters.forEach((element, index) => {
@@ -1785,9 +1815,31 @@ function main() {
 					})
 				}
 
+				function handleChangeOnResize() {
+					if (document.documentElement.clientHeight <= 580 && !isChanged) {
+						isChanged = true
+
+						line.style.transition = 'none'
+
+						clearTimeout(timeout)
+						timeout = setTimeout(() => {
+							line.removeAttribute('style')
+						}, 1500)
+					} else if (document.documentElement.clientHeight > 580 && isChanged) {
+						isChanged = false
+						line.style.transition = 'none'
+
+						clearTimeout(timeout)
+						timeout = setTimeout(() => {
+							line.removeAttribute('style')
+						}, 1500)
+					}
+				}
+
 				function animate() {
 					lettersAnimate()
 
+					window.addEventListener('resize', handleChangeOnResize)
 					line.classList.add('uses-getting__scroll-line--animate')
 				}
 
@@ -1796,6 +1848,8 @@ function main() {
 
 					text.classList.remove('uses-getting__scroll-text--scroll-animate')
 					line.classList.remove('uses-getting__scroll-line--animate', 'uses-getting__scroll-line--scroll-animate')
+
+					window.removeEventListener('resize', handleChangeOnResize)
 				}
 
 				function scrollAnimate() {
@@ -2897,6 +2951,14 @@ function main() {
 
 	window.addEventListener('beforeunload', () => {
 		// pageUpdate()
+	})
+
+	window.addEventListener('orientationchange', () => {
+		const orientation = screen.orientation.type
+
+		if (orientation === 'landscape-primary' || orientation === 'landscape-secondary') {
+			removeScrollAnimateClasses()
+		}
 	})
 }
 
