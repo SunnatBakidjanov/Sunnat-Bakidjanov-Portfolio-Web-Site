@@ -16,7 +16,7 @@ function main() {
 
 	let isAnimationStopped = false
 	let isLanguageRussian = false
-	let isSwitchAnimation = true
+	let isSwitchAnimation = false
 
 	const seenElements = new Set()
 
@@ -57,15 +57,33 @@ function main() {
 		}
 
 		if (isSwitchAnimation) {
-			clickState[elementKey].isClicked = true
+			if (document.documentElement.clientWidth > 1000) {
+				clickState[elementKey].isClicked = true
 
-			window.requestAnimationFrame(() => {
-				if (handleVisibilityChange(element, startingHeight, elementKey)) {
-					startCallback(clickState[elementKey].newPage)
+				window.requestAnimationFrame(() => {
+					if (handleVisibilityChange(element, startingHeight, elementKey)) {
+						startCallback(clickState[elementKey].newPage)
 
-					scrollState[elementKey].scrolState = true
+						scrollState[elementKey].scrolState = true
+					}
+				})
+			} else {
+				const onBurgerAnimationEnd = event => {
+					if (event.animationName === 'nav-container-burger-close') {
+						clickState[elementKey].isClicked = true
+
+						if (handleVisibilityChange(element, startingHeight, elementKey)) {
+							startCallback(clickState[elementKey].newPage)
+
+							scrollState[elementKey].scrolState = true
+						}
+
+						document.removeEventListener('animationend', onAnimationEnd)
+					}
 				}
-			})
+
+				document.addEventListener('animationend', onBurgerAnimationEnd)
+			}
 		} else {
 			clickState[elementKey].isClicked = true
 
@@ -435,24 +453,65 @@ function main() {
 	function handlePageChangeClickAnimation() {
 		const targetElements = ['uses-page-btn', 'resume-page-btn', 'about-me-page-btn']
 		let lastClickedElement = null
+		let isWidthTrue = document.documentElement.clientWidth > 1000
 		let canAnimate = false
+		let isAnimated = false
 
-		const logoAndHomePageHasClicked = () => {
+		function handleSwitchAnimate() {
+			if (isWidthTrue) {
+				if (!isSwitchAnimation) {
+					switchAnimate()
+				}
+			} else {
+				isAnimated = false
+
+				const onAnimationEnd = event => {
+					if (event.animationName === 'nav-container-burger-close' && !isAnimated) {
+						isAnimated = true
+						canAnimate = true
+						switchAnimate()
+					}
+					document.removeEventListener('animationend', onAnimationEnd)
+				}
+
+				document.addEventListener('animationend', onAnimationEnd)
+			}
+		}
+
+		const logoHasClicked = () => {
 			if (canAnimate && !isSwitchAnimation) {
+				switchAnimate()
+				lastClickedElement = null
+			}
+		}
+
+		const homePageHasClicked = () => {
+			if (isWidthTrue && canAnimate && !isSwitchAnimation) {
 				switchAnimate()
 				canAnimate = false
 				lastClickedElement = null
+			} else if (!isWidthTrue) {
+				isAnimated = false
+
+				const onAnimationEnd = event => {
+					if (event.animationName === 'nav-container-burger-close' && !isAnimated) {
+						isAnimated = true
+						canAnimate = false
+						lastClickedElement = null
+						switchAnimate()
+					}
+					document.removeEventListener('animationend', onAnimationEnd)
+				}
+				document.addEventListener('animationend', onAnimationEnd)
 			}
 		}
 
 		const btnHasClicked = event => {
 			if (lastClickedElement === event.currentTarget) return
 			lastClickedElement = event.currentTarget
+			canAnimate = true
 
-			if (!isSwitchAnimation) {
-				switchAnimate()
-				canAnimate = true
-			}
+			handleSwitchAnimate()
 		}
 
 		targetElements.forEach(id => {
@@ -460,8 +519,18 @@ function main() {
 			element.addEventListener('click', btnHasClicked)
 		})
 
-		logo.addEventListener('click', logoAndHomePageHasClicked)
-		homePageBtn.addEventListener('click', logoAndHomePageHasClicked)
+		window.addEventListener('resize', () => {
+			const newWidthState = document.documentElement.clientWidth > 1000
+
+			if (newWidthState !== isWidthTrue) {
+				isWidthTrue = newWidthState
+			}
+
+			isAnimated = false
+		})
+
+		logo.addEventListener('click', logoHasClicked)
+		homePageBtn.addEventListener('click', homePageHasClicked)
 	}
 
 	function climbUp() {
