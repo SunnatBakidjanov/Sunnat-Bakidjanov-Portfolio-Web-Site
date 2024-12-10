@@ -453,25 +453,26 @@ function main() {
 	function handlePageChangeClickAnimation() {
 		const targetElements = ['uses-page-btn', 'resume-page-btn', 'about-me-page-btn']
 		let lastClickedElement = null
-		let isWidthTrue = document.documentElement.clientWidth > 1000
+		let isDesktop = document.documentElement.clientWidth > 1000 ? true : false
 		let canAnimate = false
 		let isAnimated = false
 
 		function handleSwitchAnimate() {
-			if (isWidthTrue) {
+			if (isDesktop) {
 				if (!isSwitchAnimation) {
 					switchAnimate()
 				}
 			} else {
 				isAnimated = false
+				canAnimate = true
+				lastClickedElement = null
 
 				const onAnimationEnd = event => {
 					if (event.animationName === 'nav-container-burger-close' && !isAnimated) {
 						isAnimated = true
-						canAnimate = true
+
 						switchAnimate()
 					}
-					document.removeEventListener('animationend', onAnimationEnd)
 				}
 
 				document.addEventListener('animationend', onAnimationEnd)
@@ -486,22 +487,23 @@ function main() {
 		}
 
 		const homePageHasClicked = () => {
-			if (isWidthTrue && canAnimate && !isSwitchAnimation) {
+			if (isDesktop && canAnimate && !isSwitchAnimation) {
 				switchAnimate()
 				canAnimate = false
 				lastClickedElement = null
-			} else if (!isWidthTrue) {
+			} else if (!isDesktop) {
 				isAnimated = false
+				canAnimate = false
+				lastClickedElement = null
 
 				const onAnimationEnd = event => {
 					if (event.animationName === 'nav-container-burger-close' && !isAnimated) {
 						isAnimated = true
-						canAnimate = false
-						lastClickedElement = null
+
 						switchAnimate()
 					}
-					document.removeEventListener('animationend', onAnimationEnd)
 				}
+
 				document.addEventListener('animationend', onAnimationEnd)
 			}
 		}
@@ -522,8 +524,8 @@ function main() {
 		window.addEventListener('resize', () => {
 			const newWidthState = document.documentElement.clientWidth > 1000
 
-			if (newWidthState !== isWidthTrue) {
-				isWidthTrue = newWidthState
+			if (newWidthState !== isDesktop) {
+				isDesktop = newWidthState
 			}
 
 			isAnimated = false
