@@ -146,20 +146,32 @@ $page-background-colors: (
 		filter: drop-shadow(0 0 15px transparent);
 	}
 
-	.switch-animation__img--raido-uruz {
-		left: 51%;
+	.switch-animation__img--raido {
+		transform: translate(-47%, -50%);
+	}
+
+	.switch-animation__img--uruz {
+		transform: translate(-48%, -50%);
 	}
 
 	.switch-animation__img--otilo {
-		left: 49%;
+		transform: translate(-50.5%, -50%);
+	}
+
+	.switch-animation__img--pert {
+		transform: translate(-48.5%, -50%);
 	}
 
 	.switch-animation__img--turisaz {
-		left: 53%;
+		transform: translate(-43%, -50%);
 	}
 
 	.switch-animation__img--vunio {
-		left: 52%;
+		transform: translate(-42.5%, -50%);
+	}
+
+	.switch-animation__img--hagalaz {
+		transform: translate(-47.5%, -50%);
 	}
 
 	.switch-animation__img--animate {
