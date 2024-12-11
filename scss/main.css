@@ -451,21 +451,32 @@
   height: 80px;
   background-color: transparent;
   border: none;
+}
+.aside-menu .aside-content__btn--close {
   cursor: pointer;
 }
-.aside-menu .aside-content__btn:hover ~ .aside-content__acite--open {
-  opacity: 1;
-}
-.aside-menu .aside-content__btn--change-theme:hover ~ .aside-content__active {
+.aside-menu .aside-content__btn--change-theme:hover ~ .aside-content__active, .aside-menu .aside-content__item--change-theme:hover ~ .aside-content__active {
   top: 25px;
 }
-.aside-menu .aside-content__btn--animation-stop:hover ~ .aside-content__active {
+.aside-menu .aside-content__item--change-theme {
+  top: 25px;
+}
+.aside-menu .aside-content__btn--animation-stop:hover ~ .aside-content__active, .aside-menu .aside-content__item--animation-stop:hover ~ .aside-content__active {
   top: 105px;
 }
-.aside-menu .aside-content__btn--translaitor:hover ~ .aside-content__active {
+.aside-menu .aside-content__item--animation-stop {
+  top: 105px;
+}
+.aside-menu .aside-content__btn--translaitor:hover ~ .aside-content__active, .aside-menu .aside-content__item--translaitor:hover ~ .aside-content__active {
   top: 185px;
 }
-.aside-menu .aside-content__btn--close:hover ~ .aside-content__active {
+.aside-menu .aside-content__item--translaitor {
+  top: 185px;
+}
+.aside-menu .aside-content__btn--close:hover ~ .aside-content__active, .aside-menu .aside-content__item--close:hover ~ .aside-content__active {
+  top: 265px;
+}
+.aside-menu .aside-content__item--close {
   top: 265px;
 }
 .aside-menu .aside-content__item {
@@ -481,21 +492,38 @@
   color: white;
   white-space: nowrap;
   background-color: gray;
+  border: none;
   border-radius: 0 20px 20px 0;
   overflow: hidden;
-  transition: width 0.25s linear 0.2s;
+  transition: all 0.25s linear 0.2s;
 }
-.aside-menu .aside-content__btn:hover .aside-content__item {
-  width: 180px;
+.aside-menu .aside-content__item:hover {
+  transition: all 0.5s ease-out;
+  width: 230px;
+  letter-spacing: 0.5px;
 }
-.aside-menu .aside-content__item--close:hover .aside-content__item {
-  width: 0;
+.aside-menu .aside-content__item:hover ~ .aside-content__acite--open, .aside-menu .aside-content__btn:hover ~ .aside-content__acite--open {
+  opacity: 1;
 }
-.aside-menu .aside-content__btn:hover .aside-content__item--close {
-  width: 0;
+.aside-menu .aside-content__btn:hover + .aside-content__item {
+  width: 200px;
+}
+.aside-menu .aside-content__item--animation-stop {
+  top: 46px;
+  height: 180px;
 }
 .aside-menu .aside-content__item--translaitor {
   font-size: 14px;
+  cursor: pointer;
+}
+.aside-menu .aside-content__item--close {
+  cursor: pointer;
+}
+.aside-menu .aside-content__item--close:hover {
+  width: 230px !important;
+}
+.aside-menu .aside-content__btn--close:hover .aside-content__item--close {
+  width: 200px;
 }
 .aside-menu .aside-content .russian-lang-text {
   font-weight: 700;
@@ -527,6 +555,7 @@
   height: 25px;
   border: 1px solid white;
   transition: all 0.2s ease-out;
+  cursor: pointer;
 }
 .aside-menu .aside-content .aside-colors__colors:hover {
   box-shadow: 0 0 10px white;
@@ -549,7 +578,58 @@
 .aside-menu .aside-content .aside-colors .aside-colors__colors--4th {
   background-color: #2b636d;
 }
+.aside-menu .aside-content .aside-animations {
+  display: flex;
+  flex-direction: column;
+  background-color: transparent;
+}
+.aside-menu .aside-content .aside-animations__btn {
+  min-width: 100%;
+  height: 60px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #fff;
+  background-color: gray;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.aside-menu .aside-content .aside-animations__btn:nth-child(1) {
+  transition: all 0.3s ease-out;
+  position: relative;
+  top: 60px;
+}
+.aside-menu .aside-content .aside-animations__btn:nth-child(2) {
+  z-index: 11;
+  border-top: 2px solid white;
+  border-bottom: 2px solid white;
+}
+.aside-menu .aside-content .aside-animations__btn:nth-child(3) {
+  position: relative;
+  bottom: 60px;
+  transition: all 0.3s ease-out;
+}
+.aside-menu .aside-content .aside-animations__btn:hover {
+  transform: scale(1.1);
+}
+.aside-menu .aside-content .aside-animations:hover .aside-animations__btn:nth-child(1) {
+  top: 0;
+}
+.aside-menu .aside-content .aside-animations:hover .aside-animations__btn:nth-child(3) {
+  bottom: 0;
+}
 
+@media (hover: none) and (pointer: coarse) {
+  .aside-colors__colors {
+    box-shadow: none !important;
+    transform: none !important;
+  }
+  .aside-colors__colors--active {
+    box-shadow: 0 0 10px white !important;
+    transform: scale(1.2) !important;
+    cursor: default;
+  }
+}
 .header-main__wrapper {
   position: relative;
   top: -100px;

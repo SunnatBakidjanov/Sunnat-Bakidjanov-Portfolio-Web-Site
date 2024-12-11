@@ -17,6 +17,7 @@ function main() {
 	let isAnimationStopped = false
 	let isLanguageRussian = false
 	let isSwitchAnimation = false
+	let isScrollAnimation = false
 
 	const seenElements = new Set()
 
@@ -44,6 +45,21 @@ function main() {
 		if (!allowedButtons.includes(target.id)) return
 
 		clickState[elementKey].previousPage = clickState[elementKey].newPage
+
+		const scrollElements = document.querySelectorAll("[class*='scroll-animate']")
+
+		scrollElements.forEach(el => {
+			el.classList.forEach(className => {
+				if (className.includes('scroll-animate')) {
+					el.classList.remove(className)
+					el.style.transition = 'all 0s'
+
+					setTimeout(() => {
+						el.removeAttribute('style')
+					}, 50)
+				}
+			})
+		})
 
 		if (clickState[elementKey].previousPage) {
 			if (!isAnimationStopped) {
@@ -178,18 +194,29 @@ function main() {
 	}
 
 	function handleAnimationOnScroll(elements, classList, elementKeys, startCallback, removeCallback) {
-		elements.forEach((element, index) => {
-			document.addEventListener('scroll', () => {
-				if (element.classList.contains(classList)) {
-					if (handleVisibilityChange(element, 0, elementKeys)) {
-						removeCallback(element, index)
-					} else {
-						element.style.transition = 'all 0.6s ease-out'
-						startCallback(element, index)
+		const checkScrollAnimation = () => {
+			if (!isScrollAnimation) {
+				elements.forEach((element, index) => {
+					if (element.classList.contains(classList)) {
+						if (handleVisibilityChange(element, 0, elementKeys)) {
+							removeCallback(element, index)
+						} else {
+							element.style.transition = 'all 0.6s ease-out'
+							startCallback(element, index)
+						}
 					}
-				}
-			})
-		})
+				})
+			} else {
+				elements.forEach((element, index) => {
+					removeCallback(element, index)
+					element.removeAttribute('style')
+				})
+			}
+		}
+
+		document.addEventListener('scroll', checkScrollAnimation)
+
+		checkScrollAnimation()
 	}
 
 	function checkLanguageState(russianTexts, englishTexts, elements, toggleClasses) {
@@ -274,12 +301,24 @@ function main() {
 	}
 
 	function removeScrollAnimateClasses() {
-		const elements = document.querySelectorAll("[class*='scroll-animate']")
+		const scrollElements = document.querySelectorAll("[class*='scroll-animate']")
 
-		elements.forEach(el => {
+		scrollElements.forEach(el => {
 			el.classList.forEach(className => {
 				if (className.includes('scroll-animate')) {
 					el.classList.remove(className)
+				}
+			})
+		})
+	}
+
+	function handleChangeOrintationAddClasses() {
+		const animateElements = document.querySelectorAll("[class*='animate']")
+
+		animateElements.forEach(el => {
+			el.classList.forEach(className => {
+				if (className.includes('animate')) {
+					el.classList.add(className)
 				}
 			})
 		})
@@ -640,34 +679,43 @@ function main() {
 		const closeBtn = document.getElementById('aside-menu-close')
 		const activeBtn = document.getElementById('aside-menu-acitve')
 
-		const animationStateBtn = document.getElementById('animation-stop')
+		const animationToggleStateBtn = document.getElementById('animation-toggle-stop')
+		const animationScrollBtn = document.getElementById('animation-scroll-stop')
+		const animationChangePage = document.getElementById('animation-change-page-stop')
 
-		const animationStateText = document.getElementById('animation-stop-text')
+		const stateBtns = [animationToggleStateBtn, animationScrollBtn, animationChangePage]
 
-		function changeLanguage() {
+		function changeAnimationState() {
 			function updateAnimationText() {
-				const languageText = isLanguageRussian ? 'Анимаций' : 'Animations'
-				const onOffText = isLanguageRussian ? (isAnimationStopped ? 'ВЫКЛ' : 'ВКЛ') : isAnimationStopped ? 'OFF' : 'ON'
+				const toggleAnimationText = isLanguageRussian ? 'Анимации' : 'Animations'
+				const onOffToggleText = isLanguageRussian ? (isAnimationStopped ? 'ВЫКЛ' : 'ВКЛ') : isAnimationStopped ? 'OFF' : 'ON'
+				const onOffScrollText = isLanguageRussian ? (isScrollAnimation ? 'ВЫКЛ' : 'ВКЛ') : isScrollAnimation ? 'OFF' : 'ON'
+				const onOffPageText = isLanguageRussian ? (isSwitchAnimation ? 'ВЫКЛ' : 'ВКЛ') : isSwitchAnimation ? 'OFF' : 'ON'
 
-				animationStateText.textContent = isAnimationStopped ? `Re:${languageText}: ${onOffText}` : `Re:${languageText}: ${onOffText}`
-				animationStateText.classList.toggle('new-font', isLanguageRussian)
+				animationToggleStateBtn.textContent = isAnimationStopped ? `Re:${toggleAnimationText}: ${onOffToggleText}` : `Re:${toggleAnimationText}: ${onOffToggleText}`
+				animationScrollBtn.textContent = isScrollAnimation ? `Scroll ${toggleAnimationText}: ${onOffScrollText}` : `Scroll ${toggleAnimationText}: ${onOffScrollText}`
+				animationChangePage.textContent = isSwitchAnimation ? `Switch ${toggleAnimationText}: ${onOffPageText}` : `Switch ${toggleAnimationText}: ${onOffPageText}`
+
+				stateBtns.forEach(btn => {
+					btn.classList.toggle('new-font', isLanguageRussian)
+				})
 			}
 
-			function toggleAnimationState() {
-				isAnimationStopped = !isAnimationStopped
+			function toggleAnimationState(variable) {
+				if (variable === 'isSwitchAnimation') isSwitchAnimation = !isSwitchAnimation
+				if (variable === 'isScrollAnimation') isScrollAnimation = !isScrollAnimation
+				if (variable === 'isLanguageRussian') isLanguageRussian = !isLanguageRussian
+				if (variable === 'isAnimationStopped') isAnimationStopped = !isAnimationStopped
 				updateAnimationText()
 			}
 
-			function toggleLanguageState() {
-				isLanguageRussian = !isLanguageRussian
-				updateAnimationText()
-			}
-
-			changeLanguageButton.addEventListener('click', toggleLanguageState)
-			animationStateBtn.addEventListener('click', toggleAnimationState)
+			animationChangePage.addEventListener('click', () => toggleAnimationState('isSwitchAnimation'))
+			animationScrollBtn.addEventListener('click', () => toggleAnimationState('isScrollAnimation'))
+			changeLanguageButton.addEventListener('click', () => toggleAnimationState('isLanguageRussian'))
+			animationToggleStateBtn.addEventListener('click', () => toggleAnimationState('isAnimationStopped'))
 		}
 
-		changeLanguage()
+		changeAnimationState()
 
 		function translateText() {
 			function translateHeaderText() {
@@ -682,7 +730,7 @@ function main() {
 			translateHeaderText()
 
 			function translateAsideMenuText() {
-				const elementIds = ['change-theme', 'translaite-text', 'aside-menu-close-text']
+				const elementIds = ['change-theme', 'translator', 'aside-menu-close-text']
 				const elements = elementIds.map(id => document.getElementById(id))
 				const russianLanguage = ['Изменить фон', 'Изменить язык: EU', 'Закрыть меню']
 				const englishLanguage = ['Change background', 'Change language: RU', 'Close menu']
@@ -722,7 +770,7 @@ function main() {
 			const classes = ['bg-color--1', 'bg-color--2', 'bg-color--3', 'bg-color--4']
 
 			let isTransitioning
-			let currentClass = ''
+			let currentClass = 'bg-color--1'
 
 			function changeGradient(className) {
 				if (isTransitioning) return
@@ -777,16 +825,23 @@ function main() {
 			const menuState = {
 				isOpen: false,
 				isClosed: true,
+				timeout: null,
 			}
 
 			function openMenu() {
 				if (!menuState.isOpen) {
 					menuState.isOpen = true
 					menuState.isClosed = false
+					clearTimeout(menuState.timeout)
+					menuState.timeout = null
+
 					menuElement.classList.remove('aside-menu__wrapper--close')
 					menuElement.classList.add('aside-menu__wrapper--open')
 					activeBtn.classList.add('aside-content__acite--open')
-					document.querySelectorAll('.aside-content__item').forEach(item => item.classList.remove('aside-content__item--close'))
+					closeBtn.classList.add('aside-content__btn--close')
+					document.querySelectorAll('.aside-content__item').forEach(element => {
+						element.removeAttribute('style')
+					})
 
 					openBtn.classList.add('aside-menu__btn--close')
 				}
@@ -798,7 +853,21 @@ function main() {
 					menuState.isOpen = false
 					menuElement.classList.remove('aside-menu__wrapper--open')
 					menuElement.classList.add('aside-menu__wrapper--close')
-					document.querySelectorAll('.aside-content__item').forEach(item => item.classList.add('aside-content__item--close'))
+					closeBtn.classList.remove('aside-content__btn--close')
+					document.querySelectorAll('.aside-content__item').forEach(element => {
+						element.style.cssText = `
+							pointer-events: none;
+							width: 0;
+							transition: all 0.3s ease-out;
+						`
+
+						clearTimeout(menuState.timeout)
+						menuState.timeout = null
+
+						menuState.timeout = setTimeout(() => {
+							element.removeAttribute('style')
+						}, 400)
+					})
 
 					activeBtn.classList.remove('aside-content__acite--open')
 					openBtn.classList.remove('aside-menu__btn--close')
@@ -809,12 +878,43 @@ function main() {
 			closeBtn.addEventListener('click', closeMenu)
 		}
 
+		manageMenuAnimations()
+
 		function initializeMenu() {
 			openBtn.classList.add('aside-menu__btn--start')
 		}
 
 		initializeMenu()
-		manageMenuAnimations()
+
+		function stopAnimationHover() {
+			const triggerBtn = document.querySelector('.aside-content__btn--animation-stop')
+			const animationBtns = document.querySelectorAll('.aside-animations__btn')
+
+			if (!triggerBtn || animationBtns.length < 3) {
+				console.error('Элементы не найдены или их недостаточно.')
+				return
+			}
+
+			triggerBtn.addEventListener('mouseover', () => {
+				animationBtns[0].style.cssText = `
+					top: 0;
+					transition: all 0.3s 0.4s ease-out;
+				`
+
+				animationBtns[2].style.cssText = `
+					bottom: 0;
+					transition: all 0.3s 0.4s ease-out;
+				`
+			})
+
+			triggerBtn.addEventListener('mouseleave', () => {
+				animationBtns.forEach(el => {
+					el.removeAttribute('style')
+				})
+			})
+		}
+
+		stopAnimationHover()
 	}
 
 	function headerEvents() {
@@ -2011,11 +2111,7 @@ function main() {
 
 								visibleIndexes.push(index)
 
-								setTimeout(() => {
-									visibleIndexes.length = 0
-								}, 120)
-
-								const delay = visibleIndexes.indexOf(index) * 120
+								const delay = visibleIndexes.indexOf(index) * 80
 
 								const timeout = setTimeout(() => {
 									elements.item[index].classList.add('equipment-content__item--animate')
@@ -3029,6 +3125,10 @@ function main() {
 
 		if (orientation === 'landscape-primary' || orientation === 'landscape-secondary') {
 			removeScrollAnimateClasses()
+		}
+
+		if (orientation === 'portrait-primary' || orientation === 'landscape-primary' || orientation === 'landscape-secondary') {
+			handleChangeOrintationAddClasses()
 		}
 	})
 }

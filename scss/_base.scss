@@ -470,11 +470,10 @@ $page-background-colors: (
 			height: 80px;
 			background-color: transparent;
 			border: none;
-			cursor: pointer;
 		}
 
-		&__btn:hover ~ .aside-content__acite--open {
-			opacity: 1;
+		&__btn--close {
+			cursor: pointer;
 		}
 
 		$aside-item-hover: (
@@ -485,7 +484,12 @@ $page-background-colors: (
 		);
 
 		@mixin aside-content-btn-hover($modifier, $position) {
-			&__btn--#{$modifier}:hover ~ .aside-content__active {
+			&__btn--#{$modifier}:hover ~ .aside-content__active,
+			&__item--#{$modifier}:hover ~ .aside-content__active {
+				top: #{$position};
+			}
+
+			&__item--#{$modifier} {
 				top: #{$position};
 			}
 		}
@@ -507,25 +511,47 @@ $page-background-colors: (
 			color: white;
 			white-space: nowrap;
 			background-color: gray;
+			border: none;
 			border-radius: 0 20px 20px 0;
 			overflow: hidden;
-			transition: width 0.25s linear 0.2s;
+			transition: all 0.25s linear 0.2s;
 		}
 
-		&__btn:hover .aside-content__item {
-			width: 180px;
+		&__item:hover {
+			transition: all 0.5s ease-out;
+			width: 230px;
+			letter-spacing: 0.5px;
 		}
 
-		&__item--close:hover .aside-content__item {
-			width: 0;
+		&__item:hover ~ .aside-content__acite--open,
+		&__btn:hover ~ .aside-content__acite--open {
+			opacity: 1;
 		}
 
-		&__btn:hover .aside-content__item--close {
-			width: 0;
+		&__btn:hover + .aside-content__item {
+			width: 200px;
+		}
+
+		&__item--animation-stop {
+			top: 46px;
+			height: 180px;
 		}
 
 		&__item--translaitor {
 			font-size: 14px;
+			cursor: pointer;
+		}
+
+		&__item--close {
+			cursor: pointer;
+		}
+
+		&__item--close:hover {
+			width: 230px !important;
+		}
+
+		&__btn--close:hover .aside-content__item--close {
+			width: 200px;
 		}
 
 		.russian-lang-text {
@@ -562,6 +588,7 @@ $page-background-colors: (
 				height: 25px;
 				border: 1px solid white;
 				transition: all 0.2s ease-out;
+				cursor: pointer;
 			}
 
 			&__colors:hover {
@@ -592,5 +619,66 @@ $page-background-colors: (
 				@include aside-colors($modifier, $color);
 			}
 		}
+
+		.aside-animations {
+			display: flex;
+			flex-direction: column;
+			background-color: transparent;
+
+			&__btn {
+				min-width: 100%;
+				height: 60px;
+				font-weight: 600;
+				font-size: 14px;
+				color: $white;
+				background-color: gray;
+				border: none;
+				cursor: pointer;
+				transition: all 0.2s ease;
+
+				&:nth-child(1) {
+					transition: all 0.3s ease-out;
+					position: relative;
+					top: 60px;
+				}
+
+				&:nth-child(2) {
+					z-index: 11;
+					border-top: 2px solid white;
+					border-bottom: 2px solid white;
+				}
+
+				&:nth-child(3) {
+					position: relative;
+					bottom: 60px;
+					transition: all 0.3s ease-out;
+				}
+
+				&:hover {
+					transform: scale(1.1);
+				}
+			}
+
+			&:hover .aside-animations__btn:nth-child(1) {
+				top: 0;
+			}
+
+			&:hover .aside-animations__btn:nth-child(3) {
+				bottom: 0;
+			}
+		}
+	}
+}
+
+@media (hover: none) and (pointer: coarse) {
+	.aside-colors__colors {
+		box-shadow: none !important;
+		transform: none !important;
+	}
+
+	.aside-colors__colors--active {
+		box-shadow: 0 0 10px white !important;
+		transform: scale(1.2) !important;
+		cursor: default;
 	}
 }

@@ -121,30 +121,35 @@
 					</button>
 		
 					<div class="aside-content">
-						<button class="aside-content__btn aside-content__btn--change-theme" type="button" aria-label="change-theme">
-	
-							<span class="aside-content__item aside-content__item--close aside-colors">
-								<span class="aside-colors__text" id="change-theme">Change background</span>
-								<span class="aside-colors__change-color">
-									<span class="aside-colors__colors aside-colors__colors--1st aside-colors__colors--active" id="aside-colors-1st"></span>
-									<span class="aside-colors__colors aside-colors__colors--2nd" id="aside-colors-2nd"></span>
-									<span class="aside-colors__colors aside-colors__colors--3rd" id="aside-colors-3rd"></span>
-									<span class="aside-colors__colors aside-colors__colors--4th" id="aside-colors-4th"></span>
-								</span>
-							</span>
-	
+						<button class="aside-content__btn aside-content__btn--change-theme" type="button" aria-label="change-theme">	
 							<img class="aside-content__img" src="img/svg/aside-menu-change-theme.svg" alt="">
 						</button>
+
+						<div class="aside-content__item aside-content__item--change-theme aside-colors">
+							<span class="aside-colors__text" id="change-theme">Change background</span>
+							<div class="aside-colors__change-color">
+								<button type="button" aria-label="1st-color" class="aside-colors__colors aside-colors__colors--1st aside-colors__colors--active" id="aside-colors-1st"></button>
+								<button type="button" aria-label="2nd-color" class="aside-colors__colors aside-colors__colors--2nd" id="aside-colors-2nd"></button>
+								<button type="button" aria-label="3rd-color" class="aside-colors__colors aside-colors__colors--3rd" id="aside-colors-3rd"></button>
+								<button type="button" aria-label="4th-color" class="aside-colors__colors aside-colors__colors--4th" id="aside-colors-4th"></button>
+							</div>
+						</div>
 	
-						<button class="aside-content__btn aside-content__btn--animation-stop" id="animation-stop" type="button" aria-label="animation-stop">
-							<span class="aside-content__item aside-content__item--close" id="animation-stop-text">Re:Animations: ON</span>
+						<button class="aside-content__btn aside-content__btn--animation-stop" type="button" aria-label="animation-stop">
 							<img class="aside-content__img" src="img/svg/off-animations.svg" alt="">
 						</button>
+
+						<div class="aside-content__item aside-content__item--animation-stop aside-animations">
+							<button type="button" aria-label="Toggle Animation" class="aside-animations__btn" id="animation-toggle-stop">Re:Animations: ON</button>
+							<button type="button" aria-label="Scroll Animation" class="aside-animations__btn" id="animation-scroll-stop">Scroll Animations: ON</button>
+							<button type="button" aria-label="Page Change Animation" class="aside-animations__btn" id="animation-change-page-stop">Switch Animations: ON</button>
+						</div>
 		
-						<button class="aside-content__btn aside-content__btn--translaitor" id="translator" type="button" aria-label="translator">
-							<span class="aside-content__item aside-content__item--close aside-content__item--translaitor" id="translaite-text">Change language: RU</span>
+						<button class="aside-content__btn aside-content__btn--translaitor" type="button" aria-label="translator">
 							<img class="aside-content__img" src="img/svg/translaitor.svg" alt="">
 						</button>
+
+						<button type="button" aria-label="Change language" class="aside-content__item aside-content__item--translaitor" id="translator">Change language: RU</button>
 	
 						<button class="aside-content__btn aside-content__btn--close" id="aside-menu-close" type="button" aria-label="aside-menu-close">
 							<span class="aside-content__item aside-content__item--close" id="aside-menu-close-text">Close menu</span>
