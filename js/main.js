@@ -49,16 +49,17 @@ function main() {
 		const scrollElements = document.querySelectorAll("[class*='scroll-animate']")
 
 		scrollElements.forEach(el => {
-			el.classList.forEach(className => {
-				if (className.includes('scroll-animate')) {
-					el.classList.remove(className)
-					el.style.transition = 'all 0s'
+			const classesToRemove = Array.from(el.classList).filter(className => className.includes('scroll-animate'))
 
-					setTimeout(() => {
-						el.removeAttribute('style')
-					}, 50)
-				}
-			})
+			if (classesToRemove.length > 0) {
+				el.classList.remove(...classesToRemove)
+
+				el.style.transition = 'none'
+
+				requestAnimationFrame(() => {
+					el.removeAttribute('style')
+				})
+			}
 		})
 
 		if (clickState[elementKey].previousPage) {
@@ -223,9 +224,10 @@ function main() {
 		changeLanguageButton.addEventListener('click', () => {
 			elements.forEach((element, index) => {
 				if (!element) {
-					console.error(`${element} not found`)
+					console.error(`${element}: ${index} not found`)
 					return
 				}
+				if (russianTexts[index] === undefined || englishTexts[index] === undefined) return
 
 				element.innerHTML = !isLanguageRussian ? englishTexts[index] : russianTexts[index]
 
@@ -701,6 +703,8 @@ function main() {
 				})
 			}
 
+			updateAnimationText()
+
 			function toggleAnimationState(variable) {
 				if (variable === 'isSwitchAnimation') isSwitchAnimation = !isSwitchAnimation
 				if (variable === 'isScrollAnimation') isScrollAnimation = !isScrollAnimation
@@ -747,16 +751,177 @@ function main() {
 				const englishLanguage = [`Hello,<br>I'm <span>Sunnat</span>`, `I don't have any<br>projects to share yet`, 'But they will appear soon', 'Start', 'Coming soon. . .', 'To be continued?']
 
 				checkLanguageState(russianLanguage, englishLanguage, elements, 'russian-lang-text')
+
+				function translateCardsText() {
+					const elements = document.querySelectorAll('.cards-content__text')
+
+					const russianLanguage = [
+						'HTML5',
+						'Семантическая верстка',
+						'BEM',
+						'Проверка валидности HTML',
+						'Использование инструментов разработчика браузера для отладки разметки',
+						'CSS3',
+						'Адаптивный дизайн для разных экранов',
+						'CSS-анимации',
+						'SASS, SCSS, LESS',
+						'CSS-переменные',
+						'Интеграция JavaScript',
+						'ES6+',
+						'Работа с DOM',
+						'SPA',
+						'Создание и управление анимациями',
+						'Реализация пользовательских компонентов',
+						'Обработка ошибок',
+					]
+					const englishLanguage = [
+						'HTML5',
+						'Semantic layout',
+						'BEM',
+						'HTML Validation Check',
+						'Using browser DevTools to debug markup',
+						'CSS3',
+						'Responsive design for different screens',
+						'CSS animations',
+						'SASS, SCSS, LESS',
+						'CSS Variables',
+						'JavaScript integration',
+						'ES6+',
+						'Working with the DOM',
+						'SPA',
+						'Creating and managing animations',
+						'Implementing Custom Components',
+						'Error Handling',
+					]
+
+					checkLanguageState(russianLanguage, englishLanguage, elements, 'cards-content__russian-lang-text')
+				}
+
+				translateCardsText()
 			}
 
 			translateHomePageText()
 
 			function traslateUsesPageText() {
-				const elements = document.querySelectorAll('.equipment-content__text')
-				const russianLanguage = ['Монитор', 'ПК кейс', 'Кресло', 'Рабочий стол', 'Клавиатура', 'Мышь', 'Веб-камера', 'Микрофон']
-				const englishLanguage = ['Monitor', 'PC case', 'Chair', 'Desk', 'Keyboard', 'Mouse', 'Webcam', 'Microphone']
+				function title() {
+					const elementIds = ['uses-getting-title', 'uses-getting-text']
+					const elements = elementIds.map(id => document.getElementById(id))
+					const russianLanguage = [
+						'Мой набор',
+						'<span class="uses-getting__text-span">Оборудование</span> и <span class="uses-getting__text-span">Программное обеспечение</span> которое я использую для <span class="uses-getting__text-span">Разработки</span>',
+					]
+					const englishLanguage = ['Uses', '<span class="uses-getting__text-span">Equipment</span> and <span class="uses-getting__text-span">Software</span> I Use for <span class="uses-getting__text-span">Development</span>']
 
-				checkLanguageState(russianLanguage, englishLanguage, elements, 'russian-lang-text')
+					checkLanguageState(russianLanguage, englishLanguage, elements, 'uses-getting__russian-text')
+				}
+
+				title()
+
+				function equipment() {
+					const elements = document.querySelectorAll('.equipment-content__text')
+					const russianLanguage = ['Монитор', 'ПК кейс', 'Кресло', 'Рабочий стол', 'Клавиатура', 'Мышь', 'Веб-камера', 'Микрофон']
+					const englishLanguage = ['Monitor', 'PC case', 'Chair', 'Desk', 'Keyboard', 'Mouse', 'Webcam', 'Microphone']
+
+					checkLanguageState(russianLanguage, englishLanguage, elements, 'russian-lang-text')
+				}
+
+				equipment()
+
+				function linters() {
+					const elements = document.querySelectorAll('.linters__subtitle')
+					const russianLanguage = ['для чистоты кода', 'для отладки', 'для качества кода', 'для проверки и исправления кода', 'для улучшения кода']
+					const englishLanguage = ['for code cleanliness', 'for debugging', 'for code quality', 'for code review and fixes', 'for code improvement']
+
+					checkLanguageState(russianLanguage, englishLanguage, elements, 'linters__subtitle--russian-text')
+				}
+
+				linters()
+
+				function lintersSubtitles() {
+					const elementIds = ['equipment-title', 'software-title', 'linters-title', 'settings-linters-subtitle', 'settings-linters-h4-title', 'plugins-linters-subtitle', 'plugins-linters-h4-title']
+					const elements = elementIds.map(id => document.getElementById(id))
+					const russianLanguage = ['Оборудование', 'Программное обеспечение', 'Линтеры', 'Настройки', '<span>Настройки</span> линтера, которые я использую', 'Плагины', 'Полезные <span>плагины</span> в VSCode, которые я использую']
+					const englishLanguage = ['Equipment', 'Software', 'Linters', 'Settings', 'Linter <span>settings</span> that I use', 'Plugins', 'Useful <span>plugins</span> in VSCode that I use']
+
+					checkLanguageState(russianLanguage, englishLanguage, elements, null)
+				}
+
+				lintersSubtitles()
+
+				function settingsCopyText() {
+					function settingsCopyText() {
+						const elements = document.querySelectorAll('.settings-linters__hidden-btn')
+
+						const russianText = 'Копировать текст'
+						const englishText = 'Copy text'
+
+						function updateText() {
+							elements.forEach(element => {
+								element.textContent = isLanguageRussian ? russianText : englishText
+
+								element.classList.toggle('settings-linters__hidden-btn--russin-language', isLanguageRussian)
+							})
+						}
+
+						changeLanguageButton.addEventListener('click', updateText)
+					}
+
+					settingsCopyText()
+				}
+
+				settingsCopyText()
+
+				function pluginLintersBtnText() {
+					const elements = document.querySelectorAll('.plugins-linters__text')
+					const russianLanguage = ['Для линтеров', 'Онлайн кодирование', 'Другое']
+					const englishLanguage = ['For linters', 'Live Coding', 'Other']
+
+					checkLanguageState(russianLanguage, englishLanguage, elements, 'plugins-linters__text--russian-language')
+				}
+
+				pluginLintersBtnText()
+
+				function pluginPasteText() {
+					const elements = document.querySelectorAll('.settings-linters__text-warning')
+					const russianLanguage = ['Вставьте этот код в <span>.prettierrc</span>', 'Вставьте этот код в <span>eslint.config.json</span>', 'Вставьте этот код в <span>.stylelintrc.json</span>', 'Вставьте этот код в <span>settings.json</span>']
+					const englishLanguage = ['Paste this code into <span>.prettierrc</span>', 'Paste this code into <span>eslint.config.json</span>', 'Paste this code into <span>.stylelintrc.json</span>', 'Paste this code into <span>settings.json</span>']
+
+					checkLanguageState(russianLanguage, englishLanguage, elements, 'settings-linters__text-warning--russian-language')
+				}
+
+				pluginPasteText()
+
+				function pluginLintersText() {
+					const elements = document.querySelectorAll('.plugins-linters__hidden-text')
+					const russianLanguage = [
+						'для визуального представления веток, коммитов и их связей в репозитории',
+						'провека HTML-кода на соответствие стандартам',
+						'инструмент для анализа и проверки JavaScript-кода на соответствие стандартам и устранения ошибок',
+						'инструмент автоматического форматирования кода',
+						'инструмент для проверки и стандартизации CSS-кода (а также стилей SCSS, Less и других)',
+						'инструмент, который создает локальный сервер для разработки и автоматически обновляет веб-страницу в браузере при внесении изменений в код',
+						'это инструмент, который компилирует файлы Sass или SCSS в CSS в режиме реального времени',
+						'улучшить визуальное восприятие структуры проекта',
+						'для удобного и быстрого извлечения классов из HTML',
+						'быстро и легко переименовывать теги в HTML',
+					]
+					const englishLanguage = [
+						'for a visual representation of branches, commits and their connections in the repository',
+						'to check HTML code for compliance with standards',
+						'a tool for analyzing and checking JavaScript code for compliance with standards and eliminating errors',
+						'automatic code formatting tool',
+						'is a tool for checking and standardizing CSS code (as well as SCSS, Less and other styles)',
+						'is a tool that creates a local server for development and automatically updates the web page in the browser when changes are made to the code',
+						'is a tool that compiles Sass or SCSS files to CSS in real time',
+						'to improve the visual perception of the project structure',
+						'for convenient and fast extraction of classes from HTML',
+						'to quickly and easily rename tags in HTML',
+					]
+
+					checkLanguageState(russianLanguage, englishLanguage, elements, 'plugins-linters__hidden-text--russian-language')
+				}
+
+				pluginLintersText()
 			}
 
 			traslateUsesPageText()
@@ -1341,7 +1506,7 @@ function main() {
 
 		function animateCards() {
 			const configProgress = [
-				{ id: 0, className: 'html', precent: 70, progressDuration: 10000, precentChangeTime: 2000 },
+				{ id: 0, className: 'html', precent: 70, progressDration: 10000, precentChangeTime: 2000 },
 				{ id: 1, className: 'css', precent: 80, progressDuration: 10000, precentChangeTime: 2200 },
 				{ id: 2, className: 'js', precent: 40, progressDuration: 7000, precentChangeTime: 2400 },
 				{ id: 3, className: 'react', precent: 10, progressDuration: 5000, precentChangeTime: 2600 },
@@ -1474,10 +1639,6 @@ function main() {
 								const container = queryElements.container[index]
 
 								visibleIndexes.push(index)
-
-								setTimeout(() => {
-									visibleIndexes.length = 0
-								}, 200)
 
 								const delay = visibleIndexes.indexOf(index) * 200
 
@@ -1688,7 +1849,7 @@ function main() {
 
 					interval = setInterval(() => {
 						rain()
-					}, 100)
+					}, 150)
 				}
 			}
 
@@ -2713,6 +2874,8 @@ function main() {
 					}
 				}
 
+				let isModalVisible = false
+
 				function copyText() {
 					const btns = [...queryElements.hiddenBtn]
 					const texts = [...queryElements.hiddenText]
@@ -2720,6 +2883,9 @@ function main() {
 					let isClicked = false
 
 					function showModalWindow(message) {
+						if (isModalVisible) return
+						isModalVisible = true
+
 						const modalWindow = document.createElement('div')
 						modalWindow.className = 'linters__modal-window'
 						modalWindow.textContent = message
@@ -2727,6 +2893,7 @@ function main() {
 
 						setTimeout(() => {
 							modalWindow.remove()
+							isModalVisible = false
 						}, 2000)
 					}
 
@@ -2737,16 +2904,11 @@ function main() {
 					}
 
 					btns.forEach((element, index) => {
-						const newBtn = element.cloneNode(true)
-
-						element.replaceWith(newBtn)
-
-						newBtn.addEventListener('click', () => {
+						element.addEventListener('click', () => {
 							if (isClicked) return
 							isClicked = true
 
 							let textToCopy = texts[index].textContent
-
 							textToCopy = cleanText(textToCopy)
 
 							try {
@@ -2759,10 +2921,10 @@ function main() {
 							navigator.clipboard
 								.writeText(textToCopy)
 								.then(() => {
-									showModalWindow(!isLanguageRussian ? 'Text Copied' : 'Текст скопирован')
+									showModalWindow(isLanguageRussian ? 'Текст скопирован' : 'Text Copied')
 								})
-								.catch(err => {
-									showModalWindow(!isLanguageRussian ? 'Copy Error' : 'Ошибка копирования')
+								.catch(() => {
+									showModalWindow(isLanguageRussian ? 'Ошибка копирования' : 'Copy Error')
 								})
 								.finally(() => {
 									setTimeout(() => {

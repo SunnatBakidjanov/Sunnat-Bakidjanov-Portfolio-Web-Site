@@ -116,6 +116,11 @@ $uses-linters-box-shadow-color: $white;
 		color: $uses-getting-text-span-color;
 	}
 
+	&__russian-text {
+		font-weight: 600;
+		letter-spacing: 0.3px;
+	}
+
 	&__scroll-container {
 		display: flex;
 		align-items: center;
@@ -379,6 +384,7 @@ $uses-linters-box-shadow-color: $white;
 
 	&__title {
 		margin-bottom: 30px;
+		text-align: center;
 		opacity: 0;
 		transform: translateY(-30px);
 		transition: all 1s ease-out;
@@ -531,6 +537,11 @@ $uses-linters-box-shadow-color: $white;
 		transition: all 1s ease-out;
 	}
 
+	&__subtitle--russian-text {
+		font-weight: 600;
+		letter-spacing: 0.2px;
+	}
+
 	&__subtitle--animate {
 		opacity: 1;
 		transform: translateY(0);
@@ -573,6 +584,7 @@ $uses-linters-box-shadow-color: $white;
 			font-weight: 600;
 			font-size: 22px;
 			color: $uses-linters-text-color;
+			text-align: center;
 			opacity: 0;
 			transform: translateX(20px);
 			transition: all 1s ease-out;
@@ -726,6 +738,11 @@ $uses-linters-box-shadow-color: $white;
 			}
 		}
 
+		&__hidden-btn--russin-language {
+			font-weight: 600;
+			letter-spacing: 0.2px;
+		}
+
 		&__warning {
 			display: flex;
 			align-items: center;
@@ -749,6 +766,10 @@ $uses-linters-box-shadow-color: $white;
 			& span {
 				color: $uses-linters-accent-text-color;
 			}
+		}
+
+		&__text-warning--russian-language {
+			font-weight: 600;
 		}
 
 		&__hidden-text {
@@ -895,9 +916,14 @@ $uses-linters-box-shadow-color: $white;
 			font-weight: 500;
 			font-size: 28px;
 			color: white;
-			transform: translateX(-20px);
+			text-align: left;
 			opacity: 0;
+			transform: translateX(-20px);
 			pointer-events: none;
+		}
+
+		&__text--russian-language {
+			font-weight: 600;
 		}
 
 		&__text--animate {
@@ -970,19 +996,31 @@ $uses-linters-box-shadow-color: $white;
 			letter-spacing: 0.5px;
 			text-align: center;
 		}
+
+		&__hidden-text--russian-language {
+			font-weight: 600;
+			font-size: 20px;
+		}
 	}
 }
 
 .linters__modal-window {
 	position: fixed;
 	z-index: 10;
-	bottom: 3%;
+	bottom: 0;
 	left: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 40px;
 	font-style: normal;
 	font-weight: 600;
 	font-size: 22px;
 	color: $orange;
 	letter-spacing: 0.5px;
+	text-align: center;
+	background-color: $white;
 	opacity: 0;
 	transform: translateX(-50%);
 	animation: linters-modal-windows 2s linear;
@@ -1085,6 +1123,10 @@ $uses-linters-box-shadow-color: $white;
 		&__scroll-container {
 			margin-top: -25px;
 		}
+
+		&__scroll-line {
+			height: 70%;
+		}
 	}
 
 	.equipment {
@@ -1145,12 +1187,17 @@ $uses-linters-box-shadow-color: $white;
 
 	.uses-getting {
 		&__scroll-container {
+			margin-top: -35px;
 			margin-left: 50px;
 			overflow: hidden;
 		}
 
 		&__title {
 			font-size: $title-font-size;
+		}
+
+		&__scroll-line {
+			height: 65%;
 		}
 
 		&__text {

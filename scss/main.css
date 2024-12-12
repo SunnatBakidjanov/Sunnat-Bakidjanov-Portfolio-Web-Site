@@ -586,8 +586,8 @@
 .aside-menu .aside-content .aside-animations__btn {
   min-width: 100%;
   height: 60px;
-  font-weight: 600;
-  font-size: 14px;
+  font-weight: 700;
+  font-size: 15px;
   color: #fff;
   background-color: gray;
   border: none;
@@ -595,9 +595,10 @@
   transition: all 0.2s ease;
 }
 .aside-menu .aside-content .aside-animations__btn:nth-child(1) {
-  transition: all 0.3s ease-out;
+  transition: all 0.2s ease-out;
   position: relative;
   top: 60px;
+  border-left: 2px solid white;
 }
 .aside-menu .aside-content .aside-animations__btn:nth-child(2) {
   z-index: 11;
@@ -607,10 +608,11 @@
 .aside-menu .aside-content .aside-animations__btn:nth-child(3) {
   position: relative;
   bottom: 60px;
-  transition: all 0.3s ease-out;
+  transition: all 0.2s ease-out;
+  border-left: 2px solid white;
 }
 .aside-menu .aside-content .aside-animations__btn:hover {
-  transform: scale(1.1);
+  transform: scale(1.15);
 }
 .aside-menu .aside-content .aside-animations:hover .aside-animations__btn:nth-child(1) {
   top: 0;
@@ -1624,7 +1626,7 @@
   width: 65%;
   height: -moz-fit-content;
   height: fit-content;
-  gap: 50px 80px;
+  gap: 40px 80px;
   flex-wrap: wrap;
 }
 .cards .cards-content__text {
@@ -1635,6 +1637,11 @@
   text-align: center;
   opacity: 0;
   transform: translateY(-20px);
+}
+.cards .cards-content__russian-lang-text {
+  font-weight: 600;
+  font-size: 24px;
+  letter-spacing: 0.3px;
 }
 .cards .cards-content__text--animate {
   animation: cards-content-text 0.6s ease-out forwards;
@@ -2783,6 +2790,10 @@
 .uses-getting__text-span {
   color: #f8aa01;
 }
+.uses-getting__russian-text {
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
 .uses-getting__scroll-container {
   display: flex;
   align-items: center;
@@ -3005,6 +3016,7 @@
 }
 .software__title {
   margin-bottom: 30px;
+  text-align: center;
   opacity: 0;
   transform: translateY(-30px);
   transition: all 1s ease-out;
@@ -3141,6 +3153,10 @@
   transform: translateY(20px);
   transition: all 1s ease-out;
 }
+.linters__subtitle--russian-text {
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
 .linters__subtitle--animate {
   opacity: 1;
   transform: translateY(0);
@@ -3178,6 +3194,7 @@
   font-weight: 600;
   font-size: 22px;
   color: #fff;
+  text-align: center;
   opacity: 0;
   transform: translateX(20px);
   transition: all 1s ease-out;
@@ -3306,6 +3323,10 @@
   color: #f8aa01;
   box-shadow: 0 0 10px #fff;
 }
+.linters .settings-linters__hidden-btn--russin-language {
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
 .linters .settings-linters__warning {
   display: flex;
   align-items: center;
@@ -3327,6 +3348,9 @@
 }
 .linters .settings-linters__text-warning span {
   color: #f8aa01;
+}
+.linters .settings-linters__text-warning--russian-language {
+  font-weight: 600;
 }
 .linters .settings-linters__hidden-text {
   font-style: normal;
@@ -3451,9 +3475,13 @@
   font-weight: 500;
   font-size: 28px;
   color: white;
-  transform: translateX(-20px);
+  text-align: left;
   opacity: 0;
+  transform: translateX(-20px);
   pointer-events: none;
+}
+.linters .plugins-linters__text--russian-language {
+  font-weight: 600;
 }
 .linters .plugins-linters__text--animate {
   transition: all 1s ease-out;
@@ -3515,17 +3543,28 @@
   letter-spacing: 0.5px;
   text-align: center;
 }
+.linters .plugins-linters__hidden-text--russian-language {
+  font-weight: 600;
+  font-size: 20px;
+}
 
 .linters__modal-window {
   position: fixed;
   z-index: 10;
-  bottom: 3%;
+  bottom: 0;
   left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 40px;
   font-style: normal;
   font-weight: 600;
   font-size: 22px;
   color: #f8aa01;
   letter-spacing: 0.5px;
+  text-align: center;
+  background-color: #fff;
   opacity: 0;
   transform: translateX(-50%);
   animation: linters-modal-windows 2s linear;
@@ -3593,6 +3632,9 @@
   .uses-getting__scroll-container {
     margin-top: -25px;
   }
+  .uses-getting__scroll-line {
+    height: 70%;
+  }
   .equipment .equipment-content__hidden-box {
     flex-flow: column nowrap;
     justify-content: center;
@@ -3627,11 +3669,15 @@
 }
 @media (width <= 600px) {
   .uses-getting__scroll-container {
+    margin-top: -35px;
     margin-left: 50px;
     overflow: hidden;
   }
   .uses-getting__title {
     font-size: 42px;
+  }
+  .uses-getting__scroll-line {
+    height: 65%;
   }
   .uses-getting__text {
     font-size: 26px;
