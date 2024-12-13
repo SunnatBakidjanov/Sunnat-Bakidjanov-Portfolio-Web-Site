@@ -136,17 +136,26 @@
   transform: translate(-50%, -50%);
   filter: drop-shadow(0 0 15px transparent);
 }
-.switch-animation .switch-animation__img--raido-uruz {
-  left: 51%;
+.switch-animation .switch-animation__img--raido {
+  transform: translate(-48%, -50%);
+}
+.switch-animation .switch-animation__img--uruz {
+  transform: translate(-47.5%, -50%);
 }
 .switch-animation .switch-animation__img--otilo {
-  left: 49%;
+  transform: translate(-51.5%, -50%);
+}
+.switch-animation .switch-animation__img--pert {
+  transform: translate(-47%, -50%);
 }
 .switch-animation .switch-animation__img--turisaz {
-  left: 53%;
+  transform: translate(-41.5%, -50%);
 }
 .switch-animation .switch-animation__img--vunio {
-  left: 52%;
+  transform: translate(-43%, -50%);
+}
+.switch-animation .switch-animation__img--hangalaz {
+  transform: translate(-49%, -50%);
 }
 .switch-animation .switch-animation__img--animate {
   display: block;
@@ -1216,6 +1225,10 @@
 .getting .my-name__title span {
   color: #fff;
 }
+.getting .my-name__title--scroll-animate {
+  opacity: 0;
+  transform: translateX(-10px);
+}
 .getting .my-name__title--animate {
   animation: my-name-title-left 1.3s forwards 0.3s ease;
 }
@@ -1238,6 +1251,9 @@
   letter-spacing: 1px;
   text-align: center;
   overflow: hidden;
+}
+.getting .my-name__text--scroll-animate {
+  opacity: 0;
 }
 .getting .my-name__blink {
   position: relative;
@@ -1294,6 +1310,7 @@
   height: 92.3%;
   transform: translateZ(25px);
   backface-visibility: hidden;
+  transition: all 0.6s ease-out;
 }
 .getting .logo-3d__front--animate {
   animation: logo-3d-front-start 0.5s ease-in forwards;
@@ -1305,6 +1322,9 @@
   100% {
     box-shadow: 0 0 15px #fff;
   }
+}
+.getting .logo-3d__front--scroll-animate {
+  opacity: 0;
 }
 .getting .logo-3d__img {
   opacity: 0;
@@ -1410,6 +1430,10 @@
   backface-visibility: hidden;
   box-shadow: 0 0 15px #fff;
   height: 92.3%;
+  transition: all 0.6s ease-out;
+}
+.getting .logo-3d__back--scroll-animate {
+  opacity: 0;
 }
 .getting .logo-3d__left {
   position: absolute;
@@ -1418,6 +1442,10 @@
   transform: translateX(-26px) rotateY(-90deg);
   backface-visibility: hidden;
   box-shadow: 0 0 15px #fff;
+  transition: all 0.6s ease-out;
+}
+.getting .logo-3d__left--scroll-animate {
+  opacity: 0;
 }
 .getting .logo-3d__right {
   position: absolute;
@@ -1426,6 +1454,10 @@
   transform: translateX(203px) rotateY(90deg);
   backface-visibility: hidden;
   box-shadow: 0 0 15px #fff;
+  transition: all 0.6s ease-out;
+}
+.getting .logo-3d__right--scroll-animate {
+  opacity: 0;
 }
 .getting .logo-3d__shadow {
   position: absolute;
@@ -1436,17 +1468,13 @@
   filter: blur(10px);
   box-shadow: 0 0 150px #fff;
   opacity: 0;
+  transition: all 0.6s ease-out;
 }
 .getting .logo-3d__shadow--animate {
-  animation: logo-3d-shadow-start 0.5s ease-in forwards;
+  opacity: 1;
 }
-@keyframes logo-3d-shadow-start {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+.getting .logo-3d__shadow--scroll-animate {
+  opacity: 0;
 }
 
 .scroll-hmp__wrapper {
@@ -1454,33 +1482,19 @@
   align-items: center;
   height: calc(100vh - 500px);
 }
-.scroll-hmp__line--animate {
-  animation: scroll-hmp-line-start 1.5s forwards ease-out 0.3s;
-}
-@keyframes scroll-hmp-line-start {
-  0% {
-    height: 0%;
-  }
-  100% {
-    height: 80%;
-  }
-}
 .scroll-hmp__line {
   margin-left: 150px;
   width: 3px;
   height: 0%;
   background-color: #fff;
+  transition: all 1.5s ease-out;
 }
-.scroll-hmp__hide-text--animate {
-  animation: scroll-hmp-text-start 1.5s forwards ease-out 0.3s;
+.scroll-hmp__line--animate {
+  height: 80%;
 }
-@keyframes scroll-hmp-text-start {
-  0% {
-    bottom: 70px;
-  }
-  100% {
-    bottom: 0;
-  }
+.scroll-hmp__line--scroll-animate {
+  height: 60%;
+  opacity: 0.3;
 }
 .scroll-hmp__hide-text {
   overflow: hidden;
@@ -1493,6 +1507,14 @@
   font-size: 35px;
   color: #fff;
   letter-spacing: 0.5px;
+  transition: all 1.5s ease-out;
+}
+.scroll-hmp__text--animate {
+  bottom: 0;
+}
+.scroll-hmp__text--scroll-animate {
+  opacity: 0.3;
+  transform: translateX(-10px);
 }
 
 .cards .cards__wrapper {
@@ -1508,6 +1530,10 @@
   font-size: 50px;
   color: #f8aa01;
   text-align: left;
+}
+.cards .cards__title--scroll-animate {
+  opacity: 0.3;
+  transform: translateY(-10px);
 }
 .cards .cards__inner-content {
   margin-top: 100px;
@@ -1538,6 +1564,10 @@
   width: 350px;
   height: 225px;
   row-gap: 25px;
+}
+.cards .cards-content__inner-progress--scroll-animate {
+  opacity: 0.3;
+  transform: translateX(-10px);
 }
 .cards .cards-content__svg-box {
   position: relative;
@@ -1637,24 +1667,19 @@
   text-align: center;
   opacity: 0;
   transform: translateY(-20px);
+  transition: all 0.6s ease-out;
 }
 .cards .cards-content__russian-lang-text {
   font-weight: 600;
   font-size: 24px;
-  letter-spacing: 0.3px;
 }
 .cards .cards-content__text--animate {
-  animation: cards-content-text 0.6s ease-out forwards;
+  opacity: 1;
+  transform: translateY(0);
 }
-@keyframes cards-content-text {
-  0% {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.cards .cards-content__text--scroll-animate {
+  opacity: 0.3;
+  transform: translateX(10px);
 }
 .cards .cards-content__circle--html {
   transition: all 0.2s linear;
@@ -2305,6 +2330,10 @@
     width: 90%;
     height: 4px;
     animation: none;
+  }
+  .scroll-hmp__line--scroll-animate {
+    width: 50%;
+    opacity: 0.3;
   }
   .scroll-hmp__text {
     margin-top: 20px;
@@ -3632,8 +3661,13 @@
   .uses-getting__scroll-container {
     margin-top: -25px;
   }
-  .uses-getting__scroll-line {
-    height: 70%;
+  .uses-getting__scroll-line--animate {
+    height: 65%;
+    transition: all 1.5s ease-out;
+  }
+  .uses-getting__scroll-line--scroll-animate {
+    height: 40%;
+    opacity: 0.3;
   }
   .equipment .equipment-content__hidden-box {
     flex-flow: column nowrap;
@@ -3676,8 +3710,13 @@
   .uses-getting__title {
     font-size: 42px;
   }
-  .uses-getting__scroll-line {
+  .uses-getting__scroll-line--animate {
     height: 65%;
+    transition: all 1.5s ease-out;
+  }
+  .uses-getting__scroll-line--scroll-animate {
+    height: 40%;
+    opacity: 0.3;
   }
   .uses-getting__text {
     font-size: 26px;

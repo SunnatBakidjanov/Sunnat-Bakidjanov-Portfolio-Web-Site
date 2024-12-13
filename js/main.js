@@ -198,7 +198,9 @@ function main() {
 		const checkScrollAnimation = () => {
 			if (!isScrollAnimation) {
 				elements.forEach((element, index) => {
-					if (element.classList.contains(classList)) {
+					const className = Array.isArray(classList) ? classList[index] : classList
+
+					if (element.classList.contains(className)) {
 						if (handleVisibilityChange(element, 0, elementKeys)) {
 							removeCallback(element, index)
 						} else {
@@ -512,7 +514,9 @@ function main() {
 					if (event.animationName === 'nav-container-burger-close' && !isAnimated) {
 						isAnimated = true
 
-						switchAnimate()
+						if (!isSwitchAnimation) {
+							switchAnimate()
+						}
 					}
 				}
 
@@ -521,15 +525,20 @@ function main() {
 		}
 
 		const logoHasClicked = () => {
-			if (canAnimate && !isSwitchAnimation) {
-				switchAnimate()
+			if (canAnimate) {
+				if (!isSwitchAnimation) {
+					switchAnimate()
+				}
+
 				lastClickedElement = null
 			}
 		}
 
 		const homePageHasClicked = () => {
-			if (isDesktop && canAnimate && !isSwitchAnimation) {
-				switchAnimate()
+			if (isDesktop && canAnimate) {
+				if (!isSwitchAnimation) {
+					switchAnimate()
+				}
 				canAnimate = false
 				lastClickedElement = null
 			} else if (!isDesktop) {
@@ -541,7 +550,9 @@ function main() {
 					if (event.animationName === 'nav-container-burger-close' && !isAnimated) {
 						isAnimated = true
 
-						switchAnimate()
+						if (!isSwitchAnimation) {
+							switchAnimate()
+						}
 					}
 				}
 
@@ -1260,6 +1271,8 @@ function main() {
 			const title = document.getElementById('my-name-title')
 
 			const ids = [container]
+			const scrollIds = [title]
+			const scrollKeys = ['my-name-title']
 			const elementKeys = ['my-name-hidden-title']
 			const startHeight = 0
 
@@ -1268,9 +1281,18 @@ function main() {
 			}
 
 			function reset() {
-				title.classList.remove('my-name__title--animate')
+				title.classList.remove('my-name__title--animate', 'my-name__title--scroll-animate')
 			}
 
+			function scrollAnimate() {
+				title.classList.add('my-name__title--scroll-animate')
+			}
+
+			function scrollReset() {
+				title.classList.remove('my-name__title--scroll-animate')
+			}
+
+			handleAnimationOnScroll(scrollIds, 'my-name__title--animate', scrollKeys, scrollAnimate, scrollReset)
 			createAnimation(ids, elementKeys, startHeight, animate, reset)
 		}
 
@@ -1334,8 +1356,16 @@ function main() {
 				}
 			}
 
+			function handleBlinkAnimation(event) {
+				if (event.animationName === 'my-name-blink-start' && !blinkHasAnimated) {
+					blinkHasAnimated = true
+					timeout = setTimeout(startTyping, cfg.startWrite)
+				}
+			}
+
 			function animate() {
 				blink.classList.add('my-name__blink--animation')
+				container.classList.add('my-name__text--animation')
 
 				document.addEventListener('animationend', handleBlinkAnimation)
 			}
@@ -1344,6 +1374,7 @@ function main() {
 				document.removeEventListener('animationend', handleBlinkAnimation)
 
 				blink.classList.remove('my-name__blink--animation')
+				container.classList.remove('my-name__text--scroll-animate', 'my-name__text--animation')
 
 				isDeleted = false
 				blinkHasAnimated = false
@@ -1353,13 +1384,15 @@ function main() {
 				letterIndex = 0
 			}
 
-			function handleBlinkAnimation(event) {
-				if (event.animationName === 'my-name-blink-start' && !blinkHasAnimated) {
-					blinkHasAnimated = true
-					timeout = setTimeout(startTyping, cfg.startWrite)
-				}
+			function scrollAnimate() {
+				container.classList.add('my-name__text--scroll-animate')
 			}
 
+			function scrollReset() {
+				container.classList.remove('my-name__text--scroll-animate')
+			}
+
+			handleAnimationOnScroll(ids, 'my-name__text--animation', elementKeys, scrollAnimate, scrollReset)
 			createAnimation(ids, elementKeys, startHeight, animate, reset)
 		}
 
@@ -1373,17 +1406,22 @@ function main() {
 				logo3dLineTop: document.getElementById('logo-3d-line-top'),
 				logo3dLineBottom: document.getElementById('logo-3d-line-bottom'),
 				logo3dFront: document.getElementById('logo-3d-front'),
+				logo3dBack: document.getElementById('logo-3d-back'),
+				logo3dLeft: document.getElementById('logo-3d-left'),
+				logo3dRight: document.getElementById('logo-3d-right'),
 				logo3dShadow: document.getElementById('logo-3d-shadow'),
 				logo3dImg: document.getElementById('logo-3d-img'),
 				logo3dPreserve: document.getElementById('logo-3d-preverve'),
 			}
 
 			const ids = [elements.logo3d]
+			const scrollIds = [elements.logo3dPreserve]
+			const scrollKeys = ['logo-3d-preverve']
 			const elementKeys = ['logo3d']
 			const startHeight = 0
 
 			const lineAnimations = ['logo-3d-line-left', 'logo-3d-line-right', 'logo-3d-line-top', 'logo-3d-line-bottom']
-			const mainAnimations = ['logo-3d-front-start', 'logo-3d-shadow-start', 'logo-3d-img-start']
+			const mainAnimations = ['logo-3d-front-start', 'logo-3d-img-start']
 
 			let completedLineAnimations = new Set()
 			let completedMainAnimations = new Set()
@@ -1419,10 +1457,13 @@ function main() {
 				elements.logo3dLineRight.classList.remove('logo-3d__line-right--animate')
 				elements.logo3dLineTop.classList.remove('logo-3d__linte-top--animate')
 				elements.logo3dLineBottom.classList.remove('logo-3d__line-bottom--animate')
-				elements.logo3dFront.classList.remove('logo-3d__front--animate')
-				elements.logo3dShadow.classList.remove('logo-3d__shadow--animate')
+				elements.logo3dFront.classList.remove('logo-3d__front--animate', 'logo-3d__front--scroll-animate')
+				elements.logo3dBack.classList.remove('logo-3d__back--scroll-animate')
+				elements.logo3dLeft.classList.remove('logo-3d__left--scroll-animate')
+				elements.logo3dRight.classList.remove('logo-3d__right--scroll-animate')
+				elements.logo3dShadow.classList.remove('logo-3d__shadow--animate', 'logo-3d__shadow--scroll-animate')
 				elements.logo3dImg.classList.remove('logo-3d__img--animate')
-				elements.logo3dPreserve.classList.remove('logo-3d__preserve-3d--animate')
+				elements.logo3dPreserve.classList.remove('logo-3d__preserve-3d--animate', 'logo-3d__preserve-3d--scroll-animate')
 			}
 
 			function clearEventListeners() {
@@ -1445,6 +1486,23 @@ function main() {
 				clearEventListeners()
 			}
 
+			function scrollAnimate() {
+				elements.logo3dFront.classList.add('logo-3d__front--scroll-animate')
+				elements.logo3dBack.classList.add('logo-3d__back--scroll-animate')
+				elements.logo3dLeft.classList.add('logo-3d__left--scroll-animate')
+				elements.logo3dRight.classList.add('logo-3d__right--scroll-animate')
+				elements.logo3dShadow.classList.add('logo-3d__shadow--scroll-animate')
+			}
+
+			function scrollReset() {
+				elements.logo3dFront.classList.remove('logo-3d__front--scroll-animate')
+				elements.logo3dBack.classList.remove('logo-3d__back--scroll-animate')
+				elements.logo3dLeft.classList.remove('logo-3d__left--scroll-animate')
+				elements.logo3dRight.classList.remove('logo-3d__right--scroll-animate')
+				elements.logo3dShadow.classList.remove('logo-3d__shadow--scroll-animate')
+			}
+
+			handleAnimationOnScroll(scrollIds, 'logo-3d__preserve-3d--animate', scrollKeys, scrollAnimate, scrollReset)
 			createAnimation(ids, elementKeys, startHeight, animate, reset)
 		}
 
@@ -1456,19 +1514,57 @@ function main() {
 			const text = document.getElementById('scroll-hmp-text')
 
 			const ids = [container]
+			const scrollIds = [line, text]
+			const classes = ['scroll-hmp__line--animate', 'scroll-hmp__text--animate']
+			const scrollKeys = ['scroll-hmp-line', 'scroll-hmp-text']
 			const elementKeys = ['scroll-hmp']
 			const startHeight = 0
 
+			let timeout = null
+
+			function handleChangeOnResize() {
+				if (document.documentElement.clientWidth > 1000) {
+					line.style.transition = 'none'
+
+					clearTimeout(timeout)
+					timeout = setTimeout(() => {
+						line.removeAttribute('style')
+					}, 100)
+				} else {
+					line.style.transition = 'none'
+
+					clearTimeout(timeout)
+					timeout = setTimeout(() => {
+						line.removeAttribute('style')
+					}, 100)
+				}
+			}
+
 			function animate() {
 				line.classList.add('scroll-hmp__line--animate')
-				text.classList.add('scroll-hmp__hide-text--animate')
+				text.classList.add('scroll-hmp__text--animate')
+
+				window.addEventListener('resize', handleChangeOnResize)
 			}
 
 			function reset() {
-				line.classList.remove('scroll-hmp__line--animate')
-				text.classList.remove('scroll-hmp__hide-text--animate')
+				line.classList.remove('scroll-hmp__line--animate', 'scroll-hmp__line--scroll-animate')
+				text.classList.remove('scroll-hmp__text--animate', 'scroll-hmp__text--scroll-animate')
+
+				window.removeEventListener('resize', handleChangeOnResize)
 			}
 
+			function scrollAnimate() {
+				line.classList.add('scroll-hmp__line--scroll-animate')
+				text.classList.add('scroll-hmp__text--scroll-animate')
+			}
+
+			function scrollReset() {
+				line.classList.remove('scroll-hmp__line--scroll-animate')
+				text.classList.remove('scroll-hmp__text--scroll-animate')
+			}
+
+			handleAnimationOnScroll(scrollIds, classes, scrollKeys, scrollAnimate, scrollReset)
 			createAnimation(ids, elementKeys, startHeight, animate, reset)
 		}
 
@@ -1491,14 +1587,25 @@ function main() {
 				window.addEventListener('resize', handleChangeOnResize)
 
 				handleTextWrite.write()
+				title.classList.add('cards__title--animate')
 			}
 
 			function reset() {
 				window.removeEventListener('resize', handleChangeOnResize)
 
 				handleTextWrite.reset()
+				title.classList.remove('cards__title--animate', 'cards__title--scroll-animate')
 			}
 
+			function scrollAnimate() {
+				title.classList.add('cards__title--scroll-animate')
+			}
+
+			function scrollReset() {
+				title.classList.remove('cards__title--scroll-animate')
+			}
+
+			handleAnimationOnScroll(ids, 'cards__title--animate', elementKeys, scrollAnimate, scrollReset)
 			createAnimation(ids, elementKeys, startHeight, animate, reset)
 		}
 
@@ -1506,7 +1613,7 @@ function main() {
 
 		function animateCards() {
 			const configProgress = [
-				{ id: 0, className: 'html', precent: 70, progressDration: 10000, precentChangeTime: 2000 },
+				{ id: 0, className: 'html', precent: 70, progressDuration: 10000, precentChangeTime: 2000 },
 				{ id: 1, className: 'css', precent: 80, progressDuration: 10000, precentChangeTime: 2200 },
 				{ id: 2, className: 'js', precent: 40, progressDuration: 7000, precentChangeTime: 2400 },
 				{ id: 3, className: 'react', precent: 10, progressDuration: 5000, precentChangeTime: 2600 },
@@ -1519,12 +1626,13 @@ function main() {
 				value: document.querySelectorAll('.cards-content__value'),
 				textBox: document.querySelectorAll('.cards-content__inner-text'),
 				textsElements: document.querySelectorAll('.cards-content__text'),
+				progressBox: document.querySelectorAll('.cards-content__inner-progress'),
 			}
 
 			function animateProgress() {
 				const ids = []
 				const elementKeys = []
-				const startHeight = 30
+				const startHeight = 80
 
 				const circles = []
 				const intervals = []
@@ -1542,6 +1650,8 @@ function main() {
 					elementKeys.push(`cards-inner-progress-${index}`)
 					ids.push(id)
 					circles.push(circle)
+
+					queryElements.progressBox[index].classList.add('cards-content__inner-progress--animate')
 				})
 
 				function getPrecentCards(circleId, numberId, elementKey, targetPercent, duration, precentChangeTime) {
@@ -1640,7 +1750,11 @@ function main() {
 
 								visibleIndexes.push(index)
 
-								const delay = visibleIndexes.indexOf(index) * 200
+								setTimeout(() => {
+									visibleIndexes.length = 0
+								}, 100)
+
+								const delay = visibleIndexes.indexOf(index) * 100
 
 								const timeout = setTimeout(() => {
 									svgBox.classList.add('cards-content__svg-box--animate')
@@ -1658,7 +1772,7 @@ function main() {
 
 										const timeout = setTimeout(() => {
 											circles[index].classList.add(`cards-content__circle--${className}`)
-										}, 200)
+										}, 100)
 
 										timeouts.push(timeout)
 									}
@@ -1671,7 +1785,7 @@ function main() {
 				}
 
 				function reset() {
-					queryElements.svgBox.forEach((element, index) => {
+					queryElements.svgBox.forEach((_, index) => {
 						const { className } = configProgress[index]
 
 						animationEnd[index] = { isEnded: false, isStarted: false }
@@ -1681,6 +1795,7 @@ function main() {
 						queryElements.svgBox[index].classList.remove('cards-content__svg-box--animate')
 						queryElements.text[index].classList.remove('cards-content__progress-text--animate')
 						circles[index].classList.remove(`cards-content__circle--${className}`)
+						queryElements.progressBox[index].classList.remove('cards-content__inner-progress--scroll-animate')
 
 						queryElements.value[index].textContent = 0
 						clearInterval(intervals[index])
@@ -1692,6 +1807,15 @@ function main() {
 					intervals.length = 0
 				}
 
+				function scrollAnimate(_, index) {
+					queryElements.progressBox[index].classList.add('cards-content__inner-progress--scroll-animate')
+				}
+
+				function scrollReset(_, index) {
+					queryElements.progressBox[index].classList.remove('cards-content__inner-progress--scroll-animate')
+				}
+
+				handleAnimationOnScroll(queryElements.progressBox, 'cards-content__inner-progress--animate', elementKeys, scrollAnimate, scrollReset)
 				createAnimation(ids, elementKeys, startHeight, animate, reset)
 			}
 
@@ -1700,7 +1824,7 @@ function main() {
 			function animateTexts() {
 				const ids = []
 				const elementKeys = []
-				let startHeight = document.documentElement.clientWidth < 1030 ? 50 : 215
+				let startHeight = document.documentElement.clientWidth < 1030 ? 30 : 215
 
 				queryElements.textsElements.forEach((element, index) => {
 					const id = `cards-content-text-${index}`
@@ -1763,7 +1887,7 @@ function main() {
 					window.removeEventListener('resize', updateStartingHeight)
 
 					queryElements.textsElements.forEach((element, index) => {
-						element.classList.remove('cards-content__text--animate')
+						element.classList.remove('cards-content__text--animate', 'cards-content__text--scroll-animate')
 
 						clearTimeout(timeouts[index])
 
@@ -1773,6 +1897,15 @@ function main() {
 					timeouts.length = 0
 				}
 
+				function scrollAnimate(_, index) {
+					queryElements.textsElements[index].classList.add('cards-content__text--scroll-animate')
+				}
+
+				function scrollReset(_, index) {
+					queryElements.textsElements[index].classList.remove('cards-content__text--scroll-animate')
+				}
+
+				handleAnimationOnScroll(queryElements.textsElements, 'cards-content__text--animate', elementKeys, scrollAnimate, scrollReset)
 				createAnimation(ids, elementKeys, startHeight, animate, reset)
 			}
 
@@ -1790,7 +1923,18 @@ function main() {
 
 			const handleTextWrite = writeAndResetText(title, 'My projects', 'Мои проекты', 80, 'projects-title', null)
 
-			createAnimation(ids, elementKeys, startHeight, handleTextWrite.write, handleTextWrite.reset)
+			function animate() {
+				handleTextWrite.write()
+
+				title.classList.add('cards__title--animate')
+			}
+
+			function reset() {
+				handleTextWrite.reset()
+
+				title.classList.remove('cards__title--animate', 'cards__title--scroll-animate')
+			}
+			createAnimation(ids, elementKeys, startHeight, animate, reset)
 		}
 
 		writeProjectsTitle()
