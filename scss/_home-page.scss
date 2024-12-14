@@ -94,8 +94,8 @@ $exp-text-color: $white;
 		}
 
 		&__title--scroll-animate {
-			opacity: 0;
-			transform: translateX(-10px);
+			opacity: 0.3;
+			transform: scale(0.95);
 		}
 
 		&__title--animate {
@@ -126,7 +126,8 @@ $exp-text-color: $white;
 		}
 
 		&__text--scroll-animate {
-			opacity: 0;
+			opacity: 0.3;
+			transform: scale(0.9);
 		}
 
 		&__blink {
@@ -165,6 +166,7 @@ $exp-text-color: $white;
 		perspective: 550px;
 		width: 250px;
 		height: 250px;
+		transition: all 0.6s ease-out;
 
 		&__preserve-3d {
 			position: relative;
@@ -216,7 +218,7 @@ $exp-text-color: $white;
 		}
 
 		&__front--scroll-animate {
-			opacity: 0;
+			opacity: 0.3;
 		}
 
 		&__img {
@@ -347,7 +349,7 @@ $exp-text-color: $white;
 		}
 
 		&__back--scroll-animate {
-			opacity: 0;
+			opacity: 0.3;
 		}
 
 		&__left {
@@ -361,7 +363,7 @@ $exp-text-color: $white;
 		}
 
 		&__left--scroll-animate {
-			opacity: 0;
+			opacity: 0.3;
 		}
 
 		&__right {
@@ -375,7 +377,7 @@ $exp-text-color: $white;
 		}
 
 		&__right--scroll-animate {
-			opacity: 0;
+			opacity: 0.3;
 		}
 
 		&__shadow {
@@ -395,8 +397,12 @@ $exp-text-color: $white;
 		}
 
 		&__shadow--scroll-animate {
-			opacity: 0;
+			opacity: 0.3;
 		}
+	}
+
+	.logo-3d--scroll-animate {
+		transform: scale(0.9);
 	}
 }
 
@@ -511,7 +517,7 @@ $exp-text-color: $white;
 
 	.cards__title--scroll-animate {
 		opacity: 0.3;
-		transform: translateY(-10px);
+		transform: scale(0.95);
 	}
 
 	.cards__inner-content {
@@ -549,7 +555,7 @@ $exp-text-color: $white;
 
 		&__inner-progress--scroll-animate {
 			opacity: 0.3;
-			transform: translateX(-10px);
+			transform: scale(0.87);
 		}
 
 		&__svg-box {
@@ -678,7 +684,7 @@ $exp-text-color: $white;
 
 		&__text--scroll-animate {
 			opacity: 0.3;
-			transform: translateX(10px);
+			transform: scale(0.8);
 		}
 
 		@each $modifier, $color in $colors {
@@ -724,6 +730,11 @@ $exp-text-color: $white;
 		color: $projects-title-color;
 	}
 
+	&__title--scroll-animate {
+		transform: scale(0.95);
+		opacity: 0.3;
+	}
+
 	&__hidden-text-one {
 		position: relative;
 		overflow: hidden;
@@ -747,6 +758,12 @@ $exp-text-color: $white;
 		position: relative;
 		top: -200px;
 		color: $projects-text-one-color;
+		transition: all 0.6s ease-out;
+	}
+
+	&__text--one-scroll-animate {
+		transform: scale(0.9) translateX(25px);
+		opacity: 0.3;
 	}
 
 	&__hidden-text-two {
@@ -774,6 +791,12 @@ $exp-text-color: $white;
 		position: relative;
 		left: -100%;
 		color: $porjects-text-two-color;
+		transition: all 0.6s ease-out;
+	}
+
+	&__text--two-scroll-animate {
+		transform: scale(0.9) translateX(-25px);
+		opacity: 0.3;
 	}
 
 	&__text {
@@ -786,32 +809,6 @@ $exp-text-color: $white;
 		line-height: 110%;
 	}
 
-	.cloud--animate {
-		@keyframes cloud-container-visible {
-			0% {
-				overflow: hidden;
-			}
-
-			100% {
-				overflow: visible;
-			}
-		}
-
-		@keyframes cloud-container-filter {
-			0% {
-				filter: drop-shadow(0 0 30px transparent);
-			}
-
-			100% {
-				filter: drop-shadow(0 0 30px $cloud-particle-center-box-shadow-color);
-			}
-		}
-
-		animation:
-			cloud-container-visible 0s linear forwards,
-			cloud-container-filter 1s linear forwards;
-	}
-
 	.cloud {
 		position: relative;
 		overflow: hidden;
@@ -821,6 +818,16 @@ $exp-text-color: $white;
 
 		&__preserve-3d {
 			transform-style: preserve-3d;
+		}
+
+		&__particle-center {
+			position: relative;
+			top: -120px;
+			width: 350px;
+			height: 100px;
+			background-color: $cloud-particle-center-bg-color;
+			border-radius: 100px;
+			box-shadow: 3px 3px 3px $cloud-particle-center-box-shadow-color;
 		}
 
 		&__particle-center--animate {
@@ -837,14 +844,15 @@ $exp-text-color: $white;
 			animation: cloud-partilce-center-start 0.7s ease-out forwards;
 		}
 
-		&__particle-center {
-			position: relative;
-			top: -120px;
-			width: 350px;
-			height: 100px;
-			background-color: $cloud-particle-center-bg-color;
-			border-radius: 100px;
-			box-shadow: 3px 3px 3px $cloud-particle-center-box-shadow-color;
+		&__particle-top {
+			position: absolute;
+			z-index: -1;
+			top: -50px;
+			left: 55px;
+			width: 0;
+			height: 0;
+			background-color: $cloud-particle-top-bg-color;
+			border-radius: 100%;
 		}
 
 		&__particle-top--animate {
@@ -868,17 +876,6 @@ $exp-text-color: $white;
 			}
 
 			animation: cloud-particle-top-start 1s ease-out forwards;
-		}
-
-		&__particle-top {
-			position: absolute;
-			z-index: -1;
-			top: -50px;
-			left: 55px;
-			width: 0;
-			height: 0;
-			background-color: $cloud-particle-top-bg-color;
-			border-radius: 100%;
 		}
 
 		&__drop {
@@ -942,6 +939,37 @@ $exp-text-color: $white;
 			animation: cloud-bottom-start 1s forwards linear;
 		}
 	}
+
+	.cloud--animate {
+		@keyframes cloud-container-visible {
+			0% {
+				overflow: hidden;
+			}
+
+			100% {
+				overflow: visible;
+			}
+		}
+
+		@keyframes cloud-container-filter {
+			0% {
+				filter: drop-shadow(0 0 30px transparent);
+			}
+
+			100% {
+				filter: drop-shadow(0 0 30px $cloud-particle-center-box-shadow-color);
+			}
+		}
+
+		animation:
+			cloud-container-visible 0s linear forwards,
+			cloud-container-filter 1s linear forwards;
+	}
+
+	.cloud--scroll-animate {
+		opacity: 0.3;
+		transform: scale(0.9);
+	}
 }
 
 .exp {
@@ -970,6 +998,11 @@ $exp-text-color: $white;
 		text-align: left;
 	}
 
+	&__title--scroll-animate {
+		opacity: 0.3;
+		transform: scale(0.9) translateY(-15px);
+	}
+
 	&__box {
 		position: relative;
 		display: flex;
@@ -977,6 +1010,11 @@ $exp-text-color: $white;
 		justify-content: center;
 		width: 50%;
 		height: 150px;
+	}
+
+	&__box--scroll-animate {
+		opacity: 0.3;
+		transform: scale(0.8);
 	}
 
 	&__hidden-start {
@@ -991,6 +1029,7 @@ $exp-text-color: $white;
 		margin-bottom: 35px;
 		font-size: 25px;
 		color: $exp-start-text-color;
+		transition: all 0.6s ease-out;
 	}
 
 	&__start--animate {
@@ -1005,6 +1044,11 @@ $exp-text-color: $white;
 		}
 
 		animation: exp-start 1s forwards ease-out;
+	}
+
+	&__start--scroll-animate {
+		opacity: 0.3;
+		transform: scale(0.9);
 	}
 
 	&__top {
@@ -1179,6 +1223,7 @@ $exp-text-color: $white;
 		width: 0;
 		height: 3px;
 		background-color: $exp-lines-color;
+		transition: all 0.6s ease-out;
 	}
 
 	&__bottom-line--animate {
@@ -1193,6 +1238,11 @@ $exp-text-color: $white;
 		}
 
 		animation: exp-bottom-line 0.5s forwards linear;
+	}
+
+	&__bottom-line--scroll-animate {
+		opacity: 0.3;
+		transform: scale(0.6);
 	}
 }
 

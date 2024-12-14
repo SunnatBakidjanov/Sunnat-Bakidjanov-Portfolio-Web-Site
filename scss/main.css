@@ -1226,8 +1226,8 @@
   color: #fff;
 }
 .getting .my-name__title--scroll-animate {
-  opacity: 0;
-  transform: translateX(-10px);
+  opacity: 0.3;
+  transform: scale(0.95);
 }
 .getting .my-name__title--animate {
   animation: my-name-title-left 1.3s forwards 0.3s ease;
@@ -1253,7 +1253,8 @@
   overflow: hidden;
 }
 .getting .my-name__text--scroll-animate {
-  opacity: 0;
+  opacity: 0.3;
+  transform: scale(0.9);
 }
 .getting .my-name__blink {
   position: relative;
@@ -1282,6 +1283,7 @@
   perspective: 550px;
   width: 250px;
   height: 250px;
+  transition: all 0.6s ease-out;
 }
 .getting .logo-3d__preserve-3d {
   position: relative;
@@ -1324,7 +1326,7 @@
   }
 }
 .getting .logo-3d__front--scroll-animate {
-  opacity: 0;
+  opacity: 0.3;
 }
 .getting .logo-3d__img {
   opacity: 0;
@@ -1433,7 +1435,7 @@
   transition: all 0.6s ease-out;
 }
 .getting .logo-3d__back--scroll-animate {
-  opacity: 0;
+  opacity: 0.3;
 }
 .getting .logo-3d__left {
   position: absolute;
@@ -1445,7 +1447,7 @@
   transition: all 0.6s ease-out;
 }
 .getting .logo-3d__left--scroll-animate {
-  opacity: 0;
+  opacity: 0.3;
 }
 .getting .logo-3d__right {
   position: absolute;
@@ -1457,7 +1459,7 @@
   transition: all 0.6s ease-out;
 }
 .getting .logo-3d__right--scroll-animate {
-  opacity: 0;
+  opacity: 0.3;
 }
 .getting .logo-3d__shadow {
   position: absolute;
@@ -1474,7 +1476,10 @@
   opacity: 1;
 }
 .getting .logo-3d__shadow--scroll-animate {
-  opacity: 0;
+  opacity: 0.3;
+}
+.getting .logo-3d--scroll-animate {
+  transform: scale(0.9);
 }
 
 .scroll-hmp__wrapper {
@@ -1533,7 +1538,7 @@
 }
 .cards .cards__title--scroll-animate {
   opacity: 0.3;
-  transform: translateY(-10px);
+  transform: scale(0.95);
 }
 .cards .cards__inner-content {
   margin-top: 100px;
@@ -1567,7 +1572,7 @@
 }
 .cards .cards-content__inner-progress--scroll-animate {
   opacity: 0.3;
-  transform: translateX(-10px);
+  transform: scale(0.87);
 }
 .cards .cards-content__svg-box {
   position: relative;
@@ -1679,7 +1684,7 @@
 }
 .cards .cards-content__text--scroll-animate {
   opacity: 0.3;
-  transform: translateX(10px);
+  transform: scale(0.8);
 }
 .cards .cards-content__circle--html {
   transition: all 0.2s linear;
@@ -1821,6 +1826,10 @@
   font-size: 50px;
   color: #f8aa01;
 }
+.projects__title--scroll-animate {
+  transform: scale(0.95);
+  opacity: 0.3;
+}
 .projects__hidden-text-one {
   position: relative;
   overflow: hidden;
@@ -1840,6 +1849,11 @@
   position: relative;
   top: -200px;
   color: #fff;
+  transition: all 0.6s ease-out;
+}
+.projects__text--one-scroll-animate {
+  transform: scale(0.9) translateX(25px);
+  opacity: 0.3;
 }
 .projects__hidden-text-two {
   position: relative;
@@ -1862,6 +1876,11 @@
   position: relative;
   left: -100%;
   color: #f8aa01;
+  transition: all 0.6s ease-out;
+}
+.projects__text--two-scroll-animate {
+  transform: scale(0.9) translateX(-25px);
+  opacity: 0.3;
 }
 .projects__text {
   font-weight: 400;
@@ -1870,25 +1889,6 @@
 .projects .russian-lang-text {
   font-weight: 500;
   line-height: 110%;
-}
-.projects .cloud--animate {
-  animation: cloud-container-visible 0s linear forwards, cloud-container-filter 1s linear forwards;
-}
-@keyframes cloud-container-visible {
-  0% {
-    overflow: hidden;
-  }
-  100% {
-    overflow: visible;
-  }
-}
-@keyframes cloud-container-filter {
-  0% {
-    filter: drop-shadow(0 0 30px transparent);
-  }
-  100% {
-    filter: drop-shadow(0 0 30px #a9a9a9);
-  }
 }
 .projects .cloud {
   position: relative;
@@ -1899,6 +1899,15 @@
 }
 .projects .cloud__preserve-3d {
   transform-style: preserve-3d;
+}
+.projects .cloud__particle-center {
+  position: relative;
+  top: -120px;
+  width: 350px;
+  height: 100px;
+  background-color: #fff;
+  border-radius: 100px;
+  box-shadow: 3px 3px 3px #a9a9a9;
 }
 .projects .cloud__particle-center--animate {
   animation: cloud-partilce-center-start 0.7s ease-out forwards;
@@ -1911,14 +1920,15 @@
     top: 0;
   }
 }
-.projects .cloud__particle-center {
-  position: relative;
-  top: -120px;
-  width: 350px;
-  height: 100px;
+.projects .cloud__particle-top {
+  position: absolute;
+  z-index: -1;
+  top: -50px;
+  left: 55px;
+  width: 0;
+  height: 0;
   background-color: #fff;
-  border-radius: 100px;
-  box-shadow: 3px 3px 3px #a9a9a9;
+  border-radius: 100%;
 }
 .projects .cloud__particle-top--animate {
   animation: cloud-particle-top-start 1s ease-out forwards;
@@ -1938,16 +1948,6 @@
     height: 110px;
     box-shadow: 90px 10px 0 30px #fff;
   }
-}
-.projects .cloud__particle-top {
-  position: absolute;
-  z-index: -1;
-  top: -50px;
-  left: 55px;
-  width: 0;
-  height: 0;
-  background-color: #fff;
-  border-radius: 100%;
 }
 .projects .cloud__drop {
   position: absolute;
@@ -2000,6 +2000,29 @@
     box-shadow: 0 0 5px #fff;
   }
 }
+.projects .cloud--animate {
+  animation: cloud-container-visible 0s linear forwards, cloud-container-filter 1s linear forwards;
+}
+@keyframes cloud-container-visible {
+  0% {
+    overflow: hidden;
+  }
+  100% {
+    overflow: visible;
+  }
+}
+@keyframes cloud-container-filter {
+  0% {
+    filter: drop-shadow(0 0 30px transparent);
+  }
+  100% {
+    filter: drop-shadow(0 0 30px #a9a9a9);
+  }
+}
+.projects .cloud--scroll-animate {
+  opacity: 0.3;
+  transform: scale(0.9);
+}
 
 .exp .exp__wrapper {
   display: flex;
@@ -2023,6 +2046,10 @@
   color: #f8aa01;
   text-align: left;
 }
+.exp__title--scroll-animate {
+  opacity: 0.3;
+  transform: scale(0.9) translateY(-15px);
+}
 .exp__box {
   position: relative;
   display: flex;
@@ -2030,6 +2057,10 @@
   justify-content: center;
   width: 50%;
   height: 150px;
+}
+.exp__box--scroll-animate {
+  opacity: 0.3;
+  transform: scale(0.8);
 }
 .exp__hidden-start {
   overflow: hidden;
@@ -2042,6 +2073,7 @@
   margin-bottom: 35px;
   font-size: 25px;
   color: #fff;
+  transition: all 0.6s ease-out;
 }
 .exp__start--animate {
   animation: exp-start 1s forwards ease-out;
@@ -2053,6 +2085,10 @@
   100% {
     top: 0;
   }
+}
+.exp__start--scroll-animate {
+  opacity: 0.3;
+  transform: scale(0.9);
 }
 .exp__top {
   position: absolute;
@@ -2227,6 +2263,7 @@
   width: 0;
   height: 3px;
   background-color: #fff;
+  transition: all 0.6s ease-out;
 }
 .exp__bottom-line--animate {
   animation: exp-bottom-line 0.5s forwards linear;
@@ -2238,6 +2275,10 @@
   100% {
     width: 70px;
   }
+}
+.exp__bottom-line--scroll-animate {
+  opacity: 0.3;
+  transform: scale(0.6);
 }
 
 @media (width <= 1100px) {

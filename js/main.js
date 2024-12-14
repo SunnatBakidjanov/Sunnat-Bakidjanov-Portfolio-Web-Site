@@ -95,7 +95,7 @@ function main() {
 							scrollState[elementKey].scrolState = true
 						}
 
-						document.removeEventListener('animationend', onAnimationEnd)
+						document.removeEventListener('animationend', onBurgerAnimationEnd)
 					}
 				}
 
@@ -1464,6 +1464,7 @@ function main() {
 				elements.logo3dShadow.classList.remove('logo-3d__shadow--animate', 'logo-3d__shadow--scroll-animate')
 				elements.logo3dImg.classList.remove('logo-3d__img--animate')
 				elements.logo3dPreserve.classList.remove('logo-3d__preserve-3d--animate', 'logo-3d__preserve-3d--scroll-animate')
+				elements.logo3d.classList.remove('logo-3d--scroll-animate')
 			}
 
 			function clearEventListeners() {
@@ -1492,6 +1493,7 @@ function main() {
 				elements.logo3dLeft.classList.add('logo-3d__left--scroll-animate')
 				elements.logo3dRight.classList.add('logo-3d__right--scroll-animate')
 				elements.logo3dShadow.classList.add('logo-3d__shadow--scroll-animate')
+				elements.logo3d.classList.add('logo-3d--scroll-animate')
 			}
 
 			function scrollReset() {
@@ -1500,6 +1502,7 @@ function main() {
 				elements.logo3dLeft.classList.remove('logo-3d__left--scroll-animate')
 				elements.logo3dRight.classList.remove('logo-3d__right--scroll-animate')
 				elements.logo3dShadow.classList.remove('logo-3d__shadow--scroll-animate')
+				elements.logo3d.classList.remove('logo-3d--scroll-animate')
 			}
 
 			handleAnimationOnScroll(scrollIds, 'logo-3d__preserve-3d--animate', scrollKeys, scrollAnimate, scrollReset)
@@ -1650,8 +1653,6 @@ function main() {
 					elementKeys.push(`cards-inner-progress-${index}`)
 					ids.push(id)
 					circles.push(circle)
-
-					queryElements.progressBox[index].classList.add('cards-content__inner-progress--animate')
 				})
 
 				function getPrecentCards(circleId, numberId, elementKey, targetPercent, duration, precentChangeTime) {
@@ -1747,6 +1748,9 @@ function main() {
 								const svgBox = queryElements.svgBox[index]
 								const progressText = queryElements.text[index]
 								const container = queryElements.container[index]
+								const progressBox = queryElements.progressBox[index]
+
+								progressBox.classList.add('cards-content__inner-progress--animate')
 
 								visibleIndexes.push(index)
 
@@ -1926,14 +1930,24 @@ function main() {
 			function animate() {
 				handleTextWrite.write()
 
-				title.classList.add('cards__title--animate')
+				title.classList.add('projects__title--animate')
 			}
 
 			function reset() {
 				handleTextWrite.reset()
 
-				title.classList.remove('cards__title--animate', 'cards__title--scroll-animate')
+				title.classList.remove('projects__title--animate', 'projects__title--scroll-animate')
 			}
+
+			function scrollAnimate() {
+				title.classList.add('projects__title--scroll-animate')
+			}
+
+			function scrollReset() {
+				title.classList.remove('projects__title--scroll-animate')
+			}
+
+			handleAnimationOnScroll(ids, 'projects__title--animate', elementKeys, scrollAnimate, scrollReset)
 			createAnimation(ids, elementKeys, startHeight, animate, reset)
 		}
 
@@ -1945,6 +1959,9 @@ function main() {
 			const innerText = document.getElementById('projects-inner-text')
 
 			const ids = [innerText]
+			const scollIds = [text_1, text_2]
+			const scrollKeys = ['projects-text-one', 'projects-text-two']
+			const classNames = ['projects__text-one--animate', 'projects__text-two--animate']
 			const elementKeys = ['projects-inner-text']
 			const startHeight = 50
 
@@ -1958,6 +1975,17 @@ function main() {
 				text_2.classList.remove('projects__text-two--animate')
 			}
 
+			function scrollAnimate() {
+				text_1.classList.add('projects__text--one-scroll-animate')
+				text_2.classList.add('projects__text--two-scroll-animate')
+			}
+
+			function scrollReset() {
+				text_1.classList.remove('projects__text--one-scroll-animate')
+				text_2.classList.remove('projects__text--two-scroll-animate')
+			}
+
+			handleAnimationOnScroll(scollIds, classNames, scrollKeys, scrollAnimate, scrollReset)
 			createAnimation(ids, elementKeys, startHeight, animate, reset)
 		}
 
@@ -1969,12 +1997,15 @@ function main() {
 			const cloudTop = document.getElementById('cloud-partilce-top')
 			const cloudBottom = document.getElementById('cloud-bottom')
 
+			const drops = cloud.querySelectorAll('.cloud__drop')
+
 			const ids = [cloudContainer]
 			const elementKeys = ['cloud-container']
 			let startHeight = document.documentElement.clientWidth > 1100 ? 130 : 200
 
-			let timeout
-			let interval
+			let timeout = null
+			let interval = null
+			let isCloudVisible = false
 
 			function handleChangeOnResize() {
 				startHeight = document.documentElement.clientWidth > 1100 ? 130 : 200
@@ -1992,8 +2023,10 @@ function main() {
 					cloudBottom.classList.add('cloud__bottom--animate')
 
 					interval = setInterval(() => {
-						rain()
-					}, 150)
+						if (!isCloudVisible) {
+							rain()
+						}
+					}, 50)
 				}
 			}
 
@@ -2029,7 +2062,8 @@ function main() {
 				clearInterval(interval)
 				clearTimeout(timeout)
 
-				const drops = cloud.querySelectorAll('.cloud__drop')
+				isCloudVisible = false
+
 				drops.forEach(drop => {
 					if (cloud.contains(drop)) {
 						cloud.removeChild(drop)
@@ -2037,7 +2071,7 @@ function main() {
 				})
 
 				cloud.classList.remove('cloud__particle-center--animate')
-				cloudContainer.classList.remove('cloud--animate')
+				cloudContainer.classList.remove('cloud--animate', 'cloud--scroll-animate')
 				cloudTop.classList.remove('cloud__particle-top--animate')
 				cloudBottom.classList.remove('cloud__bottom--animate')
 
@@ -2045,6 +2079,19 @@ function main() {
 				document.removeEventListener('animationend', handleAnimationEnd)
 			}
 
+			function scrollAnimate() {
+				isCloudVisible = true
+
+				cloudContainer.classList.add('cloud--scroll-animate')
+			}
+
+			function scrollReset() {
+				isCloudVisible = false
+
+				cloudContainer.classList.remove('cloud--scroll-animate')
+			}
+
+			handleAnimationOnScroll(ids, 'cloud--animate', elementKeys, scrollAnimate, scrollReset)
 			createAnimation(ids, elementKeys, startHeight, animate, reset)
 		}
 
@@ -2066,15 +2113,26 @@ function main() {
 			function animate() {
 				window.addEventListener('resize', handleChanageOnResize)
 
+				title.classList.add('exp__title--animate')
 				handleTextWrite.write()
 			}
 
 			function reset() {
+				title.classList.remove('exp__title--animate', 'exp__title--scroll-animate')
 				handleTextWrite.reset()
 
 				window.removeEventListener('resize', handleChanageOnResize)
 			}
 
+			function scrollAnimate() {
+				title.classList.add('exp__title--scroll-animate')
+			}
+
+			function scrollReset() {
+				title.classList.remove('exp__title--scroll-animate')
+			}
+
+			handleAnimationOnScroll(ids, 'exp__title--animate', elementKeys, scrollAnimate, scrollReset)
 			createAnimation(ids, elementKeys, startHeight, animate, reset)
 		}
 
@@ -2177,6 +2235,10 @@ function main() {
 			function animate() {
 				handleAnimation()
 
+				queryElements.boxElements.forEach(element => {
+					element.classList.add('exp__box--animate')
+				})
+
 				if (seenElements.has('exp-element-0')) {
 					elements.top.classList.add('exp__top--animate')
 					elements.start.classList.add('exp__start--animate')
@@ -2193,6 +2255,7 @@ function main() {
 					queryElements.text[index].classList.remove('exp__text--left-animate', 'exp__text--right-animate')
 					queryElements.circle[index].classList.remove('exp__circle--left', 'exp__circle--right')
 					queryElements.text[index].classList.remove('exp__text--left-animate', 'exp__text--right-animate')
+					queryElements.boxElements[index].classList.remove('exp__box--scroll-animate', 'exp__box--animate')
 
 					isAnimation[index] = { isStarted: false, isEnded: false }
 				})
@@ -2204,14 +2267,29 @@ function main() {
 				currentStepIndex = 0
 
 				elements.top.classList.remove('exp__top--animate')
-				elements.start.classList.remove('exp__start--animate')
-				elements.bottomLine.classList.remove('exp__bottom-line--animate')
+				elements.start.classList.remove('exp__start--animate', 'exp__start--scroll-animate')
+				elements.bottomLine.classList.remove('exp__bottom-line--animate', 'exp__bottom-line--scroll-animate')
 
 				isStartAnimation = false
 
 				document.removeEventListener('animationend', handleStartAnimation)
 			}
 
+			function scrollAnimate(_, index) {
+				if (queryElements.boxElements[0].classList.contains('exp__box--scroll-animate')) elements.start.classList.add('exp__start--scroll-animate')
+				if (queryElements.boxElements[queryElements.boxElements.length - 1].classList.contains('exp__box--scroll-animate')) elements.bottomLine.classList.add('exp__bottom-line--scroll-animate')
+
+				queryElements.boxElements[index].classList.add('exp__box--scroll-animate')
+			}
+
+			function scrollReset(_, index) {
+				if (!queryElements.boxElements[0].classList.contains('exp__box--scroll-animate')) elements.start.classList.remove('exp__start--scroll-animate')
+				if (!queryElements.boxElements[queryElements.boxElements.length - 1].classList.contains('exp__box--scroll-animate')) elements.bottomLine.classList.remove('exp__bottom-line--scroll-animate')
+
+				queryElements.boxElements[index].classList.remove('exp__box--scroll-animate')
+			}
+
+			handleAnimationOnScroll(ids, 'exp__box--animate', elementKeys, scrollAnimate, scrollReset)
 			createAnimation(ids, elementKeys, startHeight, animate, reset)
 		}
 
