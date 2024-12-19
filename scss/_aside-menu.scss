@@ -1,0 +1,329 @@
+$gradient-color_1: #696969;
+$gradient-color_2: #3a6f8f;
+$gradient-color_3: #9b9686;
+$gradient-color_4: #2b636d;
+$orange: #f8aa01;
+$white: #fff;
+$black: #000;
+$gray: #a9a9a9;
+
+// aside-menu
+$aside-menu-btn-color: $white;
+
+.aside-menu {
+	position: fixed;
+	z-index: 3;
+	top: 50%;
+	left: -10px;
+	transform: translateY(-50%);
+
+	.aside-menu__wrapper {
+		position: relative;
+		left: -60px;
+		display: flex;
+		align-items: center;
+		width: 60px;
+		height: 350px;
+	}
+
+	@mixin aside-menu($modifier, $value_1, $value_2) {
+		.aside-menu__wrapper--#{$modifier} {
+			@keyframes aside-menu-#{$modifier} {
+				0% {
+					left: #{$value_1};
+				}
+
+				100% {
+					left: #{$value_2};
+				}
+			}
+
+			animation: aside-menu-#{$modifier} 0.6s forwards ease-out;
+		}
+	}
+
+	@include aside-menu(open, -60px, 20px);
+	@include aside-menu(close, 20px, -60px);
+
+	&__btn {
+		overflow: hidden;
+		position: absolute;
+		top: 50%;
+		right: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 20px;
+		height: 150px;
+		background-color: $aside-menu-btn-color;
+		border: none;
+		border-radius: 0 20px 20px 0;
+		cursor: pointer;
+		transform: translateY(-50%);
+		transition:
+			height 0.5s ease,
+			filter 0.3s ease,
+			right 0.6s ease-out 0.3s;
+	}
+
+	&__btn--start {
+		right: -30px;
+	}
+
+	&__btn--close {
+		height: 0;
+	}
+
+	// .aside-menu__btn-img {}
+
+	&__btn:hover {
+		filter: drop-shadow(0 0 5px white);
+	}
+
+	.aside-content {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 100%;
+		background-color: black;
+		backface-visibility: hidden;
+		box-shadow: 0 0 10px white;
+		border-radius: 20px;
+
+		&__active {
+			position: absolute;
+			z-index: 0;
+			top: 15px;
+			width: 100%;
+			height: 60px;
+			background-color: gray;
+			opacity: 0;
+			transition: all 0.3s ease-out;
+		}
+
+		&__btn {
+			z-index: 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 100%;
+			height: 80px;
+			background-color: transparent;
+			border: none;
+		}
+
+		&__btn--close {
+			cursor: pointer;
+		}
+
+		$aside-item-hover: (
+			change-theme: 25px,
+			animation-stop: 105px,
+			translaitor: 185px,
+			close: 265px,
+		);
+
+		@mixin aside-content-btn-hover($modifier, $position) {
+			&__btn--#{$modifier}:hover ~ .aside-content__active,
+			&__item--#{$modifier}:hover ~ .aside-content__active {
+				top: #{$position};
+			}
+
+			&__item--#{$modifier} {
+				top: #{$position};
+			}
+		}
+
+		@each $modifier, $position in $aside-item-hover {
+			@include aside-content-btn-hover($modifier, $position);
+		}
+
+		&__item {
+			position: absolute;
+			left: 60px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 0;
+			height: 60px;
+			font-weight: 600;
+			font-size: 16px;
+			color: white;
+			white-space: nowrap;
+			background-color: gray;
+			border: none;
+			border-radius: 0 20px 20px 0;
+			overflow: hidden;
+			transition: all 0.25s linear 0.2s;
+		}
+
+		&__item:hover {
+			transition: all 0.5s ease-out;
+			width: 230px;
+			letter-spacing: 0.5px;
+		}
+
+		&__item:hover ~ .aside-content__acite--open,
+		&__btn:hover ~ .aside-content__acite--open {
+			opacity: 1;
+		}
+
+		&__btn:hover + .aside-content__item {
+			width: 200px;
+		}
+
+		&__item--animation-stop {
+			top: 46px;
+			height: 180px;
+		}
+
+		&__item--translaitor {
+			font-size: 14px;
+			cursor: pointer;
+		}
+
+		&__item--close {
+			cursor: pointer;
+		}
+
+		&__item--close:hover {
+			width: 230px !important;
+		}
+
+		&__btn--close:hover .aside-content__item--close {
+			width: 200px;
+		}
+
+		.russian-lang-text {
+			font-weight: 700;
+			font-size: 16px;
+		}
+
+		&__img {
+			filter: drop-shadow(0 0 5px white);
+		}
+
+		.aside-colors {
+			display: flex;
+			flex-direction: column;
+			row-gap: 10px;
+
+			&__text {
+				font-weight: 400;
+				font-size: 14px;
+			}
+
+			.russian-lang-text {
+				font-weight: 600;
+				font-size: 15px;
+			}
+
+			&__change-color {
+				display: flex;
+				column-gap: 10px;
+			}
+
+			&__colors {
+				width: 25px;
+				height: 25px;
+				border: 1px solid white;
+				transition: all 0.2s ease-out;
+				cursor: pointer;
+			}
+
+			&__colors:hover {
+				box-shadow: 0 0 10px white;
+				transform: scale(1.2);
+			}
+
+			&__colors--active {
+				box-shadow: 0 0 10px white;
+				transform: scale(1.2);
+				cursor: default;
+			}
+
+			$aside-colors: (
+				'1st': $gradient-color_1,
+				'2nd': $gradient-color_2,
+				'3rd': $gradient-color_3,
+				'4th': $gradient-color_4,
+			);
+
+			@mixin aside-colors($modifier, $color) {
+				.aside-colors__colors--#{$modifier} {
+					background-color: $color;
+				}
+			}
+
+			@each $modifier, $color in $aside-colors {
+				@include aside-colors($modifier, $color);
+			}
+		}
+
+		.aside-animations {
+			display: flex;
+			flex-direction: column;
+			background-color: transparent;
+
+			&__btn {
+				min-width: 100%;
+				height: 60px;
+				font-weight: 700;
+				font-size: 15px;
+				color: $white;
+				background-color: gray;
+				border: none;
+				cursor: pointer;
+				transition: all 0.2s ease;
+
+				&:nth-child(1) {
+					transition: all 0.2s ease-out;
+					position: relative;
+					top: 60px;
+					border-left: 2px solid white;
+				}
+
+				&:nth-child(2) {
+					z-index: 11;
+					border-top: 2px solid white;
+					border-bottom: 2px solid white;
+				}
+
+				&:nth-child(3) {
+					position: relative;
+					bottom: 60px;
+					transition: all 0.2s ease-out;
+					border-left: 2px solid white;
+				}
+
+				&:hover {
+					transform: scale(1.15);
+				}
+			}
+
+			&:hover .aside-animations__btn:nth-child(1) {
+				top: 0;
+			}
+
+			&:hover .aside-animations__btn:nth-child(3) {
+				bottom: 0;
+			}
+		}
+	}
+}
+
+@media (hover: none) and (pointer: coarse) {
+	.aside-colors__colors {
+		box-shadow: none !important;
+		transform: none !important;
+	}
+
+	.aside-colors__colors--active {
+		box-shadow: 0 0 10px white !important;
+		transform: scale(1.2) !important;
+		cursor: default;
+	}
+}

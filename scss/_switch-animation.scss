@@ -1,0 +1,237 @@
+$orange: #f8aa01;
+$white: #fff;
+$black: #000;
+$gray: #a9a9a9;
+
+// var
+$switch-animation-bg-color: $black;
+$switch-animatin-circle-color: $white;
+$switch-animation-letter-color: $white;
+
+.switch-animation {
+	position: static;
+	display: none;
+
+	@mixin switch-animation($modifier) {
+		@keyframes switch-animation-#{$modifier}-side {
+			0% {
+				width: 0;
+			}
+
+			50% {
+				width: 50%;
+			}
+
+			85% {
+				width: 45%;
+			}
+
+			100% {
+				width: 50%;
+			}
+		}
+
+		&__#{$modifier}-side--animate {
+			animation: switch-animation-#{$modifier}-side 1s linear forwards;
+		}
+
+		&__#{$modifier}-side {
+			width: 0;
+			background-color: black;
+		}
+	}
+
+	@include switch-animation(left);
+	@include switch-animation(right);
+
+	@mixin switch-animation-close($modifier) {
+		@keyframes switch-animation-#{$modifier}-side-close {
+			0% {
+				width: 50%;
+			}
+
+			100% {
+				width: 0;
+			}
+		}
+
+		&__#{$modifier}-side--animate-close {
+			animation: switch-animation-#{$modifier}-side-close 1s ease-in forwards;
+		}
+	}
+
+	@include switch-animation-close(left);
+	@include switch-animation-close(right);
+
+	&__center {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: fit-content;
+		height: fit-content;
+		transform: translate(-50%, -50%);
+	}
+
+	&__img {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		display: none;
+		opacity: 0;
+		transform: translate(-50%, -50%);
+		filter: drop-shadow(0 0 15px transparent);
+	}
+
+	&__img--raido {
+		transform: translate(-48%, -50%);
+	}
+
+	&__img--uruz {
+		transform: translate(-47.5%, -50%);
+	}
+
+	&__img--otilo {
+		transform: translate(-51.5%, -50%);
+	}
+
+	&__img--pert {
+		transform: translate(-47%, -50%);
+	}
+
+	&__img--turisaz {
+		transform: translate(-41.5%, -50%);
+	}
+
+	&__img--vunio {
+		transform: translate(-43%, -50%);
+	}
+
+	&__img--hangalaz {
+		transform: translate(-49%, -50%);
+	}
+
+	&__img--animate {
+		display: block;
+
+		@keyframes switch-animation-img {
+			0% {
+				opacity: 0;
+				filter: drop-shadow(0 0 15px transparent);
+			}
+
+			60% {
+				opacity: 0.5;
+				filter: drop-shadow(0 0 15px transparent);
+			}
+
+			100% {
+				opacity: 1;
+				filter: drop-shadow(0 0 15px $switch-animation-letter-color);
+			}
+		}
+
+		animation: switch-animation-img 1.1s linear forwards 0.5s;
+	}
+
+	&__img--animate-close {
+		display: block;
+
+		@keyframes switch-animation-img-close {
+			0% {
+				opacity: 1;
+				filter: drop-shadow(0 0 15px $switch-animation-letter-color);
+			}
+
+			60% {
+				opacity: 0.5;
+				filter: drop-shadow(0 0 15px transparent);
+			}
+
+			100% {
+				opacity: 0;
+				filter: drop-shadow(0 0 15px transparent);
+			}
+		}
+
+		animation: switch-animation-img-close 1.1s linear forwards;
+	}
+
+	&__svg {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	&__circle {
+		filter: drop-shadow(0 0 5px $switch-animatin-circle-color);
+		fill: none;
+		stroke-width: 8;
+		stroke-linecap: square;
+		stroke-dasharray: 1130.97;
+		stroke-dashoffset: 1130.97;
+		transform-origin: center;
+	}
+
+	@mixin switch-animation-circle($modifier, $rotate) {
+		&__circle--#{$modifier}-side {
+			stroke: $switch-animatin-circle-color;
+			transform: rotate($rotate);
+
+			@keyframes switch-animation-circle {
+				0% {
+					stroke-dashoffset: 1130.97;
+				}
+
+				100% {
+					stroke-dashoffset: 565.48;
+				}
+			}
+
+			animation: switch-animation-circle 1.2s ease-out forwards;
+		}
+	}
+
+	@include switch-animation-circle(left, 90deg);
+	@include switch-animation-circle(right, -90deg);
+
+	@mixin switch-animation-circle-close($modifier, $rotate) {
+		&__circle--#{$modifier}-side-close {
+			stroke: $switch-animatin-circle-color;
+			transform: rotate($rotate);
+
+			@keyframes switch-animation-circle-close {
+				0% {
+					stroke-dashoffset: 565.48;
+				}
+
+				100% {
+					stroke-dashoffset: 1130.97;
+				}
+			}
+
+			animation: switch-animation-circle-close 1s ease-out forwards;
+		}
+	}
+
+	@include switch-animation-circle-close(left, 90deg);
+	@include switch-animation-circle-close(right, -90deg);
+}
+
+.switch-animation--animate {
+	position: fixed;
+	z-index: 8;
+	display: flex;
+	justify-content: space-between;
+	background-color: transparent;
+	inset: 0;
+}
+
+.page--switch-animation {
+	width: 100%;
+	height: 100vh;
+	overflow: hidden;
+}

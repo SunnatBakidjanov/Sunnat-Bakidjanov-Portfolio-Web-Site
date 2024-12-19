@@ -35,6 +35,7 @@ $uses-linters-box-shadow-color: $white;
 .uses-page {
 	position: absolute;
 	left: -9999px;
+	min-height: 100vh;
 }
 
 @mixin uses-title($textColor) {

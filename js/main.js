@@ -16,7 +16,7 @@ function main() {
 
 	let isAnimationStopped = false
 	let isLanguageRussian = false
-	let isSwitchAnimation = false
+	let isSwitchAnimation = true
 	let isScrollAnimation = false
 
 	const seenElements = new Set()
@@ -45,22 +45,6 @@ function main() {
 		if (!allowedButtons.includes(target.id)) return
 
 		clickState[elementKey].previousPage = clickState[elementKey].newPage
-
-		const scrollElements = document.querySelectorAll("[class*='scroll-animate']")
-
-		scrollElements.forEach(el => {
-			const classesToRemove = Array.from(el.classList).filter(className => className.includes('scroll-animate'))
-
-			if (classesToRemove.length > 0) {
-				el.classList.remove(...classesToRemove)
-
-				el.style.transition = 'none'
-
-				requestAnimationFrame(() => {
-					el.removeAttribute('style')
-				})
-			}
-		})
 
 		if (clickState[elementKey].previousPage) {
 			if (!isAnimationStopped) {
@@ -233,6 +217,8 @@ function main() {
 
 				element.innerHTML = !isLanguageRussian ? englishTexts[index] : russianTexts[index]
 
+				element.classList.toggle('russian-font')
+
 				if (toggleClasses) {
 					element.classList.toggle(toggleClasses, isLanguageRussian)
 				}
@@ -240,68 +226,292 @@ function main() {
 		})
 	}
 
-	function writeAndResetText(element, englishText, russianText, typeSpeed, elementKey, onComplete) {
-		const config = {
+	function writeAndResetText(elements, englishTexts, russianTexts, typeSpeed, elementKeys, className) {
+		const configs = elements.map((element, index) => ({
+			element,
+			targetString: englishTexts[index],
 			letterIndex: 0,
-			targetString: englishText,
 			timeout: null,
+			elementKey: elementKeys[index],
+		}))
+
+		const writeText = {}
+
+		function handleLanguageChange() {
+			configs.forEach((config, index) => {
+				if (isLanguageRussian) setRussianText(config, russianTexts[index], className)
+				if (!isLanguageRussian) setEnglishText(config, englishTexts[index], className)
+			})
 		}
 
-		function handleLaguageChangeOnClick() {
-			if (isLanguageRussian) {
-				russianLanguage()
-			} else if (!isLanguageRussian) {
-				englishLanguage()
+		function setRussianText(config, russianText, className) {
+			if (!russianText) return
+			config.targetString = russianText
+
+			config.element.classList.add('russian-font')
+			if (className) config.element.classList.add(className)
+
+			if (seenElements.has(config.elementKey)) {
+				reset(config)
+				write(config)
 			}
 		}
 
-		function russianLanguage() {
-			if (russianText) {
-				config.targetString = russianText
-
-				if (seenElements.has(elementKey)) {
-					reset()
-					write()
-				}
-			}
-		}
-
-		function englishLanguage() {
+		function setEnglishText(config, englishText, className) {
+			if (!englishText) return
 			config.targetString = englishText
 
-			if (seenElements.has(elementKey)) {
-				reset()
-				write()
+			config.element.classList.remove('russian-font')
+			if (className) config.element.classList.remove(className)
+
+			if (seenElements.has(config.elementKey)) {
+				reset(config)
+				write(config)
 			}
 		}
 
-		changeLanguageButton.addEventListener('click', handleLaguageChangeOnClick)
-
-		function write() {
-			element.textContent = config.targetString.substring(0, config.letterIndex)
+		function write(config) {
+			config.element.textContent = config.targetString.substring(0, config.letterIndex)
 
 			if (config.letterIndex < config.targetString.length) {
 				config.timeout = setTimeout(() => {
 					config.letterIndex++
-					write()
+					write(config)
 				}, typeSpeed)
-			} else {
-				if (typeof onComplete === 'function') {
-					onComplete()
-				}
 			}
 		}
 
-		function reset() {
+		function reset(config) {
 			config.letterIndex = 0
 			clearTimeout(config.timeout)
-			element.textContent = ''
+			config.element.textContent = ''
 		}
 
+		changeLanguageButton.addEventListener('click', handleLanguageChange)
+
 		return {
-			write,
-			reset,
+			writeAll() {
+				configs.forEach((config, index) => {
+					if (seenElements.has(config.elementKey)) {
+						if (!writeText[index]) {
+							writeText[index] = { isWrited: false }
+						}
+
+						if (!writeText[index].isWrited) {
+							writeText[index].isWrited = true
+
+							reset(config)
+							write(config)
+						}
+					}
+				})
+			},
+			resetAll() {
+				configs.forEach((config, index) => {
+					if (writeText[index]?.isWrited) {
+						writeText[index].isWrited = false
+					}
+
+					reset(config)
+				})
+			},
 		}
+	}
+
+	function sameElementsAnimation(queryElemetns, setIds, classes, startHeight) {
+		if (!queryElemetns) {
+			console.error(`${queryElemetns} not found`)
+			return
+		}
+
+		const elements = document.querySelectorAll(queryElemetns)
+
+		const ids = []
+		const elementKeys = []
+		const startingHeight = startHeight
+
+		const isAnimation = {}
+
+		elements.forEach((element, index) => {
+			const setId = `${setIds}-${index}`
+			element.setAttribute('id', setId)
+
+			const id = document.getElementById(`${setIds}-${index}`)
+			ids.push(id)
+
+			elementKeys.push(`${setIds}-${index}`)
+		})
+
+		function animate() {
+			elements.forEach((element, index) => {
+				if (seenElements.has(elementKeys[index])) {
+					if (!isAnimation[index]) {
+						isAnimation[index] = { animated: false }
+					}
+
+					if (!isAnimation[index].animated) {
+						isAnimation[index].animated = true
+
+						element.classList.add(...classes)
+					}
+				}
+			})
+		}
+
+		function reset() {
+			elements.forEach((element, index) => {
+				if (isAnimation[index]?.animated) {
+					isAnimation[index].animated = false
+				}
+
+				element.classList.remove(...classes)
+			})
+		}
+
+		createAnimation(ids, elementKeys, startingHeight, animate, reset)
+	}
+
+	function singleElementsAnimation(id, startingHeight, classNames) {
+		if (!id) {
+			console.error(`${id} not found`)
+			return
+		}
+
+		const element = document.getElementById(id)
+
+		const ids = [element]
+		const elementKey = [id]
+		const startHeight = startingHeight
+
+		function animate() {
+			element.classList.add(...classNames)
+		}
+
+		function reset() {
+			element.classList.remove(...classNames)
+		}
+
+		createAnimation(ids, elementKey, startHeight, animate, reset)
+	}
+
+	function addId(elements, id, startHeight) {
+		const ids = []
+		const elementKeys = []
+		const startingHeight = startHeight
+
+		elements.forEach((element, index) => {
+			const setId = `${id}-${index}`
+			element.setAttribute('id', setId)
+
+			const addId = document.getElementById(setId)
+			elementKeys.push(`${id}-${index}`)
+
+			ids.push(addId)
+		})
+
+		return {
+			ids,
+			elementKeys,
+			startingHeight,
+		}
+	}
+
+	function manageClasses(elements, classNames, singleElementSelector) {
+		if (elements && elements.length) {
+			elements.forEach(element => {
+				element.classList[isLanguageRussian ? 'add' : 'remove'](...classNames)
+			})
+		}
+
+		if (singleElementSelector) {
+			const el = document.querySelector(singleElementSelector)
+
+			if (el) el.classList[isLanguageRussian ? 'add' : 'remove'](...classNames)
+		}
+	}
+
+	function translateText(language, ruClassName) {
+		const elements = document.querySelectorAll('[data-ru][data-en]')
+
+		elements.forEach(element => {
+			const text = element.dataset[language]
+			if (text) element.textContent = text
+
+			element.classList[language === 'ru' ? 'add' : 'remove'](ruClassName)
+		})
+	}
+
+	function scrollLine() {
+		const lines = document.querySelectorAll('.scroll-section__line')
+
+		const setIds = addId(lines, 'scroll-section-line', 40)
+
+		const isAnimation = {}
+		const isResize = {}
+
+		function handleChangeOnResize() {
+			lines.forEach((line, index) => {
+				if (seenElements.has(setIds.elementKeys[index])) {
+					if (!isResize[index]) {
+						isResize[index] = { resized: false, timeout: null }
+					}
+
+					if ((document.documentElement.clientHeight <= 750 || document.documentElement.clientWidth) <= 480 && !isResize[index].resized) {
+						isResize[index].resized = !isResize[index].resized
+
+						line.style.transition = 'none'
+
+						clearTimeout(isResize[index].timeout)
+						isResize[index].timeout = setTimeout(() => {
+							line.removeAttribute('style')
+						}, 100)
+					}
+
+					if ((document.documentElement.clientHeight > 750 || document.documentElement.clientWidth > 480) && isResize[index].resized) {
+						isResize[index].resized = !isResize[index].resized
+
+						line.style.transition = 'none'
+
+						clearTimeout(isResize[index].timeout)
+						isResize[index].timeout = setTimeout(() => {
+							line.removeAttribute('style')
+						}, 100)
+					}
+				}
+			})
+		}
+
+		function animate() {
+			lines.forEach((line, index) => {
+				if (seenElements.has(setIds.elementKeys[index])) {
+					if (!isAnimation[index]) {
+						isAnimation[index] = { animate: false }
+					}
+
+					if (!isAnimation[index].animate) {
+						isAnimation[index].animate = true
+
+						line.classList.add('scroll-section__line--animate')
+					}
+				}
+			})
+
+			window.addEventListener('resize', handleChangeOnResize)
+		}
+
+		function reset() {
+			lines.forEach((line, index) => {
+				if (isAnimation[index].animate) {
+					isAnimation[index].animate = false
+				}
+
+				line.classList.remove('scroll-section__line--animate')
+			})
+
+			window.removeEventListener('resize', handleChangeOnResize)
+		}
+
+		createAnimation(setIds.ids, setIds.elementKeys, setIds.startingHeight, animate, reset)
 	}
 
 	function removeScrollAnimateClasses() {
@@ -726,7 +936,7 @@ function main() {
 
 			animationChangePage.addEventListener('click', () => toggleAnimationState('isSwitchAnimation'))
 			animationScrollBtn.addEventListener('click', () => toggleAnimationState('isScrollAnimation'))
-			changeLanguageButton.addEventListener('click', () => toggleAnimationState('isLanguageRussian'))
+			// changeLanguageButton.addEventListener('click', () => toggleAnimationState('isLanguageRussian'))
 			animationToggleStateBtn.addEventListener('click', () => toggleAnimationState('isAnimationStopped'))
 		}
 
@@ -906,7 +1116,7 @@ function main() {
 					const elements = document.querySelectorAll('.plugins-linters__hidden-text')
 					const russianLanguage = [
 						'для визуального представления веток, коммитов и их связей в репозитории',
-						'провека HTML-кода на соответствие стандартам',
+						'проверка HTML-кода на соответствие стандартам',
 						'инструмент для анализа и проверки JavaScript-кода на соответствие стандартам и устранения ошибок',
 						'инструмент автоматического форматирования кода',
 						'инструмент для проверки и стандартизации CSS-кода (а также стилей SCSS, Less и других)',
@@ -945,46 +1155,52 @@ function main() {
 			const buttons = document.querySelectorAll('.aside-colors__colors')
 			const classes = ['bg-color--1', 'bg-color--2', 'bg-color--3', 'bg-color--4']
 
-			let isTransitioning
+			let isTransitioning = false
 			let currentClass = 'bg-color--1'
 
 			function changeGradient(className) {
-				if (isTransitioning) return
-				if (currentClass === className) return
+				if (isTransitioning || currentClass === className) return
 
 				isTransitioning = true
 				currentClass = className
 
 				let transitionPoint = 30
-				const interval = setInterval(() => {
+
+				function updateTransitionPoint() {
 					transitionPoint++
 					root.style.setProperty('--gradient-transition-point', `${transitionPoint}%`)
 
-					if (transitionPoint >= 100) {
-						clearInterval(interval)
-
+					if (transitionPoint < 100) {
+						requestAnimationFrame(updateTransitionPoint)
+					} else {
 						root.classList.remove(...classes)
 						root.classList.add(className)
 
 						let returnPoint = 100
-						const returnInterval = setInterval(() => {
+
+						function returnTransitionPoint() {
 							returnPoint--
 							root.style.setProperty('--gradient-transition-point', `${returnPoint}%`)
 
-							if (returnPoint <= 30) {
-								clearInterval(returnInterval)
+							if (returnPoint > 30) {
+								requestAnimationFrame(returnTransitionPoint)
+							} else {
 								isTransitioning = false
 							}
-						}, 15)
+						}
+
+						requestAnimationFrame(returnTransitionPoint)
 					}
-				}, 15)
+				}
+
+				requestAnimationFrame(updateTransitionPoint)
 			}
 
 			buttons.forEach((button, index) => {
 				button.addEventListener('click', event => {
 					const target = event.target
 
-					if (target.classList.contains('aside-colors__colors') && !isTransitioning) {
+					if (!isTransitioning) {
 						buttons.forEach(element => element.classList.remove('aside-colors__colors--active'))
 						target.classList.add('aside-colors__colors--active')
 					}
@@ -1034,7 +1250,7 @@ function main() {
 						element.style.cssText = `
 							pointer-events: none;
 							width: 0;
-							transition: all 0.3s ease-out;
+							transition: all 0.2s ease;
 						`
 
 						clearTimeout(menuState.timeout)
@@ -1580,7 +1796,7 @@ function main() {
 			const elementKeys = ['cards-title']
 			let startHeight = document.documentElement.clientWidth > 600 ? 0 : 100
 
-			const handleTextWrite = writeAndResetText(title, 'Progress of my skills', 'Прогресс моих навыков', 60, 'cards-title', null)
+			// const handleTextWrite = writeAndResetText(title, 'Progress of my skills', 'Прогресс моих навыков', 60, 'cards-title', null)
 
 			function handleChangeOnResize() {
 				startHeight = document.documentElement.clientWidth > 600 ? 0 : 100
@@ -1589,14 +1805,14 @@ function main() {
 			function animate() {
 				window.addEventListener('resize', handleChangeOnResize)
 
-				handleTextWrite.write()
+				// handleTextWrite.write()
 				title.classList.add('cards__title--animate')
 			}
 
 			function reset() {
 				window.removeEventListener('resize', handleChangeOnResize)
 
-				handleTextWrite.reset()
+				// handleTextWrite.reset()
 				title.classList.remove('cards__title--animate', 'cards__title--scroll-animate')
 			}
 
@@ -1798,8 +2014,9 @@ function main() {
 						queryElements.container[index].classList.remove(`cards-content__container--${className}-animate`)
 						queryElements.svgBox[index].classList.remove('cards-content__svg-box--animate')
 						queryElements.text[index].classList.remove('cards-content__progress-text--animate')
-						circles[index].classList.remove(`cards-content__circle--${className}`)
 						queryElements.progressBox[index].classList.remove('cards-content__inner-progress--scroll-animate')
+
+						circles[index].classList.remove(`cards-content__circle--${className}`)
 
 						queryElements.value[index].textContent = 0
 						clearInterval(intervals[index])
@@ -1925,16 +2142,16 @@ function main() {
 			const elementKeys = ['projects-title']
 			const startHeight = 150
 
-			const handleTextWrite = writeAndResetText(title, 'My projects', 'Мои проекты', 80, 'projects-title', null)
+			// const handleTextWrite = writeAndResetText(title, 'My projects', 'Мои проекты', 80, 'projects-title', null)
 
 			function animate() {
-				handleTextWrite.write()
+				// handleTextWrite.write()
 
 				title.classList.add('projects__title--animate')
 			}
 
 			function reset() {
-				handleTextWrite.reset()
+				// handleTextWrite.reset()
 
 				title.classList.remove('projects__title--animate', 'projects__title--scroll-animate')
 			}
@@ -2104,7 +2321,7 @@ function main() {
 			const elementKeys = ['exp-title']
 			let startHeight = document.documentElement.clientWidth >= 1000 ? 150 : 30
 
-			const handleTextWrite = writeAndResetText(title, 'My way', 'Мой путь', 70, 'exp-title', null)
+			// const handleTextWrite = writeAndResetText(title, 'My way', 'Мой путь', 70, 'exp-title', null)
 
 			function handleChanageOnResize() {
 				startHeight = document.documentElement.clientWidth >= 1000 ? 150 : 30
@@ -2114,12 +2331,12 @@ function main() {
 				window.addEventListener('resize', handleChanageOnResize)
 
 				title.classList.add('exp__title--animate')
-				handleTextWrite.write()
+				// handleTextWrite.write()
 			}
 
 			function reset() {
 				title.classList.remove('exp__title--animate', 'exp__title--scroll-animate')
-				handleTextWrite.reset()
+				// handleTextWrite.reset()
 
 				window.removeEventListener('resize', handleChanageOnResize)
 			}
@@ -2213,6 +2430,7 @@ function main() {
 							isAnimation[currentStepIndex].isEnded = true
 							queryElements.circle[currentStepIndex].classList.add(currentStepIndex % 2 === 0 ? 'exp__circle--left' : 'exp__circle--right')
 							queryElements.text[currentStepIndex].classList.add(currentStepIndex % 2 === 0 ? 'exp__text--left-animate' : 'exp__text--right-animate')
+							queryElements.boxElements[currentStepIndex].classList.add('exp__box--animate')
 
 							await new Promise(resolve => {
 								queryElements.centerLine[currentStepIndex].removeEventListener('animationend', handleAnimationEnd)
@@ -2234,10 +2452,6 @@ function main() {
 
 			function animate() {
 				handleAnimation()
-
-				queryElements.boxElements.forEach(element => {
-					element.classList.add('exp__box--animate')
-				})
 
 				if (seenElements.has('exp-element-0')) {
 					elements.top.classList.add('exp__top--animate')
@@ -2289,7 +2503,7 @@ function main() {
 				queryElements.boxElements[index].classList.remove('exp__box--scroll-animate')
 			}
 
-			handleAnimationOnScroll(ids, 'exp__box--animate', elementKeys, scrollAnimate, scrollReset)
+			handleAnimationOnScroll(queryElements.boxElements, 'exp__box--animate', elementKeys, scrollAnimate, scrollReset)
 			createAnimation(ids, elementKeys, startHeight, animate, reset)
 		}
 
@@ -3431,65 +3645,207 @@ function main() {
 		linters()
 	}
 
-	function footerEvents() {
-		const elements = {
-			date: document.getElementById('footer-current-date'),
-			name: document.getElementById('footer-my-name'),
-			version: document.getElementById('footer-version-text'),
-			wrapper: document.getElementById('footer-wrapper'),
-			hiddenbox: document.getElementById('footer-hidden-box'),
-			symbol: document.getElementById('footer-symbol'),
-		}
+	function resumePageEveents() {
+		sameElementsAnimation('.resume-title', 'resume-title', ['resume-title--animate'], 50)
+		sameElementsAnimation('.resume-btn-box', 'resume-btn', ['resume-btn-box--animate'], 50)
+		sameElementsAnimation('.resume-feedback__input-box', 'resume-feedback-input-box', ['resume-feedback__input-box--animate'], 20)
+		sameElementsAnimation('.resume-subtitle', 'resume-subtitle', ['resume-subtitle--animate'], 50)
 
-		function setCurrentDate() {
-			const date = new Date()
-			const options = { year: 'numeric', month: 'long' }
-			elements.date.textContent = date.toLocaleString('en-US', options)
-		}
+		function gettingAnimate() {
+			singleElementsAnimation('resume-getting-title', 0, ['resume-getting__title--animate'])
 
-		setCurrentDate()
+			function subtitle() {
+				const subtitles = document.querySelectorAll('.resume-getting__subtitle')
+				const setIds = addId(subtitles, 'resume-getting-subtitle', 0)
 
-		const handleNameWrite = writeAndResetText(elements.name, 'Bakidjanov Sunnat', null, 50, 'footer-my-name', () => {
-			elements.date.classList.add('copyright__date--animate')
-		})
+				const isAnimation = {}
 
-		const handleVersionWrite = writeAndResetText(elements.version, 'Version 1.0.0', null, 70, null, null)
+				function animate() {
+					subtitles.forEach((element, index) => {
+						if (seenElements.has(setIds.elementKeys[index])) {
+							if (!isAnimation[index]) {
+								isAnimation[index] = { animated: false, timeout: null }
+							}
 
-		function animateFooter() {
-			const ids = [elements.hiddenbox]
-			const elementKeys = ['footer-hidden-box']
-			const startingHeight = -30
+							if (!isAnimation[index].animated) {
+								isAnimation[index].animated = true
 
-			function handleAnimationEnd(event) {
-				if (event.animationName === 'footer-wrapper') {
-					elements.symbol.classList.add('copyright__symbol--start')
-
-					handleNameWrite.write()
-
-					setTimeout(handleVersionWrite.write, 1100)
+								isAnimation[index].timeout = setTimeout(() => {
+									element.classList.add('resume-getting__subtitle--animate')
+								}, 300 * index)
+							}
+						}
+					})
 				}
+
+				function reset() {
+					subtitles.forEach((element, index) => {
+						if (isAnimation[index]?.timeout) {
+							clearTimeout(isAnimation[index].timeout)
+							isAnimation[index].timeout = null
+						}
+
+						if (isAnimation[index].animated) {
+							isAnimation[index].animated = false
+						}
+
+						element.classList.remove('resume-getting__subtitle--animate')
+					})
+				}
+
+				createAnimation(setIds.ids, setIds.elementKeys, setIds.startingHeight, animate, reset)
 			}
 
+			subtitle()
+		}
+
+		gettingAnimate()
+
+		function scrollText() {
+			const container = document.getElementById('resume-scroll-text')
+			const letters = document.querySelectorAll('.resume-scroll__letter')
+
+			const ids = [container]
+			const elementKeys = ['resume-scroll-text']
+			const startHeight = 0
+
+			letters.forEach((element, index) => {
+				element.classList.add(index % 2 !== 0 ? 'resume-scroll__letter--top' : 'resume-scroll__letter--bottom')
+			})
+
 			function animate() {
-				elements.wrapper.classList.add('footer__wrapper--animate')
-				elements.wrapper.addEventListener('animationend', handleAnimationEnd)
+				letters.forEach(element => {
+					if (element.classList.contains('resume-scroll__letter--top')) {
+						element.classList.add('resume-scroll__letter--animate-top')
+					}
+
+					if (element.classList.contains('resume-scroll__letter--bottom')) {
+						element.classList.add('resume-scroll__letter--animate-bottom')
+					}
+				})
 			}
 
 			function reset() {
-				handleNameWrite.reset()
-				handleVersionWrite.reset()
-				elements.symbol.classList.remove('copyright__symbol--start')
-				elements.wrapper.classList.remove('footer__wrapper--animate')
-				elements.date.classList.remove('copyright__date--animate')
+				letters.forEach(element => {
+					element.classList.remove('resume-scroll__letter--animate-top', 'resume-scroll__letter--animate-bottom')
+				})
 			}
 
-			createAnimation(ids, elementKeys, startingHeight, animate, reset)
+			createAnimation(ids, elementKeys, startHeight, animate, reset)
 		}
 
-		animateFooter()
+		scrollText()
+
+		function feedbackAnimate() {
+			function textWrite() {
+				const texts = document.querySelectorAll('.resume-feedback__text')
+				const form = document.getElementById('resume-feedback-form')
+
+				const setId = addId(texts, 'resume-feedback-text', 80)
+
+				const en = ['Name', 'Email', 'Message']
+				const ru = ['Имя', 'Email', 'Сообщение']
+
+				const handleTextWrite = writeAndResetText(setId.ids, en, ru, 70, setId.elementKeys, null)
+
+				function animate() {
+					form.classList.add('resume-feedback__form--animate')
+					handleTextWrite.writeAll()
+				}
+
+				function reset() {
+					handleTextWrite.resetAll()
+
+					form.classList.remove('resume-feedback__form--animate')
+				}
+
+				createAnimation(setId.ids, setId.elementKeys, setId.startingHeight, animate, reset)
+			}
+
+			textWrite()
+
+			function autoResizeTextarea() {
+				const textarea = document.getElementById('resume-feedback-message')
+
+				textarea.style.height = 'auto'
+				textarea.style.height = textarea.scrollHeight + 'px'
+			}
+
+			document.addEventListener('input', autoResizeTextarea)
+		}
+
+		feedbackAnimate()
+	}
+
+	function setCurrentDate() {
+		const date = document.getElementById('footer-current-date')
+		const setCurrentDate = new Date()
+		const langState = !isLanguageRussian ? 'en-US' : 'ru-RU'
+
+		date.classList[isLanguageRussian ? 'add' : 'remove']('russian-font', 'footer__date--rus-lang')
+
+		const options = { year: 'numeric', month: 'long' }
+		date.textContent = setCurrentDate.toLocaleString(langState, options)
+	}
+
+	function footerEvents() {
+		const date = document.getElementById('footer-current-date')
+		const name = document.getElementById('footer-name')
+		const version = document.getElementById('footer-version')
+		const wrapper = document.getElementById('footer-wrapper')
+		const symbol = document.getElementById('footer-symbol')
+
+		const ids = [wrapper, name, version]
+		const elementKeys = ['footer-wrapper', 'footer-name', 'footer-version']
+		const startHeight = 0
+
+		const timeouts = []
+
+		const handleTextWrite = [
+			writeAndResetText([name], ['Bakidjanov Sunnat'], ['Бакиджанов Суннат'], 50, ['footer-name'], ['footer__name--rus-lang']),
+			writeAndResetText([version], ['Version 1.0.0'], ['Версия 1.0.0'], 50, ['footer-version'], ['footer__version--rus-lang']),
+		]
+
+		function animate() {
+			wrapper.classList.add('footer__wrapper--animate')
+			symbol.classList.add('footer__symbol--animate')
+
+			const textTimeout = setTimeout(() => {
+				handleTextWrite[0].writeAll()
+			}, 300)
+
+			const dateTimeout = setTimeout(() => {
+				date.classList.add('footer__date--animate')
+			}, 600)
+
+			const versionTimeout = setTimeout(() => {
+				handleTextWrite[1].writeAll()
+			}, 1200)
+
+			timeouts.push(textTimeout, dateTimeout, versionTimeout)
+		}
+
+		function reset() {
+			wrapper.classList.remove('footer__wrapper--animate')
+			symbol.classList.remove('footer__symbol--animate')
+
+			handleTextWrite.forEach(text => {
+				text.resetAll()
+			})
+
+			timeouts.forEach(timeout => {
+				clearTimeout(timeout)
+			})
+		}
+
+		createAnimation(ids, elementKeys, startHeight, animate, reset)
 	}
 
 	window.addEventListener('load', () => {
+		sameElementsAnimation('.line', 'line', ['line--animate'], 50)
+		scrollLine()
+		setCurrentDate()
+
 		switchPages()
 		handlePageChangeClickAnimation()
 		climbUp()
@@ -3497,11 +3853,38 @@ function main() {
 		footerEvents()
 		homePageEvents()
 		usesPageEvents()
+		resumePageEveents()
 		headerEvents()
 	})
 
 	window.addEventListener('beforeunload', () => {
 		// pageUpdate()
+	})
+
+	changeLanguageButton.addEventListener('click', () => {
+		isLanguageRussian = !isLanguageRussian
+		const currentLanguage = isLanguageRussian ? 'ru' : 'en'
+
+		translateText(currentLanguage, 'russian-font')
+
+		setCurrentDate()
+
+		function resumeTextEdit() {
+			const subtitlesGetting = document.querySelectorAll('.resume-getting__subtitle')
+			const subtitles = document.querySelectorAll('.resume-subtitle')
+			const titles = document.querySelectorAll('.resume-title')
+
+			manageClasses(subtitlesGetting, ['resume-getting__subtitle--rus-lang'], null)
+			manageClasses(subtitles, ['resume-subtitle--rus-lang'], null)
+			manageClasses(titles, ['resume-title--rus-lang'], null)
+
+			manageClasses(null, ['resume-feedback__form-btn--rus-lang'], '.resume-feedback__form-btn')
+			manageClasses(null, ['resume-download__link--rus-lang'], '.resume-download__link')
+			manageClasses(null, ['resume-getting__title--rus-lang'], '.resume-getting__title')
+			manageClasses(null, ['resume-getting__wrapper--rus-lang'], '.resume-getting__wrapper')
+		}
+
+		resumeTextEdit()
 	})
 
 	window.addEventListener('orientationchange', () => {

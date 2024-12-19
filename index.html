@@ -6,7 +6,6 @@
 		<title>Sunnat Bakidjanov</title>
 
 		<link rel="icon" href="img/svg/favicon-icon.svg">
-		<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="scss/main.css">
 	</head>
 	<body>
@@ -169,7 +168,7 @@
 			</button>
 	
 			<main>
-				<div class="home-page page page--active" id="page-1">
+				<div class="home-page page" id="page-1">
 					<section class="getting">
 						<div class="container">
 							<div class="getting__wrapper">
@@ -218,7 +217,7 @@
 							</div>
 						</div>
 	
-						<h2 class="visually-hidden">Scroll section</h2>
+						<h2 class="scroll-hmp__title hide-element">Scroll section</h2>
 					</section>
 		
 					<section class="cards">
@@ -1098,26 +1097,139 @@
 					</section>
 				</div>
 		
-				<div class="resume-page page" id="page-3"></div>
+				<div class="resume-page page page--active" id="page-3">
+					<section class="resume-getting">
+						<div class="container">
+							<div class="resume-getting__wrapper">
+								<div class="resume-getting__hide-title">
+									<h2 class="resume-getting__title" id="resume-getting-title" data-en="Resume" data-ru="Резюме">Resume</h2>
+								</div>
+								
+								<div class="resume-getting__hide-subtitle">
+									<h3 class="resume-getting__subtitle">
+										<span data-en="Download" data-ru="Скачайте" class="resume-getting__subtitle--accent-color">Download</span> 
+										<span data-en="my Resume or" data-ru="мое Резюме или">my Resume or</span> 
+										<span data-en="Send" data-ru="Отправьте" class="resume-getting__subtitle--accent-color">Send</span>
+										<span data-en="me a Message" data-ru="мне Сообщение">me a Message</span>
+									</h3>
+								</div>
+
+								<div class="resume-getting__hide-subtitle">
+									<h3 class="resume-getting__subtitle">
+										<span data-en="Let’s" data-ru="Давайте">Let’s</span>
+										<span class="resume-getting__subtitle--accent-color" data-en="Make" data-ru="Воплощать">Make</span>
+										<span data-en="Great Ideas" data-ru="Великие Идеи">Great Ideas</span>
+										<span class="resume-getting__subtitle--accent-color" data-en="Happen" data-ru="в Жизнь">Happen</span>
+									</h3>
+								</div>
+							</div>
+						</div>
+					</section>
+
+					<section class="resume-scroll scroll-section">
+						<div class="container">
+							<div class="resume-scroll__wrapper scroll-section__wrapper">
+								<h2 class="resume-scroll__title scroll-section__title">Scroll title</h2>
+
+								<div class="resume-scroll__line scroll-section__line"></div>
+
+								<div class="resume-scroll__text scroll-section__text" id="resume-scroll-text">
+									<span class="resume-scroll__letter">S</span>
+									<span class="resume-scroll__letter">C</span>
+									<span class="resume-scroll__letter">R</span>
+									<span class="resume-scroll__letter">O</span>
+									<span class="resume-scroll__letter">L</span>
+									<span class="resume-scroll__letter">L</span>
+								</div>
+							</div>
+						</div>
+					</section>
+
+					<section class="resume-download">
+						<div class="container">
+							<div class="resume-download__wrapper">
+								<div class="resume-hide-title resume-download__hide-title">
+									<h2 class="resume-title resume-download__title" data-ru="Резюме Сунната Бакиджанова" data-en="Sunnat Bakidjanov's Resume">Sunnat Bakidjanov's Resume</h2>
+								</div>
+
+								<div class="resume-hide-subtitle resume-download__hide-subtitle">
+									<h3 class="resume-subtitle resume-download__subtitle" data-ru="Нажмите, чтобы скачать полное резюме в формате PDF" data-en="Click to download full resume in PDF format">Click to download full resume in PDF format</h3>
+								</div>
+
+								<div class="line resume-download__line"></div>
+
+								<div class="resume-download__link-box resume-btn-box">
+									<a href="download/resume.jpg" download="Sunnat-Bakidjanov-Resume.jpg" class="resume-download__link resume-btn" id="resume-download-link" data-ru="Скачать" data-en="Download">Download</a>
+								</div>
+							</div>
+						</div>
+					</section>
+
+					<section class="resume-feedback">
+						<div class="container">
+							<div class="resume-feedback__wrapper">
+								<div class="resume-hide-title resume-feedback__hide-title">
+									<h2 class="resume-title resume-feedback__title" data-ru="Напишите мне" data-en="Email me">Email me</h2>
+								</div>
+
+								<div class="resume-hide-subtitle resume-feedback__hide-subtitle">
+									<h3 class="resume-subtitle resume-feedback__subtitle" data-en="If you have any questions, email me!" data-ru="Если есть вопросы, пишите!">If you have any questions, email me!</h3>
+								</div>
+
+								<div class="line resume-feedback__line"></div>
+
+								<form class="resume-feedback__form" id="resume-feedback-form" action="#!" method="post">
+									<div class="resume-feedback__form-group">
+										<p class="resume-feedback__text"></p>
+
+										<div class="resume-feedback__input-box">
+											<input class="resume-feedback__input" type="text" id="resume-feedback-name" name="name" required="" placeholder=" ">
+											<label class="resume-feedback__label" for="resume-feedback-name" data-ru="Введите ваше имя" data-en="Enter your name">Enter your name</label>
+										</div>
+									</div>
+							
+									<div class="resume-feedback__form-group">
+										<p class="resume-feedback__text"></p>
+
+										<div class="resume-feedback__input-box">
+											<input class="resume-feedback__input" type="email" id="esume-feedback-email" name="email" required="" placeholder=" ">
+											<label class="resume-feedback__label" for="esume-feedback-email" data-ru="Введите ваш email" data-en="Enter your email">Enter your email</label>
+										</div>
+									</div>
+
+									<div class="resume-feedback__form-group">
+										<p class="resume-feedback__text"></p>
+
+										<div class="resume-feedback__input-box resume-feedback__input-box--textarea">
+											<textarea class="resume-feedback__input resume-feedback__input--textarea" id="resume-feedback-message" name="message" rows="5" required="" placeholder=" "></textarea>
+											<label class="resume-feedback__label resume-feedback__label--textarea" for="resume-feedback-message" data-ru="Введите ваше сообщение" data-en="Enter your message">Enter your message</label>
+										</div>
+									</div>
+
+									<div class="resume-feedback__form-btn-box resume-btn-box">
+										<button class="resume-feedback__form-btn resume-btn" type="submit" aria-label="Send" data-ru="Отправить" data-en="Send">Send</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</section>
+				</div>
 		
 				<div class="about-me-page page" id="page-4"></div>
 			</main>
 	
 			<footer class="footer" id="footer">
 				<div class="container">
-					<div class="footer__hidden-box" id="footer-hidden-box">
-						<div class="footer__wrapper" id="footer-wrapper">
-							<div class="footer__inner-copyright copyright">
-								<div class="copyright__my-name">
-									<span class="copyright__symbol" id="footer-symbol">©</span>
-									<span class="copyright__name" id="footer-my-name"></span>
-								</div>
-								<span class="copyright__date" id="footer-current-date"></span>
+					<div class="footer__wrapper" id="footer-wrapper">
+						<div class="footer__inner-copyright">
+							<div class="footer__name-box">
+								<span class="footer__symbol" id="footer-symbol">©</span>
+								<span class="footer__name" id="footer-name"></span>
 							</div>
-							<div class="footer__inner-version version">
-								<div class="version__text" id="footer-version-text"></div>
-							</div>
+							<span class="footer__date" id="footer-current-date"></span>
 						</div>
+						
+						<div class="footer__version" id="footer-version"></div>
 					</div>
 				</div>
 			</footer>

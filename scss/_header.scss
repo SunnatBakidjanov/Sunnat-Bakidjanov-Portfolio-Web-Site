@@ -1,13 +1,13 @@
 @use 'sass:list';
 
-// color
-$gradient-color_1: #697283;
-$gradient-color_2: #837b69;
-$gradient-color_3: #959f45;
-$gradient-color_4: #50979d;
+$gradient-color_1: #696969;
+$gradient-color_2: #3a6f8f;
+$gradient-color_3: #9b9686;
+$gradient-color_4: #2b636d;
 $orange: #f8aa01;
 $white: #fff;
 $black: #000;
+$gray: #a9a9a9;
 
 // logo
 $logo-text-color: $white;
@@ -291,7 +291,7 @@ $colors: (
 	}
 }
 
-@media (width <= 1000px) {
+@media (width <= 1100px) {
 	.header-main__wrapper {
 		justify-content: space-between;
 	}

@@ -1,0 +1,96 @@
+$orange: #f8aa01;
+$white: #fff;
+$black: #000;
+$gray: #a9a9a9;
+
+// var
+$climb-up-stroke-color: $white;
+$climb-up-shadow-color: $white;
+
+.climb-up {
+	position: fixed;
+	z-index: 10;
+	right: 2%;
+	bottom: 5%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 10px;
+	width: 70px;
+	height: 70px;
+	background-color: transparent;
+	border: none;
+	transition: filter 0.2s ease;
+
+	@mixin climb-up-img-animate($modifier, $animation, $animationDelay, $opacityStart, $opacityEnd, $translateYStart, $translateYEnd) {
+		&__img--animate-#{$modifier} {
+			@keyframes climb-up-img-#{$animation} {
+				0% {
+					opacity: #{$opacityStart};
+					transform: rotateX(180deg) translateX(-50%) translateY(#{$translateYStart});
+				}
+
+				100% {
+					opacity: #{$opacityEnd};
+					transform: rotateX(180deg) translateX(-50%) translateY(#{$translateYEnd});
+				}
+			}
+
+			animation: climb-up-img-#{$animation} forwards #{$animationDelay} ease-out;
+		}
+	}
+
+	@include climb-up-img-animate(show, show, 0.8s, 0, 1, -10px, 0);
+	@include climb-up-img-animate(hide, hide, 0.6s, 1, 0, 0, 10px);
+
+	&__img {
+		position: absolute;
+		left: 50%;
+		transform: rotateX(180deg) translateX(-50%);
+		opacity: 0;
+	}
+
+	@mixin climb-up-circle($modifier, $animation, $strikeOffsetStart, $strikeOffsetEnd, $animationDelay, $cursor) {
+		&__circle--#{$modifier} {
+			@keyframes climb-up-circle-#{$animation} {
+				0% {
+					stroke-dashoffset: #{$strikeOffsetStart};
+				}
+
+				100% {
+					stroke-dashoffset: #{$strikeOffsetEnd};
+				}
+			}
+
+			cursor: #{$cursor};
+			animation: climb-up-circle-#{$animation} #{$animationDelay} forwards ease-out;
+		}
+	}
+
+	@include climb-up-circle(show, show, 282.6, 0, 0.8s, pointer);
+	@include climb-up-circle(hide, hide, 0, 282.6, 0.6s, default);
+
+	&__circle {
+		position: absolute;
+		fill: none;
+		stroke: $climb-up-stroke-color;
+		stroke-width: 3;
+		stroke-dasharray: 282.6;
+		stroke-dashoffset: 282.6;
+		transform: rotate(-90deg);
+	}
+}
+
+.climb-up--show:hover {
+	filter: drop-shadow(0 0 3px $climb-up-shadow-color);
+}
+
+.climb-up--hidden {
+	display: none;
+}
+
+@media (hover: none) and (pointer: coarse) {
+	.climb-up--show:hover {
+		filter: none;
+	}
+}
