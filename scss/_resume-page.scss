@@ -146,7 +146,7 @@ $resume-subtitles-font-weight: 600;
 	overflow: hidden;
 
 	&:hover {
-		box-shadow: 0 0 8px $resume-btn-box-shadow-hover-color;
+		box-shadow: 0 0 4px $resume-btn-box-shadow-hover-color;
 	}
 }
 
@@ -155,7 +155,7 @@ $resume-subtitles-font-weight: 600;
 	transform: scale(1);
 	transition:
 		transform 0.8s ease-out,
-		box-shadow 0.2s ease,
+		box-shadow 0.2s ease-out,
 		width 0.4s ease;
 
 	&::after {
@@ -173,6 +173,7 @@ $resume-subtitles-font-weight: 600;
 	font-size: 32px;
 	color: $resume-btn-color;
 	background-color: transparent;
+	transition: letter-spacing 0.4s ease-out;
 	border: none;
 	cursor: pointer;
 
@@ -426,16 +427,10 @@ $resume-subtitles-font-weight: 600;
 		}
 	}
 
-	@media (height <= 750px) {
+	@media (height <= 550px) {
 		&__wrapper {
-			margin-top: 30px;
+			margin-top: 0;
 			height: 70vh;
-		}
-	}
-
-	@media (height <= 450px) {
-		&__wrapper {
-			height: 90vh;
 		}
 	}
 }
@@ -825,5 +820,20 @@ $resume-subtitles-font-weight: 600;
 
 	.resume-subtitle--rus-lang {
 		font-size: 18px;
+	}
+}
+
+@media (hover: none) and (pointer: coarse) {
+	.resume-btn-box {
+		&:hover {
+			box-shadow: 0 0 4px $resume-btn-box-shadow-color;
+		}
+	}
+
+	.resume-btn {
+		&:hover {
+			color: $resume-btn-color;
+			letter-spacing: initial;
+		}
 	}
 }

@@ -3449,13 +3449,13 @@
   overflow: hidden;
 }
 .resume-btn-box:hover {
-  box-shadow: 0 0 8px #f8aa01;
+  box-shadow: 0 0 4px #f8aa01;
 }
 
 .resume-btn-box--animate {
   opacity: 1;
   transform: scale(1);
-  transition: transform 0.8s ease-out, box-shadow 0.2s ease, width 0.4s ease;
+  transition: transform 0.8s ease-out, box-shadow 0.2s ease-out, width 0.4s ease;
 }
 .resume-btn-box--animate::after {
   content: "";
@@ -3499,6 +3499,7 @@
   font-size: 32px;
   color: #fff;
   background-color: transparent;
+  transition: letter-spacing 0.4s ease-out;
   border: none;
   cursor: pointer;
 }
@@ -3687,15 +3688,10 @@
     letter-spacing: -3px;
   }
 }
-@media (height <= 750px) {
+@media (height <= 550px) {
   .resume-scroll__wrapper {
-    margin-top: 30px;
+    margin-top: 0;
     height: 70vh;
-  }
-}
-@media (height <= 450px) {
-  .resume-scroll__wrapper {
-    height: 90vh;
   }
 }
 
@@ -4001,6 +3997,15 @@
   }
   .resume-subtitle--rus-lang {
     font-size: 18px;
+  }
+}
+@media (hover: none) and (pointer: coarse) {
+  .resume-btn-box:hover {
+    box-shadow: 0 0 4px #f5deb3;
+  }
+  .resume-btn:hover {
+    color: #fff;
+    letter-spacing: initial;
   }
 }
 .about-me-page {
