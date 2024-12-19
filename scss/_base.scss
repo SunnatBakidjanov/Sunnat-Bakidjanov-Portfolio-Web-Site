@@ -93,46 +93,6 @@ $scroll-text-color: $white;
 		font-size: 36px;
 		color: $scroll-text-color;
 	}
-
-	@media (height <= 750px) {
-		&__wrapper {
-			flex-direction: column;
-			row-gap: 15px;
-			margin: 60px 0 !important;
-			height: auto !important;
-		}
-
-		&__line {
-			width: 0;
-			height: 4px;
-		}
-
-		&__line--animate {
-			width: 100%;
-			background-color: $scroll-line-bg-color;
-			transition: all 1s ease-out;
-		}
-	}
-
-	@media (height <= 750px) and (width <= 1150px) {
-		&__wrapper {
-			margin: 50px 0 !important;
-		}
-	}
-
-	@media (height <= 750px) and (width <= 600px) {
-		&__wrapper {
-			margin: 40px 0 !important;
-			row-gap: 10px;
-		}
-	}
-
-	@media (height <= 750px) and (width <= 430px) {
-		&__wrapper {
-			margin: 35px 0 !important;
-			row-gap: 10px;
-		}
-	}
 }
 
 $page-background-colors: (

@@ -447,39 +447,6 @@ function main() {
 		const setIds = addId(lines, 'scroll-section-line', 40)
 
 		const isAnimation = {}
-		const isResize = {}
-
-		function handleChangeOnResize() {
-			lines.forEach((line, index) => {
-				if (seenElements.has(setIds.elementKeys[index])) {
-					if (!isResize[index]) {
-						isResize[index] = { resized: false, timeout: null }
-					}
-
-					if ((document.documentElement.clientHeight <= 750 || document.documentElement.clientWidth) <= 480 && !isResize[index].resized) {
-						isResize[index].resized = !isResize[index].resized
-
-						line.style.transition = 'none'
-
-						clearTimeout(isResize[index].timeout)
-						isResize[index].timeout = setTimeout(() => {
-							line.removeAttribute('style')
-						}, 100)
-					}
-
-					if ((document.documentElement.clientHeight > 750 || document.documentElement.clientWidth > 480) && isResize[index].resized) {
-						isResize[index].resized = !isResize[index].resized
-
-						line.style.transition = 'none'
-
-						clearTimeout(isResize[index].timeout)
-						isResize[index].timeout = setTimeout(() => {
-							line.removeAttribute('style')
-						}, 100)
-					}
-				}
-			})
-		}
 
 		function animate() {
 			lines.forEach((line, index) => {
@@ -495,8 +462,6 @@ function main() {
 					}
 				}
 			})
-
-			window.addEventListener('resize', handleChangeOnResize)
 		}
 
 		function reset() {
@@ -507,8 +472,6 @@ function main() {
 
 				line.classList.remove('scroll-section__line--animate')
 			})
-
-			window.removeEventListener('resize', handleChangeOnResize)
 		}
 
 		createAnimation(setIds.ids, setIds.elementKeys, setIds.startingHeight, animate, reset)
