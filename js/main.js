@@ -206,27 +206,7 @@ function main() {
 		checkScrollAnimation()
 	}
 
-	function checkLanguageState(russianTexts, englishTexts, elements, toggleClasses) {
-		changeLanguageButton.addEventListener('click', () => {
-			elements.forEach((element, index) => {
-				if (!element) {
-					console.error(`${element}: ${index} not found`)
-					return
-				}
-				if (russianTexts[index] === undefined || englishTexts[index] === undefined) return
-
-				element.innerHTML = !isLanguageRussian ? englishTexts[index] : russianTexts[index]
-
-				element.classList.toggle('russian-font')
-
-				if (toggleClasses) {
-					element.classList.toggle(toggleClasses, isLanguageRussian)
-				}
-			})
-		})
-	}
-
-	function writeAndResetText(elements, englishTexts, russianTexts, typeSpeed, elementKeys, className) {
+	function writeAndResetText(elements, englishTexts, russianTexts, typeSpeed, elementKeys, className, delay) {
 		const configs = elements.map((element, index) => ({
 			element,
 			targetString: englishTexts[index],
@@ -301,7 +281,14 @@ function main() {
 							writeText[index].isWrited = true
 
 							reset(config)
-							write(config)
+
+							if (delay) {
+								config.timeout = setTimeout(() => {
+									write(config)
+								}, index * delay)
+							} else {
+								write(config)
+							}
 						}
 					}
 				})
@@ -312,13 +299,17 @@ function main() {
 						writeText[index].isWrited = false
 					}
 
+					if (config[index]?.timeout) {
+						clearTimeout(config[index].timeout)
+					}
+
 					reset(config)
 				})
 			},
 		}
 	}
 
-	function sameElementsAnimation(queryElemetns, setIds, classes, startHeight) {
+	function sameElementsAnimation(queryElemetns, setIds, classes, startHeight, delay) {
 		if (!queryElemetns) {
 			console.error(`${queryElemetns} not found`)
 			return
@@ -331,6 +322,7 @@ function main() {
 		const startingHeight = startHeight
 
 		const isAnimation = {}
+		const visibleIndexes = []
 
 		elements.forEach((element, index) => {
 			const setId = `${setIds}-${index}`
@@ -346,13 +338,23 @@ function main() {
 			elements.forEach((element, index) => {
 				if (seenElements.has(elementKeys[index])) {
 					if (!isAnimation[index]) {
-						isAnimation[index] = { animated: false }
+						isAnimation[index] = { animated: false, timeout: null }
 					}
 
 					if (!isAnimation[index].animated) {
 						isAnimation[index].animated = true
 
-						element.classList.add(...classes)
+						if (delay) {
+							visibleIndexes.push(index)
+
+							const indexDelay = visibleIndexes.indexOf(index) * delay
+
+							isAnimation[index].timeout = setTimeout(() => {
+								element.classList.add(...classes)
+							}, indexDelay)
+						} else {
+							element.classList.add(...classes)
+						}
 					}
 				}
 			})
@@ -466,7 +468,7 @@ function main() {
 
 		function reset() {
 			lines.forEach((line, index) => {
-				if (isAnimation[index].animate) {
+				if (isAnimation[index]?.animate) {
 					isAnimation[index].animate = false
 				}
 
@@ -899,219 +901,10 @@ function main() {
 
 			animationChangePage.addEventListener('click', () => toggleAnimationState('isSwitchAnimation'))
 			animationScrollBtn.addEventListener('click', () => toggleAnimationState('isScrollAnimation'))
-			// changeLanguageButton.addEventListener('click', () => toggleAnimationState('isLanguageRussian'))
 			animationToggleStateBtn.addEventListener('click', () => toggleAnimationState('isAnimationStopped'))
 		}
 
 		changeAnimationState()
-
-		function translateText() {
-			function translateHeaderText() {
-				const elementIds = ['home-page-btn-text', 'uses-page-btn-text', 'resume-page-btn-text', 'about-me-page-btn-text']
-				const elements = elementIds.map(id => document.getElementById(id))
-				const russianLanguage = ['Главная', 'Мой набор', 'Резюме', 'О себе']
-				const englishLanguage = ['Home', 'Uses', 'Resume', 'About me']
-
-				checkLanguageState(russianLanguage, englishLanguage, elements, null)
-			}
-
-			translateHeaderText()
-
-			function translateAsideMenuText() {
-				const elementIds = ['change-theme', 'translator', 'aside-menu-close-text']
-				const elements = elementIds.map(id => document.getElementById(id))
-				const russianLanguage = ['Изменить фон', 'Изменить язык: EU', 'Закрыть меню']
-				const englishLanguage = ['Change background', 'Change language: RU', 'Close menu']
-
-				checkLanguageState(russianLanguage, englishLanguage, elements, 'russian-lang-text')
-			}
-
-			translateAsideMenuText()
-
-			function translateHomePageText() {
-				const elementIds = ['my-name-title', 'projects-text-one', 'projects-text-two', 'exp-start', 'exp-text-0', 'exp-text-1']
-				const elements = elementIds.map(id => document.getElementById(id))
-				const russianLanguage = ['Привет,<br>я <span>Sunnat</span>', 'У меня нет проектов которыми<br>я бы мог поделиться', 'Но скоро они появятся', 'Начало', 'В скором времени. . .', 'Продолжение следует?']
-				const englishLanguage = [`Hello,<br>I'm <span>Sunnat</span>`, `I don't have any<br>projects to share yet`, 'But they will appear soon', 'Start', 'Coming soon. . .', 'To be continued?']
-
-				checkLanguageState(russianLanguage, englishLanguage, elements, 'russian-lang-text')
-
-				function translateCardsText() {
-					const elements = document.querySelectorAll('.cards-content__text')
-
-					const russianLanguage = [
-						'HTML5',
-						'Семантическая верстка',
-						'BEM',
-						'Проверка валидности HTML',
-						'Использование инструментов разработчика браузера для отладки разметки',
-						'CSS3',
-						'Адаптивный дизайн для разных экранов',
-						'CSS-анимации',
-						'SASS, SCSS, LESS',
-						'CSS-переменные',
-						'Интеграция JavaScript',
-						'ES6+',
-						'Работа с DOM',
-						'SPA',
-						'Создание и управление анимациями',
-						'Реализация пользовательских компонентов',
-						'Обработка ошибок',
-					]
-					const englishLanguage = [
-						'HTML5',
-						'Semantic layout',
-						'BEM',
-						'HTML Validation Check',
-						'Using browser DevTools to debug markup',
-						'CSS3',
-						'Responsive design for different screens',
-						'CSS animations',
-						'SASS, SCSS, LESS',
-						'CSS Variables',
-						'JavaScript integration',
-						'ES6+',
-						'Working with the DOM',
-						'SPA',
-						'Creating and managing animations',
-						'Implementing Custom Components',
-						'Error Handling',
-					]
-
-					checkLanguageState(russianLanguage, englishLanguage, elements, 'cards-content__russian-lang-text')
-				}
-
-				translateCardsText()
-			}
-
-			translateHomePageText()
-
-			function traslateUsesPageText() {
-				function title() {
-					const elementIds = ['uses-getting-title', 'uses-getting-text']
-					const elements = elementIds.map(id => document.getElementById(id))
-					const russianLanguage = [
-						'Мой набор',
-						'<span class="uses-getting__text-span">Оборудование</span> и <span class="uses-getting__text-span">Программное обеспечение</span> которое я использую для <span class="uses-getting__text-span">Разработки</span>',
-					]
-					const englishLanguage = ['Uses', '<span class="uses-getting__text-span">Equipment</span> and <span class="uses-getting__text-span">Software</span> I Use for <span class="uses-getting__text-span">Development</span>']
-
-					checkLanguageState(russianLanguage, englishLanguage, elements, 'uses-getting__russian-text')
-				}
-
-				title()
-
-				function equipment() {
-					const elements = document.querySelectorAll('.equipment-content__text')
-					const russianLanguage = ['Монитор', 'ПК кейс', 'Кресло', 'Рабочий стол', 'Клавиатура', 'Мышь', 'Веб-камера', 'Микрофон']
-					const englishLanguage = ['Monitor', 'PC case', 'Chair', 'Desk', 'Keyboard', 'Mouse', 'Webcam', 'Microphone']
-
-					checkLanguageState(russianLanguage, englishLanguage, elements, 'russian-lang-text')
-				}
-
-				equipment()
-
-				function linters() {
-					const elements = document.querySelectorAll('.linters__subtitle')
-					const russianLanguage = ['для чистоты кода', 'для отладки', 'для качества кода', 'для проверки и исправления кода', 'для улучшения кода']
-					const englishLanguage = ['for code cleanliness', 'for debugging', 'for code quality', 'for code review and fixes', 'for code improvement']
-
-					checkLanguageState(russianLanguage, englishLanguage, elements, 'linters__subtitle--russian-text')
-				}
-
-				linters()
-
-				function lintersSubtitles() {
-					const elementIds = ['equipment-title', 'software-title', 'linters-title', 'settings-linters-subtitle', 'settings-linters-h4-title', 'plugins-linters-subtitle', 'plugins-linters-h4-title']
-					const elements = elementIds.map(id => document.getElementById(id))
-					const russianLanguage = ['Оборудование', 'Программное обеспечение', 'Линтеры', 'Настройки', '<span>Настройки</span> линтера, которые я использую', 'Плагины', 'Полезные <span>плагины</span> в VSCode, которые я использую']
-					const englishLanguage = ['Equipment', 'Software', 'Linters', 'Settings', 'Linter <span>settings</span> that I use', 'Plugins', 'Useful <span>plugins</span> in VSCode that I use']
-
-					checkLanguageState(russianLanguage, englishLanguage, elements, null)
-				}
-
-				lintersSubtitles()
-
-				function settingsCopyText() {
-					function settingsCopyText() {
-						const elements = document.querySelectorAll('.settings-linters__hidden-btn')
-
-						const russianText = 'Копировать текст'
-						const englishText = 'Copy text'
-
-						function updateText() {
-							elements.forEach(element => {
-								element.textContent = isLanguageRussian ? russianText : englishText
-
-								element.classList.toggle('settings-linters__hidden-btn--russin-language', isLanguageRussian)
-							})
-						}
-
-						changeLanguageButton.addEventListener('click', updateText)
-					}
-
-					settingsCopyText()
-				}
-
-				settingsCopyText()
-
-				function pluginLintersBtnText() {
-					const elements = document.querySelectorAll('.plugins-linters__text')
-					const russianLanguage = ['Для линтеров', 'Онлайн кодирование', 'Другое']
-					const englishLanguage = ['For linters', 'Live Coding', 'Other']
-
-					checkLanguageState(russianLanguage, englishLanguage, elements, 'plugins-linters__text--russian-language')
-				}
-
-				pluginLintersBtnText()
-
-				function pluginPasteText() {
-					const elements = document.querySelectorAll('.settings-linters__text-warning')
-					const russianLanguage = ['Вставьте этот код в <span>.prettierrc</span>', 'Вставьте этот код в <span>eslint.config.json</span>', 'Вставьте этот код в <span>.stylelintrc.json</span>', 'Вставьте этот код в <span>settings.json</span>']
-					const englishLanguage = ['Paste this code into <span>.prettierrc</span>', 'Paste this code into <span>eslint.config.json</span>', 'Paste this code into <span>.stylelintrc.json</span>', 'Paste this code into <span>settings.json</span>']
-
-					checkLanguageState(russianLanguage, englishLanguage, elements, 'settings-linters__text-warning--russian-language')
-				}
-
-				pluginPasteText()
-
-				function pluginLintersText() {
-					const elements = document.querySelectorAll('.plugins-linters__hidden-text')
-					const russianLanguage = [
-						'для визуального представления веток, коммитов и их связей в репозитории',
-						'проверка HTML-кода на соответствие стандартам',
-						'инструмент для анализа и проверки JavaScript-кода на соответствие стандартам и устранения ошибок',
-						'инструмент автоматического форматирования кода',
-						'инструмент для проверки и стандартизации CSS-кода (а также стилей SCSS, Less и других)',
-						'инструмент, который создает локальный сервер для разработки и автоматически обновляет веб-страницу в браузере при внесении изменений в код',
-						'это инструмент, который компилирует файлы Sass или SCSS в CSS в режиме реального времени',
-						'улучшить визуальное восприятие структуры проекта',
-						'для удобного и быстрого извлечения классов из HTML',
-						'быстро и легко переименовывать теги в HTML',
-					]
-					const englishLanguage = [
-						'for a visual representation of branches, commits and their connections in the repository',
-						'to check HTML code for compliance with standards',
-						'a tool for analyzing and checking JavaScript code for compliance with standards and eliminating errors',
-						'automatic code formatting tool',
-						'is a tool for checking and standardizing CSS code (as well as SCSS, Less and other styles)',
-						'is a tool that creates a local server for development and automatically updates the web page in the browser when changes are made to the code',
-						'is a tool that compiles Sass or SCSS files to CSS in real time',
-						'to improve the visual perception of the project structure',
-						'for convenient and fast extraction of classes from HTML',
-						'to quickly and easily rename tags in HTML',
-					]
-
-					checkLanguageState(russianLanguage, englishLanguage, elements, 'plugins-linters__hidden-text--russian-language')
-				}
-
-				pluginLintersText()
-			}
-
-			traslateUsesPageText()
-		}
-
-		translateText()
 
 		function backgroundColorChange() {
 			const root = document.querySelector('.page')
@@ -1177,56 +970,51 @@ function main() {
 		backgroundColorChange()
 
 		function manageMenuAnimations() {
-			const menuState = {
-				isOpen: false,
-				isClosed: true,
-				timeout: null,
-			}
+			const menuState = { isOpen: false, timeout: null }
 
 			function openMenu() {
-				if (!menuState.isOpen) {
-					menuState.isOpen = true
-					menuState.isClosed = false
-					clearTimeout(menuState.timeout)
-					menuState.timeout = null
+				if (menuState.isOpen) return
 
-					menuElement.classList.remove('aside-menu__wrapper--close')
-					menuElement.classList.add('aside-menu__wrapper--open')
-					activeBtn.classList.add('aside-content__acite--open')
-					closeBtn.classList.add('aside-content__btn--close')
-					document.querySelectorAll('.aside-content__item').forEach(element => {
-						element.removeAttribute('style')
-					})
+				menuState.isOpen = !menuState.isOpen
+				clearTimeout(menuState.timeout)
+				menuState.timeout = null
 
-					openBtn.classList.add('aside-menu__btn--close')
-				}
+				menuElement.classList.remove('aside-menu__wrapper--close')
+				menuElement.classList.add('aside-menu__wrapper--open')
+				activeBtn.classList.add('aside-content__acite--open')
+				closeBtn.classList.add('aside-content__btn--close')
+				openBtn.classList.add('aside-menu__btn--close')
+
+				document.querySelectorAll('.aside-content__item').forEach(element => {
+					element.removeAttribute('style')
+				})
 			}
 
 			function closeMenu() {
-				if (!menuState.isClosed) {
-					menuState.isClosed = true
-					menuState.isOpen = false
-					menuElement.classList.remove('aside-menu__wrapper--open')
-					menuElement.classList.add('aside-menu__wrapper--close')
-					closeBtn.classList.remove('aside-content__btn--close')
-					document.querySelectorAll('.aside-content__item').forEach(element => {
-						element.style.cssText = `
+				if (!menuState.isOpen) return
+
+				menuState.isOpen = !menuState.isOpen
+				clearTimeout(menuState.timeout)
+				menuState.timeout = null
+
+				menuElement.classList.remove('aside-menu__wrapper--open')
+				menuElement.classList.add('aside-menu__wrapper--close')
+				closeBtn.classList.remove('aside-content__btn--close')
+
+				document.querySelectorAll('.aside-content__item').forEach(element => {
+					element.style.cssText = `
 							pointer-events: none;
 							width: 0;
 							transition: all 0.2s ease;
 						`
 
-						clearTimeout(menuState.timeout)
-						menuState.timeout = null
+					menuState.timeout = setTimeout(() => {
+						element.removeAttribute('style')
+					}, 400)
+				})
 
-						menuState.timeout = setTimeout(() => {
-							element.removeAttribute('style')
-						}, 400)
-					})
-
-					activeBtn.classList.remove('aside-content__acite--open')
-					openBtn.classList.remove('aside-menu__btn--close')
-				}
+				activeBtn.classList.remove('aside-content__acite--open')
+				openBtn.classList.remove('aside-menu__btn--close')
 			}
 
 			openBtn.addEventListener('click', openMenu)
@@ -2474,1152 +2262,255 @@ function main() {
 	}
 
 	function usesPageEvents() {
-		function gettingAnimate() {
-			function titleAnimate() {
-				const title = document.getElementById('uses-getting-title')
-				const text = document.getElementById('uses-getting-text')
+		const texts = document.querySelectorAll('.uses-text')
+		const img = document.querySelectorAll('.uses-img')
 
-				const ids = [title, text]
-				const elementKeys = ['usesGettingTitle', 'usesGettingText']
-				const startHeight = 0
+		const copyBtn = document.querySelectorAll('.uses-linters__copy-btn')
+		const code = document.querySelectorAll('.uses-linters__code')
+		let isModalVisible = false
 
-				function animate() {
-					title.classList.add('uses-getting__title--animate')
-					text.classList.add('uses-getting__text--animate')
-				}
+		singleElementsAnimation('uses-getting-title', 0, ['uses-getting__title--animate'])
+		singleElementsAnimation('uses-getting-subtitle', 0, ['uses-getting__subtitle--animate'])
+		singleElementsAnimation('uses-linters-settings-title', 70, ['uses-linters__settings-title--animate'])
+		singleElementsAnimation('uses-linters-settings-subtitle', 40, ['uses-linters__settings-subtitle--animate'])
 
-				function reset() {
-					title.classList.remove('uses-getting__title--animate', 'uses-getting__title--scroll-animate')
-					text.classList.remove('uses-getting__text--animate', 'uses-getting__text--scroll-animate')
-				}
+		sameElementsAnimation('.uses-title', 'uses-title', ['uses-title--animate'], 50, null)
+		sameElementsAnimation('.uses-btn', 'uses-btn', ['uses-btn--animate'], 50, null)
+		sameElementsAnimation('.uses-img', 'uses-img', ['uses-img--animate'], 60, null)
+		sameElementsAnimation('.uses-hide-group', 'uses-hide-group', ['uses-hide-group--animate'], 50, null)
+		sameElementsAnimation('.uses-software__img', 'uses-software-img', ['uses-software__img--animate'], 110, 50)
+		sameElementsAnimation('.uses-software__text', 'uses-software-text', ['uses-software__text--animate'], 40, 50)
+		sameElementsAnimation('.uses-linters__task', 'uses-linters-task', ['uses-linters__task--animate'], 50, 100)
 
-				function scrollAnimate() {
-					title.classList.add('uses-getting__title--scroll-animate')
-					text.classList.add('uses-getting__text--scroll-animate')
-				}
+		function scrollText() {
+			const container = document.getElementById('uses-scroll-text')
+			const letters = document.querySelectorAll('.uses-scroll__letter')
 
-				function scrollReset() {
-					title.classList.remove('uses-getting__title--scroll-animate')
-					text.classList.remove('uses-getting__text--scroll-animate')
-				}
+			const ids = [container]
+			const elementKeys = ['uses-scroll-text']
+			const startHeight = 0
 
-				handleAnimationOnScroll(ids, 'uses-getting__title--animate', elementKeys, scrollAnimate, scrollReset)
-				createAnimation(ids, elementKeys, startHeight, animate, reset)
+			const timeouts = []
+
+			function animate() {
+				letters.forEach((element, index) => {
+					const timeout = setTimeout(() => {
+						element.classList.add('uses-scroll__letter--animate')
+					}, 60 * index)
+
+					timeouts.push(timeout)
+				})
 			}
 
-			titleAnimate()
+			function reset() {
+				letters.forEach((element, index) => {
+					element.classList.remove('uses-scroll__letter--animate')
 
-			function scrollAnimate() {
-				const container = document.getElementById('uses-getting-scroll')
-				const line = document.getElementById('uses-gettingt-scroll-line')
-				const text = document.getElementById('uses-getting-scroll-text')
-				const letters = document.querySelectorAll('.uses-getting__scroll-letters')
-
-				const timeouts = []
-
-				const ids = [container]
-				const elementKeys = ['uses-getting-scroll']
-				const startHeight = -50
-
-				const scrollElements = [text, line]
-				const scrollKeys = ['uses-gettingt-scroll-line', 'uses-getting-scroll-text']
-
-				let timeout = null
-				let isChanged = false
-
-				function lettersAnimate() {
-					letters.forEach((element, index) => {
-						const timeout = setTimeout(() => {
-							element.classList.add('uses-getting__scroll-letters--animate')
-						}, 180 * index)
-
-						timeouts.push(timeout)
-					})
-				}
-
-				function letterRemove() {
-					timeouts.forEach(timeout => clearTimeout(timeout))
-					timeouts.length = 0
-
-					letters.forEach(element => {
-						element.classList.remove('uses-getting__scroll-letters--animate')
-					})
-				}
-
-				function handleChangeOnResize() {
-					if (document.documentElement.clientHeight <= 580 && !isChanged) {
-						isChanged = true
-
-						line.style.transition = 'none'
-
-						clearTimeout(timeout)
-						timeout = setTimeout(() => {
-							line.removeAttribute('style')
-						}, 1500)
-					} else if (document.documentElement.clientHeight > 580 && isChanged) {
-						isChanged = false
-						line.style.transition = 'none'
-
-						clearTimeout(timeout)
-						timeout = setTimeout(() => {
-							line.removeAttribute('style')
-						}, 1500)
-					}
-				}
-
-				function animate() {
-					lettersAnimate()
-
-					window.addEventListener('resize', handleChangeOnResize)
-					line.classList.add('uses-getting__scroll-line--animate')
-				}
-
-				function reset() {
-					letterRemove()
-
-					text.classList.remove('uses-getting__scroll-text--scroll-animate')
-					line.classList.remove('uses-getting__scroll-line--animate', 'uses-getting__scroll-line--scroll-animate')
-
-					window.removeEventListener('resize', handleChangeOnResize)
-				}
-
-				function scrollAnimate() {
-					text.classList.add('uses-getting__scroll-text--scroll-animate')
-					line.classList.add('uses-getting__scroll-line--scroll-animate')
-				}
-
-				function scrollReset() {
-					text.classList.remove('uses-getting__scroll-text--scroll-animate')
-					line.classList.remove('uses-getting__scroll-line--scroll-animate')
-				}
-
-				handleAnimationOnScroll(scrollElements, 'uses-getting__scroll-line--animate', scrollKeys, scrollAnimate, scrollReset)
-				createAnimation(ids, elementKeys, startHeight, animate, reset)
-			}
-
-			scrollAnimate()
-		}
-
-		gettingAnimate()
-
-		function equipment() {
-			function title() {
-				const title = document.getElementById('equipment-title')
-
-				const ids = [title]
-				const elementKeys = ['equipment-title']
-				const startHeight = 30
-
-				function animate() {
-					title.classList.add('equipment__title--animate')
-				}
-
-				function reset() {
-					title.classList.remove('equipment__title--animate', 'equipment__title--scroll-animate')
-				}
-
-				function scrollAnimate() {
-					title.classList.add('equipment__title--scroll-animate')
-				}
-
-				function scrollReset() {
-					title.classList.remove('equipment__title--scroll-animate')
-				}
-
-				handleAnimationOnScroll(ids, 'equipment__title--animate', elementKeys, scrollAnimate, scrollReset)
-				createAnimation(ids, elementKeys, startHeight, animate, reset)
-			}
-
-			title()
-
-			function equipmentAnimate() {
-				const elements = {
-					item: document.querySelectorAll('.equipment-content__item'),
-					text: document.querySelectorAll('.equipment-content__text'),
-					button: document.querySelectorAll('.equipment-content__button'),
-					img: document.querySelectorAll('.equipment-content__img'),
-					hiddenBox: document.querySelectorAll('.equipment-content__hidden-box'),
-					hiddenImg: document.querySelectorAll('.equipment-content__hidden-img'),
-					hiddenText: document.querySelectorAll('.equipment-content__hidden-text'),
-				}
-
-				const ids = []
-				const elementKeys = []
-				const startHeight = 50
-
-				elements.item.forEach((_, index) => {
-					const elementId = document.getElementById(`equipment-id-${index}`)
-					if (elementId) ids.push(elementId)
-
-					elementKeys.push(`equipment-${index}-item`)
+					clearTimeout(timeouts[index])
 				})
 
-				const animationStart = {}
-				const clickState = {}
+				timeouts.length = 0
+			}
 
-				const visibleIndexes = []
+			createAnimation(ids, elementKeys, startHeight, animate, reset)
+		}
 
-				function handleAnimation() {
-					elements.item.forEach((_, index) => {
-						if (!animationStart[index]) {
-							animationStart[index] = { isEnded: false, timeout: null }
-						}
+		scrollText()
 
-						if (seenElements.has(elementKeys[index])) {
-							if (!animationStart[index].isEnded) {
-								animationStart[index].isEnded = true
+		function btnsAnimate() {
+			const hideEquipmentElement = document.querySelectorAll('.uses-equipment__hidden-group')
+			const equipmentBtn = document.querySelectorAll('.uses-equipment__button')
+			const equipmantImg = document.querySelectorAll('.uses-equipment__img')
 
-								visibleIndexes.push(index)
+			const hideLinterElement = document.querySelectorAll('.uses-linters__hide-group')
+			const linterBtn = document.querySelectorAll('.uses-linters__btn')
+			const linterImg = document.querySelectorAll('.uses-linters__img')
 
-								const delay = visibleIndexes.indexOf(index) * 80
+			const climbUpBtn = document.querySelectorAll('.uses-linters__up-btn')
 
-								const timeout = setTimeout(() => {
-									elements.item[index].classList.add('equipment-content__item--animate')
-									elements.text[index].classList.add('equipment-content__text--animate')
-									elements.img[index].classList.add('equipment-content__img--animate')
-								}, delay)
+			const isLinterOpen = {}
 
-								animationStart[index].timeout = timeout
-							}
-						}
-					})
+			const setId = addId(texts, 'uses-text', 60)
+
+			const en = ['Monitor', 'PC Case', 'Chair', 'Desk', 'Keyboard', 'Mouse', 'Webcam', 'Microphone', 'Prettier', 'ESLint', 'Stylelint', 'Settings.json']
+			const ru = ['Монитор', 'ПК Кейс', 'Кресло', 'Стол', 'Клавиатура', 'Мышь', 'Веб-камера', 'Микрофон', 'Prettier', 'ESLint', 'Stylelint', 'Settings.json']
+
+			const handleTextWrite = writeAndResetText(setId.ids, en, ru, 80, setId.elementKeys, ['uses-text--rus-lang'], null)
+
+			function openHiddenEquipmentOnClick(event) {
+				const index = [...equipmentBtn].indexOf(event.target)
+
+				if (index === -1) return
+
+				const element = hideEquipmentElement[index]
+				const images = equipmantImg[index]
+				const isOpen = element.classList.contains('uses-equipment__hidden-group--open')
+
+				equipmantImg.forEach(imgElement => imgElement.classList.remove('uses-img--open'))
+				hideEquipmentElement.forEach(el => el.classList.remove('uses-equipment__hidden-group--open'))
+
+				if (!isOpen) {
+					element.classList.add('uses-equipment__hidden-group--open')
+					images.classList.add('uses-img--open')
+				}
+			}
+
+			function openHiddenLeinterOnClick(event) {
+				const index = [...linterBtn].indexOf(event.target)
+
+				const element = hideLinterElement[index]
+				const images = linterImg[index]
+
+				if (index === -1) return
+
+				if (!isLinterOpen[index]) {
+					isLinterOpen[index] = { isOpen: false, timeout: null }
 				}
 
-				function closeElement(index) {
-					if (elements.item[index].classList.contains('equipment-content__item--animate')) {
-						elements.text[index].classList.remove('equipment-content__text--open')
+				const transitionDuration = Math.max(0.5, Math.min(element.scrollHeight / 1500, 1.5))
+				element.style.transition = `height ${transitionDuration}s ease-out`
 
-						elements.hiddenBox[index].classList.remove('equipment-content__hidden-box--open')
-						elements.hiddenBox[index].classList.add('equipment-content__hidden-box--close')
+				isLinterOpen[index].isOpen = !isLinterOpen[index].isOpen
+				images.classList.toggle('uses-img--open')
 
-						elements.button[index].classList.remove('equipment-content__button--open')
-
-						elements.img[index].classList.remove('equipment-content__img--open')
-						elements.img[index].classList.add('equipment-content__img--close')
-
-						elements.hiddenImg[index].classList.remove('equipment-content__hidden-img--animate')
-						elements.hiddenText[index].classList.remove('equipment-content__hidden-text--animate')
-
-						setTimeout(() => {
-							if (clickState[index]) {
-								clickState[index].isClicked = false
-							}
-
-							elements.img[index].classList.remove('equipment-content__img--close')
-						}, 700)
+				if (!isLinterOpen[index].isOpen) {
+					if (isLinterOpen[index].timeout) {
+						clearTimeout(isLinterOpen[index].timeout)
 					}
+
+					element.style.height = 0
+				} else {
+					element.style.height = `${hideLinterElement[index].scrollHeight}px`
+
+					isLinterOpen[index].timeout = setTimeout(() => {
+						linterBtn[index].scrollIntoView({ behavior: 'smooth', block: 'start' })
+					}, 550)
 				}
+			}
 
-				function openHiddenMenu(event) {
-					const index = [...elements.button].indexOf(event.target)
+			function climbUpLinterBtn(event) {
+				const index = [...climbUpBtn].indexOf(event.target)
 
-					if (index === -1) return
+				if (index === -1) return
 
-					elements.button.forEach((_, i) => {
-						if (!clickState[i]) {
-							clickState[i] = { isClicked: false }
-						}
-					})
+				linterBtn[index + 1].scrollIntoView({ behavior: 'smooth', block: 'start' })
+			}
 
-					let timeout = null
+			function animate() {
+				handleTextWrite.writeAll()
 
-					if (!clickState[index].isClicked) {
-						timeout = setTimeout(() => {
-							clickState[index].isClicked = true
-						}, 700)
+				document.addEventListener('click', openHiddenEquipmentOnClick)
+				document.addEventListener('click', openHiddenLeinterOnClick)
+				document.addEventListener('click', climbUpLinterBtn)
+			}
 
-						elements.hiddenBox.forEach((_, i) => {
-							if (i !== index) {
-								closeElement(i)
-							}
+			function reset() {
+				handleTextWrite.resetAll()
+
+				img.forEach(el => el.classList.remove('uses-img--open'))
+				hideEquipmentElement.forEach(el => el.classList.remove('uses-equipment__hidden-group--open'))
+				hideLinterElement.forEach((el, index) => {
+					el.style.height = 0
+
+					if (isLinterOpen[index]?.timeout) {
+						clearTimeout(isLinterOpen[index]?.timeout)
+
+						isLinterOpen[index].timeout = null
+					}
+
+					if (!isLinterOpen[index].isOpen) {
+						isLinterOpen[index] = { isOpen: false }
+					}
+				})
+
+				document.removeEventListener('click', openHiddenEquipmentOnClick)
+				document.removeEventListener('click', openHiddenLeinterOnClick)
+				document.removeEventListener('click', climbUpLinterBtn)
+			}
+
+			createAnimation(setId.ids, setId.elementKeys, setId.startingHeight, animate, reset)
+		}
+
+		btnsAnimate()
+
+		function copyText() {
+			const btns = [...copyBtn]
+			const texts = [...code]
+
+			let isClicked = false
+
+			function showModalWindow(message, classes) {
+				if (isModalVisible) return
+				isModalVisible = true
+
+				const modalWindow = document.createElement('div')
+				modalWindow.classList.add(...classes)
+				modalWindow.textContent = message
+				document.body.appendChild(modalWindow)
+
+				setTimeout(() => {
+					modalWindow.remove()
+					isModalVisible = false
+				}, 2000)
+			}
+
+			function cleanText(text) {
+				let cleanedText = text.replace(/<\/?[^>]+(>|$)/g, '')
+				cleanedText = cleanedText.replace(/\s+/g, ' ').trim()
+				return cleanedText
+			}
+
+			btns.forEach((element, index) => {
+				element.addEventListener('click', () => {
+					if (isClicked) return
+					isClicked = true
+
+					let textToCopy = texts[index].textContent
+					textToCopy = cleanText(textToCopy)
+
+					try {
+						const jsonObject = JSON.parse(textToCopy)
+						textToCopy = JSON.stringify(jsonObject, null, '\t')
+					} catch (error) {
+						console.warn('Текст не является валидным JSON:', textToCopy)
+					}
+
+					navigator.clipboard
+						.writeText(textToCopy)
+						.then(() => {
+							const message = isLanguageRussian ? 'Текст скопирован' : 'Text Copied'
+							const font = isLanguageRussian ? ['uses-linters__modal-window', 'russian-font', 'uses-linters__modal-window--rus-lang'] : ['uses-linters__modal-window']
+							showModalWindow(message, font)
 						})
-
-						elements.text[index].classList.add('equipment-content__text--open')
-
-						elements.hiddenBox[index].classList.add('equipment-content__hidden-box--open')
-						elements.hiddenBox[index].classList.remove('equipment-content__hidden-box--close')
-
-						elements.button[index].classList.add('equipment-content__button--open')
-
-						elements.img[index].classList.add('equipment-content__img--open')
-						elements.img[index].classList.remove('equipment-content__img--close')
-
-						elements.hiddenImg[index].classList.add('equipment-content__hidden-img--animate')
-						elements.hiddenText[index].classList.add('equipment-content__hidden-text--animate')
-
-						setTimeout(() => {
-							elements.button[index].scrollIntoView({ behavior: 'smooth', block: 'center' })
-						}, 400)
-					} else {
-						closeElement(index)
-
-						setTimeout(() => {
-							elements.button[index].scrollIntoView({ behavior: 'smooth' })
-						}, 400)
-					}
-				}
-
-				function animate() {
-					document.addEventListener('click', openHiddenMenu)
-
-					handleAnimation()
-				}
-
-				function reset() {
-					elements.item.forEach((_, index) => {
-						elements.item[index].classList.remove('equipment-content__item--animate', 'equipment-content__item--scroll-animate')
-						elements.text[index].classList.remove('equipment-content__text--animate', 'equipment-content__text--scroll-animate', 'equipment-content__text--open')
-						elements.img[index].classList.remove('equipment-content__img--animate', 'equipment-content__img--open', 'equipment-content__img--scroll-animate')
-						elements.button[index].classList.remove('equipment-content__button--animate', 'equipment-content__img--scroll-animate', 'equipment-content__button--open')
-						elements.hiddenBox[index].classList.remove('equipment-content__hidden-box--open')
-						elements.hiddenText[index].classList.remove('equipment-content__hidden-text--animate')
-						elements.hiddenImg[index].classList.remove('equipment-content__hidden-img--animate')
-
-						if (animationStart[index]) {
-							animationStart[index] = { isEnded: false, timeouts: null }
-						}
-
-						if (animationStart[index]?.timeout) {
-							clearTimeout(animationStart[index].timeout)
-							animationStart[index] = { timeout: null }
-						}
-
-						if (clickState[index]) {
-							clickState[index].isClicked = false
-						}
-					})
-
-					document.removeEventListener('click', removeEventListener)
-				}
-
-				function scrollAnimate(_, index) {
-					elements.item[index].classList.add('equipment-content__item--scroll-animate')
-					elements.text[index].classList.add('equipment-content__text--scroll-animate')
-					elements.img[index].classList.add('equipment-content__img--scroll-animate')
-				}
-
-				function scrollReset(_, index) {
-					elements.item[index].classList.remove('equipment-content__item--scroll-animate')
-					elements.text[index].classList.remove('equipment-content__text--scroll-animate')
-					elements.img[index].classList.remove('equipment-content__img--scroll-animate')
-				}
-
-				handleAnimationOnScroll(elements.item, 'equipment-content__item--animate', elementKeys, scrollAnimate, scrollReset)
-				createAnimation(ids, elementKeys, startHeight, animate, reset)
-			}
-
-			equipmentAnimate()
-		}
-
-		equipment()
-
-		function software() {
-			function title() {
-				const title = document.getElementById('software-title')
-
-				const ids = [title]
-				const elementKeys = ['software-title']
-				const startHeight = 50
-
-				function animate() {
-					title.classList.add('software__title--animate')
-				}
-
-				function reset() {
-					title.classList.remove('software__title--animate', 'software__title--scroll-animate')
-				}
-
-				function scrollAnimate() {
-					title.classList.add('software__title--scroll-animate')
-				}
-
-				function scrollReset() {
-					title.classList.remove('software__title--scroll-animate')
-				}
-
-				handleAnimationOnScroll(ids, 'software__title--animate', elementKeys, scrollAnimate, scrollReset)
-				createAnimation(ids, elementKeys, startHeight, animate, reset)
-			}
-
-			title()
-
-			function softwareAnimate() {
-				const queryElements = {
-					item: document.querySelectorAll('.software-content__item'),
-					text: document.querySelectorAll('.software-content__text'),
-					img: document.querySelectorAll('.software-content__img'),
-				}
-
-				const ids = []
-				const elementKeys = []
-				const startingHeight = 0
-
-				const textKeys = []
-				const imgKeys = []
-
-				queryElements.item.forEach((_, index) => {
-					const elementId = document.getElementById(`software-item-${index}`)
-
-					ids.push(elementId)
-
-					imgKeys.push(`software-content-img-${index}`)
-					textKeys.push(`software-content-text-${index}`)
-					elementKeys.push(`software-item-${index}`)
-				})
-
-				const animationStart = {}
-				const visibleIndexes = []
-
-				function animate() {
-					queryElements.item.forEach((_, index) => {
-						if (!animationStart[index]) {
-							animationStart[index] = { isEnded: false, timeout: null }
-						}
-
-						if (seenElements.has(elementKeys[index])) {
-							if (!animationStart[index].isEnded) {
-								animationStart[index].isEnded = true
-
-								visibleIndexes.push(index)
-
-								setTimeout(() => {
-									visibleIndexes.length = 0
-								}, 400)
-
-								const delay = visibleIndexes.indexOf(index) * 200
-
-								animationStart[index].timeout = setTimeout(() => {
-									queryElements.img[index].classList.add('software-content__img--animate')
-									queryElements.text[index].classList.add('software-content__text--animate')
-								}, delay)
-							}
-						}
-					})
-				}
-
-				function reset() {
-					queryElements.item.forEach((_, index) => {
-						queryElements.img[index].classList.remove('software-content__img--animate', 'software-content__img--scroll-animate')
-						queryElements.text[index].classList.remove('software-content__text--animate', 'software-content__text--scroll-animate')
-
-						animationStart[index] = { isEnded: false, timeout: null }
-
-						if (animationStart[index]?.timeout) {
-							clearTimeout(animationStart[index].timeout)
-							animationStart[index] = { timeout: null }
-						}
-					})
-
-					visibleIndexes.length = 0
-				}
-
-				function scrollTextAnimate(_, index) {
-					queryElements.text[index].classList.add('software-content__text--scroll-animate')
-				}
-
-				function scrollTextReset(_, index) {
-					queryElements.text[index].classList.remove('software-content__text--scroll-animate')
-				}
-
-				function scrollImgAnimate(_, index) {
-					queryElements.img[index].classList.add('software-content__img--scroll-animate')
-				}
-
-				function scrollImgReset(_, index) {
-					queryElements.img[index].classList.remove('software-content__img--scroll-animate')
-				}
-
-				handleAnimationOnScroll(queryElements.img, 'software-content__img--animate', imgKeys, scrollImgAnimate, scrollImgReset)
-				handleAnimationOnScroll(queryElements.text, 'software-content__text--animate', textKeys, scrollTextAnimate, scrollTextReset)
-				createAnimation(ids, elementKeys, startingHeight, animate, reset)
-			}
-
-			softwareAnimate()
-		}
-
-		software()
-
-		function linters() {
-			function lineAnimate() {
-				const lines = document.querySelectorAll('.uses-line')
-
-				const ids = []
-				const elementKeys = []
-				const startHeight = 30
-
-				lines.forEach((_, index) => {
-					const id = document.getElementById(`uses-line-${index}`)
-
-					ids.push(id)
-					elementKeys.push(`uses-line-${index}`)
-				})
-
-				function animate() {
-					lines.forEach((element, index) => {
-						if (seenElements.has(elementKeys[index])) {
-							element.classList.add('uses-line--animate')
-						}
-					})
-				}
-
-				function reset() {
-					lines.forEach(element => {
-						element.classList.remove('uses-line--animate', 'uses-line--scroll-animate')
-					})
-				}
-
-				function scrollAnimate(element) {
-					element.classList.add('uses-line--scroll-animate')
-				}
-
-				function scrollReset(element) {
-					element.classList.remove('uses-line--scroll-animate')
-				}
-
-				handleAnimationOnScroll(lines, 'uses-line--animate', elementKeys, scrollAnimate, scrollReset)
-				createAnimation(ids, elementKeys, startHeight, animate, reset)
-			}
-
-			lineAnimate()
-
-			function title() {
-				const title = document.getElementById('linters-title')
-
-				const ids = [title]
-				const elementKeys = ['linters-title']
-				const startHeight = 30
-
-				function animate() {
-					title.classList.add('linters__title--animate')
-				}
-
-				function reset() {
-					title.classList.remove('linters__title--animate', 'linters__title--scroll-animate')
-				}
-
-				function scrollAnimate() {
-					title.classList.add('linters__title--scroll-animate')
-				}
-
-				function scrollReset() {
-					title.classList.remove('linters__title--scroll-animate')
-				}
-
-				handleAnimationOnScroll(ids, 'linters__title--animate', elementKeys, scrollAnimate, scrollReset)
-				createAnimation(ids, elementKeys, startHeight, animate, reset)
-			}
-
-			title()
-
-			function subtitles() {
-				const subtitles = document.querySelectorAll('.linters__subtitle')
-
-				const ids = []
-				const elementKeys = []
-				const startHeight = 0
-
-				subtitles.forEach((_, index) => {
-					const id = document.getElementById(`linters-subtitle-${index}`)
-
-					elementKeys.push(`linters__subtitle-${index}`)
-
-					ids.push(id)
-				})
-
-				const timeouts = []
-				const animation = {}
-				const visibleIndexes = []
-
-				function animate() {
-					subtitles.forEach((_, index) => {
-						if (seenElements.has(elementKeys[index])) {
-							if (!animation[index]) {
-								animation[index] = { isAnimated: false }
-							}
-
-							if (!animation[index].isAnimated) {
-								animation[index].isAnimated = true
-
-								visibleIndexes.push(index)
-
-								setTimeout(() => {
-									visibleIndexes.length = 0
-								}, 200)
-
-								const delay = visibleIndexes.indexOf(index) * 100
-
-								const timeout = setTimeout(() => {
-									subtitles[index].classList.add('linters__subtitle--animate')
-								}, delay)
-
-								timeouts.push(timeout)
-							}
-						}
-					})
-				}
-
-				function reset() {
-					subtitles.forEach((element, index) => {
-						element.classList.remove('linters__subtitle--animate', 'linters__subtitle--scroll-animate')
-
-						animation[index] = { isAnimated: false }
-
-						clearTimeout(timeouts[index])
-					})
-
-					timeouts.length = 0
-				}
-
-				function scrollAnimate(element) {
-					element.classList.add('linters__subtitle--scroll-animate')
-				}
-
-				function scrollReset(element) {
-					element.classList.remove('linters__subtitle--scroll-animate')
-				}
-
-				handleAnimationOnScroll(ids, 'linters__subtitle--animate', elementKeys, scrollAnimate, scrollReset)
-				createAnimation(ids, elementKeys, startHeight, animate, reset)
-			}
-
-			subtitles()
-
-			function settingsTitleAnimate() {
-				const subtitle = document.getElementById('settings-linters-subtitle')
-				const titleH4 = document.getElementById('settings-linters-h4-title')
-
-				const ids = [subtitle, titleH4]
-				const elementKey = ['settings-linters-subtitle', 'settings-linters-h4-title']
-				const startHeight = 80
-
-				function animate() {
-					subtitle.classList.add('settings-linters__subtitle--animate')
-					titleH4.classList.add('settings-linters__h4-title--animate')
-				}
-
-				function reset() {
-					subtitle.classList.remove('settings-linters__subtitle--animate', 'settings-linters__subtitle--scroll-animate')
-					titleH4.classList.remove('settings-linters__h4-title--animate', 'settings-linters__h4-title-scroll--animate')
-				}
-
-				function scrollAnimate(element, index) {
-					ids[0].classList.add('settings-linters__subtitle--scroll-animate')
-					ids[1].classList.add('settings-linters__h4-title-scroll--animate')
-				}
-
-				function scrollReset(element, index) {
-					ids[0].classList.remove('settings-linters__subtitle--scroll-animate')
-					ids[1].classList.remove('settings-linters__h4-title-scroll--animate')
-				}
-
-				handleAnimationOnScroll(ids, 'settings-linters__subtitle--animate', elementKey, scrollAnimate, scrollReset)
-				createAnimation(ids, elementKey, startHeight, animate, reset)
-			}
-
-			settingsTitleAnimate()
-
-			function settingsAnimate() {
-				const queryElements = {
-					item: document.querySelectorAll('.settings-linters__item'),
-					text: document.querySelectorAll('.settings-linters__text'),
-					btn: document.querySelectorAll('.settings-linters__btn'),
-					img: document.querySelectorAll('.settings-linters__img'),
-					hiddenBox: document.querySelectorAll('.settings-linters__hidden-box'),
-					hiddenText: document.querySelectorAll('.settings-linters__hidden-text'),
-					hiddenBtn: document.querySelectorAll('.settings-linters__hidden-btn'),
-					hiddenScrollBtn: document.querySelectorAll('.settings-linters__up-btn'),
-				}
-
-				const ids = []
-				const elementKeys = []
-				const startHeight = 20
-
-				queryElements.item.forEach((_, index) => {
-					const id = document.getElementById(`settings-linters-item-${index}`)
-
-					ids.push(id)
-					elementKeys.push(`settings-linters-item-${index}`)
-				})
-
-				queryElements.hiddenBox.forEach((element, index) => {
-					element.classList.add(`settings-linters__hidden-box-${index}`)
-				})
-
-				const clickState = {}
-				const visibleIndexes = []
-				const animationStart = {}
-
-				function handleAnimation() {
-					queryElements.item.forEach((_, index) => {
-						if (!animationStart[index]) {
-							animationStart[index] = { isEnded: false, timeout: null }
-						}
-
-						if (seenElements.has(elementKeys[index])) {
-							if (!animationStart[index].isEnded) {
-								animationStart[index].isEnded = true
-
-								visibleIndexes.push(index)
-
-								setTimeout(() => {
-									visibleIndexes.length = 0
-								}, 240)
-
-								const delay = visibleIndexes.indexOf(index) * 120
-
-								const timeout = setTimeout(() => {
-									queryElements.item[index].classList.add('settings-linters__item--animate')
-									queryElements.text[index].classList.add('settings-linters__text--animate')
-									queryElements.img[index].classList.add('settings-linters__img--animate')
-								}, delay)
-
-								animationStart[index].timeout = timeout
-							}
-						}
-					})
-				}
-
-				function handleHiddenBoxOpen(event) {
-					const index = [...queryElements.btn].indexOf(event.target)
-
-					if (index === -1) return
-
-					if (!clickState[index]) {
-						clickState[index] = { isClicked: false, timeout: null }
-					}
-
-					if (index !== -1 && queryElements.btn[index] === event.target) {
-						if (!clickState[index].isClicked) {
-							clickState[index].timeout = setTimeout(() => {
-								clickState[index].isClicked = true
-							}, 1000)
-
-							setTimeout(() => {
-								queryElements.btn[index].scrollIntoView({ behavior: 'smooth' })
-							}, 520)
-
-							queryElements.hiddenBox[index].style.height = `${queryElements.hiddenBox[index].scrollHeight}px`
-
-							queryElements.text[index].classList.add('settings-linters__text--open')
-							queryElements.item[index].classList.add('settings-linters__item--open')
-
-							queryElements.hiddenBox[index].classList.add('settings-linters__hidden-box--animate')
-							queryElements.btn[index].classList.add('settings-linters__btn--animate')
-
-							queryElements.img[index].classList.remove('settings-linters__img--close')
-
-							queryElements.img[index].classList.add('settings-linters__img--open')
-						} else {
-							clickState[index].timeout = setTimeout(() => {
-								clickState[index].isClicked = false
-							}, 1000)
-
-							setTimeout(() => {
-								queryElements.btn[index].scrollIntoView({ behavior: 'smooth', block: 'center' })
-							}, 500)
-
-							const currentHeight = queryElements.hiddenBox[index].scrollHeight
-							queryElements.hiddenBox[index].style.height = `${currentHeight}px`
-
-							queryElements.hiddenBox[index].style.height = '0px'
-
-							queryElements.text[index].classList.remove('settings-linters__text--open')
-							queryElements.item[index].classList.remove('settings-linters__item--open')
-
-							queryElements.img[index].classList.remove('settings-linters__img--open')
-
-							queryElements.img[index].classList.add('settings-linters__img--close')
-
-							setTimeout(() => {
-								queryElements.img[index].classList.remove('settings-linters__img--close')
-							}, 900)
-
-							queryElements.btn[index].classList.remove('settings-linters__btn--animate')
-							queryElements.hiddenBox[index].classList.remove('settings-linters__hidden-box--animate')
-						}
-					}
-				}
-
-				function handleCloseBoxOnResize() {
-					queryElements.item.forEach((_, index) => {
-						queryElements.text[index].classList.remove('settings-linters__text--open')
-						queryElements.item[index].classList.remove('settings-linters__item--open')
-						queryElements.img[index].classList.remove('settings-linters__img--open')
-						queryElements.img[index].classList.add('settings-linters__img--close')
-						queryElements.btn[index].classList.remove('settings-linters__btn--animate')
-						queryElements.hiddenBox[index].classList.remove('settings-linters__hidden-box--animate')
-
-						setTimeout(() => {
-							queryElements.img[index].classList.remove('settings-linters__img--close')
-						}, 900)
-
-						queryElements.hiddenBox[index].removeAttribute('style')
-
-						if (clickState[index]?.timeout) {
-							clearTimeout(clickState[index].timeout)
-						}
-
-						if (clickState[index]) {
-							clickState[index] = { isOpen: false, timeout: null }
-						}
-					})
-				}
-
-				function handleScrollUpOnClick(event) {
-					const index = [...queryElements.hiddenScrollBtn].indexOf(event.target)
-
-					if (index !== -1 && queryElements.hiddenScrollBtn[index] === event.target) {
-						queryElements.btn[index + 1].scrollIntoView({ behavior: 'smooth' })
-					}
-				}
-
-				let isModalVisible = false
-
-				function copyText() {
-					const btns = [...queryElements.hiddenBtn]
-					const texts = [...queryElements.hiddenText]
-
-					let isClicked = false
-
-					function showModalWindow(message) {
-						if (isModalVisible) return
-						isModalVisible = true
-
-						const modalWindow = document.createElement('div')
-						modalWindow.className = 'linters__modal-window'
-						modalWindow.textContent = message
-						document.body.appendChild(modalWindow)
-
-						setTimeout(() => {
-							modalWindow.remove()
-							isModalVisible = false
-						}, 2000)
-					}
-
-					function cleanText(text) {
-						let cleanedText = text.replace(/<\/?[^>]+(>|$)/g, '')
-						cleanedText = cleanedText.replace(/\s+/g, ' ').trim()
-						return cleanedText
-					}
-
-					btns.forEach((element, index) => {
-						element.addEventListener('click', () => {
-							if (isClicked) return
-							isClicked = true
-
-							let textToCopy = texts[index].textContent
-							textToCopy = cleanText(textToCopy)
-
-							try {
-								const jsonObject = JSON.parse(textToCopy)
-								textToCopy = JSON.stringify(jsonObject, null, '\t')
-							} catch (error) {
-								console.warn('Текст не является валидным JSON:', textToCopy)
-							}
-
-							navigator.clipboard
-								.writeText(textToCopy)
-								.then(() => {
-									showModalWindow(isLanguageRussian ? 'Текст скопирован' : 'Text Copied')
-								})
-								.catch(() => {
-									showModalWindow(isLanguageRussian ? 'Ошибка копирования' : 'Copy Error')
-								})
-								.finally(() => {
-									setTimeout(() => {
-										isClicked = false
-									}, 2000)
-								})
+						.catch(() => {
+							const message = isLanguageRussian ? 'Ошибка копирования' : 'Copy Error'
+							const font = isLanguageRussian ? ['uses-linters__modal-window', 'russian-font', 'uses-linters__modal-window--rus-lang'] : ['uses-linters__modal-window']
+							showModalWindow(message, font)
 						})
-					})
-				}
-
-				function animate() {
-					document.addEventListener('click', handleHiddenBoxOpen)
-					document.addEventListener('click', handleScrollUpOnClick)
-					window.addEventListener('resize', handleCloseBoxOnResize)
-
-					handleAnimation()
-					copyText()
-				}
-
-				function reset() {
-					queryElements.item.forEach((_, index) => {
-						queryElements.item[index].classList.remove('settings-linters__item--animate', 'settings-linters__item--scroll-animate')
-						queryElements.text[index].classList.remove('settings-linters__text--animate', 'settings-linters__text--open', 'settings-linters__text--scroll-animate')
-						queryElements.img[index].classList.remove('settings-linters__img--animate', 'settings-linters__img--close', 'settings-linters__img--open', 'settings-linters__img--scroll-animate')
-						queryElements.btn[index].classList.remove('settings-linters__btn--animate')
-						queryElements.hiddenBox[index].classList.remove('settings-linters__hidden-box--animate')
-
-						if (animationStart[index]?.timeout) {
-							clearTimeout(animationStart[index].timeout)
-							animationStart[index].timeout = null
-						}
-
-						animationStart[index] = { isEnded: false, timeout: null }
-
-						if (clickState[index]?.timeout) {
-							clearTimeout(clickState[index].timeout)
-							clickState[index].timeout = 0
-						}
-
-						clickState[index] = { isClicked: false, timeout: null }
-					})
-
-					visibleIndexes.length = 0
-
-					document.removeEventListener('click', handleHiddenBoxOpen)
-					document.removeEventListener('click', handleScrollUpOnClick)
-					window.removeEventListener('resize', handleCloseBoxOnResize)
-				}
-
-				function scrollAnimate(element, index) {
-					element.classList.add('settings-linters__text--scroll-animate')
-					queryElements.img[index].classList.add('settings-linters__img--scroll-animate')
-					queryElements.item[index].classList.add('settings-linters__item--scroll-animate')
-				}
-
-				function scrollReset(element, index) {
-					element.classList.remove('settings-linters__text--scroll-animate')
-					queryElements.img[index].classList.remove('settings-linters__img--scroll-animate')
-					queryElements.item[index].classList.remove('settings-linters__item--scroll-animate')
-				}
-
-				handleAnimationOnScroll(queryElements.text, 'settings-linters__text--animate', elementKeys, scrollAnimate, scrollReset)
-				createAnimation(ids, elementKeys, startHeight, animate, reset)
-			}
-
-			settingsAnimate()
-
-			function pluginsTitleAnimate() {
-				const title = document.getElementById('plugins-linters-subtitle')
-				const subtitle = document.getElementById('plugins-linters-h4-title')
-
-				const ids = [title, subtitle]
-				const elementKeys = ['plugins-linters-subtitle', 'plugins-linters-h4-title']
-				const startHeight = 30
-
-				function animate() {
-					title.classList.add('plugins-linters__subtitle--animate')
-					subtitle.classList.add('plugins-linters__h4-title--animate')
-				}
-
-				function reset() {
-					title.classList.remove('plugins-linters__subtitle--animate', 'plugins-linters__subtitle--scroll-animate')
-					subtitle.classList.remove('plugins-linters__h4-title--animate', 'plugins-linters__h4-title--scroll-animate')
-				}
-
-				function scrollAnimate() {
-					title.classList.add('plugins-linters__subtitle--scroll-animate')
-					subtitle.classList.add('plugins-linters__h4-title--scroll-animate')
-				}
-
-				function scrollReset() {
-					title.classList.remove('plugins-linters__subtitle--scroll-animate')
-					subtitle.classList.remove('plugins-linters__h4-title--scroll-animate')
-				}
-
-				handleAnimationOnScroll(ids, 'plugins-linters__subtitle--animate', elementKeys, scrollAnimate, scrollReset)
-				createAnimation(ids, elementKeys, startHeight, animate, reset)
-			}
-
-			pluginsTitleAnimate()
-
-			function pluginsAnimate() {
-				const queryElements = {
-					item: document.querySelectorAll('.plugins-linters__item'),
-					text: document.querySelectorAll('.plugins-linters__text'),
-					btn: document.querySelectorAll('.plugins-linters__btn'),
-					img: document.querySelectorAll('.plugins-linters__img'),
-					hiddenBox: document.querySelectorAll('.plugins-linters__hidden-box'),
-					hiddenText: document.querySelectorAll('.plugins-linters__hidden-text'),
-				}
-
-				const ids = []
-				const elementKeys = []
-				const startHeight = 30
-
-				queryElements.item.forEach((_, index) => {
-					const id = document.getElementById(`plugins-linters-item-${index}`)
-
-					ids.push(id)
-					elementKeys.push(`plugins-linters-item-${index}`)
+						.finally(() => {
+							setTimeout(() => {
+								isClicked = false
+							}, 2000)
+						})
 				})
-
-				const animationStart = {}
-				const visibleIndexes = []
-
-				function handleAnimation() {
-					queryElements.item.forEach((_, index) => {
-						if (seenElements.has(elementKeys[index])) {
-							if (!animationStart[index]) {
-								animationStart[index] = { isEnded: false, timeout: null }
-							}
-
-							if (!animationStart[index].isEnded) {
-								animationStart[index].isEnded = true
-
-								visibleIndexes.push(index)
-
-								setTimeout(() => {
-									visibleIndexes.length = 0
-								}, 120)
-
-								const delay = visibleIndexes.indexOf(index) * 120
-
-								animationStart[index].timeout = setTimeout(() => {
-									queryElements.item[index].classList.add('plugins-linters__item--animate')
-									queryElements.text[index].classList.add('plugins-linters__text--animate')
-									queryElements.img[index].classList.add('plugins-linters__img--animate')
-								}, delay)
-							}
-						}
-					})
-				}
-
-				const clickState = {}
-
-				function handleOpenAnimation(event) {
-					const index = [...queryElements.btn].indexOf(event.target)
-
-					if (index !== -1 && queryElements.btn[index] === event.target) {
-						if (!clickState[index]) {
-							clickState[index] = { isOpen: false, timeout: null }
-						}
-
-						if (!clickState[index].isOpen) {
-							clickState[index].timeout = setTimeout(() => {
-								clickState[index].isOpen = true
-							}, 1000)
-
-							setTimeout(() => {
-								queryElements.hiddenBox[index].scrollIntoView({ behavior: 'smooth', block: 'center' })
-							}, 500)
-
-							queryElements.btn[index].classList.add('plugins-linters__btn--open')
-							queryElements.text[index].classList.add('plugins-linters__text--open')
-							queryElements.img[index].classList.add('plugins-linters__img--open')
-							queryElements.item[index].classList.add('plugins-linters__item--open')
-
-							const currentHeight = queryElements.hiddenBox[index].scrollHeight
-							queryElements.hiddenBox[index].style.cssText = `
-								height: ${currentHeight + 40}px;
-								padding: 20px 20px;
-							`
-						} else {
-							clickState[index].timeout = setTimeout(() => {
-								clickState[index].isOpen = false
-							}, 1000)
-
-							queryElements.item[index].classList.remove('plugins-linters__item--open')
-							queryElements.btn[index].classList.remove('plugins-linters__btn--open')
-							queryElements.text[index].classList.remove('plugins-linters__text--open')
-							queryElements.img[index].classList.remove('plugins-linters__img--open')
-
-							setTimeout(() => {
-								queryElements.btn[index].scrollIntoView({ behavior: 'smooth', block: 'center' })
-							}, 600)
-
-							queryElements.hiddenBox[index].style.cssText = `
-								height: 0px;
-								padding: 0 20px;
-							`
-						}
-					}
-				}
-
-				function handleCloseBoxOnResize() {
-					queryElements.item.forEach((_, index) => {
-						queryElements.item[index].classList.remove('plugins-linters__item--open')
-						queryElements.btn[index].classList.remove('plugins-linters__btn--open')
-						queryElements.text[index].classList.remove('plugins-linters__text--open')
-						queryElements.img[index].classList.remove('plugins-linters__img--open')
-
-						queryElements.hiddenBox[index].removeAttribute('style')
-
-						if (clickState[index]?.timeout) {
-							clearTimeout(clickState[index].timeout)
-						}
-
-						if (clickState[index]) {
-							clickState[index] = { isOpen: false, timeout: null }
-						}
-					})
-				}
-
-				function animate() {
-					document.addEventListener('click', handleOpenAnimation)
-					window.addEventListener('resize', handleCloseBoxOnResize)
-
-					handleAnimation()
-				}
-
-				function reset() {
-					queryElements.item.forEach((_, index) => {
-						queryElements.item[index].classList.remove('plugins-linters__item--animate', 'plugins-linters__item--scroll-animate', 'plugins-linters__item--open')
-						queryElements.text[index].classList.remove('plugins-linters__text--animate', 'plugins-linters__text--open', 'plugins-linters__text--scroll-animate')
-						queryElements.img[index].classList.remove('plugins-linters__img--animate', 'plugins-linters__img--open', 'plugins-linters__img--scroll-animate')
-						queryElements.btn[index].classList.remove('plugins-linters__btn--open')
-
-						queryElements.hiddenBox[index].removeAttribute('style')
-
-						if (animationStart[index]?.timeout) {
-							clearTimeout(animationStart[index].timeout)
-						}
-
-						if (animationStart[index]) {
-							animationStart[index] = { isEnded: false, timeout: null }
-						}
-
-						if (clickState[index]?.timeout) {
-							clearTimeout(clickState[index].timeout)
-						}
-
-						if (clickState[index]) {
-							clickState[index] = { isOpen: false, timeout: null }
-						}
-					})
-
-					visibleIndexes.length = 0
-
-					document.removeEventListener('click', handleOpenAnimation)
-					window.removeEventListener('resize', handleCloseBoxOnResize)
-				}
-
-				function scrollAnimate(_, index) {
-					queryElements.item[index].classList.add('plugins-linters__item--scroll-animate')
-					queryElements.text[index].classList.add('plugins-linters__text--scroll-animate')
-					queryElements.img[index].classList.add('plugins-linters__img--scroll-animate')
-				}
-
-				function scrollReset(_, index) {
-					queryElements.item[index].classList.remove('plugins-linters__item--scroll-animate')
-					queryElements.text[index].classList.remove('plugins-linters__text--scroll-animate')
-					queryElements.img[index].classList.remove('plugins-linters__img--scroll-animate')
-				}
-
-				handleAnimationOnScroll(ids, 'plugins-linters__item--animate', elementKeys, scrollAnimate, scrollReset)
-				createAnimation(ids, elementKeys, startHeight, animate, reset)
-			}
-
-			pluginsAnimate()
+			})
 		}
 
-		linters()
+		copyText()
 	}
 
 	function resumePageEveents() {
-		sameElementsAnimation('.resume-title', 'resume-title', ['resume-title--animate'], 50)
-		sameElementsAnimation('.resume-btn-box', 'resume-btn', ['resume-btn-box--animate'], 50)
-		sameElementsAnimation('.resume-feedback__input-box', 'resume-feedback-input-box', ['resume-feedback__input-box--animate'], 20)
-		sameElementsAnimation('.resume-subtitle', 'resume-subtitle', ['resume-subtitle--animate'], 50)
+		sameElementsAnimation('.resume-title', 'resume-title', ['resume-title--animate'], 80, null)
+		sameElementsAnimation('.resume-btn-box', 'resume-btn', ['resume-btn-box--animate'], 80, null)
+		sameElementsAnimation('.resume-feedback__input-box', 'resume-feedback-input-box', ['resume-feedback__input-box--animate'], 20, null)
+		sameElementsAnimation('.resume-subtitle', 'resume-subtitle', ['resume-subtitle--animate'], 80, null)
 
 		function gettingAnimate() {
-			singleElementsAnimation('resume-getting-title', 0, ['resume-getting__title--animate'])
+			singleElementsAnimation('resume-getting-title', 80, ['resume-getting__title--animate'])
 
 			function subtitle() {
 				const subtitles = document.querySelectorAll('.resume-getting__subtitle')
-				const setIds = addId(subtitles, 'resume-getting-subtitle', 0)
+				const setIds = addId(subtitles, 'resume-getting-subtitle', 80)
 
 				const isAnimation = {}
 
@@ -3648,7 +2539,7 @@ function main() {
 							isAnimation[index].timeout = null
 						}
 
-						if (isAnimation[index].animated) {
+						if (isAnimation[index]?.animated) {
 							isAnimation[index].animated = false
 						}
 
@@ -3709,7 +2600,7 @@ function main() {
 				const en = ['Name', 'Email', 'Message']
 				const ru = ['Имя', 'Email', 'Сообщение']
 
-				const handleTextWrite = writeAndResetText(setId.ids, en, ru, 70, setId.elementKeys, null)
+				const handleTextWrite = writeAndResetText(setId.ids, en, ru, 70, setId.elementKeys, null, null)
 
 				function animate() {
 					form.classList.add('resume-feedback__form--animate')
@@ -3765,8 +2656,8 @@ function main() {
 		const timeouts = []
 
 		const handleTextWrite = [
-			writeAndResetText([name], ['Bakidjanov Sunnat'], ['Бакиджанов Суннат'], 50, ['footer-name'], ['footer__name--rus-lang']),
-			writeAndResetText([version], ['Version 1.0.0'], ['Версия 1.0.0'], 50, ['footer-version'], ['footer__version--rus-lang']),
+			writeAndResetText([name], ['Bakidjanov Sunnat'], ['Бакиджанов Суннат'], 50, ['footer-name'], ['footer__name--rus-lang'], null),
+			writeAndResetText([version], ['Version 1.0.0'], ['Версия 1.0.0'], 50, ['footer-version'], ['footer__version--rus-lang'], null),
 		]
 
 		function animate() {
@@ -3791,6 +2682,7 @@ function main() {
 		function reset() {
 			wrapper.classList.remove('footer__wrapper--animate')
 			symbol.classList.remove('footer__symbol--animate')
+			date.classList.remove('footer__date--animate')
 
 			handleTextWrite.forEach(text => {
 				text.resetAll()
@@ -3805,7 +2697,7 @@ function main() {
 	}
 
 	window.addEventListener('load', () => {
-		sameElementsAnimation('.line', 'line', ['line--animate'], 50)
+		sameElementsAnimation('.line', 'line', ['line--animate'], 50, null)
 		scrollLine()
 		setCurrentDate()
 
@@ -3836,18 +2728,54 @@ function main() {
 			const subtitlesGetting = document.querySelectorAll('.resume-getting__subtitle')
 			const subtitles = document.querySelectorAll('.resume-subtitle')
 			const titles = document.querySelectorAll('.resume-title')
+			const label = document.querySelectorAll('.resume-feedback__label')
+			const copyBtn = document.querySelectorAll('.uses-linters__copy-btn')
+			const pasteTextSpan = document.querySelectorAll('.uses-linters__paste-text--accent')
+			const pasteText = document.querySelectorAll('.uses-linters__paste-text')
 
 			manageClasses(subtitlesGetting, ['resume-getting__subtitle--rus-lang'], null)
 			manageClasses(subtitles, ['resume-subtitle--rus-lang'], null)
 			manageClasses(titles, ['resume-title--rus-lang'], null)
+			manageClasses(label, ['resume-feedback__label--rus-lang'], null)
+			manageClasses(copyBtn, ['uses-linters__copy-btn--rus-lang'], null)
+			manageClasses(pasteTextSpan, ['russian-font'], null)
+			manageClasses(pasteText, ['uses-linters__paste-text--rus-lang'], null)
 
 			manageClasses(null, ['resume-feedback__form-btn--rus-lang'], '.resume-feedback__form-btn')
 			manageClasses(null, ['resume-download__link--rus-lang'], '.resume-download__link')
 			manageClasses(null, ['resume-getting__title--rus-lang'], '.resume-getting__title')
-			manageClasses(null, ['resume-getting__wrapper--rus-lang'], '.resume-getting__wrapper')
+			manageClasses(null, ['resume-feedback__label--textarea-rus-lang'], '.resume-feedback__label--textarea')
 		}
 
 		resumeTextEdit()
+
+		function usesTextEdit() {
+			const titles = document.querySelectorAll('.uses-title')
+			const equipmentHideText = document.querySelectorAll('.uses-equipment__hidden-text')
+			const softwareText = document.querySelectorAll('.uses-software__text')
+			const linterTasksText = document.querySelectorAll('.uses-linters__task')
+
+			manageClasses(titles, ['uses-title--rus-lang'], null)
+			manageClasses(equipmentHideText, ['uses-equipment__hidden-text--rus-lang'], null)
+			manageClasses(softwareText, ['uses-software__text--rus-lang', 'russian-font'], null)
+			manageClasses(linterTasksText, ['uses-linters__task--rus-lang'], null)
+
+			manageClasses(null, ['uses-getting__title--rus-lang'], '.uses-getting__title')
+			manageClasses(null, ['uses-getting__subtitle--rus-lang'], '.uses-getting__subtitle')
+			manageClasses(null, ['uses-linters__settings-title--rus-lang'], '.uses-linters__settings-title')
+
+			function settingToggleClasses() {
+				const fontText = document.querySelector('.uses-linters__settings-subtitle--font-color')
+				const accentText = document.querySelector('.uses-linters__settings-subtitle--span')
+
+				fontText.classList.toggle('uses-linters__settings-subtitle--accent-color', isLanguageRussian)
+				accentText.classList.toggle('uses-linters__settings-subtitle--accent-color', !isLanguageRussian)
+			}
+
+			settingToggleClasses()
+		}
+
+		usesTextEdit()
 	})
 
 	window.addEventListener('orientationchange', () => {

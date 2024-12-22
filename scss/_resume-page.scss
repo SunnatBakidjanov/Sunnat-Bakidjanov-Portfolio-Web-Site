@@ -119,6 +119,7 @@ $resume-subtitles-font-weight: 600;
 	top: -80px;
 	display: flex;
 	align-items: center;
+	margin-bottom: 20px;
 	font-weight: $resume-subtitles-font-weight;
 	font-size: $resume-subtitles-font-size;
 	color: $resume-subtitle-color;
@@ -128,7 +129,7 @@ $resume-subtitles-font-weight: 600;
 
 .resume-subtitle--animate {
 	top: 0;
-	transition: top 0.8s ease-out 0.2s;
+	transition: top 1s ease-out 0.2s;
 }
 
 .resume-subtitle--rus-lang {
@@ -137,12 +138,11 @@ $resume-subtitles-font-weight: 600;
 }
 
 .resume-btn-box {
-	position: relative;
+	transform: translateY(10px);
 	background-color: $resume-btn-bg-color;
 	border-radius: 2px;
 	opacity: 0;
 	box-shadow: 0 0 4px $resume-btn-box-shadow-color;
-	transform: scale(0);
 	overflow: hidden;
 
 	&:hover {
@@ -151,11 +151,12 @@ $resume-subtitles-font-weight: 600;
 }
 
 .resume-btn-box--animate {
+	transform: translateY(0);
 	opacity: 1;
-	transform: scale(1);
 	transition:
-		transform 0.8s ease-out,
-		box-shadow 0.2s ease-out,
+		transform 1s ease-out,
+		opacity 1s ease-out,
+		box-shadow 0.2s ease,
 		width 0.4s ease;
 
 	&::after {
@@ -173,7 +174,9 @@ $resume-subtitles-font-weight: 600;
 	font-size: 32px;
 	color: $resume-btn-color;
 	background-color: transparent;
-	transition: letter-spacing 0.4s ease-out;
+	transition:
+		letter-spacing 0.2s ease,
+		color 0.2s ease;
 	border: none;
 	cursor: pointer;
 
@@ -336,8 +339,6 @@ $resume-subtitles-font-weight: 600;
 
 .resume-scroll {
 	&__wrapper {
-		display: flex;
-		align-items: center;
 		margin-left: 140px;
 		height: calc(100vh - 320px);
 		transition:
@@ -358,10 +359,6 @@ $resume-subtitles-font-weight: 600;
 	&__letter {
 		position: relative;
 		opacity: 0;
-		transition:
-			top 0.8s ease-out,
-			bottom 0.8s ease-out,
-			font-size 0.4s ease;
 	}
 
 	&__letter--top {
@@ -375,10 +372,12 @@ $resume-subtitles-font-weight: 600;
 	}
 
 	&__letter--animate-top {
+		transition: top 0.8s ease-out 0.2s;
 		top: 0;
 	}
 
 	&__letter--animate-bottom {
+		transition: bottom 0.8s ease-out 0.2s;
 		bottom: 0;
 	}
 
@@ -705,10 +704,6 @@ $resume-subtitles-font-weight: 600;
 			row-gap: 20px;
 		}
 
-		&__input {
-			font-size: 14px;
-		}
-
 		&__text {
 			height: 23px;
 			font-size: 18px;
@@ -737,6 +732,17 @@ $resume-subtitles-font-weight: 600;
 			padding: 25px 20px;
 			width: 100%;
 			row-gap: 15px;
+		}
+
+		&__label--rus-lang {
+			font-size: 12px;
+		}
+
+		&__input--textarea {
+			&:focus + .resume-feedback__label--textarea-rus-lang,
+			&:valid + .resume-feedback__label--textarea-rus-lang {
+				transform: scale(0.9) translateY(-18px) translateX(4px);
+			}
 		}
 
 		&__form-btn {
@@ -815,6 +821,7 @@ $resume-subtitles-font-weight: 600;
 	}
 
 	.resume-subtitle {
+		margin-bottom: 10px;
 		font-size: 20px;
 	}
 
