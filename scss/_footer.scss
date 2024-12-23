@@ -6,6 +6,7 @@ $gray: #a9a9a9;
 // var
 $footer-border-color: $white;
 $footer-text-color: $white;
+$footer-line-bg-color: $white;
 
 .footer {
 	&__wrapper {
@@ -61,6 +62,17 @@ $footer-text-color: $white;
 	&__name--rus-lang {
 		width: 220px;
 		letter-spacing: 0;
+	}
+
+	&__line {
+		width: 3px;
+		height: 0;
+		background-color: $footer-line-bg-color;
+	}
+
+	&__line--animate {
+		transition: height 0.4s ease-out;
+		height: 20px;
 	}
 
 	&__date {
@@ -128,6 +140,10 @@ $footer-text-color: $white;
 
 		&__name-box {
 			margin-right: 0;
+		}
+
+		&__line {
+			display: none;
 		}
 
 		&__date {

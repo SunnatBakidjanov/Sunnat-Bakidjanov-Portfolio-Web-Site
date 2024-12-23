@@ -2267,6 +2267,7 @@ function main() {
 
 		const copyBtn = document.querySelectorAll('.uses-linters__copy-btn')
 		const code = document.querySelectorAll('.uses-linters__code')
+
 		let isModalVisible = false
 
 		singleElementsAnimation('uses-getting-title', 0, ['uses-getting__title--animate'])
@@ -2325,10 +2326,15 @@ function main() {
 			const hideLinterElement = document.querySelectorAll('.uses-linters__hide-group')
 			const linterBtn = document.querySelectorAll('.uses-linters__btn')
 			const linterImg = document.querySelectorAll('.uses-linters__img')
+			const linterCode = document.querySelectorAll('.uses-linters__code')
 
 			const climbUpBtn = document.querySelectorAll('.uses-linters__up-btn')
 
-			const isLinterOpen = {}
+			const isLinterOpen = Array.from({ length: hideLinterElement.length }, () => ({
+				isOpen: false,
+				timeout: null,
+				codeTimeout: null,
+			}))
 
 			const setId = addId(texts, 'uses-text', 60)
 
@@ -2355,37 +2361,48 @@ function main() {
 				}
 			}
 
-			function openHiddenLeinterOnClick(event) {
+			function openHiddenLinterOnClick(event) {
 				const index = [...linterBtn].indexOf(event.target)
-
-				const element = hideLinterElement[index]
-				const images = linterImg[index]
 
 				if (index === -1) return
 
-				if (!isLinterOpen[index]) {
-					isLinterOpen[index] = { isOpen: false, timeout: null }
-				}
+				const element = hideLinterElement[index]
+				const images = linterImg[index]
+				const state = isLinterOpen[index]
 
 				const transitionDuration = Math.max(0.5, Math.min(element.scrollHeight / 1500, 1.5))
 				element.style.transition = `height ${transitionDuration}s ease-out`
 
-				isLinterOpen[index].isOpen = !isLinterOpen[index].isOpen
+				state.isOpen = !state.isOpen
 				images.classList.toggle('uses-img--open')
 
-				if (!isLinterOpen[index].isOpen) {
-					if (isLinterOpen[index].timeout) {
-						clearTimeout(isLinterOpen[index].timeout)
-					}
+				if (!state.isOpen) {
+					clearTimeout(state.timeout)
+					clearTimeout(state.codeTimeout)
 
+					linterCode[index].removeAttribute('style')
 					element.style.height = 0
 				} else {
-					element.style.height = `${hideLinterElement[index].scrollHeight}px`
+					element.style.height = `${element.scrollHeight}px`
 
-					isLinterOpen[index].timeout = setTimeout(() => {
+					state.timeout = setTimeout(() => {
 						linterBtn[index].scrollIntoView({ behavior: 'smooth', block: 'start' })
 					}, 550)
+
+					state.codeTimeout = setTimeout(() => {
+						linterCode[index].style.overflow = 'auto hidden'
+					}, 10)
 				}
+			}
+
+			function changeHeightLinterOnResize() {
+				hideLinterElement.forEach((element, index) => {
+					element.style.height = 0
+					isLinterOpen[index].isOpen = false
+					linterCode[index].removeAttribute('style')
+				})
+				hideEquipmentElement.forEach(element => element.classList.remove('uses-equipment__hidden-group--open'))
+				img.forEach(element => element.classList.remove('uses-img--open'))
 			}
 
 			function climbUpLinterBtn(event) {
@@ -2400,8 +2417,9 @@ function main() {
 				handleTextWrite.writeAll()
 
 				document.addEventListener('click', openHiddenEquipmentOnClick)
-				document.addEventListener('click', openHiddenLeinterOnClick)
+				document.addEventListener('click', openHiddenLinterOnClick)
 				document.addEventListener('click', climbUpLinterBtn)
+				window.addEventListener('resize', changeHeightLinterOnResize)
 			}
 
 			function reset() {
@@ -2411,21 +2429,23 @@ function main() {
 				hideEquipmentElement.forEach(el => el.classList.remove('uses-equipment__hidden-group--open'))
 				hideLinterElement.forEach((el, index) => {
 					el.style.height = 0
+					linterCode[index].removeAttribute('style')
 
-					if (isLinterOpen[index]?.timeout) {
-						clearTimeout(isLinterOpen[index]?.timeout)
+					if (isLinterOpen[index].timeout) {
+						clearTimeout(isLinterOpen[index].timeout)
 
 						isLinterOpen[index].timeout = null
 					}
 
-					if (!isLinterOpen[index].isOpen) {
-						isLinterOpen[index] = { isOpen: false }
+					if (isLinterOpen[index].isOpen) {
+						isLinterOpen[index].isOpen = false
 					}
 				})
 
 				document.removeEventListener('click', openHiddenEquipmentOnClick)
-				document.removeEventListener('click', openHiddenLeinterOnClick)
+				document.removeEventListener('click', openHiddenLinterOnClick)
 				document.removeEventListener('click', climbUpLinterBtn)
+				window.removeEventListener('resize', changeHeightLinterOnResize)
 			}
 
 			createAnimation(setId.ids, setId.elementKeys, setId.startingHeight, animate, reset)
@@ -2648,6 +2668,7 @@ function main() {
 		const version = document.getElementById('footer-version')
 		const wrapper = document.getElementById('footer-wrapper')
 		const symbol = document.getElementById('footer-symbol')
+		const line = document.getElementById('footer-line')
 
 		const ids = [wrapper, name, version]
 		const elementKeys = ['footer-wrapper', 'footer-name', 'footer-version']
@@ -2670,6 +2691,7 @@ function main() {
 
 			const dateTimeout = setTimeout(() => {
 				date.classList.add('footer__date--animate')
+				line.classList.add('footer__line--animate')
 			}, 600)
 
 			const versionTimeout = setTimeout(() => {
@@ -2683,6 +2705,7 @@ function main() {
 			wrapper.classList.remove('footer__wrapper--animate')
 			symbol.classList.remove('footer__symbol--animate')
 			date.classList.remove('footer__date--animate')
+			line.classList.remove('footer__line--animate')
 
 			handleTextWrite.forEach(text => {
 				text.resetAll()
