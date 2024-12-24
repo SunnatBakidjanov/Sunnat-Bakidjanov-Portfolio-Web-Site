@@ -9,20 +9,14 @@ $js-color: #f7df1e;
 $react-color: #61dafb;
 
 // my-name-section
-$my-name-title-color: $orange;
-$my-name-text-color: $white;
-
-// logo-section
-$logo-3d-box-shaodow-color: $white;
-
-// scroll-hmp-section
-$scroll-hmp-line-color: $white;
-$scroll-hmp-text-color: $white;
+$hmp-title-color: $orange;
+$hmp-accent-title-color: $white;
+$hmp-text-color: $white;
+$hmp-logo-3d-border-color: $white;
 
 // cards-section
-$cards-title-color: $orange;
-$cards-box-preserve-box-shadow-color: $white;
-$cards-box-circle-color: $white;
+$hmp-cards-circle-color: $white;
+$hmp-cards-text-color: $white;
 
 // projects-section
 $projects-title-color: $orange;
@@ -51,410 +45,365 @@ $exp-text-color: $white;
 	min-height: 100vh;
 }
 
-.getting {
-	.getting__wrapper {
+// Other components
+
+.hmp-getting {
+	&__wrapper {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		flex-wrap: wrap;
-		padding-top: 50px;
 		height: 400px;
+		flex-wrap: wrap;
 	}
 
-	.getting__inner-text {
-		margin-top: 20px;
+	&__inner-text {
+		margin-top: 70px;
 		margin-left: 30px;
-	}
-
-	.getting__inner-logo-3d {
-		margin-right: 20px;
-	}
-
-	.my-name {
 		overflow: hidden;
-
-		&__hidden-title {
-			overflow: hidden;
-		}
-
-		&__title {
-			position: relative;
-			left: -100%;
-			font-style: normal;
-			font-weight: 700;
-			line-height: 115%;
-			font-size: 55px;
-			color: $my-name-title-color;
-			letter-spacing: 0.5px;
-
-			& span {
-				color: $my-name-text-color;
-			}
-		}
-
-		&__title--scroll-animate {
-			opacity: 0.3;
-			transform: scale(0.95);
-		}
-
-		&__title--animate {
-			@keyframes my-name-title-left {
-				0% {
-					left: -100%;
-				}
-
-				100% {
-					left: 0%;
-				}
-			}
-
-			animation: my-name-title-left 1.3s forwards 0.3s ease;
-		}
-
-		&__text {
-			display: inline-block;
-			margin-top: 30px;
-			margin-bottom: 70px;
-			font-style: normal;
-			font-weight: 700;
-			font-size: 36px;
-			color: $my-name-text-color;
-			letter-spacing: 1px;
-			text-align: center;
-			overflow: hidden;
-		}
-
-		&__text--scroll-animate {
-			opacity: 0.3;
-			transform: scale(0.9);
-		}
-
-		&__blink {
-			position: relative;
-			left: -100%;
-		}
-
-		&__blink--animation {
-			@keyframes my-name-blink-start {
-				0% {
-					left: -100%;
-				}
-
-				100% {
-					left: 0%;
-				}
-			}
-
-			@keyframes my-name-blink {
-				0% {
-					opacity: 1;
-				}
-
-				100% {
-					opacity: 0;
-				}
-			}
-
-			animation:
-				my-name-blink 0.7s infinite 0s,
-				my-name-blink-start 0s forwards 0.7s;
-		}
 	}
 
-	.logo-3d {
+	&__hidden-title {
+		overflow: hidden;
+	}
+
+	&__title {
+		position: relative;
+		left: -110%;
+		font-style: normal;
+		font-weight: 700;
+		line-height: 115%;
+		font-size: 54px;
+		letter-spacing: 0.5px;
+	}
+
+	&__title--animate {
+		left: 0;
+		transition: left 1.2s ease-out;
+	}
+
+	&__title--font-color {
+		color: $hmp-title-color;
+	}
+
+	&__title--accent-color {
+		color: $hmp-accent-title-color;
+	}
+
+	&__title--rus-lang {
+		line-height: 100%;
+		font-size: 52px;
+	}
+
+	&__text-group {
+		display: inline-block;
+		margin-top: 20px;
+		margin-bottom: 70px;
+		font-style: normal;
+		font-weight: 700;
+		font-size: 36px;
+		color: $hmp-text-color;
+		letter-spacing: 1px;
+		text-align: center;
+		overflow: hidden;
+	}
+
+	&__text--rus-lang {
+		font-size: 34px;
+	}
+
+	&__blink {
+		position: relative;
+		left: -100%;
+	}
+
+	&__blink--animate {
+		@keyframes hmp-getting-blink-start {
+			0% {
+				left: -100%;
+			}
+
+			100% {
+				left: 0%;
+			}
+		}
+
+		@keyframes hmp-getting-blink {
+			0% {
+				opacity: 1;
+			}
+
+			100% {
+				opacity: 0;
+			}
+		}
+
+		animation:
+			hmp-getting-blink 0.7s infinite,
+			hmp-getting-blink-start 0s forwards 0.3s;
+	}
+
+	&__inner-logo-3d {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 300px;
+		height: 100%;
+	}
+
+	&__perspective {
 		perspective: 550px;
 		width: 250px;
 		height: 250px;
 		transition: all 0.6s ease-out;
-
-		&__preserve-3d {
-			position: relative;
-			width: 100%;
-			height: 100%;
-			transform-style: preserve-3d;
-		}
-
-		&__preserve-3d--animate {
-			@keyframes logo-3d-rotation {
-				0% {
-					transform: rotateY(0deg);
-				}
-
-				100% {
-					transform: rotateY(360deg);
-				}
-			}
-
-			animation: logo-3d-rotation 25s linear infinite;
-		}
-
-		&__sides {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
-
-		&__front {
-			position: absolute;
-			height: 92.3%;
-			transform: translateZ(25px);
-			backface-visibility: hidden;
-			transition: all 0.6s ease-out;
-		}
-
-		&__front--animate {
-			@keyframes logo-3d-front-start {
-				0% {
-					box-shadow: 0 0 0 $logo-3d-box-shaodow-color;
-				}
-
-				100% {
-					box-shadow: 0 0 15px $logo-3d-box-shaodow-color;
-				}
-			}
-
-			animation: logo-3d-front-start 0.5s ease-in forwards;
-		}
-
-		&__front--scroll-animate {
-			opacity: 0.3;
-		}
-
-		&__img {
-			opacity: 0;
-		}
-
-		&__img--animate {
-			@keyframes logo-3d-img-start {
-				0% {
-					opacity: 0;
-				}
-
-				100% {
-					opacity: 1;
-				}
-			}
-
-			animation: logo-3d-img-start 1s linear forwards;
-		}
-
-		&__line-bottom {
-			position: absolute;
-			right: 0;
-			bottom: 0;
-			width: 0%;
-			height: 2px;
-			background: linear-gradient(-90deg, transparent, white);
-			border-top-right-radius: 1px;
-			border-top-left-radius: 1px;
-		}
-
-		&__line-bottom--animate {
-			@keyframes logo-3d-line-bottom {
-				0% {
-					width: 0%;
-				}
-
-				100% {
-					width: 100%;
-				}
-			}
-
-			animation: logo-3d-line-bottom 1s linear forwards 0.5s;
-		}
-
-		&__line-top {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 0%;
-			height: 2px;
-			background: linear-gradient(90deg, transparent, white);
-			border-top-right-radius: 1px;
-			border-top-left-radius: 1px;
-		}
-
-		&__linte-top--animate {
-			@keyframes logo-3d-line-top {
-				0% {
-					width: 0%;
-				}
-
-				100% {
-					width: 100%;
-				}
-			}
-
-			animation: logo-3d-line-top 1s linear forwards 0.5s;
-		}
-
-		&__line-right {
-			position: absolute;
-			right: 0;
-			bottom: 0;
-			width: 2px;
-			height: 0%;
-			background: linear-gradient(0deg, transparent, white);
-			border-top-right-radius: 1px;
-			border-top-left-radius: 1px;
-		}
-
-		&__line-right--animate {
-			@keyframes logo-3d-line-right {
-				0% {
-					height: 0%;
-				}
-
-				100% {
-					height: 100%;
-				}
-			}
-
-			animation: logo-3d-line-right 1s linear forwards 0.5s;
-		}
-
-		&__line-left {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 2px;
-			height: 0%;
-			background: linear-gradient(180deg, transparent, white);
-			border-top-right-radius: 1px;
-			border-top-left-radius: 1px;
-		}
-
-		&__line-left--animate {
-			@keyframes logo-3d-line-left {
-				0% {
-					height: 0%;
-				}
-
-				100% {
-					height: 100%;
-				}
-			}
-
-			animation: logo-3d-line-left 1s linear forwards 0.5s;
-		}
-
-		&__back {
-			position: absolute;
-			transform: translateZ(-25px) rotateY(180deg);
-			backface-visibility: hidden;
-			box-shadow: 0 0 15px $logo-3d-box-shaodow-color;
-			height: 92.3%;
-			transition: all 0.6s ease-out;
-		}
-
-		&__back--scroll-animate {
-			opacity: 0.3;
-		}
-
-		&__left {
-			position: absolute;
-			width: 20%;
-			height: 92.3%;
-			transform: translateX(-26px) rotateY(-90deg);
-			backface-visibility: hidden;
-			box-shadow: 0 0 15px $logo-3d-box-shaodow-color;
-			transition: all 0.6s ease-out;
-		}
-
-		&__left--scroll-animate {
-			opacity: 0.3;
-		}
-
-		&__right {
-			position: absolute;
-			width: 20%;
-			height: 92.3%;
-			transform: translateX(203px) rotateY(90deg);
-			backface-visibility: hidden;
-			box-shadow: 0 0 15px $logo-3d-box-shaodow-color;
-			transition: all 0.6s ease-out;
-		}
-
-		&__right--scroll-animate {
-			opacity: 0.3;
-		}
-
-		&__shadow {
-			position: absolute;
-			left: 45%;
-			width: 30%;
-			height: 100%;
-			transform: translateY(150px) translateX(-50%) rotateZ(90deg) rotateY(90deg);
-			filter: blur(10px);
-			box-shadow: 0 0 150px $logo-3d-box-shaodow-color;
-			opacity: 0;
-			transition: all 0.6s ease-out;
-		}
-
-		&__shadow--animate {
-			opacity: 1;
-		}
-
-		&__shadow--scroll-animate {
-			opacity: 0.3;
-		}
 	}
 
-	.logo-3d--scroll-animate {
-		transform: scale(0.9);
+	&__preserve-3d {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		transform-style: preserve-3d;
+	}
+
+	&__preserve-3d--animate {
+		@keyframes hmp-getting-logo-3d-rotation {
+			0% {
+				transform: rotateY(0deg);
+			}
+
+			100% {
+				transform: rotateY(360deg);
+			}
+		}
+
+		animation: hmp-getting-logo-3d-rotation 25s linear infinite;
+	}
+
+	&__sides {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	&__front {
+		position: absolute;
+		height: 92.3%;
+		transform: translateZ(25px);
+		backface-visibility: hidden;
+	}
+
+	&__front--animate {
+		@keyframes hmp-getting-logo-3d-front-start {
+			0% {
+				box-shadow: 0 0 0 $hmp-logo-3d-border-color;
+			}
+
+			100% {
+				box-shadow: 0 0 15px $hmp-logo-3d-border-color;
+			}
+		}
+
+		animation: hmp-getting-logo-3d-front-start 0.5s ease-in forwards;
+	}
+
+	&__img {
+		opacity: 0;
+	}
+
+	&__img--animate {
+		@keyframes hmp-getting-logo-3d-img-start {
+			0% {
+				opacity: 0;
+			}
+
+			100% {
+				opacity: 1;
+			}
+		}
+
+		animation: hmp-getting-logo-3d-img-start 1s linear forwards;
+	}
+
+	&__line-bottom {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		width: 0%;
+		height: 2px;
+		background: linear-gradient(-90deg, transparent, $hmp-logo-3d-border-color);
+		border-top-right-radius: 1px;
+		border-top-left-radius: 1px;
+	}
+
+	&__line-bottom--animate {
+		@keyframes hmp-getting-logo-3d-line-bottom {
+			0% {
+				width: 0%;
+			}
+
+			100% {
+				width: 100%;
+			}
+		}
+
+		animation: hmp-getting-logo-3d-line-bottom 1s linear forwards;
+	}
+
+	&__line-top {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 0%;
+		height: 2px;
+		background: linear-gradient(90deg, transparent, $hmp-logo-3d-border-color);
+		border-top-right-radius: 1px;
+		border-top-left-radius: 1px;
+	}
+
+	&__linte-top--animate {
+		@keyframes hmp-getting-logo-3d-line-top {
+			0% {
+				width: 0%;
+			}
+
+			100% {
+				width: 100%;
+			}
+		}
+
+		animation: hmp-getting-logo-3d-line-top 1s linear forwards;
+	}
+
+	&__line-right {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		width: 2px;
+		height: 0%;
+		background: linear-gradient(0deg, transparent, $hmp-logo-3d-border-color);
+		border-top-right-radius: 1px;
+		border-top-left-radius: 1px;
+	}
+
+	&__line-right--animate {
+		@keyframes hmp-getting-logo-3d-line-right {
+			0% {
+				height: 0%;
+			}
+
+			100% {
+				height: 100%;
+			}
+		}
+
+		animation: hmp-getting-logo-3d-line-right 1s linear forwards;
+	}
+
+	&__line-left {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 2px;
+		height: 0%;
+		background: linear-gradient(180deg, transparent, $hmp-logo-3d-border-color);
+		border-top-right-radius: 1px;
+		border-top-left-radius: 1px;
+	}
+
+	&__line-left--animate {
+		@keyframes hmp-getting-logo-3d-line-left {
+			0% {
+				height: 0%;
+			}
+
+			100% {
+				height: 100%;
+			}
+		}
+
+		animation: hmp-getting-logo-3d-line-left 1s linear forwards;
+	}
+
+	&__back {
+		position: absolute;
+		transform: translateZ(-25px) rotateY(180deg);
+		backface-visibility: hidden;
+		box-shadow: 0 0 15px $hmp-logo-3d-border-color;
+		height: 92.3%;
+	}
+
+	&__left {
+		position: absolute;
+		width: 20%;
+		height: 92.3%;
+		transform: translateX(-26px) rotateY(-90deg);
+		backface-visibility: hidden;
+		box-shadow: 0 0 15px $hmp-logo-3d-border-color;
+	}
+
+	&__right {
+		position: absolute;
+		width: 20%;
+		height: 92.3%;
+		transform: translateX(203px) rotateY(90deg);
+		backface-visibility: hidden;
+		box-shadow: 0 0 15px $hmp-logo-3d-border-color;
+	}
+
+	&__shadow {
+		position: absolute;
+		left: 45%;
+		width: 30%;
+		height: 100%;
+		transform: translateY(150px) translateX(-50%) rotateZ(90deg) rotateY(90deg);
+		filter: blur(10px);
+		box-shadow: 0 0 150px $hmp-logo-3d-border-color;
+		opacity: 0;
+		transition: opacity 1s ease-out;
+	}
+
+	&__shadow--animate {
+		opacity: 1;
 	}
 }
 
-.scroll-hmp {
+.hmp-scroll {
 	&__wrapper {
 		display: flex;
 		align-items: center;
+		margin-left: 160px;
 		height: calc(100vh - 500px);
 	}
 
-	&__line {
-		margin-left: 150px;
-		width: 3px;
-		height: 0%;
-		background-color: $scroll-hmp-line-color;
-		transition: all 1.5s ease-out;
-	}
-
-	&__line--animate {
-		height: 80%;
-	}
-
-	&__line--scroll-animate {
-		height: 60%;
-		opacity: 0.3;
-	}
+	// &__line {}
 
 	&__hide-text {
-		overflow: hidden;
+		margin-left: 30px;
+		width: 182px;
+		letter-spacing: -4px;
 	}
 
-	&__text {
+	&__letter-left {
 		position: relative;
-		bottom: 70px;
-		margin-left: 50px;
-		font-weight: 600;
-		font-size: 35px;
-		color: $scroll-hmp-text-color;
-		letter-spacing: 0.5px;
-		transition: all 1.5s ease-out;
+		left: -110%;
 	}
 
-	&__text--animate {
-		bottom: 0;
+	&__letter-left--animate {
+		left: 0;
+		transition: left 0.8s ease-out;
 	}
 
-	&__text--scroll-animate {
-		opacity: 0.3;
-		transform: translateX(-10px);
+	&__letter-right {
+		position: relative;
+		right: -110%;
+	}
+
+	&__letter-right--animate {
+		right: 0;
+		transition: right 0.8s ease-out;
 	}
 }
 
-.cards {
+.hmp-cards {
 	$colors: (
 		'html': $html-color,
 		'css': $css-color,
@@ -462,7 +411,7 @@ $exp-text-color: $white;
 		'react': $react-color,
 	);
 
-	@mixin content-box($color, $modifier) {
+	@mixin hmp-cards-colors($color, $modifier) {
 		&__circle--#{$modifier} {
 			transition: all 0.2s linear;
 			stroke: $color;
@@ -496,199 +445,167 @@ $exp-text-color: $white;
 		&__text--#{$modifier} {
 			color: $color;
 		}
+
+		&__progress-text--#{$modifier} {
+			color: $color;
+		}
 	}
 
-	.cards__wrapper {
+	&__wrapper {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		padding-top: 50px;
 	}
 
-	.cards__title {
-		width: 605px;
-		height: 63px;
-		font-weight: 600;
-		font-size: 50px;
-		color: $cards-title-color;
-		text-align: left;
-	}
+	// &__title {}
 
-	.cards__title--scroll-animate {
-		opacity: 0.3;
-		transform: scale(0.95);
-	}
-
-	.cards__inner-content {
-		margin-top: 100px;
-		row-gap: 50px;
-	}
-
-	.cards-content {
+	&__inner-content {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+		margin-top: 100px;
+		row-gap: 50px;
+	}
 
-		&__container {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			padding: 60px 0;
-			width: 100%;
-			flex-wrap: wrap;
-			gap: 50px 0;
-			border: 0 solid transparent;
-		}
+	&__container {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 60px 0;
+		width: 100%;
+		flex-wrap: wrap;
+		gap: 50px 0;
+		border: 0 solid transparent;
+	}
 
-		&__inner-progress {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			padding: 0 30px;
-			width: 350px;
-			height: 225px;
-			row-gap: 25px;
-		}
+	&__inner-progress {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: 0 30px;
+		width: 350px;
+		height: 225px;
+		row-gap: 25px;
+	}
 
-		&__inner-progress--scroll-animate {
-			opacity: 0.3;
-			transform: scale(0.87);
-		}
+	&__svg-box {
+		position: relative;
+		opacity: 0;
+		transform: translateY(-30px);
+	}
 
-		&__svg-box {
-			position: relative;
-			opacity: 0;
-			transform: translateY(-30px);
-		}
-
-		&__svg-box--animate {
-			@keyframes cards-content-svg-box {
-				0% {
-					opacity: 0;
-					transform: translateY(-30px);
-				}
-
-				100% {
-					opacity: 1;
-					transform: translateY(0);
-				}
+	&__svg-box--animate {
+		@keyframes hmp-cards-svg-box {
+			0% {
+				opacity: 0;
+				transform: translateY(-30px);
 			}
 
-			animation: cards-content-svg-box 0.8s forwards ease-out;
-		}
-
-		&__svg {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			width: 150px;
-			height: 150px;
-		}
-
-		&__circle {
-			fill: none;
-			stroke: $cards-box-circle-color;
-			stroke-width: 8;
-			transform: translate(5px, -5px) rotate(-90deg);
-			transform-origin: center;
-		}
-
-		&__value-box {
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			display: flex;
-			align-items: flex-end;
-			color: white;
-			transform: translate(-50%, -50%);
-		}
-
-		&__value {
-			font-style: normal;
-			font-weight: 500;
-			line-height: 100%;
-			font-size: 40px;
-		}
-
-		&__precent {
-			position: relative;
-			bottom: 1px;
-			left: 5px;
-			font-style: normal;
-			font-weight: 800;
-			font-size: 20px;
-		}
-
-		&__progress-text {
-			position: relative;
-			left: 5px;
-			font-style: normal;
-			font-weight: 700;
-			font-size: 40px;
-			color: white;
-			letter-spacing: 0.5px;
-			text-align: center;
-			opacity: 0;
-			transform: translateY(30px);
-		}
-
-		&__progress-text--animate {
-			@keyframes cards-content-progress-text {
-				0% {
-					opacity: 0;
-					transform: translateY(30px);
-				}
-
-				100% {
-					opacity: 1;
-					transform: translateY(0);
-				}
+			100% {
+				opacity: 1;
+				transform: translateY(0);
 			}
-
-			animation: cards-content-progress-text 0.8s ease-out forwards;
 		}
 
-		&__inner-text {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			width: 65%;
-			height: fit-content;
-			gap: 40px 80px;
-			flex-wrap: wrap;
-		}
+		animation: hmp-cards-svg-box 0.8s forwards ease-out;
+	}
 
-		&__text {
-			font-style: normal;
-			font-weight: 700;
-			font-size: 22px;
-			color: white;
-			text-align: center;
-			opacity: 0;
-			transform: translateY(-20px);
-			transition: all 0.6s ease-out;
-		}
+	&__svg {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 150px;
+		height: 150px;
+	}
 
-		&__russian-lang-text {
-			font-weight: 600;
-			font-size: 24px;
-		}
+	&__circle {
+		fill: none;
+		stroke: $hmp-cards-circle-color;
+		stroke-width: 8;
+		transform: translate(5px, -5px) rotate(-90deg);
+		transform-origin: center;
+	}
 
-		&__text--animate {
-			opacity: 1;
-			transform: translateY(0);
-		}
+	&__value-box {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		display: flex;
+		align-items: flex-end;
+		color: $hmp-cards-text-color;
+		transform: translate(-50%, -50%);
+	}
 
-		&__text--scroll-animate {
-			opacity: 0.3;
-			transform: scale(0.8);
-		}
+	&__value {
+		font-style: normal;
+		font-weight: 500;
+		line-height: 100%;
+		font-size: 40px;
+	}
 
-		@each $modifier, $color in $colors {
-			@include content-box($color, $modifier);
-		}
+	&__precent {
+		position: relative;
+		bottom: 1px;
+		left: 5px;
+		font-style: normal;
+		font-weight: 800;
+		font-size: 20px;
+	}
+
+	&__progress-text {
+		position: relative;
+		left: 5px;
+		font-style: normal;
+		font-weight: 700;
+		font-size: 40px;
+		letter-spacing: 1px;
+		text-align: center;
+		opacity: 0;
+		transform: translateY(30px);
+	}
+
+	&__progress-text--animate {
+		opacity: 1;
+		transform: translateY(0);
+		transition:
+			opacity 0.8s ease-out,
+			transform 0.8s ease-out;
+	}
+
+	&__inner-text {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 65%;
+		height: fit-content;
+		gap: 40px 80px;
+		flex-wrap: wrap;
+	}
+
+	&__text {
+		font-style: normal;
+		font-weight: 500;
+		font-size: 22px;
+		color: $hmp-cards-text-color;
+		letter-spacing: 0.5px;
+		text-align: center;
+		opacity: 0;
+		transform: translateY(-20px);
+	}
+
+	&__text--animate {
+		transition:
+			opacity 0.6s ease-out,
+			transform 0.6s ease-out;
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	@each $modifier, $color in $colors {
+		@include hmp-cards-colors($color, $modifier);
 	}
 }
 

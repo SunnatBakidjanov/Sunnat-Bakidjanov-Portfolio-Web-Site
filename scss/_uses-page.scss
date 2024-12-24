@@ -79,7 +79,7 @@ $uses-linters-line-color: $white;
 	align-items: center;
 	width: 180px;
 	height: 32px;
-	font-weight: 600;
+	font-weight: 500;
 	font-size: 26px;
 	color: $uses-text-color;
 	letter-spacing: 0.5px;
@@ -1158,14 +1158,14 @@ $uses-linters-line-color: $white;
 		&__settings-line {
 			margin-bottom: 15px;
 		}
+
+		&__tasks-group {
+			margin-top: 25px;
+			gap: 15px 100px;
+		}
 	}
 
 	@media (width <= 430px) {
-		&__tasks-group {
-			margin-top: 25px;
-			gap: 15px 0;
-		}
-
 		&__task {
 			font-size: 20px;
 		}
@@ -1380,10 +1380,6 @@ $uses-linters-line-color: $white;
 	.uses-img {
 		width: 22px;
 		height: 22px;
-	}
-
-	.uses-linters__modal-window {
-		font-size: 16px;
 	}
 }
 

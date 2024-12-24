@@ -49,6 +49,7 @@ function main() {
 		if (clickState[elementKey].previousPage) {
 			if (!isAnimationStopped) {
 				resetCallback(clickState[elementKey].previousPage)
+
 				seenElements.clear()
 
 				allElements.forEach(element => element.removeAttribute('style'))
@@ -57,49 +58,32 @@ function main() {
 			}
 		}
 
-		if (isSwitchAnimation) {
-			if (document.documentElement.clientWidth > 1000) {
-				clickState[elementKey].isClicked = true
-
-				window.requestAnimationFrame(() => {
-					if (handleVisibilityChange(element, startingHeight, elementKey)) {
-						startCallback(clickState[elementKey].newPage)
-
-						scrollState[elementKey].scrolState = true
-					}
-				})
-			} else {
-				const onBurgerAnimationEnd = event => {
-					if (event.animationName === 'nav-container-burger-close') {
-						clickState[elementKey].isClicked = true
-
-						if (handleVisibilityChange(element, startingHeight, elementKey)) {
-							startCallback(clickState[elementKey].newPage)
-
-							scrollState[elementKey].scrolState = true
-						}
-
-						document.removeEventListener('animationend', onBurgerAnimationEnd)
-					}
-				}
-
-				document.addEventListener('animationend', onBurgerAnimationEnd)
-			}
-		} else {
+		if (document.documentElement.clientWidth > 1000) {
 			clickState[elementKey].isClicked = true
 
-			const onAnimationEnd = event => {
-				if (event.animationName === 'switch-animation-left-side-close' || event.animationName === 'switch-animation-right-side-close') {
+			window.requestAnimationFrame(() => {
+				if (handleVisibilityChange(element, startingHeight, elementKey)) {
+					startCallback(clickState[elementKey].newPage)
+
+					scrollState[elementKey].scrolState = true
+				}
+			})
+		} else {
+			const onBurgerAnimationEnd = event => {
+				if (event.animationName === 'nav-container-burger-close') {
+					clickState[elementKey].isClicked = true
+
 					if (handleVisibilityChange(element, startingHeight, elementKey)) {
 						startCallback(clickState[elementKey].newPage)
+
 						scrollState[elementKey].scrolState = true
 					}
 
-					document.removeEventListener('animationend', onAnimationEnd)
+					document.removeEventListener('animationend', onBurgerAnimationEnd)
 				}
 			}
 
-			document.addEventListener('animationend', onAnimationEnd)
+			document.addEventListener('animationend', onBurgerAnimationEnd)
 		}
 	}
 
@@ -373,17 +357,20 @@ function main() {
 		createAnimation(ids, elementKeys, startingHeight, animate, reset)
 	}
 
-	function singleElementsAnimation(id, startingHeight, classNames) {
+	function singleElementsAnimation(id, startingHeight, classNames, containerId) {
 		if (!id) {
 			console.error(`${id} not found`)
 			return
 		}
 
+		const container = document.getElementById(containerId)
 		const element = document.getElementById(id)
 
 		const ids = [element]
-		const elementKey = [id]
+		const elementKey = [id, containerId]
 		const startHeight = startingHeight
+
+		if (containerId) ids.push(container)
 
 		function animate() {
 			element.classList.add(...classNames)
@@ -477,18 +464,6 @@ function main() {
 		}
 
 		createAnimation(setIds.ids, setIds.elementKeys, setIds.startingHeight, animate, reset)
-	}
-
-	function removeScrollAnimateClasses() {
-		const scrollElements = document.querySelectorAll("[class*='scroll-animate']")
-
-		scrollElements.forEach(el => {
-			el.classList.forEach(className => {
-				if (className.includes('scroll-animate')) {
-					el.classList.remove(className)
-				}
-			})
-		})
 	}
 
 	function handleChangeOrintationAddClasses() {
@@ -586,180 +561,6 @@ function main() {
 		}
 
 		logo.addEventListener('click', handleLogoClick)
-	}
-
-	function switchAnimate() {
-		const elements = {
-			switch: document.getElementById('switch-animation'),
-			left: document.getElementById('switch-animation-left'),
-			right: document.getElementById('switch-animation-right'),
-			circleLeft: document.getElementById('switch-animation-circle-left'),
-			circleRight: document.getElementById('switch-animation-circle-right'),
-			page: document.getElementById('page'),
-		}
-
-		let isAnimationEnd = false
-		let isSwitchAnimationOpen = false
-		let isSwitchAnimationClose = false
-		let isImgAnimationOpen = false
-		let isImgAnimationClose = false
-
-		const images = document.querySelectorAll('.switch-animation__img')
-
-		const randomIndex = Math.floor(Math.random() * images.length)
-		let selectedImage = images[randomIndex]
-
-		elements.switch.classList.add('switch-animation--animate')
-		elements.page.classList.add('page--switch-animation')
-		elements.left.classList.add('switch-animation__left-side--animate')
-		elements.right.classList.add('switch-animation__right-side--animate')
-
-		function handleOpenAnimation(event) {
-			if (isAnimationEnd) return
-			isAnimationEnd = true
-
-			const { animationName } = event
-
-			if (animationName === 'switch-animation-rigth-side' || (animationName === 'switch-animation-left-side' && !isSwitchAnimationOpen)) {
-				isSwitchAnimationOpen = true
-
-				elements.circleLeft.classList.add('switch-animation__circle--left-side')
-				elements.circleRight.classList.add('switch-animation__circle--right-side')
-
-				selectedImage?.classList.add('switch-animation__img--animate')
-			}
-
-			if (animationName === 'switch-animation-img' && !isImgAnimationOpen) {
-				isImgAnimationOpen = true
-
-				setTimeout(() => {
-					selectedImage?.classList.replace('switch-animation__img--animate', 'switch-animation__img--animate-close')
-					elements.circleLeft.classList.replace('switch-animation__circle--left-side', 'switch-animation__circle--left-side-close')
-					elements.circleRight.classList.replace('switch-animation__circle--right-side', 'switch-animation__circle--right-side-close')
-				}, 1000)
-			}
-
-			if (animationName === 'switch-animation-img-close' && !isImgAnimationClose) {
-				isImgAnimationClose = true
-
-				elements.circleLeft.classList.remove('switch-animation__circle--left-side-close')
-				elements.circleRight.classList.remove('switch-animation__circle--right-side-close')
-				selectedImage?.classList.remove('switch-animation__img--animate-close')
-
-				elements.left.classList.replace('switch-animation__left-side--animate', 'switch-animation__left-side--animate-close')
-				elements.right.classList.replace('switch-animation__right-side--animate', 'switch-animation__right-side--animate-close')
-			}
-
-			if (animationName === 'switch-animation-rigth-side-close' || (animationName === 'switch-animation-left-side-close' && !isSwitchAnimationClose)) {
-				isSwitchAnimationClose = true
-
-				elements.left.classList.remove('switch-animation__left-side--animate-close')
-				elements.right.classList.remove('switch-animation__right-side--animate-close')
-				elements.switch.classList.remove('switch-animation--animate')
-				elements.page.classList.remove('page--switch-animation')
-
-				selectedImage = null
-			}
-
-			isAnimationEnd = false
-		}
-
-		document.removeEventListener('animationend', handleOpenAnimation)
-		document.addEventListener('animationend', handleOpenAnimation)
-	}
-
-	function handlePageChangeClickAnimation() {
-		const targetElements = ['uses-page-btn', 'resume-page-btn', 'about-me-page-btn']
-		let lastClickedElement = null
-		let isDesktop = document.documentElement.clientWidth > 1000 ? true : false
-		let canAnimate = false
-		let isAnimated = false
-
-		function handleSwitchAnimate() {
-			if (isDesktop) {
-				if (!isSwitchAnimation) {
-					switchAnimate()
-				}
-			} else {
-				isAnimated = false
-				canAnimate = true
-				lastClickedElement = null
-
-				const onAnimationEnd = event => {
-					if (event.animationName === 'nav-container-burger-close' && !isAnimated) {
-						isAnimated = true
-
-						if (!isSwitchAnimation) {
-							switchAnimate()
-						}
-					}
-				}
-
-				document.addEventListener('animationend', onAnimationEnd)
-			}
-		}
-
-		const logoHasClicked = () => {
-			if (canAnimate) {
-				if (!isSwitchAnimation) {
-					switchAnimate()
-				}
-
-				lastClickedElement = null
-			}
-		}
-
-		const homePageHasClicked = () => {
-			if (isDesktop && canAnimate) {
-				if (!isSwitchAnimation) {
-					switchAnimate()
-				}
-				canAnimate = false
-				lastClickedElement = null
-			} else if (!isDesktop) {
-				isAnimated = false
-				canAnimate = false
-				lastClickedElement = null
-
-				const onAnimationEnd = event => {
-					if (event.animationName === 'nav-container-burger-close' && !isAnimated) {
-						isAnimated = true
-
-						if (!isSwitchAnimation) {
-							switchAnimate()
-						}
-					}
-				}
-
-				document.addEventListener('animationend', onAnimationEnd)
-			}
-		}
-
-		const btnHasClicked = event => {
-			if (lastClickedElement === event.currentTarget) return
-			lastClickedElement = event.currentTarget
-			canAnimate = true
-
-			handleSwitchAnimate()
-		}
-
-		targetElements.forEach(id => {
-			const element = document.getElementById(id)
-			element.addEventListener('click', btnHasClicked)
-		})
-
-		window.addEventListener('resize', () => {
-			const newWidthState = document.documentElement.clientWidth > 1000
-
-			if (newWidthState !== isDesktop) {
-				isDesktop = newWidthState
-			}
-
-			isAnimated = false
-		})
-
-		logo.addEventListener('click', logoHasClicked)
-		homePageBtn.addEventListener('click', homePageHasClicked)
 	}
 
 	function climbUp() {
@@ -869,20 +670,15 @@ function main() {
 
 		const animationToggleStateBtn = document.getElementById('animation-toggle-stop')
 		const animationScrollBtn = document.getElementById('animation-scroll-stop')
-		const animationChangePage = document.getElementById('animation-change-page-stop')
 
-		const stateBtns = [animationToggleStateBtn, animationScrollBtn, animationChangePage]
+		const stateBtns = [animationToggleStateBtn, animationScrollBtn]
 
 		function changeAnimationState() {
 			function updateAnimationText() {
 				const toggleAnimationText = isLanguageRussian ? 'Анимации' : 'Animations'
 				const onOffToggleText = isLanguageRussian ? (isAnimationStopped ? 'ВЫКЛ' : 'ВКЛ') : isAnimationStopped ? 'OFF' : 'ON'
-				const onOffScrollText = isLanguageRussian ? (isScrollAnimation ? 'ВЫКЛ' : 'ВКЛ') : isScrollAnimation ? 'OFF' : 'ON'
-				const onOffPageText = isLanguageRussian ? (isSwitchAnimation ? 'ВЫКЛ' : 'ВКЛ') : isSwitchAnimation ? 'OFF' : 'ON'
 
 				animationToggleStateBtn.textContent = isAnimationStopped ? `Re:${toggleAnimationText}: ${onOffToggleText}` : `Re:${toggleAnimationText}: ${onOffToggleText}`
-				animationScrollBtn.textContent = isScrollAnimation ? `Scroll ${toggleAnimationText}: ${onOffScrollText}` : `Scroll ${toggleAnimationText}: ${onOffScrollText}`
-				animationChangePage.textContent = isSwitchAnimation ? `Switch ${toggleAnimationText}: ${onOffPageText}` : `Switch ${toggleAnimationText}: ${onOffPageText}`
 
 				stateBtns.forEach(btn => {
 					btn.classList.toggle('new-font', isLanguageRussian)
@@ -892,16 +688,12 @@ function main() {
 			updateAnimationText()
 
 			function toggleAnimationState(variable) {
-				if (variable === 'isSwitchAnimation') isSwitchAnimation = !isSwitchAnimation
-				if (variable === 'isScrollAnimation') isScrollAnimation = !isScrollAnimation
 				if (variable === 'isLanguageRussian') isLanguageRussian = !isLanguageRussian
 				if (variable === 'isAnimationStopped') isAnimationStopped = !isAnimationStopped
 				updateAnimationText()
 			}
 
-			animationChangePage.addEventListener('click', () => toggleAnimationState('isSwitchAnimation'))
 			animationScrollBtn.addEventListener('click', () => toggleAnimationState('isScrollAnimation'))
-			animationToggleStateBtn.addEventListener('click', () => toggleAnimationState('isAnimationStopped'))
 		}
 
 		changeAnimationState()
@@ -1233,50 +1025,42 @@ function main() {
 	}
 
 	function homePageEvents() {
-		function animateNameTitle() {
-			const container = document.getElementById('my-name-hidden-title')
-			const title = document.getElementById('my-name-title')
+		singleElementsAnimation('hmp-getting-title', 0, ['hmp-getting__title--animate'], 'hmp-getting-hidden-title')
+
+		function updateSkillsText() {
+			const container = document.getElementById('hmp-getting-group-text')
+			const text = document.getElementById('hmp-getting-text')
+			const blink = document.getElementById('hmp-getting-blink')
 
 			const ids = [container]
-			const scrollIds = [title]
-			const scrollKeys = ['my-name-title']
-			const elementKeys = ['my-name-hidden-title']
-			const startHeight = 0
-
-			function animate() {
-				title.classList.add('my-name__title--animate')
-			}
-
-			function reset() {
-				title.classList.remove('my-name__title--animate', 'my-name__title--scroll-animate')
-			}
-
-			function scrollAnimate() {
-				title.classList.add('my-name__title--scroll-animate')
-			}
-
-			function scrollReset() {
-				title.classList.remove('my-name__title--scroll-animate')
-			}
-
-			handleAnimationOnScroll(scrollIds, 'my-name__title--animate', scrollKeys, scrollAnimate, scrollReset)
-			createAnimation(ids, elementKeys, startHeight, animate, reset)
-		}
-
-		animateNameTitle()
-
-		function writeNameText() {
-			const text = document.getElementById('my-name-write-text')
-			const blink = document.getElementById('my-name-blink')
-			const container = document.getElementById('my-name-text')
-
-			const ids = [container]
-			const elementKeys = ['my-name-text']
+			const elementKeys = ['hmp-getting-group-text']
 			const startHeight = 0
 
 			const texts = {
-				en: ['frontend developer', 'I want to learn a lot. . .', 'HTML is easy!', 'Javascript is my choice!', 'I love CSS animations!', 'HTML, CSS and JS.', 'Coming soon... React!', '. . .'],
-				ru: ['frontend разработчик', 'Я хочу многому научиться. . .', 'HTML — это просто!', 'JavaScript — мой выбор!', 'Обожаю CSS-анимации!', 'HTML, CSS и JS', 'Скоро. . . React!', '. . .'],
+				en: [
+					`I'm frontend developer`,
+					'I want to learn a lot. . .',
+					'HTML is easy!',
+					'Javascript is my choice!',
+					'I love CSS animations!',
+					'Making magic in the browser!',
+					'Programming reality in JS',
+					'Frontend is my superpower!',
+					'Code and get inspired!',
+					'Coming soon... React!',
+				],
+				ru: [
+					'Я фронтенд разработчик',
+					'Я хочу многому научиться. . .',
+					'HTML — это просто!',
+					'JavaScript — мой выбор!',
+					'Обожаю CSS-анимации!',
+					'Создаю магию в браузере!',
+					'Программирую реальность на JS',
+					'Фронтенд — это моя суперсила!',
+					'Кодить и вдохновляться!',
+					'Скоро. . . React!',
+				],
 			}
 
 			let textIndex = 0
@@ -1284,7 +1068,8 @@ function main() {
 			let isDeleted = false
 			let blinkHasAnimated = false
 			let textTyping = false
-			let timeout
+			let timeout = null
+			let isReseted = false
 
 			const cfg = {
 				typeSpeed: 70,
@@ -1294,7 +1079,7 @@ function main() {
 				delayWriteNextString: 1700,
 			}
 
-			let tempLanguageState
+			let tempLanguageState = null
 
 			function startTyping() {
 				let currentText = tempLanguageState ? texts.ru[textIndex] : texts.en[textIndex]
@@ -1305,6 +1090,8 @@ function main() {
 				if (!isDeleted && letterIndex < currentText.length) {
 					if (!textTyping) {
 						tempLanguageState = isLanguageRussian
+						text.classList.toggle('russian-font', tempLanguageState)
+						text.classList.toggle('hmp-getting__text--rus-lang', tempLanguageState)
 					}
 					textTyping = true
 					letterIndex++
@@ -1318,89 +1105,84 @@ function main() {
 					timeout = setTimeout(startTyping, cfg.nextString)
 				} else if (isDeleted && letterIndex === 0) {
 					isDeleted = false
-					textIndex = (textIndex + 1) % (isLanguageRussian ? texts.ru.length : texts.en.length)
 					timeout = setTimeout(startTyping, cfg.delayWriteNextString)
+					textIndex = (textIndex + 1) % (isLanguageRussian ? texts.ru.length : texts.en.length)
 				}
 			}
 
 			function handleBlinkAnimation(event) {
-				if (event.animationName === 'my-name-blink-start' && !blinkHasAnimated) {
+				if (event.animationName === 'hmp-getting-blink-start' && !blinkHasAnimated) {
 					blinkHasAnimated = true
 					timeout = setTimeout(startTyping, cfg.startWrite)
 				}
 			}
 
 			function animate() {
-				blink.classList.add('my-name__blink--animation')
-				container.classList.add('my-name__text--animation')
+				isReseted = false
 
+				blink.classList.add('hmp-getting__blink--animate')
 				document.addEventListener('animationend', handleBlinkAnimation)
 			}
 
 			function reset() {
-				document.removeEventListener('animationend', handleBlinkAnimation)
+				if (isReseted) return
+				isReseted = true
 
-				blink.classList.remove('my-name__blink--animation')
-				container.classList.remove('my-name__text--scroll-animate', 'my-name__text--animation')
+				blink.classList.remove('hmp-getting__blink--animate')
 
 				isDeleted = false
 				blinkHasAnimated = false
 				clearTimeout(timeout)
 				text.textContent = ''
 				textIndex = (textIndex + 1) % (isLanguageRussian ? texts.ru.length : texts.en.length)
+
 				letterIndex = 0
+
+				document.removeEventListener('animationend', handleBlinkAnimation)
 			}
 
-			function scrollAnimate() {
-				container.classList.add('my-name__text--scroll-animate')
-			}
-
-			function scrollReset() {
-				container.classList.remove('my-name__text--scroll-animate')
-			}
-
-			handleAnimationOnScroll(ids, 'my-name__text--animation', elementKeys, scrollAnimate, scrollReset)
 			createAnimation(ids, elementKeys, startHeight, animate, reset)
 		}
 
-		writeNameText()
+		updateSkillsText()
 
 		function animateLogo3d() {
-			const elements = {
-				logo3d: document.getElementById('logo-3d'),
-				logo3dLineLeft: document.getElementById('logo-3d-line-left'),
-				logo3dLineRight: document.getElementById('logo-3d-line-right'),
-				logo3dLineTop: document.getElementById('logo-3d-line-top'),
-				logo3dLineBottom: document.getElementById('logo-3d-line-bottom'),
-				logo3dFront: document.getElementById('logo-3d-front'),
-				logo3dBack: document.getElementById('logo-3d-back'),
-				logo3dLeft: document.getElementById('logo-3d-left'),
-				logo3dRight: document.getElementById('logo-3d-right'),
-				logo3dShadow: document.getElementById('logo-3d-shadow'),
-				logo3dImg: document.getElementById('logo-3d-img'),
-				logo3dPreserve: document.getElementById('logo-3d-preverve'),
-			}
+			const container = document.getElementById('hmp-getting-inner-logo-3d')
+			const preverve = document.getElementById('hmp-getting-preverve')
+			const front = document.getElementById('hmp-getting-front')
+			const lineTop = document.getElementById('hmp-getting-line-top')
+			const lineLeft = document.getElementById('hmp-getting-line-left')
+			const lineRigth = document.getElementById('hmp-getting-line-right')
+			const lineBottom = document.getElementById('hmp-getting-line-bottom')
+			const shadow = document.getElementById('hmp-getting-shadow')
+			const img = document.getElementById('hmp-getting-img')
 
-			const ids = [elements.logo3d]
-			const scrollIds = [elements.logo3dPreserve]
-			const scrollKeys = ['logo-3d-preverve']
-			const elementKeys = ['logo3d']
+			const ids = [container]
+			const elementKeys = ['hmp-getting-inner-logo-3d']
 			const startHeight = 0
 
-			const lineAnimations = ['logo-3d-line-left', 'logo-3d-line-right', 'logo-3d-line-top', 'logo-3d-line-bottom']
-			const mainAnimations = ['logo-3d-front-start', 'logo-3d-img-start']
+			const elements = [container, preverve, front, lineTop, lineRigth, lineLeft, lineBottom, shadow, img]
 
-			let completedLineAnimations = new Set()
-			let completedMainAnimations = new Set()
+			let isLineAnimated = false
+			let isFontAnimated = false
+
+			const lineAnimations = ['hmp-getting-logo-3d-line-left', 'hmp-getting-logo-3d-line-right', 'hmp-getting-logo-3d-line-top', 'hmp-getting-logo-3d-line-bottom']
+			const mainAnimations = ['hmp-getting-logo-3d-front-start', 'hmp-getting-logo-3d-img-start']
+
+			const completedLineAnimations = new Set()
+			const completedMainAnimations = new Set()
 
 			function handleLineAnimations(event) {
 				if (lineAnimations.includes(event.animationName)) {
 					completedLineAnimations.add(event.animationName)
 
 					if (completedLineAnimations.size === lineAnimations.length) {
-						elements.logo3dFront.classList.add('logo-3d__front--animate')
-						elements.logo3dShadow.classList.add('logo-3d__shadow--animate')
-						elements.logo3dImg.classList.add('logo-3d__img--animate')
+						if (isLineAnimated) return
+						isLineAnimated = true
+
+						front.classList.add('hmp-getting__front--animate')
+						shadow.classList.add('hmp-getting__shadow--animate')
+						img.classList.add('hmp-getting__img--animate')
 
 						completedLineAnimations.clear()
 					}
@@ -1412,197 +1194,112 @@ function main() {
 					completedMainAnimations.add(event.animationName)
 
 					if (completedMainAnimations.size === mainAnimations.length) {
-						elements.logo3dPreserve.classList.add('logo-3d__preserve-3d--animate')
+						if (isFontAnimated) return
+						isFontAnimated = true
+
+						preverve.classList.add('hmp-getting__preserve-3d--animate')
 
 						completedMainAnimations.clear()
 					}
 				}
 			}
 
-			function removeAnimationClasses() {
-				elements.logo3dLineLeft.classList.remove('logo-3d__line-left--animate')
-				elements.logo3dLineRight.classList.remove('logo-3d__line-right--animate')
-				elements.logo3dLineTop.classList.remove('logo-3d__linte-top--animate')
-				elements.logo3dLineBottom.classList.remove('logo-3d__line-bottom--animate')
-				elements.logo3dFront.classList.remove('logo-3d__front--animate', 'logo-3d__front--scroll-animate')
-				elements.logo3dBack.classList.remove('logo-3d__back--scroll-animate')
-				elements.logo3dLeft.classList.remove('logo-3d__left--scroll-animate')
-				elements.logo3dRight.classList.remove('logo-3d__right--scroll-animate')
-				elements.logo3dShadow.classList.remove('logo-3d__shadow--animate', 'logo-3d__shadow--scroll-animate')
-				elements.logo3dImg.classList.remove('logo-3d__img--animate')
-				elements.logo3dPreserve.classList.remove('logo-3d__preserve-3d--animate', 'logo-3d__preserve-3d--scroll-animate')
-				elements.logo3d.classList.remove('logo-3d--scroll-animate')
-			}
-
-			function clearEventListeners() {
-				document.removeEventListener('animationend', handleLineAnimations)
-				document.removeEventListener('animationend', handleMainAnimations)
-			}
-
 			function animate() {
-				elements.logo3dLineLeft.classList.add('logo-3d__line-left--animate')
-				elements.logo3dLineRight.classList.add('logo-3d__line-right--animate')
-				elements.logo3dLineTop.classList.add('logo-3d__linte-top--animate')
-				elements.logo3dLineBottom.classList.add('logo-3d__line-bottom--animate')
+				lineLeft.classList.add('hmp-getting__line-left--animate')
+				lineRigth.classList.add('hmp-getting__line-right--animate')
+				lineTop.classList.add('hmp-getting__linte-top--animate')
+				lineBottom.classList.add('hmp-getting__line-bottom--animate')
 
 				document.addEventListener('animationend', handleLineAnimations)
 				document.addEventListener('animationend', handleMainAnimations)
 			}
 
 			function reset() {
-				removeAnimationClasses()
-				clearEventListeners()
+				isFontAnimated = false
+				isLineAnimated = false
+
+				elements.forEach(element => {
+					const classList = Array.from(element.classList)
+
+					classList.forEach(className => {
+						if (className.includes('--animate')) {
+							element.classList.remove(className)
+						}
+					})
+				})
+
+				document.removeEventListener('animationend', handleLineAnimations)
+				document.removeEventListener('animationend', handleMainAnimations)
 			}
 
-			function scrollAnimate() {
-				elements.logo3dFront.classList.add('logo-3d__front--scroll-animate')
-				elements.logo3dBack.classList.add('logo-3d__back--scroll-animate')
-				elements.logo3dLeft.classList.add('logo-3d__left--scroll-animate')
-				elements.logo3dRight.classList.add('logo-3d__right--scroll-animate')
-				elements.logo3dShadow.classList.add('logo-3d__shadow--scroll-animate')
-				elements.logo3d.classList.add('logo-3d--scroll-animate')
-			}
-
-			function scrollReset() {
-				elements.logo3dFront.classList.remove('logo-3d__front--scroll-animate')
-				elements.logo3dBack.classList.remove('logo-3d__back--scroll-animate')
-				elements.logo3dLeft.classList.remove('logo-3d__left--scroll-animate')
-				elements.logo3dRight.classList.remove('logo-3d__right--scroll-animate')
-				elements.logo3dShadow.classList.remove('logo-3d__shadow--scroll-animate')
-				elements.logo3d.classList.remove('logo-3d--scroll-animate')
-			}
-
-			handleAnimationOnScroll(scrollIds, 'logo-3d__preserve-3d--animate', scrollKeys, scrollAnimate, scrollReset)
 			createAnimation(ids, elementKeys, startHeight, animate, reset)
 		}
 
 		animateLogo3d()
 
-		function animateScrollHmp() {
-			const container = document.getElementById('scroll-hmp')
-			const line = document.getElementById('scroll-hmp-line')
-			const text = document.getElementById('scroll-hmp-text')
+		function scrollTextAnimate() {
+			const container = document.getElementById('hmp-scroll-text')
+			const left = document.querySelectorAll('.hmp-scroll__letter-left')
+			const right = document.querySelectorAll('.hmp-scroll__letter-right')
 
 			const ids = [container]
-			const scrollIds = [line, text]
-			const classes = ['scroll-hmp__line--animate', 'scroll-hmp__text--animate']
-			const scrollKeys = ['scroll-hmp-line', 'scroll-hmp-text']
-			const elementKeys = ['scroll-hmp']
-			const startHeight = 0
+			const elementKeys = ['hmp-scroll-text']
+			const startHeight = 40
 
-			let timeout = null
+			const timeouts = []
 
-			function handleChangeOnResize() {
-				if (document.documentElement.clientWidth > 1000) {
-					line.style.transition = 'none'
+			function animate() {
+				for (let index = left.length - 1; index >= 0; index--) {
+					const timeout = setTimeout(
+						() => {
+							left[index].classList.add('hmp-scroll__letter-left--animate')
+						},
+						(left.length - 1 - index) * 150
+					)
 
-					clearTimeout(timeout)
-					timeout = setTimeout(() => {
-						line.removeAttribute('style')
-					}, 100)
-				} else {
-					line.style.transition = 'none'
-
-					clearTimeout(timeout)
-					timeout = setTimeout(() => {
-						line.removeAttribute('style')
-					}, 100)
+					timeouts.push(timeout)
 				}
-			}
 
-			function animate() {
-				line.classList.add('scroll-hmp__line--animate')
-				text.classList.add('scroll-hmp__text--animate')
+				right.forEach((element, index) => {
+					const timeout = setTimeout(() => {
+						element.classList.add('hmp-scroll__letter-right--animate')
+					}, index * 150)
 
-				window.addEventListener('resize', handleChangeOnResize)
-			}
-
-			function reset() {
-				line.classList.remove('scroll-hmp__line--animate', 'scroll-hmp__line--scroll-animate')
-				text.classList.remove('scroll-hmp__text--animate', 'scroll-hmp__text--scroll-animate')
-
-				window.removeEventListener('resize', handleChangeOnResize)
-			}
-
-			function scrollAnimate() {
-				line.classList.add('scroll-hmp__line--scroll-animate')
-				text.classList.add('scroll-hmp__text--scroll-animate')
-			}
-
-			function scrollReset() {
-				line.classList.remove('scroll-hmp__line--scroll-animate')
-				text.classList.remove('scroll-hmp__text--scroll-animate')
-			}
-
-			handleAnimationOnScroll(scrollIds, classes, scrollKeys, scrollAnimate, scrollReset)
-			createAnimation(ids, elementKeys, startHeight, animate, reset)
-		}
-
-		animateScrollHmp()
-
-		function writeCardsTitle() {
-			const title = document.getElementById('cards-title')
-
-			const ids = [title]
-			const elementKeys = ['cards-title']
-			let startHeight = document.documentElement.clientWidth > 600 ? 0 : 100
-
-			// const handleTextWrite = writeAndResetText(title, 'Progress of my skills', 'Прогресс моих навыков', 60, 'cards-title', null)
-
-			function handleChangeOnResize() {
-				startHeight = document.documentElement.clientWidth > 600 ? 0 : 100
-			}
-
-			function animate() {
-				window.addEventListener('resize', handleChangeOnResize)
-
-				// handleTextWrite.write()
-				title.classList.add('cards__title--animate')
+					timeouts.push(timeout)
+				})
 			}
 
 			function reset() {
-				window.removeEventListener('resize', handleChangeOnResize)
-
-				// handleTextWrite.reset()
-				title.classList.remove('cards__title--animate', 'cards__title--scroll-animate')
+				left.forEach(element => element.classList.remove('hmp-scroll__letter-left--animate'))
+				right.forEach(element => element.classList.remove('hmp-scroll__letter-right--animate'))
+				timeouts.forEach(timeout => clearTimeout(timeout))
 			}
 
-			function scrollAnimate() {
-				title.classList.add('cards__title--scroll-animate')
-			}
-
-			function scrollReset() {
-				title.classList.remove('cards__title--scroll-animate')
-			}
-
-			handleAnimationOnScroll(ids, 'cards__title--animate', elementKeys, scrollAnimate, scrollReset)
 			createAnimation(ids, elementKeys, startHeight, animate, reset)
 		}
 
-		writeCardsTitle()
+		scrollTextAnimate()
 
 		function animateCards() {
 			const configProgress = [
-				{ id: 0, className: 'html', precent: 70, progressDuration: 10000, precentChangeTime: 2000 },
-				{ id: 1, className: 'css', precent: 80, progressDuration: 10000, precentChangeTime: 2200 },
-				{ id: 2, className: 'js', precent: 40, progressDuration: 7000, precentChangeTime: 2400 },
-				{ id: 3, className: 'react', precent: 10, progressDuration: 5000, precentChangeTime: 2600 },
+				{ id: 0, className: 'html', precent: 70, progressDuration: 6000, precentChangeTime: 2000 },
+				{ id: 1, className: 'css', precent: 80, progressDuration: 7500, precentChangeTime: 2200 },
+				{ id: 2, className: 'js', precent: 40, progressDuration: 4000, precentChangeTime: 2400 },
+				{ id: 3, className: 'react', precent: 10, progressDuration: 2000, precentChangeTime: 2600 },
 			]
 
-			const queryElements = {
-				container: document.querySelectorAll('.cards-content__container'),
-				svgBox: document.querySelectorAll('.cards-content__svg-box'),
-				text: document.querySelectorAll('.cards-content__progress-text'),
-				value: document.querySelectorAll('.cards-content__value'),
-				textBox: document.querySelectorAll('.cards-content__inner-text'),
-				textsElements: document.querySelectorAll('.cards-content__text'),
-				progressBox: document.querySelectorAll('.cards-content__inner-progress'),
-			}
+			const conteiners = document.querySelectorAll('.hmp-cards__container')
+			const svgBoxes = document.querySelectorAll('.hmp-cards__svg-box')
+			const texts = document.querySelectorAll('.hmp-cards__progress-text')
+			const values = document.querySelectorAll('.hmp-cards__value')
+			const textBoxes = document.querySelectorAll('.hmp-cards__inner-text')
+			const textsElements = document.querySelectorAll('.hmp-cards__text')
+			const progressBoxes = document.querySelectorAll('.hmp-cards__inner-progress')
 
 			function animateProgress() {
 				const ids = []
 				const elementKeys = []
-				const startHeight = 80
+				const startHeight = 30
 
 				const circles = []
 				const intervals = []
@@ -1611,11 +1308,15 @@ function main() {
 				const visibleIndexes = []
 				const animationEnd = {}
 				const fluctuateStatus = {}
+
 				let handleAnimation = null
 
-				queryElements.container.forEach((_, index) => {
-					const id = document.getElementById(`cards-inner-progress-${index}`)
-					const circle = document.getElementById(`cards-content-circle-${index}`)
+				conteiners.forEach((_, index) => {
+					progressBoxes[index].setAttribute('id', `hmp-cards-inner-progress-${index}`)
+					values[index].setAttribute('id', `hmp-cards-value-${index}`)
+
+					const id = document.getElementById(`hmp-cards-inner-progress-${index}`)
+					const circle = document.getElementById(`hmp-cards-circle-${index}`)
 
 					elementKeys.push(`cards-inner-progress-${index}`)
 					ids.push(id)
@@ -1701,7 +1402,7 @@ function main() {
 				}
 
 				function animate() {
-					queryElements.svgBox.forEach((_, index) => {
+					svgBoxes.forEach((_, index) => {
 						if (!animationEnd[index]) {
 							animationEnd[index] = { isEnded: false, isStarted: false }
 						}
@@ -1712,12 +1413,12 @@ function main() {
 
 								const { id, className, precent, progressDuration, precentChangeTime } = configProgress[index]
 
-								const svgBox = queryElements.svgBox[index]
-								const progressText = queryElements.text[index]
-								const container = queryElements.container[index]
-								const progressBox = queryElements.progressBox[index]
+								const svgBox = svgBoxes[index]
+								const progressText = texts[index]
+								const container = conteiners[index]
+								const progressBox = progressBoxes[index]
 
-								progressBox.classList.add('cards-content__inner-progress--animate')
+								progressBox.classList.add('hmp-cards__inner-progress--animate')
 
 								visibleIndexes.push(index)
 
@@ -1728,21 +1429,21 @@ function main() {
 								const delay = visibleIndexes.indexOf(index) * 100
 
 								const timeout = setTimeout(() => {
-									svgBox.classList.add('cards-content__svg-box--animate')
-									progressText.classList.add('cards-content__progress-text--animate')
-									container.classList.add(`cards-content__container--${className}-animate`)
+									svgBox.classList.add('hmp-cards__svg-box--animate')
+									progressText.classList.add('hmp-cards__progress-text--animate')
+									container.classList.add(`hmp-cards__container--${className}-animate`)
 								}, delay)
 
 								timeouts.push(timeout)
 
 								handleAnimation = event => {
-									if (event.target === queryElements.svgBox[index] && event.animationName === 'cards-content-svg-box' && !animationEnd[index].isEnded) {
+									if (event.target === svgBoxes[index] && event.animationName === 'hmp-cards-svg-box' && !animationEnd[index].isEnded) {
 										animationEnd[index].isEnded = true
 
-										getPrecentCards(`cards-content-circle-${id}`, `cards-content-value-${id}`, `cards-content-content-${id}`, precent, progressDuration, precentChangeTime)
+										getPrecentCards(`hmp-cards-circle-${id}`, `hmp-cards-value-${id}`, `hmp-cards-progress-${id}`, precent, progressDuration, precentChangeTime)
 
 										const timeout = setTimeout(() => {
-											circles[index].classList.add(`cards-content__circle--${className}`)
+											circles[index].classList.add(`hmp-cards__circle--${className}`)
 										}, 100)
 
 										timeouts.push(timeout)
@@ -1756,20 +1457,19 @@ function main() {
 				}
 
 				function reset() {
-					queryElements.svgBox.forEach((_, index) => {
+					svgBoxes.forEach((_, index) => {
 						const { className } = configProgress[index]
 
 						animationEnd[index] = { isEnded: false, isStarted: false }
 						fluctuateStatus[index] = { isStart: false }
 
-						queryElements.container[index].classList.remove(`cards-content__container--${className}-animate`)
-						queryElements.svgBox[index].classList.remove('cards-content__svg-box--animate')
-						queryElements.text[index].classList.remove('cards-content__progress-text--animate')
-						queryElements.progressBox[index].classList.remove('cards-content__inner-progress--scroll-animate')
+						conteiners[index].classList.remove(`hmp-cards__container--${className}-animate`)
+						svgBoxes[index].classList.remove('hmp-cards__svg-box--animate')
+						texts[index].classList.remove('hmp-cards__progress-text--animate')
 
-						circles[index].classList.remove(`cards-content__circle--${className}`)
+						circles[index].classList.remove(`hmp-cards__circle--${className}`)
 
-						queryElements.value[index].textContent = 0
+						values[index].textContent = 0
 						clearInterval(intervals[index])
 					})
 
@@ -1779,15 +1479,6 @@ function main() {
 					intervals.length = 0
 				}
 
-				function scrollAnimate(_, index) {
-					queryElements.progressBox[index].classList.add('cards-content__inner-progress--scroll-animate')
-				}
-
-				function scrollReset(_, index) {
-					queryElements.progressBox[index].classList.remove('cards-content__inner-progress--scroll-animate')
-				}
-
-				handleAnimationOnScroll(queryElements.progressBox, 'cards-content__inner-progress--animate', elementKeys, scrollAnimate, scrollReset)
 				createAnimation(ids, elementKeys, startHeight, animate, reset)
 			}
 
@@ -1798,21 +1489,21 @@ function main() {
 				const elementKeys = []
 				let startHeight = document.documentElement.clientWidth < 1030 ? 30 : 215
 
-				queryElements.textsElements.forEach((element, index) => {
-					const id = `cards-content-text-${index}`
+				textsElements.forEach((element, index) => {
+					const id = `hmp-cards-text-${index}`
 					element.setAttribute('id', id)
 
-					elementKeys.push(`cards-content-text-${index}`)
+					elementKeys.push(`hmp-cards-text-${index}`)
 					ids.push(element)
 				})
 
-				queryElements.container.forEach((_, index) => {
+				conteiners.forEach((_, index) => {
 					const { className } = configProgress[index]
-					const textElements = [...queryElements.textBox[index].childNodes].filter(node => node.nodeType === 1 && node.classList.contains('cards-content__text'))
+					const textElements = [...textBoxes[index].childNodes].filter(node => node.nodeType === 1 && node.classList.contains('hmp-cards__text'))
 
 					textElements.forEach((element, index) => {
 						if (index % 2 === 0) {
-							element.classList.add(`cards-content__text--${className}`)
+							element.classList.add(`hmp-cards__text--${className}`)
 						}
 					})
 				})
@@ -1828,7 +1519,7 @@ function main() {
 				function animate() {
 					window.addEventListener('resize', updateStartingHeight)
 
-					queryElements.textsElements.forEach((element, index) => {
+					textsElements.forEach((element, index) => {
 						if (!animationEnd[index]) {
 							animationEnd[index] = { isStarted: false }
 						}
@@ -1846,7 +1537,7 @@ function main() {
 								const delay = visibleIndexes.indexOf(index) * 80
 
 								const timeout = setTimeout(() => {
-									element.classList.add('cards-content__text--animate')
+									element.classList.add('hmp-cards__text--animate')
 								}, delay)
 
 								timeouts.push(timeout)
@@ -1858,8 +1549,8 @@ function main() {
 				function reset() {
 					window.removeEventListener('resize', updateStartingHeight)
 
-					queryElements.textsElements.forEach((element, index) => {
-						element.classList.remove('cards-content__text--animate', 'cards-content__text--scroll-animate')
+					textsElements.forEach((element, index) => {
+						element.classList.remove('hmp-cards__text--animate')
 
 						clearTimeout(timeouts[index])
 
@@ -1869,15 +1560,6 @@ function main() {
 					timeouts.length = 0
 				}
 
-				function scrollAnimate(_, index) {
-					queryElements.textsElements[index].classList.add('cards-content__text--scroll-animate')
-				}
-
-				function scrollReset(_, index) {
-					queryElements.textsElements[index].classList.remove('cards-content__text--scroll-animate')
-				}
-
-				handleAnimationOnScroll(queryElements.textsElements, 'cards-content__text--animate', elementKeys, scrollAnimate, scrollReset)
 				createAnimation(ids, elementKeys, startHeight, animate, reset)
 			}
 
@@ -1885,41 +1567,6 @@ function main() {
 		}
 
 		animateCards()
-
-		function writeProjectsTitle() {
-			const title = document.getElementById('projects-title')
-
-			const ids = [title]
-			const elementKeys = ['projects-title']
-			const startHeight = 150
-
-			// const handleTextWrite = writeAndResetText(title, 'My projects', 'Мои проекты', 80, 'projects-title', null)
-
-			function animate() {
-				// handleTextWrite.write()
-
-				title.classList.add('projects__title--animate')
-			}
-
-			function reset() {
-				// handleTextWrite.reset()
-
-				title.classList.remove('projects__title--animate', 'projects__title--scroll-animate')
-			}
-
-			function scrollAnimate() {
-				title.classList.add('projects__title--scroll-animate')
-			}
-
-			function scrollReset() {
-				title.classList.remove('projects__title--scroll-animate')
-			}
-
-			handleAnimationOnScroll(ids, 'projects__title--animate', elementKeys, scrollAnimate, scrollReset)
-			createAnimation(ids, elementKeys, startHeight, animate, reset)
-		}
-
-		writeProjectsTitle()
 
 		function animateProjectsText() {
 			const text_1 = document.getElementById('projects-text-one')
@@ -2047,64 +1694,10 @@ function main() {
 				document.removeEventListener('animationend', handleAnimationEnd)
 			}
 
-			function scrollAnimate() {
-				isCloudVisible = true
-
-				cloudContainer.classList.add('cloud--scroll-animate')
-			}
-
-			function scrollReset() {
-				isCloudVisible = false
-
-				cloudContainer.classList.remove('cloud--scroll-animate')
-			}
-
-			handleAnimationOnScroll(ids, 'cloud--animate', elementKeys, scrollAnimate, scrollReset)
 			createAnimation(ids, elementKeys, startHeight, animate, reset)
 		}
 
 		animateCloud()
-
-		function writeExperienceTitle() {
-			const title = document.getElementById('exp-title')
-
-			const ids = [title]
-			const elementKeys = ['exp-title']
-			let startHeight = document.documentElement.clientWidth >= 1000 ? 150 : 30
-
-			// const handleTextWrite = writeAndResetText(title, 'My way', 'Мой путь', 70, 'exp-title', null)
-
-			function handleChanageOnResize() {
-				startHeight = document.documentElement.clientWidth >= 1000 ? 150 : 30
-			}
-
-			function animate() {
-				window.addEventListener('resize', handleChanageOnResize)
-
-				title.classList.add('exp__title--animate')
-				// handleTextWrite.write()
-			}
-
-			function reset() {
-				title.classList.remove('exp__title--animate', 'exp__title--scroll-animate')
-				// handleTextWrite.reset()
-
-				window.removeEventListener('resize', handleChanageOnResize)
-			}
-
-			function scrollAnimate() {
-				title.classList.add('exp__title--scroll-animate')
-			}
-
-			function scrollReset() {
-				title.classList.remove('exp__title--scroll-animate')
-			}
-
-			handleAnimationOnScroll(ids, 'exp__title--animate', elementKeys, scrollAnimate, scrollReset)
-			createAnimation(ids, elementKeys, startHeight, animate, reset)
-		}
-
-		writeExperienceTitle()
 
 		function animateExperience() {
 			const elements = {
@@ -2270,10 +1863,10 @@ function main() {
 
 		let isModalVisible = false
 
-		singleElementsAnimation('uses-getting-title', 0, ['uses-getting__title--animate'])
-		singleElementsAnimation('uses-getting-subtitle', 0, ['uses-getting__subtitle--animate'])
-		singleElementsAnimation('uses-linters-settings-title', 70, ['uses-linters__settings-title--animate'])
-		singleElementsAnimation('uses-linters-settings-subtitle', 40, ['uses-linters__settings-subtitle--animate'])
+		singleElementsAnimation('uses-getting-title', 0, ['uses-getting__title--animate'], null)
+		singleElementsAnimation('uses-getting-subtitle', 0, ['uses-getting__subtitle--animate'], null)
+		singleElementsAnimation('uses-linters-settings-title', 70, ['uses-linters__settings-title--animate'], null)
+		singleElementsAnimation('uses-linters-settings-subtitle', 40, ['uses-linters__settings-subtitle--animate'], null)
 
 		sameElementsAnimation('.uses-title', 'uses-title', ['uses-title--animate'], 50, null)
 		sameElementsAnimation('.uses-btn', 'uses-btn', ['uses-btn--animate'], 50, null)
@@ -2395,7 +1988,7 @@ function main() {
 				}
 			}
 
-			function changeHeightLinterOnResize() {
+			function closeBtnsOnResize() {
 				hideLinterElement.forEach((element, index) => {
 					element.style.height = 0
 					isLinterOpen[index].isOpen = false
@@ -2419,7 +2012,7 @@ function main() {
 				document.addEventListener('click', openHiddenEquipmentOnClick)
 				document.addEventListener('click', openHiddenLinterOnClick)
 				document.addEventListener('click', climbUpLinterBtn)
-				window.addEventListener('resize', changeHeightLinterOnResize)
+				window.addEventListener('resize', closeBtnsOnResize)
 			}
 
 			function reset() {
@@ -2445,7 +2038,7 @@ function main() {
 				document.removeEventListener('click', openHiddenEquipmentOnClick)
 				document.removeEventListener('click', openHiddenLinterOnClick)
 				document.removeEventListener('click', climbUpLinterBtn)
-				window.removeEventListener('resize', changeHeightLinterOnResize)
+				window.removeEventListener('resize', closeBtnsOnResize)
 			}
 
 			createAnimation(setId.ids, setId.elementKeys, setId.startingHeight, animate, reset)
@@ -2526,7 +2119,7 @@ function main() {
 		sameElementsAnimation('.resume-subtitle', 'resume-subtitle', ['resume-subtitle--animate'], 80, null)
 
 		function gettingAnimate() {
-			singleElementsAnimation('resume-getting-title', 80, ['resume-getting__title--animate'])
+			singleElementsAnimation('resume-getting-title', 80, ['resume-getting__title--animate'], null)
 
 			function subtitle() {
 				const subtitles = document.querySelectorAll('.resume-getting__subtitle')
@@ -2725,7 +2318,6 @@ function main() {
 		setCurrentDate()
 
 		switchPages()
-		handlePageChangeClickAnimation()
 		climbUp()
 		asideMenu()
 		footerEvents()
@@ -2746,6 +2338,16 @@ function main() {
 		translateText(currentLanguage, 'russian-font')
 
 		setCurrentDate()
+
+		function homePageTextEdit() {
+			const cardsText = document.querySelectorAll('.hmp-cards__progress-text')
+
+			manageClasses(cardsText, ['russian-font'], null)
+
+			manageClasses(null, ['hmp-getting__title--rus-lang'], '.hmp-getting__title')
+		}
+
+		homePageTextEdit()
 
 		function resumeTextEdit() {
 			const subtitlesGetting = document.querySelectorAll('.resume-getting__subtitle')
@@ -2803,10 +2405,6 @@ function main() {
 
 	window.addEventListener('orientationchange', () => {
 		const orientation = screen.orientation.type
-
-		if (orientation === 'landscape-primary' || orientation === 'landscape-secondary') {
-			removeScrollAnimateClasses()
-		}
 
 		if (orientation === 'portrait-primary' || orientation === 'landscape-primary' || orientation === 'landscape-secondary') {
 			handleChangeOrintationAddClasses()

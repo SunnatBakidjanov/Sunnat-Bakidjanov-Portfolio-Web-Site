@@ -9,28 +9,6 @@
 		<link rel="stylesheet" href="scss/main.css">
 	</head>
 	<body>
-		<div class="switch-animation" id="switch-animation">
-			<div class="switch-animation__left-side" id="switch-animation-left"></div>
-			<div class="switch-animation__right-side" id="switch-animation-right"></div>
-			<div class="switch-animation__center">
-				<img class="switch-animation__img switch-animation__img--raido" src="img/svg/switch-icons(raido).svg" alt="">
-				<img class="switch-animation__img switch-animation__img--uruz" src="img/svg/switch-icons(uruz).svg" alt="">
-				<img class="switch-animation__img switch-animation__img--otilo" src="img/svg/switch-icons(otila).svg" alt="">
-				<img class="switch-animation__img switch-animation__img--pert" src="img/svg/switch-icons(pert).svg" alt="">
-				<img class="switch-animation__img switch-animation__img--turisaz" src="img/svg/switch-icons(turisaz).svg" alt="">
-				<img class="switch-animation__img switch-animation__img--vunio" src="img/svg/switch-icons(vunio).svg" alt="">
-				<img class="switch-animation__img switch-animation__img--hangalaz" src="img/svg/switch-icons(hagalaz).svg" alt="">
-				<svg class="switch-animation__svg" width="330" height="330" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-					<circle class="switch-animation__circle" cx="200" cy="200" r="180"></circle>
-					<circle class="switch-animation__circle" id="switch-animation-circle-left" cx="200" cy="200" r="180"></circle>
-				</svg>
-				<svg class="switch-animation__svg" width="330" height="330" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-					<circle class="switch-animation__circle" cx="200" cy="200" r="180"></circle>
-					<circle class="switch-animation__circle" id="switch-animation-circle-right" cx="200" cy="200" r="180"></circle>
-				</svg>
-			</div>
-		</div>
-
 		<div class="page" id="page">
 			<header class="header-main">
 				<div class="container">
@@ -168,168 +146,177 @@
 			</button>
 	
 			<main>
-				<div class="home-page page" id="page-1">
-					<section class="getting">
+				<div class="home-page page page--active" id="page-1">
+					<section class="hmp-getting">
 						<div class="container">
-							<div class="getting__wrapper">
-								<div class="getting__inner-text my-name">
-									<div class="my-name__hidden-title" id="my-name-hidden-title">
-										<h1 class="my-name__title" id="my-name-title">
-											Hello,<br>
-											I'm <span>Sunnat</span>
+							<div class="hmp-getting__wrapper">
+								<div class="hmp-getting__inner-text">
+									<div class="hmp-getting__hidden-title" id="hmp-getting-hidden-title">
+										<h1 class="hmp-getting__title" id="hmp-getting-title">
+											<span class="hmp-getting__title--font-color" data-en="Hello," data-ru="Привет,">Hello,</span><br>
+											<span class="hmp-getting__title--font-color" data-en="I'm" data-ru="Я">I'm</span> <span class="hmp-getting__title--accent-color" data-en="Sunnat" data-ru="Sunnat">Sunnat</span>
 										</h1>
 									</div>
 	
-									<div class="my-name__text" id="my-name-text">
-										<span id="my-name-write-text"></span>
-										<span class="my-name__blink" id="my-name-blink"> |</span>
+									<div class="hmp-getting__text-group" id="hmp-getting-group-text">
+										<span id="hmp-getting-text"></span>
+										<span class="hmp-getting__blink" id="hmp-getting-blink"> |</span>
 									</div>
 								</div>
-		
-								<div class="getting__inner-logo-3d logo-3d" id="logo-3d">
-									<div class="logo-3d__preserve-3d" id="logo-3d-preverve">
-										<div class="logo-3d__front logo-3d__sides" id="logo-3d-front">
-											<img class="logo-3d__img" id="logo-3d-img" src="img/svg/super-man-getting.svg" alt="">
-											<span class="logo-3d__line-left" id="logo-3d-line-left"></span>
-											<span class="logo-3d__line-right" id="logo-3d-line-right"></span>
-											<span class="logo-3d__line-top" id="logo-3d-line-top"></span>
-											<span class="logo-3d__line-bottom" id="logo-3d-line-bottom"></span>
+								
+								<div class="hmp-getting__inner-logo-3d" id="hmp-getting-inner-logo-3d">
+									<div class="hmp-getting__perspective" id="hmp-getting-perspective">
+										<div class="hmp-getting__preserve-3d" id="hmp-getting-preverve">
+											<div class="hmp-getting__front hmp-getting__sides" id="hmp-getting-front">
+												<img class="hmp-getting__img" id="hmp-getting-img" src="img/svg/super-man-getting.svg" alt="">
+												<span class="hmp-getting__line-left" id="hmp-getting-line-left"></span>
+												<span class="hmp-getting__line-right" id="hmp-getting-line-right"></span>
+												<span class="hmp-getting__line-top" id="hmp-getting-line-top"></span>
+												<span class="hmp-getting__line-bottom" id="hmp-getting-line-bottom"></span>
+											</div>
+											<div class="hmp-getting__back hmp-getting__sides">
+												<img src="img/svg/super-man-getting.svg" alt="">
+											</div>
+											<div class="hmp-getting__left hmp-getting__sides"></div>
+											<div class="hmp-getting__right hmp-getting__sides"></div>
+											<div class="hmp-getting__shadow" id="hmp-getting-shadow"></div>
 										</div>
-										<div class="logo-3d__back logo-3d__sides" id="logo-3d-back">
-											<img class="logo-3d__img--back" src="img/svg/super-man-getting.svg" alt="">
-										</div>
-										<div class="logo-3d__left logo-3d__sides" id="logo-3d-left"></div>
-										<div class="logo-3d__right logo-3d__sides" id="logo-3d-right"></div>
-										<div class="logo-3d__shadow" id="logo-3d-shadow"></div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</section>
 		
-					<section class="scroll-hmp">
+					<section class="hmp-scroll">
 						<div class="container">
-							<div class="scroll-hmp__wrapper" id="scroll-hmp">
-								<div class="scroll-hmp__line" id="scroll-hmp-line" ></div>
-								<div class="scroll-hmp__hide-text">
-									<div class="scroll-hmp__text" id="scroll-hmp-text">SCROLL</div>
+							<div class="hmp-scroll__wrapper scroll-section__wrapper">
+								<div class="hmp-scroll__line scroll-section__line"></div>
+								<div class="hmp-scroll__hide-text scroll-section__text" id="hmp-scroll-text">
+									<span class="hmp-scroll__letter-left">S</span>
+									<span class="hmp-scroll__letter-left">C</span>
+									<span class="hmp-scroll__letter-left">R</span>
+
+									<span class="hmp-scroll__letter-right">O</span>
+									<span class="hmp-scroll__letter-right">L</span>
+									<span class="hmp-scroll__letter-right">L</span>
 								</div>
 							</div>
 						</div>
 	
-						<h2 class="scroll-hmp__title hide-element">Scroll section</h2>
+						<h2 class="hmp-scroll__title scroll-section__title">Scroll section</h2>
 					</section>
 		
-					<section class="cards">
+					<section class="hmp-cards">
 						<div class="container">
-							<div class="cards__wrapper">								
-								<h2 class="cards__title" id="cards-title"></h2>
+							<div class="hmp-cards__wrapper">								
+								<h2 class="hmp-cards__title"></h2>
 		
-								<div class="cards__inner-content cards-content">
-									<div class="cards-content__container">
-										<div class="cards-content__inner-progress" id="cards-inner-progress-0">
-											<div class="cards-content__svg-box">
-												<svg class="cards-content__svg">
-													<circle class="cards-content__circle" cx="70" cy="70" r="70"></circle>
-													<circle class="cards-content__circle" id="cards-content-circle-0" cx="70" cy="70" r="70"></circle>
+								<div class="hmp-cards__inner-content">
+									<div class="hmp-cards__container">
+										<div class="hmp-cards__inner-progress">
+											<div class="hmp-cards__svg-box">
+												<svg class="hmp-cards__svg">
+													<circle class="hmp-cards__circle" cx="70" cy="70" r="70"></circle>
+													<circle class="hmp-cards__circle" id="hmp-cards-circle-0" cx="70" cy="70" r="70"></circle>
 												</svg>
 
-												<div class="cards-content__value-box cards-content__value-box--html">
-													<div class="cards-content__value" id="cards-content-value-0">0</div>
-													<div class="cards-content__precent">%</div>
+												<div class="hmp-cards__value-box hmp-cards__value-box--html">
+													<div class="hmp-cards__value">0</div>
+													<div class="hmp-cards__precent">%</div>
 												</div>
 											</div>
 
-											<div class="cards-content__progress-text cards-content__progress-text--html">HTML</div>
+											<div class="hmp-cards__progress-text hmp-cards__progress-text--html">HTML</div>
 										</div>
 
-										<div class="cards-content__inner-text" id="cards-content-inner-text-0">
-											<div class="cards-content__text">HTML5</div>
-											<div class="cards-content__text">Semantic layout</div>
-											<div class="cards-content__text">BEM</div>
-											<div class="cards-content__text">HTML Validation Check</div>
-											<div class="cards-content__text">Using browser DevTools to debug markup</div>
+										<div class="hmp-cards__inner-text">
+											<div class="hmp-cards__text" data-en="HTML5" data-ru="HTML5">HTML5</div>
+											<div class="hmp-cards__text" data-en="Semantic layout" data-ru="Семантическая верстка">Semantic layout</div>
+											<div class="hmp-cards__text" data-en="BEM" data-ru="БЭМ">BEM</div>
+											<div class="hmp-cards__text" data-en="Page structure optimization" data-ru="Оптимизация структуры страниц">Page structure optimization</div>
+											<div class="hmp-cards__text" data-en="Working with forms" data-ru="Работа с формами">Working with forms</div>
+											<div class="hmp-cards__text" data-en="Valid and cross-browser code" data-ru="Валидный и кроссбраузерный код">Valid and cross-browser code</div>
 										</div>
 									</div>
 
-									<div class="cards-content__container">
-										<div class="cards-content__inner-progress" id="cards-inner-progress-1">
-											<div class="cards-content__svg-box">
-												<svg class="cards-content__svg">
-													<circle class="cards-content__circle" cx="70" cy="70" r="70"></circle>
-													<circle class="cards-content__circle" id="cards-content-circle-1" cx="70" cy="70" r="70"></circle>
+									<div class="hmp-cards__container">
+										<div class="hmp-cards__inner-progress">
+											<div class="hmp-cards__svg-box">
+												<svg class="hmp-cards__svg">
+													<circle class="hmp-cards__circle" cx="70" cy="70" r="70"></circle>
+													<circle class="hmp-cards__circle" id="hmp-cards-circle-1" cx="70" cy="70" r="70"></circle>
 												</svg>
 
-												<div class="cards-content__value-box cards-content__value-box--css">
-													<div class="cards-content__value" id="cards-content-value-1">0</div>
-													<div class="cards-content__precent">%</div>
+												<div class="hmp-cards__value-box hmp-cards__value-box--css">
+													<div class="hmp-cards__value">0</div>
+													<div class="hmp-cards__precent">%</div>
 												</div>
 											</div>
 
-											<div class="cards-content__progress-text cards-content__progress-text--css">CSS</div>
+											<div class="hmp-cards__progress-text hmp-cards__progress-text--css">CSS</div>
 										</div>
 
-										<div class="cards-content__inner-text" id="cards-content-inner-text-1">
-											<div class="cards-content__text">CSS3</div>
-											<div class="cards-content__text">Responsive design for different screens</div>
-											<div class="cards-content__text">CSS animations</div>
-											<div class="cards-content__text">SASS, SCSS, LESS</div>
-											<div class="cards-content__text">CSS Variables</div>
-											<div class="cards-content__text">JavaScript integration</div>
+										<div class="hmp-cards__inner-text">
+											<div class="hmp-cards__text" data-en="CSS3" data-ru="CSS3">CSS3</div>
+											<div class="hmp-cards__text" data-en="Responsive design for different screens" data-ru="Адаптивный дизайн для разных экранов">Responsive design for different screens</div>
+											<div class="hmp-cards__text" data-en="CSS animations" data-ru="CSS анимации">CSS animations</div>
+											<div class="hmp-cards__text" data-en="SASS, SCSS, LESS" data-ru="SASS, SCSS, LESS">SASS, SCSS, LESS</div>
+											<div class="hmp-cards__text" data-en="CSS Variables" data-ru="CSS-переменные">CSS Variables</div>
+											<div class="hmp-cards__text" data-en="JavaScript integration" data-ru="Интеграция JavaScript">JavaScript integration</div>
 										</div>
 									</div>
 
-									<div class="cards-content__container">
-										<div class="cards-content__inner-progress" id="cards-inner-progress-2">
-											<div class="cards-content__svg-box">
-												<svg class="cards-content__svg">
-													<circle class="cards-content__circle" cx="70" cy="70" r="70"></circle>
-													<circle class="cards-content__circle" id="cards-content-circle-2" cx="70" cy="70" r="70"></circle>
+									<div class="hmp-cards__container">
+										<div class="hmp-cards__inner-progress">
+											<div class="hmp-cards__svg-box">
+												<svg class="hmp-cards__svg">
+													<circle class="hmp-cards__circle" cx="70" cy="70" r="70"></circle>
+													<circle class="hmp-cards__circle" id="hmp-cards-circle-2" cx="70" cy="70" r="70"></circle>
 												</svg>
 
-												<div class="cards-content__value-box cards-content__value-box--js">
-													<div class="cards-content__value" id="cards-content-value-2">0</div>
-													<div class="cards-content__precent">%</div>
+												<div class="hmp-cards__value-box hmp-cards__value-box--js">
+													<div class="hmp-cards__value">0</div>
+													<div class="hmp-cards__precent">%</div>
 												</div>
 											</div>
 
-											<div class="cards-content__progress-text cards-content__progress-text--js">JavaScript</div>
+											<div class="hmp-cards__progress-text hmp-cards__progress-text--js">JavaScript</div>
 										</div>
 
-										<div class="cards-content__inner-text" id="cards-content-inner-text-2">
-											<div class="cards-content__text">ES6+</div>
-											<div class="cards-content__text">Working with the DOM</div>
-											<div class="cards-content__text">SPA</div>
-											<div class="cards-content__text">Creating and managing animations</div>
-											<div class="cards-content__text">Implementing Custom Components</div>
-											<div class="cards-content__text">Error Handling</div>
+										<div class="hmp-cards__inner-text">
+											<div class="hmp-cards__text" data-en="ES6+" data-ru="ES6+">ES6+</div>
+											<div class="hmp-cards__text" data-en="Working with the DOM" data-ru="Работа с DOM">Working with the DOM</div>
+											<div class="hmp-cards__text" data-en="SPA" data-ru="SPA">SPA</div>
+											<div class="hmp-cards__text" data-en="Creating Animations with JavaScript" data-ru="Создание анимаций с JavaScript">Creating Animations with JavaScript</div>
+											<div class="hmp-cards__text" data-en="Working with Arrays and Objects" data-ru="Работа с массивами и объектами">Working with Arrays and Objects</div>
+											<div class="hmp-cards__text" data-en="Error Handling" data-ru="Обработка ошибок">Error Handling</div>
 										</div>
 									</div>
 
-									<div class="cards-content__container">
-										<div class="cards-content__inner-progress" id="cards-inner-progress-3">
-											<div class="cards-content__svg-box">
-												<svg class="cards-content__svg">
-													<circle class="cards-content__circle" cx="70" cy="70" r="70"></circle>
-													<circle class="cards-content__circle" id="cards-content-circle-3" cx="70" cy="70" r="70"></circle>
+									<div class="hmp-cards__container">
+										<div class="hmp-cards__inner-progress">
+											<div class="hmp-cards__svg-box">
+												<svg class="hmp-cards__svg">
+													<circle class="hmp-cards__circle" cx="70" cy="70" r="70"></circle>
+													<circle class="hmp-cards__circle" id="hmp-cards-circle-3" cx="70" cy="70" r="70"></circle>
 												</svg>
 
-												<div class="cards-content__value-box cards-content__value-box--react">
-													<div class="cards-content__value" id="cards-content-value-3">0</div>
-													<div class="cards-content__precent">%</div>
+												<div class="hmp-cards__value-box hmp-cards__value-box--react">
+													<div class="hmp-cards__value">0</div>
+													<div class="hmp-cards__precent">%</div>
 												</div>
 											</div>
 											
-											<div class="cards-content__progress-text cards-content__progress-text--react">React</div>
+											<div class="hmp-cards__progress-text hmp-cards__progress-text--react">React</div>
 										</div>
 
-										<div class="cards-content__inner-text" id="cards-content-inner-text-3">
-											<div class="cards-content__text">React</div>
-											<div class="cards-content__text">JSX</div>
-											<div class="cards-content__text">Redux</div>
-											<div class="cards-content__text">React-router-dom</div>
-											<div class="cards-content__text">Next</div>
-											<div class="cards-content__text">React hooks</div>
+										<div class="hmp-cards__inner-text">
+											<div class="hmp-cards__text" data-en="React" data-ru="React">React</div>
+											<div class="hmp-cards__text" data-en="JSX" data-ru="JSX">JSX</div>
+											<div class="hmp-cards__text" data-en="Redux" data-ru="Redux">Redux</div>
+											<div class="hmp-cards__text" data-en="React-router-dom" data-ru="React-router-dom">React-router-dom</div>
+											<div class="hmp-cards__text" data-en="Next" data-ru="Next">Next</div>
+											<div class="hmp-cards__text" data-en="React hooks" data-ru="React hooks">React hooks</div>
 										</div>
 									</div>
 								</div>
@@ -413,7 +400,7 @@
 					</section>
 				</div>
 		
-				<div class="uses-page page page--active" id="page-2">
+				<div class="uses-page page" id="page-2">
 					<section class="uses-getting">
 						<div class="container">
 							<div class="uses-getting__wrapper">
