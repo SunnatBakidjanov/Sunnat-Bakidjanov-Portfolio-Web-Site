@@ -7,8 +7,6 @@ function main() {
 
 	const changeLanguageButton = document.getElementById('translator')
 
-	const allElements = document.querySelectorAll('*')
-
 	const tickingState = {}
 	const clickState = {}
 	const scrollState = {}
@@ -16,8 +14,6 @@ function main() {
 
 	let isAnimationStopped = false
 	let isLanguageRussian = false
-	let isSwitchAnimation = true
-	let isScrollAnimation = false
 
 	const seenElements = new Set()
 
@@ -51,8 +47,6 @@ function main() {
 				resetCallback(clickState[elementKey].previousPage)
 
 				seenElements.clear()
-
-				allElements.forEach(element => element.removeAttribute('style'))
 
 				clickState[elementKey].isClicked = false
 			}
@@ -160,34 +154,6 @@ function main() {
 				handlePageChangeOnClick(event, element, elementKey, startingHeight, startCallback, resetCallback)
 			})
 		})
-	}
-
-	function handleAnimationOnScroll(elements, classList, elementKeys, startCallback, removeCallback) {
-		const checkScrollAnimation = () => {
-			if (!isScrollAnimation) {
-				elements.forEach((element, index) => {
-					const className = Array.isArray(classList) ? classList[index] : classList
-
-					if (element.classList.contains(className)) {
-						if (handleVisibilityChange(element, 0, elementKeys)) {
-							removeCallback(element, index)
-						} else {
-							element.style.transition = 'all 0.6s ease-out'
-							startCallback(element, index)
-						}
-					}
-				})
-			} else {
-				elements.forEach((element, index) => {
-					removeCallback(element, index)
-					element.removeAttribute('style')
-				})
-			}
-		}
-
-		document.addEventListener('scroll', checkScrollAnimation)
-
-		checkScrollAnimation()
 	}
 
 	function writeAndResetText(elements, englishTexts, russianTexts, typeSpeed, elementKeys, className, delay) {
@@ -1026,6 +992,30 @@ function main() {
 
 	function homePageEvents() {
 		singleElementsAnimation('hmp-getting-title', 0, ['hmp-getting__title--animate'], 'hmp-getting-hidden-title')
+		singleElementsAnimation('hmp-projects-text', 150, ['hmp-projects__text--animate'], 'hmp-projects-text')
+
+		function writeTitles() {
+			const titles = document.querySelectorAll('.hmp-titles')
+
+			const setId = addId(titles, 'hmp-titles', 50)
+
+			const en = ['Progress of my skills', 'My projects', 'My way']
+			const ru = ['Прогресс моих навыков', 'Мои проекты', 'Мой путь']
+
+			const handleTextWrite = writeAndResetText(setId.ids, en, ru, 50, setId.elementKeys, ['hmp-titles--rus-lang'], null)
+
+			function animate() {
+				handleTextWrite.writeAll()
+			}
+
+			function reset() {
+				handleTextWrite.resetAll()
+			}
+
+			createAnimation(setId.ids, setId.elementKeys, setId.startingHeight, animate, reset)
+		}
+
+		writeTitles()
 
 		function updateSkillsText() {
 			const container = document.getElementById('hmp-getting-group-text')
@@ -1568,79 +1558,34 @@ function main() {
 
 		animateCards()
 
-		function animateProjectsText() {
-			const text_1 = document.getElementById('projects-text-one')
-			const text_2 = document.getElementById('projects-text-two')
-			const innerText = document.getElementById('projects-inner-text')
-
-			const ids = [innerText]
-			const scollIds = [text_1, text_2]
-			const scrollKeys = ['projects-text-one', 'projects-text-two']
-			const classNames = ['projects__text-one--animate', 'projects__text-two--animate']
-			const elementKeys = ['projects-inner-text']
-			const startHeight = 50
-
-			function animate() {
-				text_1.classList.add('projects__text-one--animate')
-				text_2.classList.add('projects__text-two--animate')
-			}
-
-			function reset() {
-				text_1.classList.remove('projects__text-one--animate')
-				text_2.classList.remove('projects__text-two--animate')
-			}
-
-			function scrollAnimate() {
-				text_1.classList.add('projects__text--one-scroll-animate')
-				text_2.classList.add('projects__text--two-scroll-animate')
-			}
-
-			function scrollReset() {
-				text_1.classList.remove('projects__text--one-scroll-animate')
-				text_2.classList.remove('projects__text--two-scroll-animate')
-			}
-
-			handleAnimationOnScroll(scollIds, classNames, scrollKeys, scrollAnimate, scrollReset)
-			createAnimation(ids, elementKeys, startHeight, animate, reset)
-		}
-
-		animateProjectsText()
-
 		function animateCloud() {
-			const cloud = document.getElementById('cloud-particle-center')
-			const cloudContainer = document.getElementById('cloud-container')
-			const cloudTop = document.getElementById('cloud-partilce-top')
-			const cloudBottom = document.getElementById('cloud-bottom')
+			const container = document.getElementById('hmp-cloud-container')
+			const cloud = document.getElementById('hmp-cloud-particle-center')
+			const cloudTop = document.getElementById('hmp-cloud-partilce-top')
+			const cloudBottom = document.getElementById('hmp-cloud-bottom')
 
-			const drops = cloud.querySelectorAll('.cloud__drop')
+			const elements = [container, cloud, cloudTop, cloudBottom]
 
-			const ids = [cloudContainer]
-			const elementKeys = ['cloud-container']
-			let startHeight = document.documentElement.clientWidth > 1100 ? 130 : 200
+			const ids = [container]
+			const elementKeys = ['hmp-cloud-container']
+			const startHeight = 130
 
 			let timeout = null
 			let interval = null
-			let isCloudVisible = false
-
-			function handleChangeOnResize() {
-				startHeight = document.documentElement.clientWidth > 1100 ? 130 : 200
-			}
 
 			function handleAnimationEnd(event) {
 				const { animationName } = event
 
 				if (animationName === 'cloud-partilce-center-start') {
-					cloudContainer.classList.add('cloud--animate')
+					container.classList.add('hmp-projects__inner-cloud--animate')
 				}
 
 				if (animationName === 'cloud-container-visible') {
-					cloudTop.classList.add('cloud__particle-top--animate')
-					cloudBottom.classList.add('cloud__bottom--animate')
+					cloudTop.classList.add('hmp-projects__particle-top--animate')
+					cloudBottom.classList.add('hmp-projects__bottom--animate')
 
 					interval = setInterval(() => {
-						if (!isCloudVisible) {
-							rain()
-						}
+						rain()
 					}, 50)
 				}
 			}
@@ -1652,7 +1597,7 @@ function main() {
 				const height = Math.random() * 50
 				const duration = Math.random() * 0.5
 
-				elements.classList.add('cloud__drop')
+				elements.classList.add('hmp-projects__drop')
 				cloud.appendChild(elements)
 				elements.style.left = `${position}px`
 				elements.style.width = `${0.5 * width}px`
@@ -1666,31 +1611,58 @@ function main() {
 				}, 2000)
 			}
 
+			function setupRainObserver() {
+				const observer = new IntersectionObserver(
+					([entry]) => {
+						if (entry.isIntersecting && cloudBottom.classList.contains('hmp-projects__bottom--animate')) {
+							interval = setInterval(() => {
+								rain()
+							}, 50)
+						} else {
+							clearInterval(interval)
+							clearTimeout(timeout)
+
+							const drops = [...cloud.childNodes].filter(node => node.nodeType === 1 && node.classList.contains('hmp-projects__drop'))
+							drops.forEach(element => element.remove())
+						}
+					},
+					{
+						root: null,
+						rootMargin: '0px 0px 100px 0px',
+						threshold: 1,
+					}
+				)
+
+				observer.observe(container)
+			}
+
+			setupRainObserver()
+
 			function animate() {
-				cloud.classList.add('cloud__particle-center--animate')
+				cloud.classList.add('hmp-projects__particle-center--animate')
 
 				document.addEventListener('animationend', handleAnimationEnd)
-				window.addEventListener('resize', handleChangeOnResize)
 			}
 
 			function reset() {
+				elements.forEach(element => {
+					const classList = element.classList
+
+					classList.forEach(className => {
+						if (className.includes('--animate')) {
+							element.classList.remove(className)
+						}
+					})
+				})
+
 				clearInterval(interval)
 				clearTimeout(timeout)
 
-				isCloudVisible = false
-
-				drops.forEach(drop => {
-					if (cloud.contains(drop)) {
-						cloud.removeChild(drop)
-					}
+				const drop = [...cloud.childNodes].filter(node => node.nodeType === 1 && node.classList.contains('hmp-projects__drop'))
+				drop.forEach(element => {
+					element.remove()
 				})
 
-				cloud.classList.remove('cloud__particle-center--animate')
-				cloudContainer.classList.remove('cloud--animate', 'cloud--scroll-animate')
-				cloudTop.classList.remove('cloud__particle-top--animate')
-				cloudBottom.classList.remove('cloud__bottom--animate')
-
-				window.removeEventListener('resize', handleChangeOnResize)
 				document.removeEventListener('animationend', handleAnimationEnd)
 			}
 
@@ -1833,25 +1805,231 @@ function main() {
 				document.removeEventListener('animationend', handleStartAnimation)
 			}
 
-			function scrollAnimate(_, index) {
-				if (queryElements.boxElements[0].classList.contains('exp__box--scroll-animate')) elements.start.classList.add('exp__start--scroll-animate')
-				if (queryElements.boxElements[queryElements.boxElements.length - 1].classList.contains('exp__box--scroll-animate')) elements.bottomLine.classList.add('exp__bottom-line--scroll-animate')
-
-				queryElements.boxElements[index].classList.add('exp__box--scroll-animate')
-			}
-
-			function scrollReset(_, index) {
-				if (!queryElements.boxElements[0].classList.contains('exp__box--scroll-animate')) elements.start.classList.remove('exp__start--scroll-animate')
-				if (!queryElements.boxElements[queryElements.boxElements.length - 1].classList.contains('exp__box--scroll-animate')) elements.bottomLine.classList.remove('exp__bottom-line--scroll-animate')
-
-				queryElements.boxElements[index].classList.remove('exp__box--scroll-animate')
-			}
-
-			handleAnimationOnScroll(queryElements.boxElements, 'exp__box--animate', elementKeys, scrollAnimate, scrollReset)
 			createAnimation(ids, elementKeys, startHeight, animate, reset)
 		}
 
 		animateExperience()
+
+		function myWayAnimate() {
+			const container = document.getElementById('hmp-way-inner-content')
+			const blink = document.getElementById('hmp-way-blink')
+			const btn = document.getElementById('hmp-way-btn')
+			const btnShow = document.getElementById('hmp-way-btn-show')
+			const btnAgain = document.getElementById('hmp-way-btn-again')
+
+			const ru = [
+				'[ 22.06.2023 ]',
+				'Узнал о веб-разработке. Загорелся этой темой и решил изучать её!',
+				'[ 30.09.2023 ]',
+				'Изучил основы HTML и CSS. Создал свои первые статические страницы.',
+				'[ 02.04.2024 ]',
+				'Начал изучать JavaScript. Понял, как добавить интерактивность на сайты.',
+				'[ 20.12.2024 ]',
+				'Осваиваю JavaScript глубже и готовлюсь изучать React. Впереди - создание сложных веб-приложений!',
+			]
+
+			const en = [
+				'[ 22.06.2023 ]',
+				'Learned about web development. I got excited about this topic and decided to study it!',
+				'[ 30.09.2023 ]',
+				'Learned the basics of HTML and CSS. Created my first static pages.',
+				'[ 02.04.2024 ]',
+				'Started learning JavaScript. I understood how to add interactivity to websites.',
+				'[ 20.12.2024 ]',
+				`I'm learning JavaScript more deeply and getting ready to learn React. Ahead - creating complex web applications!`,
+			]
+
+			let letterIndex = 0
+			let currentIndex = 0
+			let timeout = null
+			let clickTimeout = null
+			let typingStartTimeout = null
+			let currentLanguage = en
+			let isPageChanged = false
+			let isTextShowed = false
+			const textElements = []
+			const boxes = []
+
+			const cfg = {
+				startDelay: 1500,
+				getNextStringDelay: () => Math.round(Math.random() * 1500) + 500,
+				getWriteSpeed: () => Math.round(Math.random() * 40) + 30,
+			}
+
+			function createBox() {
+				const box = document.createElement('div')
+				box.classList.add('hmp-way__text-box')
+				container.appendChild(box)
+
+				const textElement = document.createElement('span')
+				textElement.classList.add('hmp-way__text')
+				box.appendChild(textElement)
+				box.appendChild(blink)
+				boxes.push(box)
+				textElements.push(textElement)
+			}
+
+			function writeText() {
+				if (currentIndex >= currentLanguage.length) {
+					btnShow.classList.add('hmp-way__btn-show--hide-show')
+					btnAgain.classList.add('hmp-way__btn-again--hide-show')
+					isTextShowed = true
+					return
+				}
+
+				if (textElements.length <= currentIndex) {
+					createBox()
+					clearTimeout(timeout)
+				}
+
+				const text = textElements[currentIndex]
+				const writeSpeed = cfg.getWriteSpeed()
+				const nextStringDelay = cfg.getNextStringDelay()
+
+				function write() {
+					if (isPageChanged) return
+
+					currentLanguage = !isLanguageRussian ? en : ru
+					const currentText = currentLanguage[currentIndex]
+
+					if (currentText.includes('[') && currentText.includes(']')) text.classList.add('hmp-way__text--date')
+
+					if (letterIndex === 1) blink.style.marginLeft = 10 + 'px'
+					if (letterIndex <= 0) blink.style.margin = 0
+
+					if (letterIndex > currentText.length) {
+						currentIndex++
+						letterIndex = 0
+						timeout = setTimeout(writeText, nextStringDelay)
+						return
+					}
+
+					text.textContent = currentText.substring(0, letterIndex)
+					letterIndex++
+
+					timeout = setTimeout(write, writeSpeed)
+				}
+
+				write()
+			}
+
+			function handleAnimationEnd(event) {
+				if (event.animationName === 'my-way-container') {
+					typingStartTimeout = setTimeout(writeText, cfg.startDelay)
+					btn.classList.add('hmp-way__btn--animate')
+					setTimeout(() => {
+						container.scrollIntoView({ behavior: 'smooth', block: 'center' })
+					}, 150)
+				}
+			}
+
+			function handleShowTextOnClick() {
+				if (!isTextShowed) {
+					isTextShowed = true
+
+					btnShow.classList.add('hmp-way__btn-show--hide-show')
+					btnAgain.classList.add('hmp-way__btn-again--hide-show')
+
+					clearTimeout(timeout)
+					clearTimeout(typingStartTimeout)
+					isPageChanged = true
+
+					blink.style.marginLeft = 10 + 'px'
+
+					currentLanguage.forEach((_, index) => {
+						if (index >= textElements.length) {
+							createBox()
+						}
+					})
+
+					textElements.forEach((textElement, index) => {
+						if (!isLanguageRussian) textElement.textContent = en[index]
+						if (isLanguageRussian) textElement.textContent = ru[index]
+
+						currentLanguage = !isLanguageRussian ? en : ru
+						const currentText = currentLanguage[index]
+
+						if (currentText.includes('[') && currentText.includes(']')) textElement.classList.add('hmp-way__text--date')
+					})
+
+					setTimeout(() => btn.scrollIntoView({ behavior: 'smooth', block: 'end' }), 300)
+
+					return
+				}
+
+				isTextShowed = false
+
+				btnShow.classList.remove('hmp-way__btn-show--hide-show')
+				btnAgain.classList.remove('hmp-way__btn-again--hide-show')
+
+				clearTimeout(timeout)
+
+				container.appendChild(blink)
+				letterIndex = 0
+				currentIndex = 0
+				isPageChanged = false
+				textElements.length = 0
+				blink.removeAttribute('style')
+
+				boxes.forEach(element => {
+					element.remove()
+				})
+
+				textElements.forEach(element => {
+					element.remove()
+				})
+
+				timeout = setTimeout(writeText, cfg.startDelay)
+			}
+
+			function animate() {
+				container.classList.add('hmp-way__inner-content--animate')
+
+				isPageChanged = false
+
+				btn.addEventListener('click', handleShowTextOnClick)
+				document.addEventListener('animationend', handleAnimationEnd)
+			}
+
+			function reset() {
+				container.classList.remove('hmp-way__inner-content--animate')
+				btn.classList.remove('hmp-way__btn--animate')
+				container.appendChild(blink)
+
+				clearTimeout(timeout)
+				clearTimeout(clickTimeout)
+				clearTimeout(typingStartTimeout)
+
+				btnShow.classList.remove('hmp-way__btn-show--hide-show')
+				btnAgain.classList.remove('hmp-way__btn-again--hide-show')
+
+				letterIndex = 0
+				currentIndex = 0
+				isPageChanged = true
+				isTextShowed = false
+				textElements.length = 0
+				blink.removeAttribute('style')
+				boxes.forEach(element => {
+					element.remove()
+				})
+				textElements.forEach(element => {
+					element.remove()
+				})
+
+				document.removeEventListener('animationend', handleAnimationEnd)
+			}
+
+			createAnimation([container], ['hmp-way-inner-content'], 70, animate, reset)
+
+			changeLanguageButton.addEventListener('click', () => {
+				textElements.forEach((textElement, index) => {
+					if (!isLanguageRussian) textElement.textContent = en[index]
+					if (isLanguageRussian) textElement.textContent = ru[index]
+				})
+			})
+		}
+
+		myWayAnimate()
 	}
 
 	function usesPageEvents() {
@@ -1980,7 +2158,7 @@ function main() {
 
 					state.timeout = setTimeout(() => {
 						linterBtn[index].scrollIntoView({ behavior: 'smooth', block: 'start' })
-					}, 550)
+					}, 600)
 
 					state.codeTimeout = setTimeout(() => {
 						linterCode[index].style.overflow = 'auto hidden'
@@ -2345,6 +2523,11 @@ function main() {
 			manageClasses(cardsText, ['russian-font'], null)
 
 			manageClasses(null, ['hmp-getting__title--rus-lang'], '.hmp-getting__title')
+			manageClasses(null, ['hmp-cards__title--rus-lang'], '.hmp-cards__title')
+			manageClasses(null, ['hmp-projects__title--rus-lang'], '.hmp-projects__title')
+			manageClasses(null, ['hmp-projects__text--rus-lang'], '.hmp-projects__text')
+			manageClasses(null, ['hmp-way__title--rus-lang'], '.hmp-way__title')
+			manageClasses(null, ['hmp-way__btn--rus-lang'], '.hmp-way__btn')
 		}
 
 		homePageTextEdit()

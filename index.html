@@ -64,7 +64,7 @@
 										</a>
 									</li>
 									<li class="social-media__item">
-										<a aria-label="telegram" rel="noopener" href="https://t.me/Sunnat_Backidjanov" target="_blank" class="social__link">
+										<a aria-label="telegram" rel="noopener" href="https://t.me/Sunnat_Bakidjanov" target="_blank" class="social__link">
 											<img class="social-media__icons social-media__icons--telegram" src="img/svg/icon-telegram.svg" alt="">
 										</a>
 									</li>
@@ -209,7 +209,9 @@
 					<section class="hmp-cards">
 						<div class="container">
 							<div class="hmp-cards__wrapper">								
-								<h2 class="hmp-cards__title"></h2>
+								<h2 class="hmp-cards__title hmp-titles"></h2>
+
+								<div class="hmp-cards__line line"></div>
 		
 								<div class="hmp-cards__inner-content">
 									<div class="hmp-cards__container">
@@ -324,30 +326,29 @@
 						</div>
 					</section>
 		
-					<section class="projects">
+					<section class="hmp-projects">
 						<div class="container">
-							<div class="projects__wrapper">
+							<div class="hmp-projects__wrapper">
+								<h2 class="hmp-projects__title hmp-titles"></h2>
+
+								<div class="hmp-projects__line line"></div>
 		
-								<div class="projects__inner-titile">
-									<h2 class="projects__title" id="projects-title"></h2>
-								</div>
-		
-								<div class="projects__inner-content">
-									<div class="projects__inner-text" id="projects-inner-text">
-										<div class="projects__hidden-text-one">
-											<div class="projects__text projects__text--one" id="projects-text-one">I don't have any<br>projects to share yet</div>
-										</div>
-										<div class="projects__hidden-text-two">
-											<div class="projects__text projects__text--two" id="projects-text-two">But they will appear soon</div>
+								<div class="hmp-projects__inner-content">
+									<div class="hmp-projects__inner-text">
+										<div class="hmp-projects__hidden-text">
+											<div class="hmp-projects__text" id="hmp-projects-text">
+												<span data-en="I don't have any projects to share yet" data-ru="У меня пока нет проектов, которыми можно поделиться">I don't have any projects to share yet</span> 
+												<span class="hmp-projects__text-span" data-en="But they will appear soon" data-ru="Но они скоро появятся">But they will appear soon</span>
+											</div>
 										</div>
 									</div>
 									
-									<div class="projects__inner-animation cloud" id="cloud-container">
-										<div class="cloud__preserve-3d">
-											<div class="cloud__particle-center" id="cloud-particle-center">
-												<span class="cloud__particle-top" id="cloud-partilce-top"></span>
+									<div class="hmp-projects__inner-cloud" id="hmp-cloud-container">
+										<div class="hmp-projects__preserve-3d">
+											<div class="hmp-projects__particle-center" id="hmp-cloud-particle-center">
+												<span class="hmp-projects__particle-top" id="hmp-cloud-partilce-top"></span>
 											</div>
-											<div class="cloud__bottom" id="cloud-bottom"></div>
+											<div class="hmp-projects__bottom" id="hmp-cloud-bottom"></div>
 										</div>
 									</div>
 		
@@ -356,45 +357,21 @@
 						</div>
 					</section>
 		
-					<section class="exp">
+					<section class="hmp-way">
 						<div class="container">
-							<div class="exp__wrapper">		
-								<h2 class="exp__title" id="exp-title"></h2>
+							<div class="hmp-way__wrapper">		
+								<h2 class="hmp-way__title hmp-titles"></h2>
 								
-								<div class="exp__inner-content" id="exp-inner-content">									
-									<div class="exp__hidden-start" id="exp-start-hidden">
-										<div class="exp__start" id="exp-start">Start</div>
-									</div>
-		
-									<div class="exp__box" id="exp-element-0">		
-										<div class="exp__center-line">
-											<span class="exp__top" id="exp-top"></span>
-										</div>
-										
-										<div class="exp__horizont-line">
-											<div class="exp__circle">
-												<div class="exp__hidden-text">
-													<div class="exp__text" id="exp-text-0">Coming soon. . .</div>
-												</div>
-											</div>
-										</div>
-									</div>
-		
-									<div class="exp__box" id="exp-element-1">		
-										<span class="exp__center-line"></span>
-		
-										<div class="exp__horizont-line">
-											<div class="exp__circle">
-												<div class="exp__hidden-text">
-													<div class="exp__text" id="exp-text-1">To be continued?</div>
-												</div>
-											</div>
-										</div>
-									</div>
-		
-									<div class="exp__bottom-line" id="exp-bottom-line"></div>		
+								<div class="hmp-way__line line"></div>
+
+								<div class="hmp-way__inner-content" id="hmp-way-inner-content">
+									<span class="hmp-way__blink" id="hmp-way-blink"></span>
 								</div>
-		
+
+								<button type="button" aria-label="Show all text" class="hmp-way__btn" id="hmp-way-btn">
+									<span data-en="Show all text" data-ru="Показать весь текст" class="hmp-way__btn-show" id="hmp-way-btn-show">Show all text</span>
+									<span data-en="Print again" data-ru="Печатать снова" class="hmp-way__btn-again" id="hmp-way-btn-again">Print again</span>
+								</button>
 							</div>
 						</div>
 					</section>
@@ -1102,7 +1079,7 @@
 								<div class="line resume-download__line"></div>
 
 								<div class="resume-download__link-box resume-btn-box">
-									<a href="download/resume.jpg" download="Sunnat-Bakidjanov-Resume.jpg" class="resume-download__link resume-btn" id="resume-download-link" rel="noopener noreferrer" data-ru="Скачать" data-en="Download">Download</a>
+									<a href="download/Sunnat-Bakidjanov-resume.pdf" download="Sunnat-Bakidjanov-Resume.pdf" class="resume-download__link resume-btn" id="resume-download-link" rel="noopener noreferrer" data-ru="Скачать" data-en="Download">Download</a>
 								</div>
 							</div>
 						</div>
