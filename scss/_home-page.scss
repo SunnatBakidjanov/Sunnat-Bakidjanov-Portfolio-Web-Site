@@ -25,15 +25,12 @@ $hmp-cards-text-color: $white;
 // projects-section
 $hmp-projects-text-color: $white;
 $hmp-projects-accent-text-color: $orange;
-$porjects-text-two-color: $orange;
-$cloud-drop-shadow: $gray;
 $cloud-particle-center-bg-color: $white;
 $cloud-particle-center-box-shadow-color: $gray;
 $cloud-particle-top-bg-color: $white;
 $cloud-particle-top-box-shadow-color: $white;
 $cloud-drop-bg-color: $water-color;
 $cloud-bottom-box-shadow-color: $white;
-$cloud-bottom-border-color: $white;
 
 // my-way-section
 $hmp-my-way-blink-color: $white;
@@ -42,11 +39,11 @@ $hmp-my-way-text-color: $white;
 $hmp-way-border-color: $white;
 $hmp-way-btn-border-color: $milky;
 $hmp-way-btn-hover-border-color: $orange;
+$hmp-my-way-border-color: $white;
 
 .home-page {
 	position: absolute;
 	left: -9999px;
-	min-height: 100vh;
 }
 
 // Same components
@@ -1429,18 +1426,21 @@ $hmp-way-btn-hover-border-color: $orange;
 		padding: 20px;
 		width: 100%;
 		min-height: 0;
+		border: 2px solid $hmp-my-way-border-color;
+		opacity: 0;
 		row-gap: 5px;
-		border: 2px solid white;
 	}
 
 	&__inner-content--animate {
 		@keyframes my-way-container {
 			0% {
 				min-height: 0;
+				opacity: 0;
 			}
 
 			100% {
 				min-height: 200px;
+				opacity: 1;
 			}
 		}
 

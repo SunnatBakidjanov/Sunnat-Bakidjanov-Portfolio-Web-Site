@@ -1,6 +1,475 @@
+$orange: #f8aa01;
+$white: #fff;
+$black: #000;
+$gray: #a9a9a9;
+$milky: #f5deb3;
+
+// icons
+$google-icon-bg: #ea4335;
+$telegram-icon-bg: #08c;
+$whatsapp-icon-bg: #075e54;
+$facebook-icon-bg: #3b5998;
+$github-icon-bg: #181717;
+
+// same var
+
+$about-me-title-color: $orange;
+$about-me-line-bg-color: $orange;
+
+// about-me-getting-section
+
+$about-me-getiing-title-color: $orange;
+$about-me-getiing-subtitle-color: $white;
+$about-me-getiing-subtitle-accent-color: $orange;
+
+// about-me-exp-seciotn
+
+$about-me-exp-text-color: $white;
+$about-me-exp-accent-text-color: $orange;
+
+// about-me-self-section
+
+$about-me-self-text-color: $white;
+$about-me-self-accent-text-color: $orange;
+$about-me-self-border-color: $milky;
+
+// var colors
+
+$colors: (
+	'google': $google-icon-bg,
+	'telegram': $telegram-icon-bg,
+	'whatsapp': $whatsapp-icon-bg,
+	'facebook': $facebook-icon-bg,
+	'github': $github-icon-bg,
+);
+
+// mixins
+
+@mixin links-hover-color($modifier, $color) {
+	.about-me-self__links-item--#{$modifier}:hover {
+		background-color: $color;
+	}
+}
+
+// same elements
+
+.about-me-title {
+	margin-bottom: 20px;
+	font-weight: 600;
+	font-size: 40px;
+	color: $about-me-title-color;
+	opacity: 0;
+	transform: translateY(25px);
+}
+
+.about-me-title--animate {
+	transform: translateY(0);
+	opacity: 1;
+	transition:
+		transform 0.6s ease-out,
+		opacity 0.6s ease-out;
+}
+
+.about-me-section-line {
+	width: 0;
+	height: 2px;
+	background-color: $about-me-line-bg-color;
+}
+
+.about-me-section-line--animate {
+	width: 100%;
+	transition: width 1s ease-out;
+}
+
+// other elements
+
 .about-me-page {
 	position: absolute;
 	left: -9999px;
-	height: 2000px;
-	background-color: darkgoldenrod;
+	overflow: hidden;
+}
+
+.about-me-getting {
+	&__wrapper {
+		display: flex;
+		flex-direction: column;
+		row-gap: 5px;
+		margin-top: 50px;
+		margin-left: 60px;
+	}
+
+	&__hide-box {
+		perspective: 200px;
+	}
+
+	&__title {
+		font-size: 50px;
+		color: $about-me-getiing-title-color;
+		letter-spacing: 0.5px;
+		transform-style: preserve-3d;
+		transform: translateZ(200px);
+	}
+
+	&__title--animate {
+		transform: translateZ(0);
+		transition: transform 1s ease-out;
+	}
+
+	&__title--rus-lang {
+		font-size: 48px;
+	}
+
+	&__subtitle {
+		font-size: 34px;
+		color: $about-me-getiing-subtitle-color;
+		letter-spacing: 0.5px;
+		perspective: 250px;
+	}
+
+	&__subtitle--rus-lang {
+		font-size: 32px;
+	}
+
+	&__subtitle-accent-color {
+		color: $about-me-getiing-subtitle-accent-color;
+	}
+
+	&__span {
+		display: inline-block;
+		transform-style: preserve-3d;
+		transform: translateZ(250px);
+	}
+
+	&__span--animate {
+		transform: translateZ(0);
+		transition: transform 1s ease-out 0.8s;
+	}
+}
+
+.about-me-scroll {
+	&__wrapper {
+		margin-left: 180px;
+		height: calc(100vh - 300px);
+	}
+
+	// &__title {}
+
+	// &__line {}
+
+	.scroll-section__line--animate {
+		transition-delay: 1.3s;
+	}
+
+	&__text {
+		overflow: visible;
+		margin-left: 20px;
+		letter-spacing: -4px;
+		perspective: 300px;
+	}
+
+	&__letters {
+		transform-style: preserve-3d;
+		transform: translateZ(300px);
+		display: inline-block;
+	}
+
+	&__letters--animate {
+		transform: translateZ(0);
+		transition: transform 0.8s ease-in 1.5s;
+	}
+}
+
+.about-me-self {
+	&__wrapper {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin-bottom: 100px;
+	}
+
+	// &__title {}
+
+	// &__line {}
+
+	&__inner-links {
+		display: flex;
+		justify-content: space-between;
+		margin-top: 40px;
+		margin-bottom: 40px;
+		padding: 0 20px;
+		width: 100%;
+	}
+
+	&__img-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	&__img-box {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+		width: 200px;
+		height: 200px;
+		border: 4px solid $white;
+		border-radius: 50%;
+		opacity: 0;
+	}
+
+	&__img-box--animate {
+		opacity: 1;
+		transition: opacity 1.2s ease-out;
+	}
+
+	&__img {
+		transform: scale(0.9);
+	}
+
+	&__img-text {
+		margin-top: 15px;
+		width: 305px;
+		font-size: 18px;
+		color: $about-me-self-text-color;
+	}
+
+	&__img-text--rus-lang {
+		width: 295px;
+		font-size: 16px;
+	}
+
+	&__links-box {
+		display: flex;
+		flex-direction: column;
+		row-gap: 10px;
+	}
+
+	&__links-img {
+		width: 35px;
+		height: 35px;
+	}
+
+	&__links-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 600px;
+		height: 40px;
+		opacity: 0;
+		column-gap: 10px;
+		box-shadow: 0 0 2px $about-me-self-border-color;
+
+		&:hover .about-me-self__links-img {
+			width: 40px;
+			height: 40px;
+		}
+	}
+
+	&__links-item--left {
+		transform: translateX(20px);
+	}
+
+	&__links-item--right {
+		transform: translateX(-20px);
+	}
+
+	&__links-item--animate {
+		transform: translateX(0);
+		opacity: 1;
+		transition:
+			transform 0.8s ease-out,
+			opacity 0.8s ease-out;
+	}
+
+	@each $modifier, $color in $colors {
+		@include links-hover-color($modifier, $color);
+	}
+
+	&__links-text {
+		font-size: 18px;
+		color: $about-me-self-text-color;
+	}
+
+	&__links-text--rus-lang {
+		font-size: 16px;
+	}
+
+	// &__section-line {}
+
+	&__inner-text {
+		display: flex;
+		flex-direction: column;
+		margin: 30px 0;
+		row-gap: 10px;
+	}
+
+	&__text {
+		line-height: 125%;
+		font-size: 18px;
+		color: $about-me-self-text-color;
+		letter-spacing: 0.5px;
+		transform: translateX(20px);
+		opacity: 0;
+	}
+
+	&__text--rus-lang {
+		font-size: 16px;
+	}
+
+	&__text--animate {
+		transform: translateX(0);
+		opacity: 1;
+		transition:
+			transform 0.8s ease-out,
+			opacity 0.8s ease-out;
+	}
+
+	&__accent-text {
+		font-size: 24px;
+		color: $about-me-self-accent-text-color;
+		letter-spacing: 0.5px;
+		opacity: 0;
+		transform: translateY(-20px);
+	}
+
+	&__accent-text--rus-lang {
+		font-size: 22px;
+	}
+
+	&__accent-text--animate {
+		transform: translateY(0);
+		opacity: 1;
+		transition:
+			transform 0.8s ease-out,
+			opacity 0.8s ease-out;
+	}
+}
+
+.about-me-exp {
+	&__wrapper {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin-bottom: 50px;
+	}
+
+	// &__title {}
+
+	// &__line {}
+
+	&__inner-content {
+		display: flex;
+		flex-direction: column;
+		margin-top: 20px;
+		width: 100%;
+		row-gap: 20px;
+	}
+
+	&__period {
+		position: absolute;
+		left: -9999px;
+	}
+
+	&__box {
+		display: flex;
+		flex-direction: column;
+		column-gap: 40px;
+	}
+
+	&__item {
+		display: flex;
+		flex-direction: column;
+		font-weight: 500;
+		font-size: 24px;
+		color: white;
+		letter-spacing: 0.5px;
+	}
+
+	&__profession {
+		display: flex;
+		align-items: center;
+		min-height: 30px;
+	}
+
+	&__profession--rus-lang {
+		font-size: 22px;
+	}
+
+	&__date {
+		display: flex;
+		align-items: center;
+		min-height: 22px;
+		font-size: 18px;
+		color: $about-me-exp-accent-text-color;
+	}
+
+	&__date--rus-lang {
+		font-size: 16px;
+	}
+
+	&__company {
+		display: flex;
+		align-items: center;
+		margin-top: 5px;
+		min-height: 22px;
+		font-size: 18px;
+	}
+
+	&__company--rus-lang {
+		font-size: 16px;
+	}
+
+	&__text {
+		display: flex;
+		flex-direction: column;
+		margin-top: 20px;
+		font-size: 18px;
+		color: $about-me-exp-text-color;
+		letter-spacing: 0.5px;
+		opacity: 0;
+		transform: translateY(-10px);
+		row-gap: 5px;
+	}
+
+	&__text--animate {
+		transform: translateY(0);
+		opacity: 1;
+		transition:
+			transform 0.6s ease-out,
+			opacity 0.6s ease-out;
+	}
+
+	&__text--rus-lang {
+		font-size: 16px;
+	}
+
+	&__box-line {
+		margin-top: 20px;
+	}
+
+	&__total-exp {
+		margin-top: 30px;
+		font-size: 24px;
+		color: $about-me-exp-text-color;
+		transform: translateY(20px);
+		opacity: 0;
+	}
+
+	&__total-date {
+		font-weight: 600;
+		color: $about-me-exp-accent-text-color;
+	}
+
+	&__total-exp--rus-lang {
+		font-size: 22px;
+	}
+
+	&__total-exp--animate {
+		transform: translateY(0);
+		opacity: 1;
+		transition:
+			transform 0.6s ease-out,
+			opacity 0.6s ease-out;
+	}
 }

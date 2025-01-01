@@ -2290,7 +2290,7 @@ function main() {
 		copyText()
 	}
 
-	function resumePageEveents() {
+	function resumePageEvents() {
 		sameElementsAnimation('.resume-title', 'resume-title', ['resume-title--animate'], 80, null)
 		sameElementsAnimation('.resume-btn-box', 'resume-btn', ['resume-btn-box--animate'], 80, null)
 		sameElementsAnimation('.resume-feedback__input-box', 'resume-feedback-input-box', ['resume-feedback__input-box--animate'], 20, null)
@@ -2422,6 +2422,146 @@ function main() {
 		feedbackAnimate()
 	}
 
+	function aboutMePageEvents() {
+		const myselfItem = document.querySelectorAll('.about-me-self__links-item')
+
+		sameElementsAnimation('.about-me-exp__text', 'about-me-exp-text', ['about-me-exp__text--animate'], 50, null)
+		sameElementsAnimation('.about-me-exp__box-line', 'about-me-exp-box-line', ['about-me-exp__box-line--animate'], 50, null)
+		sameElementsAnimation('.about-me-title', 'about-me-title', ['about-me-title--animate'], 50, null)
+		sameElementsAnimation('.about-me-section-line', 'about-me-section-line', ['about-me-section-line--animate'], 50, null)
+		sameElementsAnimation('.about-me-self__links-item', 'about-me-self-links-item', ['about-me-self__links-item--animate'], 50, null)
+		myselfItem.forEach((element, index) => element.classList.add(index % 2 === 0 ? 'about-me-self__links-item--left' : 'about-me-self__links-item--right'))
+
+		singleElementsAnimation('about-me-getting-title', 0, ['about-me-getting__title--animate'], 'about-me-getting-hide-box')
+		singleElementsAnimation('about-me-exp-total-exp', 50, ['about-me-exp__total-exp--animate'], null)
+		singleElementsAnimation('about-me-self-img-box', 50, ['about-me-self__img-box--animate'], null)
+		singleElementsAnimation('about-me-self-accent-text', 50, ['about-me-self__accent-text--animate'], 'about-me-self-inner-text')
+		singleElementsAnimation('about-me-self-text', 50, ['about-me-self__text--animate'], 'about-me-self-inner-text')
+
+		function gettingSubtitleAnimate() {
+			const container = document.getElementById('about-me-getting-subtitle')
+			const elements = document.querySelectorAll('.about-me-getting__span')
+			const timeouts = []
+
+			function animate() {
+				elements.forEach((element, index) => {
+					const timeout = setTimeout(() => element.classList.add('about-me-getting__span--animate'), 170 * index)
+
+					timeouts.push(timeout)
+				})
+			}
+
+			function reset() {
+				elements.forEach(element => element.classList.remove('about-me-getting__span--animate'))
+				timeouts.forEach(timeout => clearTimeout(timeout))
+				timeouts.length = 0
+			}
+
+			createAnimation([container], ['about-me-getting-subtitle'], 0, animate, reset)
+		}
+
+		gettingSubtitleAnimate()
+
+		function scrollLettersAnimate() {
+			const container = document.getElementById('about-me-scroll-text')
+			const letters = document.querySelectorAll('.about-me-scroll__letters')
+			const timeouts = []
+
+			function animate() {
+				letters.forEach((letter, index) => {
+					const timeout = setTimeout(() => letter.classList.add('about-me-scroll__letters--animate'), index * 100)
+
+					timeouts.push(timeout)
+				})
+			}
+
+			function reset() {
+				letters.forEach(letter => letter.classList.remove('about-me-scroll__letters--animate'))
+				timeouts.forEach(timeout => clearTimeout(timeout))
+				timeouts.length = 0
+			}
+
+			createAnimation([container], ['about-me-scroll-text'], 0, animate, reset)
+		}
+
+		scrollLettersAnimate()
+
+		function writeText() {
+			const proffeson = document.querySelectorAll('.about-me-exp__profession')
+			const date = document.querySelectorAll('.about-me-exp__date')
+			const company = document.querySelectorAll('.about-me-exp__company')
+			const email = document.getElementById('about-me-self-img-text')
+
+			const setProfId = addId(proffeson, 'about-me-exp-profession', 50)
+			const setDateId = addId(date, 'about-me-exp-date', 50)
+			const setCompanyId = addId(company, 'about-me-exp__company', 50)
+
+			const enProf = ['Freelance projects (independent practice)']
+			const ruProf = ['Фриланс проекты (самостоятельная практика)']
+
+			const enDate = ['July 2023 - present time']
+			const ruDate = ['Июль 2023 - настоящее время']
+
+			const enCompany = ['Education']
+			const ruCompany = ['Обучение']
+
+			const handleTextProfWrite = writeAndResetText(setProfId.ids, enProf, ruProf, 40, setProfId.elementKeys, ['about-me-exp__profession--rus-lang'], null)
+			const handleTextDateWrite = writeAndResetText(setDateId.ids, enDate, ruDate, 50, setDateId.elementKeys, ['about-me-exp__date--rus-lang'], null)
+			const handleTextCompanyWrite = writeAndResetText(setCompanyId.ids, enCompany, ruCompany, 60, setCompanyId.elementKeys, ['about-me-exp__company--rus-lang'], null)
+			const handleEmailTextWrite = writeAndResetText([email], ['sunnatbackidjanov@gmail.com'], ['sunnatbackidjanov@gmail.com'], 40, ['about-me-self-img-text'], ['about-me-self__img-text--rus-lang'])
+
+			createAnimation(setProfId.ids, setProfId.elementKeys, setProfId.startingHeight, handleTextProfWrite.writeAll, handleTextProfWrite.resetAll)
+			createAnimation(setDateId.ids, setDateId.elementKeys, setDateId.startingHeight, handleTextDateWrite.writeAll, handleTextDateWrite.resetAll)
+			createAnimation(setCompanyId.ids, setCompanyId.elementKeys, setCompanyId.startingHeight, handleTextCompanyWrite.writeAll, handleTextCompanyWrite.resetAll)
+			createAnimation([email], ['about-me-self-img-text'], 50, handleEmailTextWrite.writeAll, handleEmailTextWrite.resetAll)
+		}
+
+		writeText()
+	}
+
+	function calculateExp() {
+		const expList = document.querySelectorAll('.about-me-exp__period')
+		const monthText = document.getElementById('about-me-exp-total-exp-month-text')
+		const yearText = document.getElementById('about-me-exp-total-exp-year-text')
+		const monthDate = document.getElementById('about-me-exp-total-exp-month-date')
+		const yearDate = document.getElementById('about-me-exp-total-exp-year-date')
+		let totalMonths = 0
+
+		expList.forEach(element => {
+			const startDate = new Date(element.dataset.start)
+			const endDate = element.dataset.end === 'present' ? new Date() : new Date(element.dataset.end)
+
+			const months = (endDate.getFullYear() - startDate.getFullYear()) * 12 + (endDate.getMonth() - startDate.getMonth())
+			totalMonths += months
+		})
+
+		const years = Math.floor(totalMonths / 12)
+		const months = totalMonths % 12
+
+		function declension(number, one, few, many) {
+			const mod10 = number % 10
+			const mod100 = number % 100
+
+			if (mod100 >= 11 && mod100 <= 19) return many
+			if (mod10 === 1) return one
+			if (mod10 >= 2 && mod10 <= 4) return few
+			return many
+		}
+
+		if (!isLanguageRussian) {
+			yearText.textContent = years === 1 ? 'year' : 'years'
+			monthText.textContent = months === 1 ? 'month' : 'months'
+		}
+
+		if (isLanguageRussian) {
+			yearText.textContent = declension(years, 'год', 'года', 'лет')
+			monthText.textContent = declension(months, 'месяц', 'месяца', 'месяцев')
+		}
+
+		monthDate.textContent = months
+		yearDate.textContent = years
+	}
+
 	function setCurrentDate() {
 		const date = document.getElementById('footer-current-date')
 		const setCurrentDate = new Date()
@@ -2494,15 +2634,18 @@ function main() {
 		sameElementsAnimation('.line', 'line', ['line--animate'], 50, null)
 		scrollLine()
 		setCurrentDate()
+		calculateExp()
+
+		headerEvents()
+		homePageEvents()
+		usesPageEvents()
+		resumePageEvents()
+		aboutMePageEvents()
+		footerEvents()
 
 		switchPages()
 		climbUp()
 		asideMenu()
-		footerEvents()
-		homePageEvents()
-		usesPageEvents()
-		resumePageEveents()
-		headerEvents()
 	})
 
 	window.addEventListener('beforeunload', () => {
@@ -2516,6 +2659,7 @@ function main() {
 		translateText(currentLanguage, 'russian-font')
 
 		setCurrentDate()
+		calculateExp()
 
 		function homePageTextEdit() {
 			const cardsText = document.querySelectorAll('.hmp-cards__progress-text')
@@ -2584,6 +2728,24 @@ function main() {
 		}
 
 		usesTextEdit()
+
+		function aboutMeTextEdit() {
+			const expText = document.querySelectorAll('.about-me-exp__text')
+			const totalText = document.querySelectorAll('.about-me-exp__total-text')
+			const linksText = document.querySelectorAll('.about-me-self__links-text')
+
+			manageClasses(expText, ['about-me-exp__text--rus-lang'], null)
+			manageClasses(totalText, ['russian-font'], null)
+			manageClasses(linksText, ['russian-font', 'about-me-self__links-text--rus-lang'], null)
+
+			manageClasses(null, ['about-me-getting__title--rus-lang'], '.about-me-getting__title')
+			manageClasses(null, ['about-me-getting__subtitle--rus-lang'], '.about-me-getting__subtitle')
+			manageClasses(null, ['about-me-exp__total-exp--rus-lang', 'russian-font'], '.about-me-exp__total-exp')
+			manageClasses(null, ['about-me-self__text--rus-lang'], '.about-me-self__text')
+			manageClasses(null, ['about-me-self__accent-text--rus-lang'], '.about-me-self__accent-text')
+		}
+
+		aboutMeTextEdit()
 	})
 
 	window.addEventListener('orientationchange', () => {
