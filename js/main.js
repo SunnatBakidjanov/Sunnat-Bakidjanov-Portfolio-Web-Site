@@ -2,9 +2,6 @@ function main() {
 	'use strict'
 	const logo = document.getElementById('logo')
 
-	const homePage = document.getElementById('page-1')
-	const homePageBtn = document.getElementById('home-page-btn')
-
 	const changeLanguageButton = document.getElementById('translator')
 
 	const tickingState = {}
@@ -52,7 +49,7 @@ function main() {
 			}
 		}
 
-		if (document.documentElement.clientWidth > 1000) {
+		if (document.documentElement.clientWidth > 1150) {
 			clickState[elementKey].isClicked = true
 
 			window.requestAnimationFrame(() => {
@@ -64,7 +61,7 @@ function main() {
 			})
 		} else {
 			const onBurgerAnimationEnd = event => {
-				if (event.animationName === 'nav-container-burger-close') {
+				if (event.animationName === 'burger-close') {
 					clickState[elementKey].isClicked = true
 
 					if (handleVisibilityChange(element, startingHeight, elementKey)) {
@@ -78,6 +75,16 @@ function main() {
 			}
 
 			document.addEventListener('animationend', onBurgerAnimationEnd)
+
+			if (target.id === 'logo') {
+				window.requestAnimationFrame(() => {
+					if (handleVisibilityChange(element, startingHeight, elementKey)) {
+						startCallback(clickState[elementKey].newPage)
+
+						scrollState[elementKey].scrolState = true
+					}
+				})
+			}
 		}
 	}
 
@@ -450,80 +457,54 @@ function main() {
 
 	function switchPages() {
 		const pages = document.querySelectorAll('.page')
-		const buttons = document.querySelectorAll('.nav__btn')
+		const buttons = document.querySelectorAll('.header__btn')
+		const lines = document.querySelectorAll('.header__line')
 
-		const buttonLines = [
-			{ element: 'nav__hover-top-line', position: 'top' },
-			{ element: 'nav__hover-center-line', position: 'center' },
-			{ element: 'nav__hover-bottom-line', position: 'bottom' },
-		]
+		buttons.forEach((element, index) => {
+			element.addEventListener('click', handleBtnClick)
 
-		function handleBtnClick(event) {
-			const target = event.target.closest('.nav__btn')
+			const node = [...buttons[index].childNodes].filter(node => node.nodeType === 1 && node.classList.contains('header__line'))
 
-			if (target) {
-				const pageId = `page-${target.dataset.page}`
-				const activePage = document.getElementById(pageId)
-
-				pages.forEach(page => {
-					page.classList.remove('page--active')
-				})
-
-				if (activePage) {
-					activePage.classList.add('page--active')
-				}
-
-				window.scrollTo(0, 0)
-
-				buttons.forEach(button => {
-					button.classList.remove('nav__btn--clicked')
-					buttonLines.forEach(({ element, position }) => {
-						const lineElement = button.querySelector(`.${element}`)
-						if (lineElement) {
-							lineElement.classList.remove(`nav__hover-${position}-line--clicked`)
-						}
-					})
-				})
-
-				target.classList.add('nav__btn--clicked')
-				buttonLines.forEach(({ element, position }) => {
-					const currentLineElement = target.querySelector(`.${element}`)
-					if (currentLineElement) {
-						currentLineElement.classList.add(`nav__hover-${position}-line--clicked`)
-					}
-				})
-			}
-		}
-
-		document.addEventListener('click', handleBtnClick)
-
-		function handleLogoClick() {
-			pages.forEach(page => {
-				page.classList.remove('page--active')
+			node.forEach((element, index) => {
+				element.classList.add(`header__line--${index}`)
+				element.classList.add(index % 2 === 0 ? 'header__line--left' : 'header__line--right')
 			})
+		})
 
-			buttons.forEach(button => {
-				button.classList.remove('nav__btn--clicked')
-				buttonLines.forEach(({ element, position }) => {
-					const lineElement = button.querySelector(`.${element}`)
-					if (lineElement) {
-						lineElement.classList.remove(`nav__hover-${position}-line--clicked`)
-					}
-				})
-			})
-
-			buttonLines.forEach(({ element, position }) => {
-				const currentLineElement = document.querySelector(`.${element}`)
-
-				if (currentLineElement) {
-					currentLineElement.classList.add(`nav__hover-${position}-line--clicked`)
-				}
-			})
-
-			homePageBtn.classList.add('nav__btn--clicked')
-			homePage.classList.add('page--active')
+		function removeClasses() {
+			lines.forEach(element => element.classList.remove('header__line--active'))
+			buttons.forEach(element => element.classList.remove('header__btn--active'))
+			pages.forEach(page => page.classList.remove('page--active'))
 
 			window.scrollTo(0, 0)
+		}
+
+		function handleBtnClick(event) {
+			const index = [...buttons].indexOf(event.target)
+			const pageId = `page-${buttons[index].dataset.page}`
+			const activePage = document.getElementById(pageId)
+
+			if (index === -1) return
+
+			removeClasses()
+
+			const line = [...buttons[index].childNodes].filter(node => node.nodeType === 1 && node.classList.contains('header__line'))
+
+			buttons[index].classList.add('header__btn--active')
+			line.forEach(element => element.classList.add('header__line--active'))
+			activePage.classList.add('page--active')
+		}
+
+		function handleLogoClick() {
+			const homePage = document.getElementById('page-1')
+			const homePageBtn = document.getElementById('home-page-btn')
+			const line = [...homePageBtn.childNodes].filter(node => node.nodeType === 1 && node.classList.contains('header__line'))
+
+			removeClasses()
+
+			line.forEach(element => element.classList.add('header__line--active'))
+			homePageBtn.classList.add('header__btn--active')
+			homePage.classList.add('page--active')
 		}
 
 		logo.addEventListener('click', handleLogoClick)
@@ -628,51 +609,51 @@ function main() {
 		})
 	}
 
+	function updateAnimationText() {
+		const element = document.getElementById('aside-menu-animation-state')
+		const state = isLanguageRussian ? (isAnimationStopped ? 'ВЫКЛ' : 'ВКЛ') : isAnimationStopped ? 'OFF' : 'ON'
+		element.classList.toggle('russian-font', isLanguageRussian)
+		element.textContent = state
+	}
+
 	function asideMenu() {
 		const menuElement = document.getElementById('aside-menu')
 		const openBtn = document.getElementById('aside-menu-btn')
 		const closeBtn = document.getElementById('aside-menu-close')
-		const activeBtn = document.getElementById('aside-menu-acitve')
+		const animationBtn = document.getElementById('aside-menu-animation-btn')
+		const items = document.querySelectorAll('.aside-menu__item')
+		const btns = document.querySelectorAll('.aside-menu__inner-btn')
 
-		const animationToggleStateBtn = document.getElementById('animation-toggle-stop')
-		const animationScrollBtn = document.getElementById('animation-scroll-stop')
+		items.forEach((element, index) => {
+			element.classList.add(`aside-menu__item--${index}`)
+			btns[index].classList.add(`aside-menu__inner-btn--${index}`)
+		})
 
-		const stateBtns = [animationToggleStateBtn, animationScrollBtn]
-
-		function changeAnimationState() {
-			function updateAnimationText() {
-				const toggleAnimationText = isLanguageRussian ? 'Анимации' : 'Animations'
-				const onOffToggleText = isLanguageRussian ? (isAnimationStopped ? 'ВЫКЛ' : 'ВКЛ') : isAnimationStopped ? 'OFF' : 'ON'
-
-				animationToggleStateBtn.textContent = isAnimationStopped ? `Re:${toggleAnimationText}: ${onOffToggleText}` : `Re:${toggleAnimationText}: ${onOffToggleText}`
-
-				stateBtns.forEach(btn => {
-					btn.classList.toggle('new-font', isLanguageRussian)
-				})
-			}
+		animationBtn.addEventListener('click', () => {
+			isAnimationStopped = !isAnimationStopped
 
 			updateAnimationText()
-
-			function toggleAnimationState(variable) {
-				if (variable === 'isLanguageRussian') isLanguageRussian = !isLanguageRussian
-				if (variable === 'isAnimationStopped') isAnimationStopped = !isAnimationStopped
-				updateAnimationText()
-			}
-
-			animationScrollBtn.addEventListener('click', () => toggleAnimationState('isScrollAnimation'))
-		}
-
-		changeAnimationState()
+		})
 
 		function backgroundColorChange() {
 			const root = document.querySelector('.page')
-			const buttons = document.querySelectorAll('.aside-colors__colors')
+			const buttons = document.querySelectorAll('.aside-menu__colors')
 			const classes = ['bg-color--1', 'bg-color--2', 'bg-color--3', 'bg-color--4']
+			const colors = ['#6dac2f', '#d1b200', '#d35400', '#5dade2']
+
+			const headerBtns = document.querySelectorAll('.header__btn')
+			const headerLogo = document.getElementById('logo')
+			const asideMenuElements = ['aside-menu__inner', 'aside-menu__inner-btn', 'aside-menu__active']
+			const hmpMyName = document.getElementById('hmp-getting-name')
+
+			buttons.forEach((element, index) => {
+				element.classList.add(`aside-menu__colors--${index}`)
+			})
 
 			let isTransitioning = false
-			let currentClass = 'bg-color--1'
+			let currentClass = 'bg-color--4'
 
-			function changeGradient(className) {
+			function changeGradient(className, color) {
 				if (isTransitioning || currentClass === className) return
 
 				isTransitioning = true
@@ -689,6 +670,14 @@ function main() {
 					} else {
 						root.classList.remove(...classes)
 						root.classList.add(className)
+
+						headerLogo.style.setProperty('--header-logo-box-shadow', color)
+						headerBtns.forEach(element => element.style.setProperty('--header-btn-box-shadow', color))
+						asideMenuElements.forEach(element => {
+							const target = document.querySelector(`.${element}`)
+							target.style.setProperty('--aside-menu-color', color)
+						})
+						hmpMyName.style.setProperty('--hmp-getting-name-color', color)
 
 						let returnPoint = 100
 
@@ -715,12 +704,13 @@ function main() {
 					const target = event.target
 
 					if (!isTransitioning) {
-						buttons.forEach(element => element.classList.remove('aside-colors__colors--active'))
-						target.classList.add('aside-colors__colors--active')
+						buttons.forEach(element => element.classList.remove('aside-menu__colors--active'))
+						target.classList.add('aside-menu__colors--active')
 					}
 
 					const className = classes[index]
-					changeGradient(className)
+					const color = colors[index]
+					changeGradient(className, color)
 				})
 			})
 		}
@@ -733,14 +723,15 @@ function main() {
 			function openMenu() {
 				if (menuState.isOpen) return
 
-				menuState.isOpen = !menuState.isOpen
 				clearTimeout(menuState.timeout)
 				menuState.timeout = null
 
+				setTimeout(() => {
+					menuState.isOpen = !menuState.isOpen
+				}, 500)
+
 				menuElement.classList.remove('aside-menu__wrapper--close')
 				menuElement.classList.add('aside-menu__wrapper--open')
-				activeBtn.classList.add('aside-content__acite--open')
-				closeBtn.classList.add('aside-content__btn--close')
 				openBtn.classList.add('aside-menu__btn--close')
 
 				document.querySelectorAll('.aside-content__item').forEach(element => {
@@ -751,30 +742,35 @@ function main() {
 			function closeMenu() {
 				if (!menuState.isOpen) return
 
-				menuState.isOpen = !menuState.isOpen
 				clearTimeout(menuState.timeout)
 				menuState.timeout = null
 
+				setTimeout(() => {
+					menuState.isOpen = !menuState.isOpen
+				}, 500)
+
 				menuElement.classList.remove('aside-menu__wrapper--open')
 				menuElement.classList.add('aside-menu__wrapper--close')
-				closeBtn.classList.remove('aside-content__btn--close')
 
-				document.querySelectorAll('.aside-content__item').forEach(element => {
+				items.forEach((element, index) => {
 					element.style.cssText = `
 							pointer-events: none;
 							width: 0;
 							transition: all 0.2s ease;
 						`
 
-					menuState.timeout = setTimeout(() => {
+					btns.forEach(element => (element.style.pointerEvents = 'none'))
+
+					setTimeout(() => {
 						element.removeAttribute('style')
-					}, 400)
+						btns[index].removeAttribute('style')
+					}, 500)
 				})
 
-				activeBtn.classList.remove('aside-content__acite--open')
 				openBtn.classList.remove('aside-menu__btn--close')
 			}
 
+			items[items.length - 1].addEventListener('touchstart', closeMenu, { passive: true })
 			openBtn.addEventListener('click', openMenu)
 			closeBtn.addEventListener('click', closeMenu)
 		}
@@ -786,236 +782,89 @@ function main() {
 		}
 
 		initializeMenu()
-
-		function stopAnimationHover() {
-			const triggerBtn = document.querySelector('.aside-content__btn--animation-stop')
-			const animationBtns = document.querySelectorAll('.aside-animations__btn')
-
-			if (!triggerBtn || animationBtns.length < 3) {
-				console.error('Элементы не найдены или их недостаточно.')
-				return
-			}
-
-			triggerBtn.addEventListener('mouseover', () => {
-				animationBtns[0].style.cssText = `
-					top: 0;
-					transition: all 0.3s 0.4s ease-out;
-				`
-
-				animationBtns[2].style.cssText = `
-					bottom: 0;
-					transition: all 0.3s 0.4s ease-out;
-				`
-			})
-
-			triggerBtn.addEventListener('mouseleave', () => {
-				animationBtns.forEach(el => {
-					el.removeAttribute('style')
-				})
-			})
-		}
-
-		stopAnimationHover()
 	}
 
 	function headerEvents() {
-		function animateHeaderMain() {
-			const container = document.getElementById('header-main')
+		function socialItemTransition() {
+			const items = document.querySelectorAll('.header__social-item')
 
-			container.classList.add('header-main__wrapper--animate')
+			items.forEach((element, index) => (element.style.transition = `top ${0.1 * (items.length - 1 + index)}s ease-out`))
+		}
+
+		socialItemTransition()
+
+		function animateHeaderMain() {
+			const container = document.getElementById('header')
+
+			container.classList.add('header__wrapper--animate')
 		}
 
 		animateHeaderMain()
 
 		function burgerMenu() {
-			const elements = {
-				menuContainer: document.getElementById('burger-menu'),
-				navContainer: document.getElementById('header-nav-container'),
-				navElement: document.getElementById('header-main-nav'),
-				logoElement: document.getElementById('logo'),
-				headerContainer: document.getElementById('header-main'),
-				socialMediaContainer: document.getElementById('social-media'),
-				socialMediaList: document.getElementById('social-media-list'),
-				page: document.getElementById('page'),
-			}
+			const burgerMenu = document.getElementById('burger-menu')
+			const container = document.getElementById('header-nav-container')
+			const page = document.getElementById('page')
 
-			const queryElements = {
-				navItemElements: document.querySelectorAll('.nav__item'),
-				socialMediaElements: document.querySelectorAll('.social-media__item'),
-			}
+			const lines = document.querySelectorAll('.header__burger-line')
+			const items = document.querySelectorAll('.header__item')
+			const socialItems = document.querySelectorAll('.header__social-item')
 
-			const burgerLines = [
-				{ element: document.getElementById('burger-line-top'), position: 'top' },
-				{ element: document.getElementById('burger-line-center'), position: 'center' },
-				{ element: document.getElementById('burger-line-bottom'), position: 'bottom' },
-			]
+			const elements = [container, burgerMenu, page, ...lines, ...items, ...socialItems]
 
 			let isOpen = false
-			let isAnimating = false
-			let timeouts = []
+			let isAnimation = false
 
-			function toggleLineClasses(action) {
-				burgerLines.forEach(({ element, position }) => {
-					element.classList[action](`burger-menu__line--${position}-animate`)
-				})
-			}
+			burgerMenu.addEventListener('click', () => {
+				if (isAnimation) return
+				isAnimation = true
 
-			function toggleNavItemClasses(action) {
-				queryElements.navItemElements.forEach((element, index) => {
-					const left = 'nav__item--left-animate'
-					const right = 'nav__item--right-animate'
-					const addClasses = index % 2 === 0 ? left : right
+				if (!isOpen) {
+					setTimeout(() => {
+						isOpen = true
+						isAnimation = false
+					}, 800)
 
-					if (action === 'add') element.classList.add(addClasses)
-					if (action === 'remove') element.classList.remove(left, right)
-				})
-			}
+					window.scrollTo(0, 0)
 
-			function togglesocialMediaClasses(action) {
-				if (action === 'add') {
-					queryElements.socialMediaElements.forEach((item, index) => {
-						const timeout = setTimeout(() => {
-							item.classList.add('social-media__item--burger-open')
-						}, 100 * index)
+					elements.forEach(element => {
+						const classNames = element.classList
 
-						timeouts.push(timeout)
+						element.classList.add(`${classNames[0]}--open`)
+
+						classNames.forEach(className => {
+							if (className.includes('--close')) element.classList.remove(className)
+						})
+					})
+				} else {
+					setTimeout(() => {
+						isOpen = false
+						isAnimation = false
+					}, 800)
+
+					elements.forEach(element => {
+						const classNames = element.classList
+
+						element.classList.add(`${classNames[0]}--close`)
+
+						classNames.forEach(className => {
+							if (className.includes('--open')) element.classList.remove(className)
+						})
+
+						if (element.classList.contains(`${classNames[0]}--close`)) setTimeout(() => element.classList.remove(`${classNames[0]}--close`), 610)
 					})
 				}
-
-				if (action === 'remove') {
-					queryElements.socialMediaElements.forEach(item => item.classList.remove('social-media__item--burger-open'))
-
-					timeouts.forEach(clearTimeout)
-					timeouts = []
-				}
-			}
-
-			function toggleElements() {
-				elements.menuContainer.classList.toggle('burger-menu--animate-open', isOpen)
-				elements.menuContainer.classList.toggle('burger-menu--animate-close', !isOpen)
-				elements.navContainer.classList.toggle('header-main__nav-container--burger-open-animate', isOpen)
-				elements.navContainer.classList.toggle('header-main__nav-container--burger-close-animate', !isOpen)
-				elements.logoElement.classList.toggle('logo--burger-open', isOpen)
-				elements.headerContainer.classList.toggle('header-main__wrapper--burger-open', isOpen)
-				elements.socialMediaContainer.classList.toggle('social-media--burger-open')
-				elements.socialMediaList.classList.remove('social-media__list--burger-open')
-				elements.page.classList.add('page--burger-open')
-			}
-
-			function removeElements() {
-				elements.menuContainer.classList.remove('burger-menu--animate-open', 'burger-menu--animate-close', 'burger-menu--open')
-				elements.navContainer.classList.remove('header-main__nav-container--burger-open', 'header-main__nav-container--burger-open-animate', 'header-main__nav-container--burger-close-animate')
-				elements.navElement.classList.remove('header-main__nav--burger-open')
-				elements.logoElement.classList.remove('logo--burger-open')
-				elements.headerContainer.classList.remove('header-main__wrapper--burger-open')
-				elements.socialMediaContainer.classList.remove('social-media--burger-open')
-				elements.page.classList.remove('page--burger-open')
-			}
-
-			function handleAnimationEnd(event) {
-				const { animationName } = event
-
-				if (animationName === 'burger-menu-close') {
-					toggleLineClasses('remove')
-
-					elements.menuContainer.classList.remove('burger-menu--animate-close', 'burger-menu--open')
-				}
-
-				if (animationName === 'burger-menu-open') {
-					elements.menuContainer.classList.remove('burger-menu--animate-open')
-					elements.menuContainer.classList.add('burger-menu--open')
-				}
-
-				if (animationName === 'nav-container-burger-open') {
-					elements.navContainer.classList.remove('header-main__nav-container--burger-open-animate')
-					elements.navContainer.classList.add('header-main__nav-container--burger-open')
-					elements.navElement.classList.add('header-main__nav--burger-open')
-					elements.socialMediaContainer.classList.add('social-media--burger-open')
-					elements.socialMediaList.classList.add('social-media__list--burger-open')
-
-					toggleNavItemClasses('add')
-					togglesocialMediaClasses('add')
-				}
-
-				if (animationName === 'nav-container-burger-close') {
-					elements.page.classList.remove('page--burger-open')
-					elements.navContainer.classList.remove('header-main__nav-container--burger-open', 'header-main__nav-container--burger-close-animate')
-					elements.navElement.classList.remove('header-main__nav--burger-open')
-					elements.socialMediaContainer.classList.remove('social-media--burger-open')
-					elements.socialMediaList.classList.remove('social-media__list--burger-open')
-
-					toggleNavItemClasses('remove')
-				}
-
-				if (['nav-container-burger-open', 'nav-container-burger-close'].includes(animationName)) {
-					setTimeout(() => {
-						isAnimating = false
-					}, 1000)
-				}
-			}
-
-			function toggleMenu() {
-				if (isAnimating) return
-
-				isOpen = !isOpen
-				isAnimating = true
-
-				toggleLineClasses('add')
-				togglesocialMediaClasses('remove')
-				toggleElements()
-
-				document.addEventListener('animationend', handleAnimationEnd)
-			}
-
-			elements.menuContainer.addEventListener('click', toggleMenu)
-
-			function resetMenuClasses() {
-				toggleLineClasses('remove')
-				toggleNavItemClasses('remove')
-				removeElements()
-
-				isOpen = false
-				isAnimating = false
-			}
-
-			function handleResetOnResize() {
-				if (window.innerWidth > 1000) {
-					resetMenuClasses()
-				}
-			}
-
-			window.addEventListener('resize', handleResetOnResize)
+			})
 		}
 
 		burgerMenu()
 	}
 
 	function homePageEvents() {
+		sameElementsAnimation('.hmp-titles', 'hmp-titles', ['hmp-titles--animate'], 50, null)
+
 		singleElementsAnimation('hmp-getting-title', 0, ['hmp-getting__title--animate'], 'hmp-getting-hidden-title')
 		singleElementsAnimation('hmp-projects-text', 150, ['hmp-projects__text--animate'], 'hmp-projects-text')
-
-		function writeTitles() {
-			const titles = document.querySelectorAll('.hmp-titles')
-
-			const setId = addId(titles, 'hmp-titles', 50)
-
-			const en = ['Progress of my skills', 'My projects', 'My way']
-			const ru = ['Прогресс моих навыков', 'Мои проекты', 'Мой путь']
-
-			const handleTextWrite = writeAndResetText(setId.ids, en, ru, 50, setId.elementKeys, ['hmp-titles--rus-lang'], null)
-
-			function animate() {
-				handleTextWrite.writeAll()
-			}
-
-			function reset() {
-				handleTextWrite.resetAll()
-			}
-
-			createAnimation(setId.ids, setId.elementKeys, setId.startingHeight, animate, reset)
-		}
-
-		writeTitles()
 
 		function updateSkillsText() {
 			const container = document.getElementById('hmp-getting-group-text')
@@ -1064,9 +913,9 @@ function main() {
 			const cfg = {
 				typeSpeed: 70,
 				deleteSpeed: 50,
-				startWrite: 800,
+				startWrite: 1700,
 				nextString: 2200,
-				delayWriteNextString: 1700,
+				delayWriteNextString: 1500,
 			}
 
 			let tempLanguageState = null
@@ -2660,6 +2509,7 @@ function main() {
 
 		setCurrentDate()
 		calculateExp()
+		updateAnimationText()
 
 		function homePageTextEdit() {
 			const cardsText = document.querySelectorAll('.hmp-cards__progress-text')

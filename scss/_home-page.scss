@@ -49,13 +49,21 @@ $hmp-my-way-border-color: $white;
 // Same components
 
 .hmp-titles {
-	display: flex;
-	align-items: center;
-	min-height: 52px;
 	font-weight: 700;
 	font-size: 42px;
 	color: $hmp-title-color;
 	letter-spacing: 0.5px;
+	text-align: center;
+	opacity: 0;
+	transform: translateY(-30px);
+}
+
+.hmp-titles--animate {
+	transform: translateY(0);
+	opacity: 1;
+	transition:
+		transform 0.8s ease-out,
+		opacity 0.8s ease-out;
 }
 
 .hmp-titles--rus-lang {
@@ -102,7 +110,8 @@ $hmp-my-way-border-color: $white;
 	}
 
 	&__title--accent-color {
-		color: $hmp-accent-title-color;
+		transition: color 0.4s ease-out;
+		color: var(--hmp-getting-name-color);
 	}
 
 	&__title--rus-lang {
@@ -729,11 +738,6 @@ $hmp-my-way-border-color: $white;
 
 	&__title {
 		margin-bottom: 30px;
-		width: 500px;
-	}
-
-	&__title--rus-lang {
-		width: 592px;
 	}
 
 	&__inner-content {
@@ -885,14 +889,6 @@ $hmp-my-way-border-color: $white;
 	}
 
 	@media (width <= 1150px) {
-		&__title {
-			width: 455px;
-		}
-
-		&__title--rus-lang {
-			width: 535px;
-		}
-
 		&__inner-content {
 			margin-top: 60px;
 		}
@@ -921,14 +917,6 @@ $hmp-my-way-border-color: $white;
 	}
 
 	@media (width <= 800px) {
-		&__title {
-			width: 430px;
-		}
-
-		&__title--rus-lang {
-			width: 505px;
-		}
-
 		&__inner-content {
 			margin-top: 50px;
 		}
@@ -1055,8 +1043,12 @@ $hmp-my-way-border-color: $white;
 	}
 
 	&__title {
-		transition: margin 0.2s ease;
 		margin-bottom: 30px;
+		text-align: left;
+		transition:
+			margin 0.2s ease,
+			transform 0.8s ease-out,
+			opacity 0.8s ease-out;
 	}
 
 	&__title--rus-lang {
@@ -1094,7 +1086,7 @@ $hmp-my-way-border-color: $white;
 
 	&__text--animate {
 		top: 0;
-		transition: top 0.7s ease-out;
+		transition: top 1.2s ease-out;
 	}
 
 	&__text--rus-lang {
@@ -1271,14 +1263,6 @@ $hmp-my-way-border-color: $white;
 			margin-left: 0;
 		}
 
-		&__title {
-			width: 250px;
-		}
-
-		&__title--rus-lang {
-			width: 290px;
-		}
-
 		&__line {
 			display: block;
 		}
@@ -1288,6 +1272,7 @@ $hmp-my-way-border-color: $white;
 		}
 
 		&__text {
+			width: auto;
 			font-size: 32px;
 			text-align: center;
 		}
@@ -1317,14 +1302,6 @@ $hmp-my-way-border-color: $white;
 	}
 
 	@media (width <= 800px) {
-		&__title {
-			width: 240px;
-		}
-
-		&__title--rus-lang {
-			width: 270px;
-		}
-
 		&__text {
 			font-size: 30px;
 		}
@@ -1340,15 +1317,6 @@ $hmp-my-way-border-color: $white;
 	}
 
 	@media (width <= 600px) {
-		&__title {
-			width: 225px !important;
-			text-align: left !important;
-		}
-
-		&__title--rus-lang {
-			width: 255px !important;
-		}
-
 		&__text {
 			width: auto;
 			font-size: 28px;
@@ -1410,11 +1378,6 @@ $hmp-my-way-border-color: $white;
 
 	&__title {
 		margin-bottom: 30px;
-		width: 190px;
-	}
-
-	&__title--rus-lang {
-		width: 225px;
 	}
 
 	// &__line {}
@@ -1559,14 +1522,6 @@ $hmp-my-way-border-color: $white;
 		&__wrapper {
 			margin-top: 100px;
 		}
-
-		&__title {
-			width: 170px;
-		}
-
-		&__title--rus-lang {
-			width: 200px;
-		}
 	}
 
 	@media (width <= 800px) {
@@ -1582,14 +1537,6 @@ $hmp-my-way-border-color: $white;
 
 		&__btn--rus-lang {
 			font-size: 22px;
-		}
-
-		&__title {
-			width: 170px;
-		}
-
-		&__title--rus-lang {
-			width: 200px;
 		}
 	}
 
@@ -1612,14 +1559,6 @@ $hmp-my-way-border-color: $white;
 		&__text {
 			font-size: 16px;
 		}
-
-		&__title {
-			width: 151px !important;
-		}
-
-		&__title--rus-lang {
-			width: 177px !important;
-		}
 	}
 
 	@media (width <= 480px) {
@@ -1640,16 +1579,6 @@ $hmp-my-way-border-color: $white;
 
 		&__text {
 			font-size: 14px;
-		}
-	}
-
-	@media (width <= 430px) {
-		&__title {
-			width: 142px !important;
-		}
-
-		&__title--rus-lang {
-			width: 166px !important;
 		}
 	}
 

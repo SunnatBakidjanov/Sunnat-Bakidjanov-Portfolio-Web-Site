@@ -10,82 +10,87 @@
 	</head>
 	<body>
 		<div class="page" id="page">
-			<header class="header-main">
+			<header class="header">
 				<div class="container">
-					<div class="header-main__wrapper" id="header-main">
-						<button class="logo" id="logo" type="button">
-							<img class="logo__img" src="img/svg/super-man-logo.svg" alt="">
-							<span class="logo__text">Sunnat<br>Bakidjanov</span>
+					<div class="header__wrapper" id="header">
+						<button class="header__logo" id="logo" type="button">
+							<img class="header__logo-img" src="img/svg/super-man-logo.svg" alt="">
+							<div class="header__logo-text">
+								<span data-en="Sunnat" data-ru="Sunnat">Sunnat</span>
+								<span data-en="Bakidjanov" data-ru="Bakidjanov">Bakidjanov</span>
+							</div>
 						</button>
-						<div class="header-mani__nav-container" id="header-nav-container">
-							<nav class="header-main__nav" id="header-main-nav">
-								<ul class="nav">
-									<li class="nav__item">
-										<button data-page="1" type="button" class="nav__btn nav__btn--clicked" id="home-page-btn">
-											<span class="nav__btn-text" id="home-page-btn-text">Home</span>
-											<span class="nav__hover-center-line nav__hover-center-line--clicked"></span>
-											<span class="nav__hover-top-line nav__hover-top-line--clicked"></span>
-											<span class="nav__hover-bottom-line nav__hover-bottom-line--clicked"></span>
-										</button>
-									</li>
-									<li class="nav__item">
-										<button data-page="2" type="button" class="nav__btn" id="uses-page-btn">
-											<span class="nav__btn-text" id="uses-page-btn-text">Uses</span>
-											<span class="nav__hover-center-line"></span>
-											<span class="nav__hover-top-line"></span>
-											<span class="nav__hover-bottom-line"></span>
-										</button>
-									</li>
-									<li class="nav__item">
-										<button data-page="3" type="button" class="nav__btn" id="resume-page-btn">
-											<span class="nav__btn-text" id="resume-page-btn-text">Resume</span> 
-											<span class="nav__hover-center-line"></span>
-											<span class="nav__hover-top-line"></span>
-											<span class="nav__hover-bottom-line"></span>
-										</button>
-									</li>
-									<li class="nav__item">
-										<button data-page="4" type="button" class="nav__btn" id="about-me-page-btn">
-											<span class="nav__btn-text" id="about-me-page-btn-text">About me</span>
-											<span class="nav__hover-center-line"></span>
-											<span class="nav__hover-top-line"></span>
-											<span class="nav__hover-bottom-line"></span>
-										</button>
-									</li>
-								</ul>
+
+						<div class="header__nav-container" id="header-nav-container">
+							<nav class="header__nav" id="header-main-nav">
+								<div class="header__item">
+									<button data-page="1" type="button" aria-label="Home" class="header__btn header__btn--active" id="home-page-btn">
+										<span class="header__btn-text" data-en="Home" data-ru="Главная">Home</span>
+										<span class="header__line header__line--active"></span>
+										<span class="header__line header__line--active"></span>
+										<span class="header__line header__line--active"></span>
+									</button>
+								</div>
+
+								<div class="header__item">
+									<button data-page="2" type="button" aria-label="Uses" class="header__btn" id="uses-page-btn">
+										<span class="header__btn-text" data-en="Uses" data-ru="Мой набор">Uses</span>
+										<span class="header__line"></span>
+										<span class="header__line"></span>
+										<span class="header__line"></span>
+									</button>
+								</div>
+
+								<div class="header__item">
+									<button data-page="3" type="button" aria-label="Resume" class="header__btn" id="resume-page-btn">
+										<span class="header__btn-text" data-en="Resume" data-ru="Резюме">Resume</span> 
+										<span class="header__line"></span>
+										<span class="header__line"></span>
+										<span class="header__line"></span>
+									</button>
+								</div>
+
+								<div class="header__item">
+									<button data-page="4" type="button" aria-label="About me" class="header__btn" id="about-me-page-btn">
+										<span class="header__btn-text" data-en="About me" data-ru="Обо мне">About me</span>
+										<span class="header__line"></span>
+										<span class="header__line"></span>
+										<span class="header__line"></span>
+									</button>
+								</div>
 							</nav>
 		
-							<nav class="header-main__social-media social-media" id="social-media">
-								<img class="social-media__img" src="img/svg/social-arrow.svg" alt="">
-								<ul class="social-media__list" id="social-media-list">
-									<li class="social-media__item">
-										<a aria-label="google" href="mailto:sunnatbackidjanov@gmail.com" class="social__link" target="_self">
-											<img class="social-media__icons social-media__icons--google" src="img/svg/icon-google.svg" alt="">
+							<nav class="header__social-container" id="social-media">
+								<img class="header__social-arrow-img" src="img/svg/social-arrow.svg" alt="">
+								<ul class="header__social-list" id="social-media-list">
+									<li class="header__social-item header__social-item--google">
+										<a aria-label="google" href="mailto:sunnatbackidjanov@gmail.com" class="header__social-link" target="_self">
+											<img class="header__social-img" src="img/svg/icon-google.svg" alt="">
 										</a>
 									</li>
-									<li class="social-media__item">
-										<a aria-label="telegram" rel="noopener" href="https://t.me/Sunnat_Bakidjanov" target="_blank" class="social__link">
-											<img class="social-media__icons social-media__icons--telegram" src="img/svg/icon-telegram.svg" alt="">
+									<li class="header__social-item header__social-item--telegram">
+										<a aria-label="telegram" rel="noopener" href="https://t.me/Sunnat_Bakidjanov" target="_blank" class="header__social-link">
+											<img class="header__social-img" src="img/svg/icon-telegram.svg" alt="">
 										</a>
 									</li>
-									<li class="social-media__item">
-										<a aria-label="whatsapp" rel="noopener" href="https://wa.me/998976168969" target="_blank" class="social__link">
-											<img class="social-media__icons social-media__icons--whatsapp" src="img/svg/icon-whatsapp.svg" alt="">
+									<li class="header__social-item header__social-item--github">
+										<a  aria-label="github" rel="noopener" href="https://github.com/SunnatBakidjanov" target="_blank" class="header__social-link">
+											<img class="header__social-img" src="img/svg/icon-github.svg" alt="">
 										</a>
 									</li>
-									<li class="social-media__item">
-										<a aria-label="facebook" rel="noopener" href="https://m.me/100072060384106" target="_blank" class="social__link">
-											<img class="social-media__icons social-media__icons--facebook" src="img/svg/icon-facebook.svg" alt="">
+									<li class="header__social-item header__social-item--facebook">
+										<a aria-label="facebook" rel="noopener" href="https://m.me/100072060384106" target="_blank" class="header__social-link">
+											<img class="header__social-img" src="img/svg/icon-facebook.svg" alt="">
 										</a>
 									</li>
 								</ul>
 							</nav>
 						</div>
 
-						<div class="burger-menu" id="burger-menu">
-							<span class="burger-menu__line burger-menu__line--top" id="burger-line-top"></span>
-							<span class="burger-menu__line burger-menu__line--center" id="burger-line-center"></span>
-							<span class="burger-menu__line burger-menu__line--bottom" id="burger-line-bottom"></span>
+						<div class="header__burger-menu" id="burger-menu">
+							<span class="header__burger-line"></span>
+							<span class="header__burger-line"></span>
+							<span class="header__burger-line"></span>
 						</div>
 					</div>
 				</div>
@@ -97,43 +102,40 @@
 						<img class="aside-menu__btn-img" src="img/svg/aside-arrow-icon.svg" alt="">
 					</button>
 		
-					<div class="aside-content">
-						<button class="aside-content__btn aside-content__btn--change-theme" type="button" aria-label="change-theme">	
-							<img class="aside-content__img" src="img/svg/aside-menu-change-theme.svg" alt="">
-						</button>
+					<div class="aside-menu__inner">
+						<div class="aside-menu__item">
+							<img class="aside-menu__inner-img" src="img/svg/aside-menu-change-theme.svg" alt="">
+						</div>
+						
+						<div class="aside-menu__item">
+							<img class="aside-menu__inner-img" src="img/svg/off-animations.svg" alt="">
+						</div>
 
-						<div class="aside-content__item aside-content__item--change-theme aside-colors">
-							<span class="aside-colors__text" id="change-theme">Change background</span>
-							<div class="aside-colors__change-color">
-								<button type="button" aria-label="1st-color" class="aside-colors__colors aside-colors__colors--1st aside-colors__colors--active" id="aside-colors-1st"></button>
-								<button type="button" aria-label="2nd-color" class="aside-colors__colors aside-colors__colors--2nd" id="aside-colors-2nd"></button>
-								<button type="button" aria-label="3rd-color" class="aside-colors__colors aside-colors__colors--3rd" id="aside-colors-3rd"></button>
-								<button type="button" aria-label="4th-color" class="aside-colors__colors aside-colors__colors--4th" id="aside-colors-4th"></button>
+						<div class="aside-menu__item">
+							<img class="aside-menu__inner-im" src="img/svg/translaitor.svg" alt="">
+						</div>
+						
+						<div class="aside-menu__item">
+							<img class="aside-menu__inner-img" src="img/svg/aside-menu-close-img.svg" alt="">
+						</div>
+
+						<div class="aside-menu__inner-btn aside-menu__inner-btn--change-theme">
+							<p class="aside-menu__text" id="change-theme" data-en="Change background" data-ru="Изменить фон">Change background</p>
+							<div class="aside-menu__change-color-btns">
+								<button type="button" aria-label="1st-color" class="aside-menu__colors" id="aside-colors-1st"></button>
+								<button type="button" aria-label="2nd-color" class="aside-menu__colors" id="aside-colors-2nd"></button>
+								<button type="button" aria-label="3rd-color" class="aside-menu__colors" id="aside-colors-3rd"></button>
+								<button type="button" aria-label="4th-color" class="aside-menu__colors aside-menu__colors--active" id="aside-colors-4th"></button>
 							</div>
 						</div>
-	
-						<button class="aside-content__btn aside-content__btn--animation-stop" type="button" aria-label="animation-stop">
-							<img class="aside-content__img" src="img/svg/off-animations.svg" alt="">
+						<button class="aside-menu__inner-btn" type="button" aria-label="animation-stop" id="aside-menu-animation-btn">
+							<span data-en="RE:Animations:" data-ru="RE:Анимаций:">RE:Animations:</span>
+							<span class="aside-menu__animation-state" id="aside-menu-animation-state">ON</span>
 						</button>
-
-						<div class="aside-content__item aside-content__item--animation-stop aside-animations">
-							<button type="button" aria-label="Toggle Animation" class="aside-animations__btn" id="animation-toggle-stop"></button>
-							<button type="button" aria-label="Scroll Animation" class="aside-animations__btn" id="animation-scroll-stop"></button>
-							<button type="button" aria-label="Page Change Animation" class="aside-animations__btn" id="animation-change-page-stop"></button>
-						</div>
-		
-						<button class="aside-content__btn aside-content__btn--translaitor" type="button" aria-label="translator">
-							<img class="aside-content__img" src="img/svg/translaitor.svg" alt="">
-						</button>
-
-						<button type="button" aria-label="Change language" class="aside-content__item aside-content__item--translaitor" id="translator">Change language: RU</button>
+						<button class="aside-menu__inner-btn" type="button" aria-label="translator" data-en="Change Language: RU" data-ru="Изменить язык: EN" id="translator">Change Language: RU</button>
+						<button class="aside-menu__inner-btn" id="aside-menu-close" type="button" aria-label="aside-menu-close" data-en="Close menu" data-ru="Закрыть меню">Close menu</button>
 	
-						<button class="aside-content__btn aside-content__btn--close" id="aside-menu-close" type="button" aria-label="aside-menu-close">
-							<span class="aside-content__item aside-content__item--close" id="aside-menu-close-text">Close menu</span>
-							<img class="aside-content__img" src="img/svg/aside-menu-close-img.svg" alt="">
-						</button>
-	
-						<div class="aside-content__active" id="aside-menu-acitve"></div>
+						<div class="aside-menu__active"></div>
 					</div>
 				</div>
 			</aside>
@@ -154,7 +156,8 @@
 									<div class="hmp-getting__hidden-title" id="hmp-getting-hidden-title">
 										<h1 class="hmp-getting__title" id="hmp-getting-title">
 											<span class="hmp-getting__title--font-color" data-en="Hello," data-ru="Привет,">Hello,</span><br>
-											<span class="hmp-getting__title--font-color" data-en="I'm" data-ru="Я">I'm</span> <span class="hmp-getting__title--accent-color" data-en="Sunnat" data-ru="Sunnat">Sunnat</span>
+											<span class="hmp-getting__title--font-color" data-en="I'm" data-ru="Я">I'm</span>
+											<span class="hmp-getting__title--accent-color" id="hmp-getting-name" data-en="Sunnat" data-ru="Sunnat">Sunnat</span>
 										</h1>
 									</div>
 	
@@ -209,7 +212,7 @@
 					<section class="hmp-cards">
 						<div class="container">
 							<div class="hmp-cards__wrapper">								
-								<h2 class="hmp-cards__title hmp-titles"></h2>
+								<h2 class="hmp-cards__title hmp-titles" data-en="Progress of my skills" data-ru="Прогресс моих навыков">Progress of my skills</h2>
 
 								<div class="hmp-cards__line line"></div>
 		
@@ -329,7 +332,7 @@
 					<section class="hmp-projects">
 						<div class="container">
 							<div class="hmp-projects__wrapper">
-								<h2 class="hmp-projects__title hmp-titles"></h2>
+								<h2 class="hmp-projects__title hmp-titles" data-en="My projects" data-ru="Мои проекты">My projects</h2>
 
 								<div class="hmp-projects__line line"></div>
 		
@@ -360,7 +363,7 @@
 					<section class="hmp-way">
 						<div class="container">
 							<div class="hmp-way__wrapper">		
-								<h2 class="hmp-way__title hmp-titles"></h2>
+								<h2 class="hmp-way__title hmp-titles" data-en="My way" data-ru="Мой путь">My way</h2>
 								
 								<div class="hmp-way__line line"></div>
 
@@ -1199,10 +1202,6 @@
 										<a class="about-me-self__links-item about-me-self__links-item--facebook" aria-label="facebook" rel="noopener" href="https://m.me/100072060384106" target="_blank">
 											<img class="about-me-self__links-img" src="img/svg/icon-facebook.svg" alt="">
 											<p class="about-me-self__links-text">m.me/100072060384106</p>
-										</a>
-										<a class="about-me-self__links-item about-me-self__links-item--whatsapp" aria-label="whatsapp" rel="noopener" href="https://wa.me/998976168969" target="_blank">
-											<img class="about-me-self__links-img" src="img/svg/icon-whatsapp.svg" alt="">
-											<p class="about-me-self__links-text">wa.me/998976168969</p>
 										</a>
 										<a class="about-me-self__links-item about-me-self__links-item--github" aria-label="github" rel="noopener" href="https://github.com/SunnatBakidjanov" target="_blank">
 											<img class="about-me-self__links-img" src="img/svg/icon-github.svg" alt="">

@@ -1,23 +1,26 @@
-$gradient-color_1: #696969;
-$gradient-color_2: #3a6f8f;
-$gradient-color_3: #9b9686;
-$gradient-color_4: #2b636d;
+$gradient-color_1: #6dac2f;
+$gradient-color_2: #d1b200;
+$gradient-color_3: #d35400;
+$gradient-color_4: #5dade2;
 $orange: #f8aa01;
 $white: #fff;
 $black: #000;
 $gray: #a9a9a9;
 
 // aside-menu
-$aside-menu-btn-color: $white;
+$asid-menu-bg-color: $black;
+$aside-menu-open-btn-bg-color: $white;
+$aside-menu-text-color: $white;
+$aside-menu-border-color: $white;
 
 .aside-menu {
 	position: fixed;
-	z-index: 3;
+	z-index: 11;
 	top: 50%;
 	left: -10px;
 	transform: translateY(-50%);
 
-	.aside-menu__wrapper {
+	&__wrapper {
 		position: relative;
 		left: -60px;
 		display: flex;
@@ -55,7 +58,7 @@ $aside-menu-btn-color: $white;
 		justify-content: center;
 		width: 20px;
 		height: 150px;
-		background-color: $aside-menu-btn-color;
+		background-color: $aside-menu-open-btn-bg-color;
 		border: none;
 		border-radius: 0 20px 20px 0;
 		cursor: pointer;
@@ -64,6 +67,10 @@ $aside-menu-btn-color: $white;
 			height 0.5s ease,
 			filter 0.3s ease,
 			right 0.6s ease-out 0.3s;
+
+		&:hover {
+			filter: drop-shadow(0 0 5px $aside-menu-border-color);
+		}
 	}
 
 	&__btn--start {
@@ -76,254 +83,183 @@ $aside-menu-btn-color: $white;
 
 	// .aside-menu__btn-img {}
 
-	&__btn:hover {
-		filter: drop-shadow(0 0 5px white);
-	}
-
-	.aside-content {
+	&__inner {
 		position: relative;
+		z-index: 10;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 		width: 100%;
 		height: 100%;
-		background-color: black;
-		backface-visibility: hidden;
-		box-shadow: 0 0 10px white;
+		background-color: $asid-menu-bg-color;
 		border-radius: 20px;
+		backface-visibility: hidden;
+		box-shadow: 0 0 10px $aside-menu-border-color;
+		transition: box-shadow 0.2s ease;
 
-		&__active {
-			position: absolute;
-			z-index: 0;
-			top: 15px;
-			width: 100%;
-			height: 60px;
-			background-color: gray;
-			opacity: 0;
-			transition: all 0.3s ease-out;
+		&:hover {
+			box-shadow: 0 0 10px var(--aside-menu-color);
+		}
+	}
+
+	&__inner-btn {
+		position: absolute;
+		top: 25px;
+		left: 60px;
+		width: 0;
+		height: 60px;
+		font-size: 16px;
+		color: $aside-menu-text-color;
+		letter-spacing: 0.5px;
+		white-space: nowrap;
+		background-color: var(--aside-menu-color);
+		border: none;
+		border-radius: 0 50px 50px 0;
+		cursor: pointer;
+		overflow: hidden;
+		transition:
+			width 0.4s ease-out,
+			background-color 0.4s ease-out;
+
+		&:hover {
+			width: 270px;
+		}
+	}
+
+	&__inner-btn--change-theme {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		row-gap: 5px;
+	}
+
+	&__change-color-btns {
+		display: flex;
+		column-gap: 5px;
+	}
+
+	&__colors {
+		width: 22px;
+		height: 22px;
+		border: 1px solid $aside-menu-border-color;
+		cursor: pointer;
+		transition: transform 0.2s ease;
+
+		&:hover {
+			transform: scale(1.1);
+		}
+	}
+
+	&__colors--active {
+		transform: scale(1.1) !important;
+		cursor: default;
+	}
+
+	$colors-bg: (
+		0: $gradient-color_1,
+		1: $gradient-color_2,
+		2: $gradient-color_3,
+		3: $gradient-color_4,
+	);
+
+	@mixin colors-bg-color($bg-color, $modifier) {
+		&__colors--#{$modifier} {
+			background-color: $bg-color;
+		}
+	}
+
+	@each $modifier, $bg-color in $colors-bg {
+		@include colors-bg-color($bg-color, $modifier);
+	}
+
+	&__item {
+		z-index: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 80px;
+	}
+
+	&__inner-img {
+		pointer-events: none;
+	}
+
+	&__active {
+		position: absolute;
+		top: 15px;
+		width: 100%;
+		height: 60px;
+		background-color: var(--aside-menu-color);
+		opacity: 0;
+		transition:
+			top 0.4s ease,
+			opacity 0.6s ease-out,
+			background-color 0.4s ease-out;
+	}
+
+	$aside-item-hover: (
+		0: 25px,
+		1: 105px,
+		2: 185px,
+		3: 265px,
+	);
+
+	@mixin aside-menu-btn-hover($modifier, $position) {
+		&__inner-btn--#{$modifier}:hover ~ .aside-menu__active,
+		&__item--#{$modifier}:hover ~ .aside-menu__active {
+			top: #{$position};
+			opacity: 1;
 		}
 
-		&__btn {
-			z-index: 1;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			width: 100%;
-			height: 80px;
-			background-color: transparent;
-			border: none;
+		&__item--#{$modifier}:hover ~ .aside-menu__inner-btn--#{$modifier} {
+			width: 250px;
 		}
 
-		&__btn--close {
-			cursor: pointer;
+		&__inner-btn--#{$modifier} {
+			top: #{$position};
 		}
+	}
 
-		$aside-item-hover: (
-			change-theme: 25px,
-			animation-stop: 105px,
-			translaitor: 185px,
-			close: 265px,
-		);
+	@each $modifier, $position in $aside-item-hover {
+		@include aside-menu-btn-hover($modifier, $position);
+	}
 
-		@mixin aside-content-btn-hover($modifier, $position) {
-			&__btn--#{$modifier}:hover ~ .aside-content__active,
-			&__item--#{$modifier}:hover ~ .aside-content__active {
-				top: #{$position};
+	@media (hover: none) and (pointer: coarse) {
+		&__inner {
+			&:hover {
+				box-shadow: 0 0 10px $aside-menu-border-color;
 			}
+		}
 
-			&__item--#{$modifier} {
-				top: #{$position};
+		&__item--3:hover ~ .aside-menu__inner-btn--3 {
+			width: 0;
+		}
+
+		&__colors {
+			&:hover {
+				transform: scale(1);
+			}
+		}
+	}
+
+	@media (width <= 480px) {
+		@mixin aside-menu-btn-hover($modifier, $position) {
+			&__item--#{$modifier}:hover ~ .aside-menu__inner-btn--#{$modifier} {
+				width: 220px;
 			}
 		}
 
 		@each $modifier, $position in $aside-item-hover {
-			@include aside-content-btn-hover($modifier, $position);
+			@include aside-menu-btn-hover($modifier, $position);
 		}
 
-		&__item {
-			position: absolute;
-			left: 60px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			width: 0;
-			height: 60px;
-			font-weight: 600;
-			font-size: 16px;
-			color: white;
-			white-space: nowrap;
-			background-color: gray;
-			border: none;
-			border-radius: 0 20px 20px 0;
-			overflow: hidden;
-			transition: all 0.25s linear 0.2s;
-		}
-
-		&__item:hover {
-			transition: all 0.5s ease-out;
-			width: 230px;
-			letter-spacing: 0.5px;
-		}
-
-		&__item:hover ~ .aside-content__acite--open,
-		&__btn:hover ~ .aside-content__acite--open {
-			opacity: 1;
-		}
-
-		&__btn:hover + .aside-content__item {
-			width: 200px;
-		}
-
-		&__item--animation-stop {
-			top: 46px;
-			height: 180px;
-		}
-
-		&__item--translaitor {
-			font-size: 14px;
-			cursor: pointer;
-		}
-
-		&__item--close {
-			cursor: pointer;
-		}
-
-		&__item--close:hover {
-			width: 230px !important;
-		}
-
-		&__btn--close:hover .aside-content__item--close {
-			width: 200px;
-		}
-
-		.russian-lang-text {
-			font-weight: 700;
-			font-size: 16px;
-		}
-
-		&__img {
-			filter: drop-shadow(0 0 5px white);
-		}
-
-		.aside-colors {
-			display: flex;
-			flex-direction: column;
-			row-gap: 10px;
-
-			&__text {
-				font-weight: 400;
-				font-size: 14px;
-			}
-
-			.russian-lang-text {
-				font-weight: 600;
-				font-size: 15px;
-			}
-
-			&__change-color {
-				display: flex;
-				column-gap: 10px;
-			}
-
-			&__colors {
-				width: 25px;
-				height: 25px;
-				border: 1px solid white;
-				transition: all 0.2s ease-out;
-				cursor: pointer;
-			}
-
-			&__colors:hover {
-				box-shadow: 0 0 10px white;
-				transform: scale(1.2);
-			}
-
-			&__colors--active {
-				box-shadow: 0 0 10px white;
-				transform: scale(1.2);
-				cursor: default;
-			}
-
-			$aside-colors: (
-				'1st': $gradient-color_1,
-				'2nd': $gradient-color_2,
-				'3rd': $gradient-color_3,
-				'4th': $gradient-color_4,
-			);
-
-			@mixin aside-colors($modifier, $color) {
-				.aside-colors__colors--#{$modifier} {
-					background-color: $color;
-				}
-			}
-
-			@each $modifier, $color in $aside-colors {
-				@include aside-colors($modifier, $color);
+		&__inner-btn {
+			&:hover {
+				width: 240px;
 			}
 		}
-
-		.aside-animations {
-			display: flex;
-			flex-direction: column;
-			background-color: transparent;
-
-			&__btn {
-				min-width: 100%;
-				height: 60px;
-				font-weight: 700;
-				font-size: 15px;
-				color: $white;
-				background-color: gray;
-				border: none;
-				cursor: pointer;
-				transition: all 0.2s ease;
-
-				&:nth-child(1) {
-					transition: all 0.2s ease-out;
-					position: relative;
-					top: 60px;
-					border-left: 2px solid white;
-				}
-
-				&:nth-child(2) {
-					z-index: 11;
-					border-top: 2px solid white;
-					border-bottom: 2px solid white;
-				}
-
-				&:nth-child(3) {
-					position: relative;
-					bottom: 60px;
-					transition: all 0.2s ease-out;
-					border-left: 2px solid white;
-				}
-
-				&:hover {
-					transform: scale(1.15);
-				}
-			}
-
-			&:hover .aside-animations__btn:nth-child(1) {
-				top: 0;
-			}
-
-			&:hover .aside-animations__btn:nth-child(3) {
-				bottom: 0;
-			}
-		}
-	}
-}
-
-@media (hover: none) and (pointer: coarse) {
-	.aside-colors__colors {
-		box-shadow: none !important;
-		transform: none !important;
-	}
-
-	.aside-colors__colors--active {
-		box-shadow: 0 0 10px white !important;
-		transform: scale(1.2) !important;
-		cursor: default;
 	}
 }

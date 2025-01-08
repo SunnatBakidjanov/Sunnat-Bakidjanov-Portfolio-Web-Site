@@ -1,8 +1,8 @@
 // colors
-$gradient-color_1: #696969;
-$gradient-color_2: #3a6f8f;
-$gradient-color_3: #9b9686;
-$gradient-color_4: #2b636d;
+$gradient-color_1: #6dac2f;
+$gradient-color_2: #d1b200;
+$gradient-color_3: #d35400;
+$gradient-color_4: #5dade2;
 $orange: #f8aa01;
 $white: #fff;
 $black: #000;
@@ -16,8 +16,12 @@ $scroll-line-bg-color: $white;
 $scroll-text-color: $white;
 
 :root {
-	--gradient-color: #696969;
+	--gradient-color: #5dade2;
 	--gradient-transition-point: 30%;
+	--header-btn-box-shadow: #5dade2;
+	--header-logo-box-shadow: #5dade2;
+	--aside-menu-color: #5dade2;
+	--hmp-getting-name-color: #5dade2;
 }
 
 @font-face {
@@ -51,6 +55,11 @@ $scroll-text-color: $white;
 
 .page {
 	background: linear-gradient(90deg, rgb(0 0 0 / 100%) var(--gradient-transition-point), var(--gradient-color) 130%);
+}
+
+.page--open {
+	overflow: hidden;
+	height: 100vh;
 }
 
 .container {

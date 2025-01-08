@@ -7,7 +7,6 @@ $milky: #f5deb3;
 // icons
 $google-icon-bg: #ea4335;
 $telegram-icon-bg: #08c;
-$whatsapp-icon-bg: #075e54;
 $facebook-icon-bg: #3b5998;
 $github-icon-bg: #181717;
 
@@ -38,7 +37,6 @@ $about-me-self-border-color: $milky;
 $colors: (
 	'google': $google-icon-bg,
 	'telegram': $telegram-icon-bg,
-	'whatsapp': $whatsapp-icon-bg,
 	'facebook': $facebook-icon-bg,
 	'github': $github-icon-bg,
 );
@@ -373,6 +371,7 @@ $colors: (
 	&__links-box {
 		display: flex;
 		flex-direction: column;
+		justify-content: center;
 		row-gap: 10px;
 	}
 
