@@ -378,6 +378,7 @@ $colors: (
 
 			animation: burger-close 0.6s ease-out forwards;
 			inset: 0;
+			pointer-events: none;
 		}
 
 		&__nav {

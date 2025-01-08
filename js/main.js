@@ -812,6 +812,8 @@ function main() {
 
 			const elements = [container, burgerMenu, page, ...lines, ...items, ...socialItems]
 
+			const timeouts = []
+
 			let isOpen = false
 			let isAnimation = false
 
@@ -823,7 +825,7 @@ function main() {
 					setTimeout(() => {
 						isOpen = true
 						isAnimation = false
-					}, 800)
+					}, 1000)
 
 					window.scrollTo(0, 0)
 
@@ -840,7 +842,7 @@ function main() {
 					setTimeout(() => {
 						isOpen = false
 						isAnimation = false
-					}, 800)
+					}, 1000)
 
 					elements.forEach(element => {
 						const classNames = element.classList
@@ -851,7 +853,12 @@ function main() {
 							if (className.includes('--open')) element.classList.remove(className)
 						})
 
-						if (element.classList.contains(`${classNames[0]}--close`)) setTimeout(() => element.classList.remove(`${classNames[0]}--close`), 610)
+						if (element.classList.contains(`${classNames[0]}--close`)) {
+							setTimeout(() => {
+								const timeout = element.classList.remove(`${classNames[0]}--close`)
+								timeouts.push(timeout)
+							}, 1000)
+						}
 					})
 				}
 			})
