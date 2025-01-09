@@ -53,6 +53,22 @@ $scroll-text-color: $white;
 	list-style: none;
 }
 
+::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+
+::-webkit-scrollbar-track {
+	background: #f4f4f4;
+	border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #888;
+	border: 2px solid #f4f4f4;
+	border-radius: 5px;
+}
+
 .page {
 	background: linear-gradient(90deg, rgb(0 0 0 / 100%) var(--gradient-transition-point), var(--gradient-color) 130%);
 }

@@ -2505,7 +2505,7 @@ function main() {
 	})
 
 	window.addEventListener('beforeunload', () => {
-		// pageUpdate()
+		pageUpdate()
 	})
 
 	changeLanguageButton.addEventListener('click', () => {
