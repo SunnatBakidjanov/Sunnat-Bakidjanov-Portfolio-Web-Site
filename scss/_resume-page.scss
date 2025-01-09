@@ -40,6 +40,9 @@ $resume-subtitles-font-weight: 600;
 .resume-page {
 	position: absolute;
 	left: -9999px;
+	width: 0;
+	height: 0;
+	overflow: hidden;
 }
 
 // mixins

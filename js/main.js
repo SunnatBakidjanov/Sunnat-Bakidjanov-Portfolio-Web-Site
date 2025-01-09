@@ -2288,7 +2288,7 @@ function main() {
 		sameElementsAnimation('.about-me-self__links-item', 'about-me-self-links-item', ['about-me-self__links-item--animate'], 50, null)
 		myselfItem.forEach((element, index) => element.classList.add(index % 2 === 0 ? 'about-me-self__links-item--left' : 'about-me-self__links-item--right'))
 
-		singleElementsAnimation('about-me-getting-title', 0, ['about-me-getting__title--animate'], 'about-me-getting-hide-box')
+		singleElementsAnimation('about-me-getting-title', 50, ['about-me-getting__title--animate'], 'about-me-getting-hide-box')
 		singleElementsAnimation('about-me-exp-total-exp', 50, ['about-me-exp__total-exp--animate'], null)
 		singleElementsAnimation('about-me-self-img-box', 50, ['about-me-self__img-box--animate'], null)
 		singleElementsAnimation('about-me-self-accent-text', 50, ['about-me-self__accent-text--animate'], 'about-me-self-inner-text')

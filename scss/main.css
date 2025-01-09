@@ -594,6 +594,9 @@
 .home-page {
   position: absolute;
   left: -9999px;
+  width: 0;
+  height: 0;
+  overflow: hidden;
 }
 
 .hmp-titles {
@@ -1029,7 +1032,7 @@
 }
 .hmp-scroll__hide-text {
   margin-left: 30px;
-  width: 182px;
+  width: 190px;
   letter-spacing: -4px;
 }
 .hmp-scroll__letter-left {
@@ -1969,6 +1972,10 @@
 .uses-page {
   position: absolute;
   left: -9999px;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
 }
 
 .uses-title {
@@ -2180,7 +2187,7 @@
 }
 .uses-scroll__text {
   margin-left: 30px;
-  width: 185px;
+  width: 190px;
   letter-spacing: -4px;
   overflow: visible;
 }
@@ -3040,6 +3047,9 @@
 .resume-page {
   position: absolute;
   left: -9999px;
+  width: 0;
+  height: 0;
+  overflow: hidden;
 }
 
 .resume-hide-title {
@@ -3664,6 +3674,15 @@
     letter-spacing: initial;
   }
 }
+.about-me-page {
+  position: absolute;
+  left: -9999px;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
 .about-me-title {
   margin-bottom: 20px;
   font-weight: 600;
@@ -3691,12 +3710,6 @@
   transition: width 1s ease-out;
 }
 
-.about-me-page {
-  position: absolute;
-  left: -9999px;
-  overflow: hidden;
-}
-
 .about-me-getting__wrapper {
   display: flex;
   flex-direction: column;
@@ -3705,7 +3718,7 @@
   margin-left: 60px;
 }
 .about-me-getting__hide-box {
-  perspective: 200px;
+  perspective: 150px;
 }
 .about-me-getting__title {
   font-size: 50px;
@@ -4840,5 +4853,6 @@
 
 .page--active {
   position: static;
-  min-height: 100vh;
+  width: auto;
+  height: auto;
 }/*# sourceMappingURL=main.css.map */

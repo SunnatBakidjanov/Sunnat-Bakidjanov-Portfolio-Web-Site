@@ -39,6 +39,10 @@ $uses-linters-line-color: $white;
 .uses-page {
 	position: absolute;
 	left: -9999px;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	pointer-events: none;
 }
 
 // Same components
@@ -301,7 +305,7 @@ $uses-linters-line-color: $white;
 
 	&__text {
 		margin-left: 30px;
-		width: 185px;
+		width: 190px;
 		letter-spacing: -4px;
 		overflow: visible;
 	}

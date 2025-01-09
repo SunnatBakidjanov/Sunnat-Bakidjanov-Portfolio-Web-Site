@@ -44,6 +44,9 @@ $hmp-my-way-border-color: $white;
 .home-page {
 	position: absolute;
 	left: -9999px;
+	width: 0;
+	height: 0;
+	overflow: hidden;
 }
 
 // Same components
@@ -579,7 +582,7 @@ $hmp-my-way-border-color: $white;
 
 	&__hide-text {
 		margin-left: 30px;
-		width: 182px;
+		width: 190px;
 		letter-spacing: -4px;
 	}
 

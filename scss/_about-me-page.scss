@@ -49,6 +49,15 @@ $colors: (
 	}
 }
 
+.about-me-page {
+	position: absolute;
+	left: -9999px;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	pointer-events: none;
+}
+
 // same elements
 
 .about-me-title {
@@ -82,12 +91,6 @@ $colors: (
 
 // other elements
 
-.about-me-page {
-	position: absolute;
-	left: -9999px;
-	overflow: hidden;
-}
-
 .about-me-getting {
 	&__wrapper {
 		display: flex;
@@ -98,7 +101,7 @@ $colors: (
 	}
 
 	&__hide-box {
-		perspective: 200px;
+		perspective: 150px;
 	}
 
 	&__title {
