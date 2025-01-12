@@ -109,7 +109,6 @@ $colors: (
 		color: $about-me-getiing-title-color;
 		letter-spacing: 0.5px;
 		transform-style: preserve-3d;
-		will-change: transform;
 		transform: translateZ(50px);
 	}
 
@@ -125,7 +124,6 @@ $colors: (
 	&__subtitle {
 		font-size: 34px;
 		color: $about-me-getiing-subtitle-color;
-		will-change: transform;
 		letter-spacing: 0.5px;
 		perspective: 50px;
 	}

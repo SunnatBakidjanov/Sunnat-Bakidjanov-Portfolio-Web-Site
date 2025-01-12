@@ -3725,7 +3725,6 @@
   color: #f8aa01;
   letter-spacing: 0.5px;
   transform-style: preserve-3d;
-  will-change: transform;
   transform: translateZ(50px);
 }
 .about-me-getting__title--animate {
@@ -3738,7 +3737,6 @@
 .about-me-getting__subtitle {
   font-size: 34px;
   color: #fff;
-  will-change: transform;
   letter-spacing: 0.5px;
   perspective: 50px;
 }
