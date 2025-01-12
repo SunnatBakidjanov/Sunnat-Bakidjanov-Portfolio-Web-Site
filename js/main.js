@@ -641,10 +641,10 @@ function main() {
 			const classes = ['bg-color--1', 'bg-color--2', 'bg-color--3', 'bg-color--4']
 			const colors = ['#6dac2f', '#d1b200', '#d35400', '#5dade2']
 
-			const headerBtns = document.querySelectorAll('.header__btn')
 			const headerLogo = document.getElementById('logo')
-			const asideMenuElements = ['aside-menu__inner', 'aside-menu__inner-btn', 'aside-menu__active']
 			const hmpMyName = document.getElementById('hmp-getting-name')
+			const headerBtns = document.querySelectorAll('.header__btn')
+			const asideMenuElements = ['aside-menu__inner', 'aside-menu__inner-btn', 'aside-menu__active']
 
 			buttons.forEach((element, index) => {
 				element.classList.add(`aside-menu__colors--${index}`)
@@ -678,6 +678,7 @@ function main() {
 							target.style.setProperty('--aside-menu-color', color)
 						})
 						hmpMyName.style.setProperty('--hmp-getting-name-color', color)
+						page.style.setProperty('--scroll-bar-color', color)
 
 						let returnPoint = 100
 
@@ -2301,7 +2302,7 @@ function main() {
 
 			function animate() {
 				elements.forEach((element, index) => {
-					const timeout = setTimeout(() => element.classList.add('about-me-getting__span--animate'), 170 * index)
+					const timeout = setTimeout(() => element.classList.add('about-me-getting__span--animate'), 400 * index)
 
 					timeouts.push(timeout)
 				})
@@ -2325,7 +2326,7 @@ function main() {
 
 			function animate() {
 				letters.forEach((letter, index) => {
-					const timeout = setTimeout(() => letter.classList.add('about-me-scroll__letters--animate'), index * 100)
+					const timeout = setTimeout(() => letter.classList.add('about-me-scroll__letters--animate'), index * 200)
 
 					timeouts.push(timeout)
 				})
@@ -2505,7 +2506,7 @@ function main() {
 	})
 
 	window.addEventListener('beforeunload', () => {
-		pageUpdate()
+		// pageUpdate()
 	})
 
 	changeLanguageButton.addEventListener('click', () => {

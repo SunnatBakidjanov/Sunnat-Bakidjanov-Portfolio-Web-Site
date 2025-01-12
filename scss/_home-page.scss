@@ -94,8 +94,7 @@ $hmp-my-way-border-color: $white;
 	}
 
 	&__title {
-		position: relative;
-		left: -110%;
+		transform: translateX(-370px);
 		font-style: normal;
 		font-weight: 700;
 		line-height: 115%;
@@ -104,8 +103,8 @@ $hmp-my-way-border-color: $white;
 	}
 
 	&__title--animate {
-		left: 0;
-		transition: left 1.2s ease-out;
+		transform: translateX(0);
+		transition: transform 1.2s ease-out;
 	}
 
 	&__title--font-color {
@@ -435,8 +434,7 @@ $hmp-my-way-border-color: $white;
 		}
 
 		&__title {
-			top: -125px;
-			left: auto;
+			transform: translateY(-170px);
 			text-align: center;
 		}
 
@@ -445,9 +443,8 @@ $hmp-my-way-border-color: $white;
 		}
 
 		&__title--animate {
-			top: 0;
-			left: auto;
-			transition: top 1.2s ease-out;
+			transform: translateY(0);
+			transition: transform 1.2s ease-out;
 		}
 
 		&__inner-logo-3d {
@@ -1077,8 +1074,7 @@ $hmp-my-way-border-color: $white;
 	}
 
 	&__text {
-		position: relative;
-		top: -200px;
+		transform: translateY(-200px);
 		display: flex;
 		flex-direction: column;
 		width: 600px;
@@ -1088,8 +1084,8 @@ $hmp-my-way-border-color: $white;
 	}
 
 	&__text--animate {
-		top: 0;
-		transition: top 1.2s ease-out;
+		transform: translateY(0);
+		transition: transform 1.2s ease-out;
 	}
 
 	&__text--rus-lang {
@@ -1395,6 +1391,7 @@ $hmp-my-way-border-color: $white;
 		border: 2px solid $hmp-my-way-border-color;
 		opacity: 0;
 		row-gap: 5px;
+		will-change: min-height;
 	}
 
 	&__inner-content--animate {
@@ -1414,11 +1411,10 @@ $hmp-my-way-border-color: $white;
 	}
 
 	&__blink {
-		position: relative;
-		top: 2px;
+		transform: translateY(2px);
 		display: inline-block;
 		width: 6px;
-		height: 18px;
+		height: 16px;
 		background-color: $hmp-my-way-blink-color;
 		animation: hmp-way-blink 0.6s linear infinite;
 

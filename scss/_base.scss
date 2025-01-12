@@ -22,6 +22,7 @@ $scroll-text-color: $white;
 	--header-logo-box-shadow: #5dade2;
 	--aside-menu-color: #5dade2;
 	--hmp-getting-name-color: #5dade2;
+	--scroll-bar-color: #5dade2;
 }
 
 @font-face {
@@ -51,22 +52,8 @@ $scroll-text-color: $white;
 	font-family: Orbitron, sans-serif;
 	text-decoration: none;
 	list-style: none;
-}
-
-::-webkit-scrollbar {
-	width: 10px;
-	height: 10px;
-}
-
-::-webkit-scrollbar-track {
-	background: #f4f4f4;
-	border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb {
-	background: #888;
-	border: 2px solid #f4f4f4;
-	border-radius: 5px;
+	scrollbar-color: $orange $white;
+	scrollbar-width: thin;
 }
 
 .page {

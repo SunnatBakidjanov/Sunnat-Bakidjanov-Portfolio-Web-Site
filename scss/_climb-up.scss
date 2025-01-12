@@ -20,7 +20,10 @@ $climb-up-shadow-color: $white;
 	height: 70px;
 	background-color: transparent;
 	border: none;
-	transition: filter 0.2s ease;
+	transition:
+		filter 0.2s ease,
+		transform 0.2s ease,
+		bottom 0.2s ease;
 
 	@mixin climb-up-img-animate($modifier, $animation, $animationDelay, $opacityStart, $opacityEnd, $translateYStart, $translateYEnd) {
 		&__img--animate-#{$modifier} {
@@ -92,5 +95,29 @@ $climb-up-shadow-color: $white;
 @media (hover: none) and (pointer: coarse) {
 	.climb-up--show:hover {
 		filter: none;
+	}
+}
+
+@media (width <= 1150px) {
+	.climb-up {
+		transform: scale(0.95);
+	}
+}
+
+@media (width <= 800px) {
+	.climb-up {
+		transform: scale(0.9);
+	}
+}
+
+@media (width <= 800px) {
+	.climb-up {
+		transform: scale(0.85);
+	}
+}
+
+@media (width <= 800px) {
+	.climb-up {
+		bottom: 3%;
 	}
 }

@@ -52,10 +52,10 @@ $colors: (
 .about-me-page {
 	position: absolute;
 	left: -9999px;
+	display: none;
 	width: 0;
 	height: 0;
 	overflow: hidden;
-	pointer-events: none;
 }
 
 // same elements
@@ -101,7 +101,7 @@ $colors: (
 	}
 
 	&__hide-box {
-		perspective: 150px;
+		perspective: 50px;
 	}
 
 	&__title {
@@ -109,12 +109,13 @@ $colors: (
 		color: $about-me-getiing-title-color;
 		letter-spacing: 0.5px;
 		transform-style: preserve-3d;
-		transform: translateZ(200px);
+		will-change: transform;
+		transform: translateZ(50px);
 	}
 
 	&__title--animate {
 		transform: translateZ(0);
-		transition: transform 1s ease-out;
+		transition: transform 0.6s ease-out;
 	}
 
 	&__title--rus-lang {
@@ -124,8 +125,9 @@ $colors: (
 	&__subtitle {
 		font-size: 34px;
 		color: $about-me-getiing-subtitle-color;
+		will-change: transform;
 		letter-spacing: 0.5px;
-		perspective: 250px;
+		perspective: 50px;
 	}
 
 	&__subtitle--rus-lang {
@@ -140,12 +142,12 @@ $colors: (
 		display: inline-block;
 		font-weight: 500;
 		transform-style: preserve-3d;
-		transform: translateZ(250px);
+		transform: translateZ(50px);
 	}
 
 	&__span--animate {
 		transform: translateZ(0);
-		transition: transform 1s ease-out 0.8s;
+		transition: transform 0.6s ease-out 0.6s;
 	}
 
 	@media (width <= 1150px) {
@@ -244,18 +246,19 @@ $colors: (
 		overflow: visible;
 		margin-left: 20px;
 		letter-spacing: -4px;
-		perspective: 300px;
+		perspective: 50px;
 	}
 
 	&__letters {
 		transform-style: preserve-3d;
-		transform: translateZ(300px);
+		transform: translateZ(50px);
+		will-change: transform;
 		display: inline-block;
 	}
 
 	&__letters--animate {
 		transform: translateZ(0);
-		transition: transform 0.8s ease-in 1.5s;
+		transition: transform 0.6s ease-in 2.5s;
 	}
 
 	@media (width <= 1150px) {

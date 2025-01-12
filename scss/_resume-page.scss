@@ -40,6 +40,7 @@ $resume-subtitles-font-weight: 600;
 .resume-page {
 	position: absolute;
 	left: -9999px;
+	display: none;
 	width: 0;
 	height: 0;
 	overflow: hidden;
@@ -184,7 +185,7 @@ $resume-subtitles-font-weight: 600;
 
 	&:hover {
 		color: $resume-btn-hover-color;
-		letter-spacing: 1px;
+		letter-spacing: 1px !important;
 	}
 }
 

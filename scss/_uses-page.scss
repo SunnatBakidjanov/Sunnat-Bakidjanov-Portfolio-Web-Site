@@ -39,10 +39,10 @@ $uses-linters-line-color: $white;
 .uses-page {
 	position: absolute;
 	left: -9999px;
+	display: none;
 	width: 0;
 	height: 0;
 	overflow: hidden;
-	pointer-events: none;
 }
 
 // Same components
