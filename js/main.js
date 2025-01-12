@@ -2302,7 +2302,7 @@ function main() {
 
 			function animate() {
 				elements.forEach((element, index) => {
-					const timeout = setTimeout(() => element.classList.add('about-me-getting__span--animate'), 400 * index)
+					const timeout = setTimeout(() => element.classList.add('about-me-getting__span--animate'), 500 * index)
 
 					timeouts.push(timeout)
 				})
