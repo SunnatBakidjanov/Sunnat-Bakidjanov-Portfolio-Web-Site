@@ -101,19 +101,18 @@ $colors: (
 	}
 
 	&__hide-box {
-		perspective: 50px;
+		overflow: hidden;
 	}
 
 	&__title {
 		font-size: 50px;
 		color: $about-me-getiing-title-color;
 		letter-spacing: 0.5px;
-		transform-style: preserve-3d;
-		transform: translateZ(50px);
+		transform: translateY(-50px);
 	}
 
 	&__title--animate {
-		transform: translateZ(0);
+		transform: translateY(0);
 		transition: transform 0.6s ease-out;
 	}
 
@@ -125,7 +124,7 @@ $colors: (
 		font-size: 34px;
 		color: $about-me-getiing-subtitle-color;
 		letter-spacing: 0.5px;
-		perspective: 50px;
+		overflow: hidden;
 	}
 
 	&__subtitle--rus-lang {
@@ -139,13 +138,12 @@ $colors: (
 	&__span {
 		display: inline-block;
 		font-weight: 500;
-		transform-style: preserve-3d;
-		transform: translateZ(50px);
+		transform: translateY(150px);
 	}
 
 	&__span--animate {
-		transform: translateZ(0);
-		transition: transform 0.6s ease-out 0.6s;
+		transform: translateY(0);
+		transition: transform 0.6s ease-out 0.2s;
 	}
 
 	@media (width <= 1150px) {
@@ -237,26 +235,24 @@ $colors: (
 	// &__line {}
 
 	.scroll-section__line--animate {
-		transition-delay: 1.3s;
+		transition-delay: 0.6s;
 	}
 
 	&__text {
-		overflow: visible;
+		overflow: hidden;
 		margin-left: 20px;
 		letter-spacing: -4px;
-		perspective: 50px;
 	}
 
 	&__letters {
-		transform-style: preserve-3d;
-		transform: translateZ(50px);
+		transform: translateY(50px);
 		will-change: transform;
 		display: inline-block;
 	}
 
 	&__letters--animate {
-		transform: translateZ(0);
-		transition: transform 0.6s ease-in 2.5s;
+		transform: translateY(0);
+		transition: transform 0.6s ease-out 0.8s;
 	}
 
 	@media (width <= 1150px) {

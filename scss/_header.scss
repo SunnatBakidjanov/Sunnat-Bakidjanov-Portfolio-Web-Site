@@ -94,12 +94,12 @@ $colors: (
 		cursor: pointer;
 
 		&:hover .header__logo-img {
-			filter: drop-shadow(0 0 15px var(--header-logo-box-shadow));
+			filter: drop-shadow(0 0 15px var(--change-color));
 			transform: scale(1.1);
 		}
 
 		&:hover .header__logo-text {
-			color: var(--header-logo-box-shadow);
+			color: var(--change-color);
 		}
 	}
 
@@ -188,13 +188,13 @@ $colors: (
 
 		&:hover {
 			color: $header-hover-text-color;
-			box-shadow: -5px 3px 5px var(--header-btn-box-shadow);
+			box-shadow: -5px 3px 5px var(--change-color);
 		}
 	}
 
 	&__btn--active {
 		color: $header-hover-text-color;
-		box-shadow: -5px 3px 5px var(--header-btn-box-shadow);
+		box-shadow: -5px 3px 5px var(--change-color);
 	}
 
 	&__social-list {
@@ -617,7 +617,7 @@ $colors: (
 	@media (hover: none) and (pointer: coarse) {
 		&__logo {
 			&:hover .header__logo-img {
-				filter: drop-shadow(0 0 0 var(--header-logo-box-shadow));
+				filter: drop-shadow(0 0 0 transparent);
 				transform: none;
 			}
 

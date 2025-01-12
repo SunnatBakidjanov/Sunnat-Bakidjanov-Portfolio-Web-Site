@@ -616,6 +616,103 @@ function main() {
 		element.textContent = state
 	}
 
+	function backgroundColorChange() {
+		const root = document.querySelector('.page')
+		const buttons = document.querySelectorAll('.aside-menu__colors')
+		const classes = ['bg-color--1', 'bg-color--2', 'bg-color--3', 'bg-color--4']
+		const colors = ['#6dac2f', '#d1b200', '#d35400', '#5dade2']
+
+		const headerLogo = document.getElementById('logo')
+		const headerBtns = document.querySelectorAll('.header__btn')
+		const hmpMyName = document.getElementById('hmp-getting-name')
+		const asideMenuElements = ['.aside-menu__inner', '.aside-menu__inner-btn', '.aside-menu__active']
+
+		const elements = [headerLogo, hmpMyName, headerBtns, asideMenuElements]
+
+		buttons.forEach((element, index) => {
+			element.classList.add(`aside-menu__colors--${index}`)
+		})
+
+		let isTransitioning = false
+		let currentClass = 'bg-color--4'
+
+		function changeGradient(className, color) {
+			if (isTransitioning || currentClass === className) return
+
+			isTransitioning = true
+			currentClass = className
+
+			let transitionPoint = 30
+
+			function updateTransitionPoint() {
+				transitionPoint++
+				root.style.setProperty('--gradient-transition-point', `${transitionPoint}%`)
+
+				if (transitionPoint < 100) {
+					requestAnimationFrame(updateTransitionPoint)
+				} else {
+					root.classList.remove(...classes)
+					root.classList.add(className)
+
+					elements.forEach(item => {
+						if (NodeList.prototype.isPrototypeOf(item)) {
+							item.forEach(el => {
+								el.style.setProperty('--change-color', color)
+							})
+						}
+
+						if (Array.isArray(item)) {
+							item.forEach(selector => {
+								const el = document.querySelector(selector)
+								if (!el) return
+
+								el.style.setProperty('--change-color', color)
+							})
+						}
+
+						if (item instanceof Element) {
+							item.style.setProperty('--change-color', color)
+						} else {
+							return
+						}
+					})
+
+					let returnPoint = 100
+
+					function returnTransitionPoint() {
+						returnPoint--
+						root.style.setProperty('--gradient-transition-point', `${returnPoint}%`)
+
+						if (returnPoint > 30) {
+							requestAnimationFrame(returnTransitionPoint)
+						} else {
+							isTransitioning = false
+						}
+					}
+
+					requestAnimationFrame(returnTransitionPoint)
+				}
+			}
+
+			requestAnimationFrame(updateTransitionPoint)
+		}
+
+		buttons.forEach((button, index) => {
+			button.addEventListener('click', event => {
+				const target = event.target
+
+				if (!isTransitioning) {
+					buttons.forEach(element => element.classList.remove('aside-menu__colors--active'))
+					target.classList.add('aside-menu__colors--active')
+				}
+
+				const className = classes[index]
+				const color = colors[index]
+				changeGradient(className, color)
+			})
+		})
+	}
+
 	function asideMenu() {
 		const menuElement = document.getElementById('aside-menu')
 		const openBtn = document.getElementById('aside-menu-btn')
@@ -634,89 +731,6 @@ function main() {
 
 			updateAnimationText()
 		})
-
-		function backgroundColorChange() {
-			const root = document.querySelector('.page')
-			const buttons = document.querySelectorAll('.aside-menu__colors')
-			const classes = ['bg-color--1', 'bg-color--2', 'bg-color--3', 'bg-color--4']
-			const colors = ['#6dac2f', '#d1b200', '#d35400', '#5dade2']
-
-			const headerLogo = document.getElementById('logo')
-			const hmpMyName = document.getElementById('hmp-getting-name')
-			const headerBtns = document.querySelectorAll('.header__btn')
-			const asideMenuElements = ['aside-menu__inner', 'aside-menu__inner-btn', 'aside-menu__active']
-
-			buttons.forEach((element, index) => {
-				element.classList.add(`aside-menu__colors--${index}`)
-			})
-
-			let isTransitioning = false
-			let currentClass = 'bg-color--4'
-
-			function changeGradient(className, color) {
-				if (isTransitioning || currentClass === className) return
-
-				isTransitioning = true
-				currentClass = className
-
-				let transitionPoint = 30
-
-				function updateTransitionPoint() {
-					transitionPoint++
-					root.style.setProperty('--gradient-transition-point', `${transitionPoint}%`)
-
-					if (transitionPoint < 100) {
-						requestAnimationFrame(updateTransitionPoint)
-					} else {
-						root.classList.remove(...classes)
-						root.classList.add(className)
-
-						headerLogo.style.setProperty('--header-logo-box-shadow', color)
-						headerBtns.forEach(element => element.style.setProperty('--header-btn-box-shadow', color))
-						asideMenuElements.forEach(element => {
-							const target = document.querySelector(`.${element}`)
-							target.style.setProperty('--aside-menu-color', color)
-						})
-						hmpMyName.style.setProperty('--hmp-getting-name-color', color)
-						page.style.setProperty('--scroll-bar-color', color)
-
-						let returnPoint = 100
-
-						function returnTransitionPoint() {
-							returnPoint--
-							root.style.setProperty('--gradient-transition-point', `${returnPoint}%`)
-
-							if (returnPoint > 30) {
-								requestAnimationFrame(returnTransitionPoint)
-							} else {
-								isTransitioning = false
-							}
-						}
-
-						requestAnimationFrame(returnTransitionPoint)
-					}
-				}
-
-				requestAnimationFrame(updateTransitionPoint)
-			}
-
-			buttons.forEach((button, index) => {
-				button.addEventListener('click', event => {
-					const target = event.target
-
-					if (!isTransitioning) {
-						buttons.forEach(element => element.classList.remove('aside-menu__colors--active'))
-						target.classList.add('aside-menu__colors--active')
-					}
-
-					const className = classes[index]
-					const color = colors[index]
-					changeGradient(className, color)
-				})
-			})
-		}
-
-		backgroundColorChange()
 
 		function manageMenuAnimations() {
 			const menuState = { isOpen: false, timeout: null }
@@ -2084,6 +2098,7 @@ function main() {
 		function copyText() {
 			const btns = [...copyBtn]
 			const texts = [...code]
+			const hmpName = document.getElementById('hmp-getting-name')
 
 			let isClicked = false
 
@@ -2094,6 +2109,7 @@ function main() {
 				const modalWindow = document.createElement('div')
 				modalWindow.classList.add(...classes)
 				modalWindow.textContent = message
+				modalWindow.style.cssText = hmpName.style.cssText
 				document.body.appendChild(modalWindow)
 
 				setTimeout(() => {
@@ -2277,17 +2293,121 @@ function main() {
 		}
 
 		feedbackAnimate()
+
+		function feedbackValidate() {
+			const form = document.getElementById('resume-feedback-form')
+			const nameInput = document.getElementById('resume-feedback-name')
+			const emailInput = document.getElementById('resume-feedback-email')
+			const messageInput = document.getElementById('resume-feedback-message')
+			const btn = document.getElementById('resume-feedback-btn')
+			const page = document.getElementById('page')
+			const hmpName = document.getElementById('hmp-getting-name')
+
+			function sanitizeInput(value) {
+				const htmlTagRegex = /<[^>]*>?/gm
+				if (htmlTagRegex.test(value)) {
+					showModal(!isLanguageRussian ? 'Get away' : 'Убирайся прочь')
+					setTimeout(() => {
+						window.location.href = 'about:blank'
+						nameInput.value = ''
+						emailInput.value = ''
+						messageInput.value = ''
+					}, 2950)
+					return null
+				}
+
+				return value.trim()
+			}
+
+			function showModal(message) {
+				const modalWindow = document.createElement('div')
+				modalWindow.classList.add('feedback-modal-window')
+				modalWindow.style.cssText = hmpName.style.cssText
+				if (isLanguageRussian) modalWindow.classList.add('russian-font', 'feedback-modal-window--rus-lang')
+
+				modalWindow.textContent = message
+				page.appendChild(modalWindow)
+				setTimeout(() => {
+					btn.innerHTML = !isLanguageRussian ? '<span class="resume-feedback__form-btn-text">Send</span>' : '<span class="resume-feedback__form-btn-text russian-font">Отправить</span>'
+
+					const element = document.querySelector('.resume-feedback__form-btn-text')
+					element.dataset.en = 'Send'
+					element.dataset.ru = 'Отправить'
+
+					element.addEventListener('animationend', event => {
+						if (event.animationName === 'fedback-form-btn-text') {
+							btn.textContent = !isLanguageRussian ? 'Send' : 'Отправить'
+							btn.dataset.en = 'Send'
+							btn.dataset.ru = 'Отправить'
+						}
+					})
+
+					modalWindow.remove()
+				}, 3000)
+			}
+
+			form.addEventListener('submit', async event => {
+				event.preventDefault()
+
+				Object.keys(btn.dataset).forEach(key => delete btn.dataset[key])
+
+				const name = sanitizeInput(nameInput.value)
+				const email = sanitizeInput(emailInput.value)
+				const message = sanitizeInput(messageInput.value)
+
+				if (!name || !email || !message) {
+					return
+				}
+
+				btn.disabled = true
+				try {
+					await sendEmail(name, email, message)
+					showModal(!isLanguageRussian ? 'Message sent' : 'Сообщение отправлено')
+					form.reset()
+				} catch (error) {
+					showModal(!isLanguageRussian ? `Error: ${error.message}` : `Ошибка: ${error.message}`)
+				} finally {
+					setTimeout(() => {
+						btn.disabled = false
+					}, 4000)
+				}
+			})
+
+			async function sendEmail(name, email, message) {
+				btn.innerHTML = '<span class="resume-feedback__sending"></span> <span class="resume-feedback__sending"></span> <span class="resume-feedback__sending"></span>'
+
+				const elements = document.querySelectorAll('.resume-feedback__sending')
+				elements.forEach(element => {
+					element.style.cssText = hmpName.style.cssText
+				})
+
+				const response = await fetch('https://your-server.com/api/send-email', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({ name, email, message }),
+				})
+
+				if (!response.ok) {
+					const errorText = await response.text()
+					throw new Error(errorText || 'Ошибка отправки сообщения.')
+				}
+			}
+		}
+
+		feedbackValidate()
 	}
 
 	function aboutMePageEvents() {
 		const myselfItem = document.querySelectorAll('.about-me-self__links-item')
 
+		myselfItem.forEach((element, index) => element.classList.add(index % 2 === 0 ? 'about-me-self__links-item--left' : 'about-me-self__links-item--right'))
 		sameElementsAnimation('.about-me-exp__text', 'about-me-exp-text', ['about-me-exp__text--animate'], 50, null)
 		sameElementsAnimation('.about-me-exp__box-line', 'about-me-exp-box-line', ['about-me-exp__box-line--animate'], 50, null)
 		sameElementsAnimation('.about-me-title', 'about-me-title', ['about-me-title--animate'], 50, null)
 		sameElementsAnimation('.about-me-section-line', 'about-me-section-line', ['about-me-section-line--animate'], 50, null)
 		sameElementsAnimation('.about-me-self__links-item', 'about-me-self-links-item', ['about-me-self__links-item--animate'], 50, null)
-		myselfItem.forEach((element, index) => element.classList.add(index % 2 === 0 ? 'about-me-self__links-item--left' : 'about-me-self__links-item--right'))
 
 		singleElementsAnimation('about-me-getting-title', 50, ['about-me-getting__title--animate'], 'about-me-getting-hide-box')
 		singleElementsAnimation('about-me-exp-total-exp', 50, ['about-me-exp__total-exp--animate'], null)
@@ -2302,7 +2422,7 @@ function main() {
 
 			function animate() {
 				elements.forEach((element, index) => {
-					const timeout = setTimeout(() => element.classList.add('about-me-getting__span--animate'), 500 * index)
+					const timeout = setTimeout(() => element.classList.add('about-me-getting__span--animate'), 100 * index)
 
 					timeouts.push(timeout)
 				})
@@ -2326,7 +2446,7 @@ function main() {
 
 			function animate() {
 				letters.forEach((letter, index) => {
-					const timeout = setTimeout(() => letter.classList.add('about-me-scroll__letters--animate'), index * 200)
+					const timeout = setTimeout(() => letter.classList.add('about-me-scroll__letters--animate'), index * 60)
 
 					timeouts.push(timeout)
 				})
@@ -2492,6 +2612,7 @@ function main() {
 		scrollLine()
 		setCurrentDate()
 		calculateExp()
+		backgroundColorChange()
 
 		headerEvents()
 		homePageEvents()

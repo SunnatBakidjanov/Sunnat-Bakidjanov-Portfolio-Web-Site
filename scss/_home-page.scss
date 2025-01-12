@@ -17,6 +17,7 @@ $hmp-title-color: $orange;
 $hmp-accent-title-color: $white;
 $hmp-text-color: $white;
 $hmp-logo-3d-border-color: $white;
+$hmp-lines-transition-delay: 0s;
 
 // cards-section
 $hmp-cards-circle-color: $white;
@@ -113,7 +114,7 @@ $hmp-my-way-border-color: $white;
 
 	&__title--accent-color {
 		transition: color 0.4s ease-out;
-		color: var(--hmp-getting-name-color);
+		color: var(--change-color);
 	}
 
 	&__title--rus-lang {
@@ -271,7 +272,7 @@ $hmp-my-way-border-color: $white;
 			}
 		}
 
-		animation: hmp-getting-logo-3d-line-bottom 1s linear forwards;
+		animation: hmp-getting-logo-3d-line-bottom 1s linear forwards $hmp-lines-transition-delay;
 	}
 
 	&__line-top {
@@ -296,7 +297,7 @@ $hmp-my-way-border-color: $white;
 			}
 		}
 
-		animation: hmp-getting-logo-3d-line-top 1s linear forwards;
+		animation: hmp-getting-logo-3d-line-top 1s linear forwards $hmp-lines-transition-delay;
 	}
 
 	&__line-right {
@@ -321,7 +322,7 @@ $hmp-my-way-border-color: $white;
 			}
 		}
 
-		animation: hmp-getting-logo-3d-line-right 1s linear forwards;
+		animation: hmp-getting-logo-3d-line-right 1s linear forwards $hmp-lines-transition-delay;
 	}
 
 	&__line-left {
@@ -346,7 +347,7 @@ $hmp-my-way-border-color: $white;
 			}
 		}
 
-		animation: hmp-getting-logo-3d-line-left 1s linear forwards;
+		animation: hmp-getting-logo-3d-line-left 1s linear forwards $hmp-lines-transition-delay;
 	}
 
 	&__back {
@@ -452,6 +453,10 @@ $hmp-my-way-border-color: $white;
 			left: 15px;
 			margin-top: 20px;
 			height: auto;
+		}
+
+		&__line {
+			animation-delay: 0.6s;
 		}
 	}
 

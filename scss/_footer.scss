@@ -135,7 +135,8 @@ $footer-line-bg-color: $white;
 
 		&__inner-copyright {
 			flex-direction: column;
-			margin-right: 0;
+			margin: 0;
+			height: 47px;
 		}
 
 		&__name-box {

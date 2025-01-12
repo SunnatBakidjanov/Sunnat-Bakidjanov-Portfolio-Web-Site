@@ -148,7 +148,7 @@
 			</button>
 	
 			<main>
-				<div class="home-page page page--active" id="page-1">
+				<div class="home-page page" id="page-1">
 					<section class="hmp-getting">
 						<div class="container">
 							<div class="hmp-getting__wrapper">
@@ -172,10 +172,10 @@
 										<div class="hmp-getting__preserve-3d" id="hmp-getting-preverve">
 											<div class="hmp-getting__front hmp-getting__sides" id="hmp-getting-front">
 												<img class="hmp-getting__img" id="hmp-getting-img" src="img/svg/super-man-getting.svg" alt="">
-												<span class="hmp-getting__line-left" id="hmp-getting-line-left"></span>
-												<span class="hmp-getting__line-right" id="hmp-getting-line-right"></span>
-												<span class="hmp-getting__line-top" id="hmp-getting-line-top"></span>
-												<span class="hmp-getting__line-bottom" id="hmp-getting-line-bottom"></span>
+												<span class="hmp-getting__line-left hmp-getting__line" id="hmp-getting-line-left"></span>
+												<span class="hmp-getting__line-right hmp-getting__line" id="hmp-getting-line-right"></span>
+												<span class="hmp-getting__line-top hmp-getting__line" id="hmp-getting-line-top"></span>
+												<span class="hmp-getting__line-bottom hmp-getting__line" id="hmp-getting-line-bottom"></span>
 											</div>
 											<div class="hmp-getting__back hmp-getting__sides">
 												<img src="img/svg/super-man-getting.svg" alt="">
@@ -1020,7 +1020,7 @@
 					</section>
 				</div>
 		
-				<div class="resume-page page" id="page-3">
+				<div class="resume-page page page--active" id="page-3">
 					<section class="resume-getting">
 						<div class="container">
 							<div class="resume-getting__wrapper">
@@ -1101,7 +1101,7 @@
 
 								<div class="line resume-feedback__line"></div>
 
-								<form class="resume-feedback__form" id="resume-feedback-form" action="#!" method="post">
+								<form class="resume-feedback__form" id="resume-feedback-form" action="!#" method="post">
 									<div class="resume-feedback__form-group">
 										<p class="resume-feedback__text"></p>
 
@@ -1115,8 +1115,8 @@
 										<p class="resume-feedback__text"></p>
 
 										<div class="resume-feedback__input-box">
-											<input class="resume-feedback__input" type="email" id="esume-feedback-email" name="email" required="" placeholder=" " autocomplete="email">
-											<label class="resume-feedback__label" for="esume-feedback-email" data-ru="Введите ваш email" data-en="Enter your email">Enter your email</label>
+											<input class="resume-feedback__input" type="email" id="resume-feedback-email" name="email" required="" placeholder=" " autocomplete="email">
+											<label class="resume-feedback__label" for="resume-feedback-email" data-ru="Введите ваш email" data-en="Enter your email">Enter your email</label>
 										</div>
 									</div>
 
@@ -1130,8 +1130,10 @@
 									</div>
 
 									<div class="resume-feedback__form-btn-box resume-btn-box">
-										<button class="resume-feedback__form-btn resume-btn" type="submit" aria-label="Send" data-ru="Отправить" data-en="Send">Send</button>
+										<button class="resume-feedback__form-btn resume-btn" id="resume-feedback-btn" type="submit" aria-label="Send" data-ru="Отправить" data-en="Send">Send</button>
 									</div>
+
+									<a class="resume-feedback__exit-link" href="#" id="exit-link">Выйти на пустую страницу</a>
 								</form>
 							</div>
 						</div>

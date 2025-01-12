@@ -167,6 +167,46 @@ $resume-subtitles-font-weight: 600;
 	}
 }
 
+.feedback-modal-window {
+	position: fixed;
+	bottom: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 35px;
+	font-weight: 500;
+	font-size: 24px;
+	color: var(--change-color);
+	letter-spacing: 0.5px;
+	text-align: center;
+	background-color: $white;
+	opacity: 0;
+	animation: fedback-modal-window 3s linear;
+
+	@keyframes fedback-modal-window {
+		0% {
+			opacity: 0;
+		}
+
+		20% {
+			opacity: 1;
+		}
+
+		80% {
+			opacity: 1;
+		}
+
+		100% {
+			opacity: 0;
+		}
+	}
+}
+
+.feedback-modal-window--rus-lang {
+	font-size: 22px;
+}
+
 .resume-btn {
 	display: flex;
 	align-items: center;
@@ -664,12 +704,72 @@ $resume-subtitles-font-weight: 600;
 		}
 	}
 
+	&__sending {
+		margin-left: 10px;
+		width: 10px;
+		height: 10px;
+		background-color: var(--change-color);
+		border-radius: 50%;
+		opacity: 0.2;
+
+		@keyframes feedback-sending-animation {
+			0%,
+			100% {
+				opacity: 0.2;
+			}
+
+			50% {
+				opacity: 1;
+			}
+		}
+
+		&:nth-child(1) {
+			animation: feedback-sending-animation 1.2s ease-in-out 0s infinite;
+		}
+
+		&:nth-child(2) {
+			animation: feedback-sending-animation 1.2s ease-in-out 0.4s infinite;
+		}
+
+		&:nth-child(3) {
+			animation: feedback-sending-animation 1.2s ease-in-out 0.8s infinite;
+		}
+	}
+
+	&__form-btn-text {
+		@keyframes fedback-form-btn-text {
+			0% {
+				transform: translateY(-50px);
+				opacity: 0;
+			}
+
+			100% {
+				transform: translateY(0);
+				opacity: 1;
+			}
+		}
+
+		animation: fedback-form-btn-text 0.8s ease-out forwards;
+		font-size: inherit;
+	}
+
 	&__form-btn {
 		height: 40px;
+		font-family: Orbitron, sans-serif;
 	}
 
 	&__form-btn--rus-lang {
+		font-family: Furore, sans-serif;
 		font-size: 30px;
+	}
+
+	&__exit-link {
+		position: absolute;
+		left: -9999px;
+		width: 0;
+		height: 0;
+		pointer-events: none;
+		overflow: hidden;
 	}
 
 	@media (width <= 1150px) {
@@ -775,6 +875,20 @@ $resume-subtitles-font-weight: 600;
 	.resume-subtitle--rus-lang {
 		font-size: 26px;
 	}
+
+	.feedback-modal-window {
+		font-size: 22px;
+	}
+
+	.feedback-modal-window--rus-lang {
+		font-size: 20px;
+	}
+
+	.resume-btn-box--animate {
+		&::after {
+			width: 10%;
+		}
+	}
 }
 
 @media (width <= 800px) {
@@ -811,6 +925,21 @@ $resume-subtitles-font-weight: 600;
 	.resume-subtitle--rus-lang {
 		font-size: 22px;
 	}
+
+	.resume-btn-box--animate {
+		&::after {
+			width: 12%;
+		}
+	}
+
+	.feedback-modal-window {
+		height: 30px;
+		font-size: 20px;
+	}
+
+	.feedback-modal-window--rus-lang {
+		font-size: 18px;
+	}
 }
 
 @media (width <= 430px) {
@@ -831,19 +960,33 @@ $resume-subtitles-font-weight: 600;
 	.resume-subtitle--rus-lang {
 		font-size: 18px;
 	}
+
+	.resume-btn-box--animate {
+		&::after {
+			width: 15%;
+		}
+	}
+
+	.feedback-modal-window {
+		font-size: 18px;
+	}
+
+	.feedback-modal-window--rus-lang {
+		font-size: 16px;
+	}
 }
 
 @media (hover: none) and (pointer: coarse) {
 	.resume-btn-box {
 		&:hover {
-			box-shadow: 0 0 4px $resume-btn-box-shadow-color;
+			box-shadow: 0 0 4px $resume-btn-box-shadow-color !important;
 		}
 	}
 
 	.resume-btn {
 		&:hover {
-			color: $resume-btn-color;
-			letter-spacing: initial;
+			color: $resume-btn-color !important;
+			letter-spacing: 0 !important;
 		}
 	}
 }
