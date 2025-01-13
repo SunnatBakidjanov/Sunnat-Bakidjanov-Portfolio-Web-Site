@@ -2316,7 +2316,7 @@ function main() {
 					return null
 				}
 
-				return value.trim()
+				return value.replace(/<[^>]*>/g, '').trim()
 			}
 
 			function showModal(message) {
@@ -2355,17 +2355,16 @@ function main() {
 				const email = sanitizeInput(emailInput.value)
 				const message = sanitizeInput(messageInput.value)
 
-				if (!name || !email || !message) {
-					return
-				}
+				if (!name || !email || !message) return
 
 				btn.disabled = true
+
 				try {
 					await sendEmail(name, email, message)
 					showModal(!isLanguageRussian ? 'Message sent' : 'Сообщение отправлено')
 					form.reset()
 				} catch (error) {
-					showModal(!isLanguageRussian ? `Error: ${error.message}` : `Ошибка: ${error.message}`)
+					showModal(!isLanguageRussian ? `Error: Please try again later` : `Ошибка: Попробуйте снова позже`)
 				} finally {
 					setTimeout(() => {
 						btn.disabled = false
@@ -2381,7 +2380,7 @@ function main() {
 					element.style.cssText = hmpName.style.cssText
 				})
 
-				const response = await fetch('https://your-server.com/api/send-email', {
+				const response = await fetch('http://localhost:3000/api/send-email', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
