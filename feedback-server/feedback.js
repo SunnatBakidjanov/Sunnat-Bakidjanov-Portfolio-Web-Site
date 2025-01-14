@@ -65,8 +65,7 @@ app.post('/api/send-email', async (req, res) => {
 			const language = detectRussianLanguage(message)
 
 			let subject = language === 'ru' ? 'Ваше сообщение принято' : 'Your message has been received.'
-			let text =
-				language === 'ru' ? `Здравствуйте, ${sanitizedName}!\nВаше сообщение получено. Я свяжусь с вами в ближайшее время.\nСпасибо!\n\n` : `Hello, ${sanitizedName}!\nYour message has been received. I will contact you shortly.\nThank you!\n\n`
+			let text = language === 'ru' ? `Здравствуйте, ${sanitizedName}!\nВаше сообщение получено. Я свяжусь с вами в ближайшее время.\nСпасибо!\n\n` : `Hello, ${sanitizedName}!\nYour message has been received. I will contact you shortly.\nThank you!\n`
 
 			await transporter.sendMail({
 				from: process.env.EMAIL_USER,
@@ -84,5 +83,5 @@ app.post('/api/send-email', async (req, res) => {
 })
 
 app.listen(PORT, () => {
-	console.log(`Сервер запущен на https://sunnatbakidjanov.codes/:${PORT}`)
+	console.log(`Сервер запущен на https://'0.0.0.0':${PORT}`)
 })

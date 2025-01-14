@@ -48,8 +48,7 @@ $colors: (
 
 .header {
 	&__wrapper {
-		position: relative;
-		top: -150px;
+		transform: translateY(-150px);
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
@@ -58,7 +57,7 @@ $colors: (
 	}
 
 	&__wrapper--animate {
-		top: 0;
+		transform: translateY(0);
 		border-color: $header-border-color;
 		transition:
 			top 1.1s ease-out,
