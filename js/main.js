@@ -1697,6 +1697,8 @@ function main() {
 				'Начал изучать JavaScript. Понял, как добавить интерактивность на сайты.',
 				'[ 20.12.2024 ]',
 				'Осваиваю JavaScript глубже и готовлюсь изучать React. Впереди - создание сложных веб-приложений!',
+				'[ 13.01.2025 ]',
+				'Приступил к изучению React. Открываю для себя мир компонентов и состояний!',
 			]
 
 			const en = [
@@ -1708,6 +1710,8 @@ function main() {
 				'Started learning JavaScript. I understood how to add interactivity to websites.',
 				'[ 20.12.2024 ]',
 				`I'm learning JavaScript more deeply and getting ready to learn React. Ahead - creating complex web applications!`,
+				'[ 13.01.2025 ]',
+				'Started learning React. Discovering the world of components and states!',
 			]
 
 			let letterIndex = 0
@@ -2294,7 +2298,7 @@ function main() {
 
 		feedbackAnimate()
 
-		function feedbackValidate() {
+		function sendMail() {
 			const form = document.getElementById('resume-feedback-form')
 			const nameInput = document.getElementById('resume-feedback-name')
 			const emailInput = document.getElementById('resume-feedback-email')
@@ -2399,7 +2403,7 @@ function main() {
 			}
 		}
 
-		feedbackValidate()
+		sendMail()
 	}
 
 	function aboutMePageEvents() {
