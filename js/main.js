@@ -2306,7 +2306,7 @@ function main() {
 			function sanitizeInput(value) {
 				const htmlTagRegex = /<[^>]*>?/gm
 				if (htmlTagRegex.test(value)) {
-					showModal(!isLanguageRussian ? 'Get away' : 'Убирайся прочь')
+					showModal('Get away', 'Убирайся прочь')
 					setTimeout(() => {
 						window.location.href = 'about:blank'
 						nameInput.value = ''
@@ -2319,13 +2319,13 @@ function main() {
 				return value.replace(/<[^>]*>/g, '').trim()
 			}
 
-			function showModal(message) {
+			function showModal(ruMessage, enMessage) {
 				const modalWindow = document.createElement('div')
 				modalWindow.classList.add('feedback-modal-window')
 				modalWindow.style.cssText = hmpName.style.cssText
 				if (isLanguageRussian) modalWindow.classList.add('russian-font', 'feedback-modal-window--rus-lang')
 
-				modalWindow.textContent = message
+				modalWindow.textContent = !isLanguageRussian ? ruMessage : enMessage
 				page.appendChild(modalWindow)
 				setTimeout(() => {
 					btn.innerHTML = !isLanguageRussian ? '<span class="resume-feedback__form-btn-text">Send</span>' : '<span class="resume-feedback__form-btn-text russian-font">Отправить</span>'
@@ -2361,10 +2361,14 @@ function main() {
 
 				try {
 					await sendEmail(name, email, message)
-					showModal(!isLanguageRussian ? 'Message sent' : 'Сообщение отправлено')
+					showModal('Message sent', 'Сообщение отправлено')
 					form.reset()
 				} catch (error) {
-					showModal(!isLanguageRussian ? `Error: Please try again later` : `Ошибка: Попробуйте снова позже`)
+					showModal(`Error: Please try again later`, `Ошибка: Попробуйте снова позже`)
+					console.error('Error details:', error)
+					if (error.response) {
+						console.error('Server response:', await error.response.text())
+					}
 				} finally {
 					setTimeout(() => {
 						btn.disabled = false
@@ -2380,7 +2384,7 @@ function main() {
 					element.style.cssText = hmpName.style.cssText
 				})
 
-				const response = await fetch('http://localhost:3000/api/send-email', {
+				const response = await fetch('http://127.0.0.1:3000/api/send-email', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',

@@ -83,5 +83,5 @@ app.post('/api/send-email', async (req, res) => {
 })
 
 app.listen(PORT, () => {
-	console.log(`Сервер запущен на https://'0.0.0.0':${PORT}`)
+	console.log(`Сервер запущен на http://127.0.0.1:${PORT}`)
 })
