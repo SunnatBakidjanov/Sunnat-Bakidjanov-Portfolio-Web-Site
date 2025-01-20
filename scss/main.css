@@ -3836,7 +3836,7 @@
   font-size: 50px;
   color: #f8aa01;
   letter-spacing: 0.5px;
-  transform: translateY(-50px);
+  transform: translateY(-80px);
 }
 .about-me-getting__title--animate {
   transform: translateY(0);
@@ -3864,7 +3864,7 @@
 }
 .about-me-getting__span--animate {
   transform: translateY(0);
-  transition: transform 0.6s ease-out 0.2s;
+  transition: transform 0.8s ease-out 0.2s;
 }
 @media (width <= 1150px) {
   .about-me-getting__wrapper {
@@ -3947,7 +3947,7 @@
 }
 .about-me-scroll__letters--animate {
   transform: translateY(0);
-  transition: transform 0.6s ease-out 0.8s;
+  transition: transform 0.8s ease-out 0.8s;
 }
 @media (width <= 1150px) {
   .about-me-scroll__wrapper {
@@ -4033,11 +4033,13 @@
 .about-me-self__img-text {
   margin-top: 15px;
   width: 305px;
+  min-height: 22px;
   font-size: 18px;
   color: #fff;
 }
 .about-me-self__img-text--rus-lang {
   width: 295px;
+  min-height: 22px;
   font-size: 16px;
 }
 .about-me-self__links-box {
