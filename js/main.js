@@ -4,6 +4,8 @@ function main() {
 
 	const changeLanguageButton = document.getElementById('translator')
 
+	const pages = ['page-1', 'page-2', 'page-3', 'page-4']
+
 	const tickingState = {}
 	const clickState = {}
 	const scrollState = {}
@@ -102,23 +104,61 @@ function main() {
 		}
 	}
 
-	function visibleOnLoad(element, elementKey, startingHeight, startCallback) {
-		if (!tickingState[elementKey]) {
-			tickingState[elementKey] = { ticking: false }
-		}
-
-		if (handleVisibilityChange(element, startingHeight, elementKey)) {
-			if (!tickingState[elementKey].ticking) {
-				window.requestAnimationFrame(() => {
-					startCallback()
-
-					scrollState[elementKey] = { scrolState: true }
-					tickingState[elementKey].ticking = false
-				})
-				tickingState[elementKey].ticking = true
-			}
-		}
+	function addAnimateClasses(element) {
+		const classNames = element.classList
+		if (!classNames.contains(`${classNames[0]}--animate`)) classNames.add(`${classNames[0]}--animate`)
 	}
+
+	function addAnimateClassesInHideElements(element) {
+		const nodes = [...element.childNodes].filter(node => node.nodeType === 1 && node.classList?.contains(`${node.classList[0]}--hide`))
+
+		nodes.forEach(node => {
+			if (!node.classList.contains(`${node.classList[0]}--animate`)) node.classList.add(`${node.classList[0]}--animate`)
+		})
+	}
+
+	function animateVisibleElements(elements, callbackAnimate) {
+		elements.forEach(element => {
+			const callback = entries => {
+				entries.forEach(entry => {
+					const isAnyPageActive = pages.some(pageId => {
+						const pageElement = document.getElementById(pageId)
+						return pageElement && pageElement.classList.contains('page--active')
+					})
+
+					if (entry.isIntersecting && isAnyPageActive) callbackAnimate(element)
+				})
+			}
+
+			const options = {
+				root: null,
+				rootMargin: '-100px',
+				threshold: 1,
+			}
+
+			const observer = new IntersectionObserver(callback, options)
+
+			observer.observe(element)
+		})
+	}
+
+	// function visibleOnLoad(element, elementKey, startingHeight, startCallback) {
+	// 	if (!tickingState[elementKey]) {
+	// 		tickingState[elementKey] = { ticking: false }
+	// 	}
+
+	// 	if (handleVisibilityChange(element, startingHeight, elementKey)) {
+	// 		if (!tickingState[elementKey].ticking) {
+	// 			window.requestAnimationFrame(() => {
+	// 				startCallback()
+
+	// 				scrollState[elementKey] = { scrolState: true }
+	// 				tickingState[elementKey].ticking = false
+	// 			})
+	// 			tickingState[elementKey].ticking = true
+	// 		}
+	// 	}
+	// }
 
 	function handleVisibilityChange(element, startingHeight, elementKey) {
 		const rect = element.getBoundingClientRect()
@@ -147,7 +187,7 @@ function main() {
 				return
 			}
 
-			visibleOnLoad(element, elementKey, startingHeight, startCallback)
+			// visibleOnLoad(element, elementKey, startingHeight, startCallback)
 
 			document.addEventListener('scroll', () => {
 				handlePageChangeOnScroll(element, elementKey, startingHeight, startCallback)
@@ -883,9 +923,17 @@ function main() {
 	}
 
 	function homePageEvents() {
-		sameElementsAnimation('.hmp-titles', 'hmp-titles', ['hmp-titles--animate'], 50, null)
+		const titles = document.querySelectorAll('.hmp-titles')
+		const gettingTitle = document.getElementById('hmp-getting-hidden-title')
+		const gittingBlink = document.getElementById('hmp-getting-group-text')
 
-		singleElementsAnimation('hmp-getting-title', 0, ['hmp-getting__title--animate'], 'hmp-getting-hidden-title')
+		const elements = [...titles]
+		const hideElements = [gittingBlink, gettingTitle]
+
+		animateVisibleElements(elements, addAnimateClasses)
+		animateVisibleElements(hideElements, addAnimateClassesInHideElements)
+
+		// singleElementsAnimation('hmp-getting-title', 0, ['hmp-getting__title--animate'], 'hmp-getting-hidden-title')
 		singleElementsAnimation('hmp-projects-text', 150, ['hmp-projects__text--animate'], 'hmp-projects-text')
 
 		function updateSkillsText() {
@@ -978,11 +1026,12 @@ function main() {
 				}
 			}
 
+			document.addEventListener('animationend', handleBlinkAnimation)
+
 			function animate() {
 				isReseted = false
 
 				blink.classList.add('hmp-getting__blink--animate')
-				document.addEventListener('animationend', handleBlinkAnimation)
 			}
 
 			function reset() {
