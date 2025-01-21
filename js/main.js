@@ -449,6 +449,12 @@ function main() {
 		animateVisibleElements(lines, addAnimateClasses)
 	}
 
+	function animateLines() {
+		const lines = document.querySelectorAll('.line')
+
+		animateVisibleElements(lines, addAnimateClasses)
+	}
+
 	function pageUpdate() {
 		window.scrollTo(0, 0)
 	}
@@ -885,13 +891,10 @@ function main() {
 			const titles = document.querySelectorAll('.hmp-titles')
 			const gettingTitle = document.getElementById('hmp-getting-hidden-title')
 			const gittingBlink = document.getElementById('hmp-getting-group-text')
-			const logoLineTop = document.getElementById('hmp-getting-line-top')
-			const logoLineLeft = document.getElementById('hmp-getting-line-left')
-			const logoLineRigth = document.getElementById('hmp-getting-line-right')
-			const logoLineBottom = document.getElementById('hmp-getting-line-bottom')
+			const logoFront = document.getElementById('hmp-getting-front')
 
-			const elements = [logoLineRigth, logoLineTop, logoLineLeft, logoLineBottom, ...titles]
-			const hideElements = [gittingBlink, gettingTitle]
+			const elements = [...titles]
+			const hideElements = [gittingBlink, gettingTitle, logoFront]
 
 			animateVisibleElements(elements, addAnimateClasses)
 			animateVisibleElements(hideElements, addAnimateClassesInHideElements)
@@ -1103,7 +1106,7 @@ function main() {
 
 		animateLogo3d()
 
-		function scrollTextAnimate() {
+		function animateScrollText() {
 			const textBox = document.getElementById('hmp-scroll-text')
 
 			function callback(element) {
@@ -1136,7 +1139,7 @@ function main() {
 			animateVisibleElements([textBox], callback)
 		}
 
-		scrollTextAnimate()
+		animateScrollText()
 
 		function animateCards() {
 			const configProgress = [
@@ -2612,8 +2615,8 @@ function main() {
 	}
 
 	window.addEventListener('load', () => {
-		sameElementsAnimation('.line', 'line', ['line--animate'], 50, null)
 		animateScrollLine()
+		animateLines()
 		setCurrentDate()
 		calculateExp()
 		backgroundColorChange()
