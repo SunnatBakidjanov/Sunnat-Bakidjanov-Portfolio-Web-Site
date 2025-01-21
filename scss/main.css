@@ -789,7 +789,7 @@
   border-top-right-radius: 1px;
   border-top-left-radius: 1px;
 }
-.hmp-getting__linte-top--animate {
+.hmp-getting__line-top--animate {
   animation: hmp-getting-logo-3d-line-top 1s linear forwards 0s;
 }
 @keyframes hmp-getting-logo-3d-line-top {

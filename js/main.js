@@ -443,52 +443,10 @@ function main() {
 		})
 	}
 
-	function scrollLine() {
+	function animateScrollLine() {
 		const lines = document.querySelectorAll('.scroll-section__line')
 
-		const setIds = addId(lines, 'scroll-section-line', 40)
-
-		const isAnimation = {}
-
-		function animate() {
-			lines.forEach((line, index) => {
-				if (seenElements.has(setIds.elementKeys[index])) {
-					if (!isAnimation[index]) {
-						isAnimation[index] = { animate: false }
-					}
-
-					if (!isAnimation[index].animate) {
-						isAnimation[index].animate = true
-
-						line.classList.add('scroll-section__line--animate')
-					}
-				}
-			})
-		}
-
-		function reset() {
-			lines.forEach((line, index) => {
-				if (isAnimation[index]?.animate) {
-					isAnimation[index].animate = false
-				}
-
-				line.classList.remove('scroll-section__line--animate')
-			})
-		}
-
-		createAnimation(setIds.ids, setIds.elementKeys, setIds.startingHeight, animate, reset)
-	}
-
-	function handleChangeOrintationAddClasses() {
-		const animateElements = document.querySelectorAll("[class*='animate']")
-
-		animateElements.forEach(el => {
-			el.classList.forEach(className => {
-				if (className.includes('animate')) {
-					el.classList.add(className)
-				}
-			})
-		})
+		animateVisibleElements(lines, addAnimateClasses)
 	}
 
 	function pageUpdate() {
@@ -923,20 +881,27 @@ function main() {
 	}
 
 	function homePageEvents() {
-		const titles = document.querySelectorAll('.hmp-titles')
-		const gettingTitle = document.getElementById('hmp-getting-hidden-title')
-		const gittingBlink = document.getElementById('hmp-getting-group-text')
+		function animateHomePageElements() {
+			const titles = document.querySelectorAll('.hmp-titles')
+			const gettingTitle = document.getElementById('hmp-getting-hidden-title')
+			const gittingBlink = document.getElementById('hmp-getting-group-text')
+			const logoLineTop = document.getElementById('hmp-getting-line-top')
+			const logoLineLeft = document.getElementById('hmp-getting-line-left')
+			const logoLineRigth = document.getElementById('hmp-getting-line-right')
+			const logoLineBottom = document.getElementById('hmp-getting-line-bottom')
 
-		const elements = [...titles]
-		const hideElements = [gittingBlink, gettingTitle]
+			const elements = [logoLineRigth, logoLineTop, logoLineLeft, logoLineBottom, ...titles]
+			const hideElements = [gittingBlink, gettingTitle]
 
-		animateVisibleElements(elements, addAnimateClasses)
-		animateVisibleElements(hideElements, addAnimateClassesInHideElements)
+			animateVisibleElements(elements, addAnimateClasses)
+			animateVisibleElements(hideElements, addAnimateClassesInHideElements)
+		}
 
-		// singleElementsAnimation('hmp-getting-title', 0, ['hmp-getting__title--animate'], 'hmp-getting-hidden-title')
+		animateHomePageElements()
+
 		singleElementsAnimation('hmp-projects-text', 150, ['hmp-projects__text--animate'], 'hmp-projects-text')
 
-		function updateSkillsText() {
+		function writeAndResetSkilsText() {
 			const container = document.getElementById('hmp-getting-group-text')
 			const text = document.getElementById('hmp-getting-text')
 			const blink = document.getElementById('hmp-getting-blink')
@@ -1054,16 +1019,12 @@ function main() {
 			createAnimation(ids, elementKeys, startHeight, animate, reset)
 		}
 
-		updateSkillsText()
+		writeAndResetSkilsText()
 
 		function animateLogo3d() {
 			const container = document.getElementById('hmp-getting-inner-logo-3d')
 			const preverve = document.getElementById('hmp-getting-preverve')
 			const front = document.getElementById('hmp-getting-front')
-			const lineTop = document.getElementById('hmp-getting-line-top')
-			const lineLeft = document.getElementById('hmp-getting-line-left')
-			const lineRigth = document.getElementById('hmp-getting-line-right')
-			const lineBottom = document.getElementById('hmp-getting-line-bottom')
 			const shadow = document.getElementById('hmp-getting-shadow')
 			const img = document.getElementById('hmp-getting-img')
 
@@ -1071,7 +1032,7 @@ function main() {
 			const elementKeys = ['hmp-getting-inner-logo-3d']
 			const startHeight = 0
 
-			const elements = [container, preverve, front, lineTop, lineRigth, lineLeft, lineBottom, shadow, img]
+			const elements = [container, preverve, front, shadow, img]
 
 			let isLineAnimated = false
 			let isFontAnimated = false
@@ -1114,15 +1075,10 @@ function main() {
 				}
 			}
 
-			function animate() {
-				lineLeft.classList.add('hmp-getting__line-left--animate')
-				lineRigth.classList.add('hmp-getting__line-right--animate')
-				lineTop.classList.add('hmp-getting__linte-top--animate')
-				lineBottom.classList.add('hmp-getting__line-bottom--animate')
+			document.addEventListener('animationend', handleLineAnimations)
+			document.addEventListener('animationend', handleMainAnimations)
 
-				document.addEventListener('animationend', handleLineAnimations)
-				document.addEventListener('animationend', handleMainAnimations)
-			}
+			function animate() {}
 
 			function reset() {
 				isFontAnimated = false
@@ -1148,44 +1104,36 @@ function main() {
 		animateLogo3d()
 
 		function scrollTextAnimate() {
-			const container = document.getElementById('hmp-scroll-text')
-			const left = document.querySelectorAll('.hmp-scroll__letter-left')
-			const right = document.querySelectorAll('.hmp-scroll__letter-right')
+			const textBox = document.getElementById('hmp-scroll-text')
 
-			const ids = [container]
-			const elementKeys = ['hmp-scroll-text']
-			const startHeight = 40
+			function callback(element) {
+				const nodes = [...element.childNodes].filter(node => node.nodeType === 1)
 
-			const timeouts = []
+				nodes.forEach((node, index) => {
+					if (!node.classList.contains(`${node.classList[0]}--animate`)) {
+						if (node.classList.contains('hmp-scroll__letter-left')) {
+							for (let i = nodes.length / 2 - 1; i >= 0; i--) {
+								setTimeout(
+									() => {
+										if (!nodes[i].classList.contains(`${nodes[i].classList[0]}--animate`)) {
+											nodes[i].classList.add(`${nodes[i].classList[0]}--animate`)
+										}
+									},
+									(nodes.length - 1 - i) * 100
+								)
+							}
+						}
 
-			function animate() {
-				for (let index = left.length - 1; index >= 0; index--) {
-					const timeout = setTimeout(
-						() => {
-							left[index].classList.add('hmp-scroll__letter-left--animate')
-						},
-						(left.length - 1 - index) * 150
-					)
-
-					timeouts.push(timeout)
-				}
-
-				right.forEach((element, index) => {
-					const timeout = setTimeout(() => {
-						element.classList.add('hmp-scroll__letter-right--animate')
-					}, index * 150)
-
-					timeouts.push(timeout)
+						if (node.classList.contains('hmp-scroll__letter-right')) {
+							setTimeout(() => {
+								node.classList.add(`${node.classList[0]}--animate`)
+							}, index * 100)
+						}
+					}
 				})
 			}
 
-			function reset() {
-				left.forEach(element => element.classList.remove('hmp-scroll__letter-left--animate'))
-				right.forEach(element => element.classList.remove('hmp-scroll__letter-right--animate'))
-				timeouts.forEach(timeout => clearTimeout(timeout))
-			}
-
-			createAnimation(ids, elementKeys, startHeight, animate, reset)
+			animateVisibleElements([textBox], callback)
 		}
 
 		scrollTextAnimate()
@@ -2665,7 +2613,7 @@ function main() {
 
 	window.addEventListener('load', () => {
 		sameElementsAnimation('.line', 'line', ['line--animate'], 50, null)
-		scrollLine()
+		animateScrollLine()
 		setCurrentDate()
 		calculateExp()
 		backgroundColorChange()
@@ -2781,14 +2729,6 @@ function main() {
 		}
 
 		aboutMeTextEdit()
-	})
-
-	window.addEventListener('orientationchange', () => {
-		const orientation = screen.orientation.type
-
-		if (orientation === 'portrait-primary' || orientation === 'landscape-primary' || orientation === 'landscape-secondary') {
-			handleChangeOrintationAddClasses()
-		}
 	})
 }
 
