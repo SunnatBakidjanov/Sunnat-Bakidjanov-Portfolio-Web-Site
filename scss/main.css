@@ -5,19 +5,13 @@
 }
 
 @font-face {
-  font-family: Furore;
+  font-family: Tektur;
   font-style: normal;
-  font-weight: normal;
-  src: url("../fonts/Furore/Furore.otf") format("opentype");
-}
-@font-face {
-  font-family: Orbitron;
-  font-style: normal;
-  font-weight: normal;
-  src: url("/fonts/Orbitron/Orbitron-VariableFont_wght.ttf") format("opentype");
+  font-weight: 400;
+  src: url("../fonts/Tektur/Tektur-VariableFont_wdth,wght.ttf") format("opentype");
 }
 .russian-font {
-  font-family: Furore, sans-serif;
+  font-family: Tektur, sans-serif;
   font-weight: 100 !important;
   letter-spacing: 0 !important;
 }
@@ -26,7 +20,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: Orbitron, sans-serif;
+  font-family: Tektur, sans-serif;
   text-decoration: none;
   list-style: none;
   scrollbar-color: #f8aa01 #fff;
@@ -600,7 +594,7 @@
 
 .hmp-titles {
   font-weight: 700;
-  font-size: 42px;
+  font-size: 3em;
   color: #f8aa01;
   letter-spacing: 0.5px;
   text-align: center;
@@ -615,7 +609,7 @@
 }
 
 .hmp-titles--rus-lang {
-  font-size: 40px;
+  font-size: 2.8em;
 }
 
 .hmp-getting__wrapper {

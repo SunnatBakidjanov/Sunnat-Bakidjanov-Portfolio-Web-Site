@@ -104,44 +104,6 @@ function main() {
 		}
 	}
 
-	function addAnimateClasses(element) {
-		const classNames = element.classList
-		if (!classNames.contains(`${classNames[0]}--animate`)) classNames.add(`${classNames[0]}--animate`)
-	}
-
-	function addAnimateClassesInHideElements(element) {
-		const nodes = [...element.childNodes].filter(node => node.nodeType === 1 && node.classList?.contains(`${node.classList[0]}--hide`))
-
-		nodes.forEach(node => {
-			if (!node.classList.contains(`${node.classList[0]}--animate`)) node.classList.add(`${node.classList[0]}--animate`)
-		})
-	}
-
-	function animateVisibleElements(elements, callbackAnimate) {
-		elements.forEach(element => {
-			const callback = entries => {
-				entries.forEach(entry => {
-					const isAnyPageActive = pages.some(pageId => {
-						const pageElement = document.getElementById(pageId)
-						return pageElement && pageElement.classList.contains('page--active')
-					})
-
-					if (entry.isIntersecting && isAnyPageActive) callbackAnimate(element)
-				})
-			}
-
-			const options = {
-				root: null,
-				rootMargin: '-100px',
-				threshold: 1,
-			}
-
-			const observer = new IntersectionObserver(callback, options)
-
-			observer.observe(element)
-		})
-	}
-
 	// function visibleOnLoad(element, elementKey, startingHeight, startCallback) {
 	// 	if (!tickingState[elementKey]) {
 	// 		tickingState[elementKey] = { ticking: false }
@@ -201,6 +163,62 @@ function main() {
 				handlePageChangeOnClick(event, element, elementKey, startingHeight, startCallback, resetCallback)
 			})
 		})
+	}
+
+	function addAnimateClasses(element) {
+		const classNames = element.classList
+		if (!classNames.contains(`${classNames[0]}--animate`)) classNames.add(`${classNames[0]}--animate`)
+	}
+
+	function addAnimateClassesInHideElements(element) {
+		const nodes = [...element.childNodes].filter(node => node.nodeType === 1 && node.classList?.contains(`${node.classList[0]}--hide`))
+
+		nodes.forEach(node => {
+			if (!node.classList.contains(`${node.classList[0]}--animate`)) node.classList.add(`${node.classList[0]}--animate`)
+		})
+	}
+
+	function animateVisibleElements(elements, callbackAnimate) {
+		elements.forEach(element => {
+			const callback = entries => {
+				entries.forEach(entry => {
+					const isAnyPageActive = pages.some(pageId => {
+						const pageElement = document.getElementById(pageId)
+						return pageElement && pageElement.classList.contains('page--active')
+					})
+
+					if (entry.isIntersecting && isAnyPageActive) callbackAnimate(element)
+				})
+			}
+
+			const options = {
+				root: null,
+				rootMargin: '-100px',
+				threshold: 1,
+			}
+
+			const observer = new IntersectionObserver(callback, options)
+
+			observer.observe(element)
+		})
+	}
+
+	function animateSameElements() {
+		function animateScrollLine() {
+			const lines = document.querySelectorAll('.scroll-section__line')
+
+			animateVisibleElements(lines, addAnimateClasses)
+		}
+
+		animateScrollLine()
+
+		function animateLines() {
+			const lines = document.querySelectorAll('.line')
+
+			animateVisibleElements(lines, addAnimateClasses)
+		}
+
+		animateLines()
 	}
 
 	function writeAndResetText(elements, englishTexts, russianTexts, typeSpeed, elementKeys, className, delay) {
@@ -441,18 +459,6 @@ function main() {
 
 			element.classList[language === 'ru' ? 'add' : 'remove'](ruClassName)
 		})
-	}
-
-	function animateScrollLine() {
-		const lines = document.querySelectorAll('.scroll-section__line')
-
-		animateVisibleElements(lines, addAnimateClasses)
-	}
-
-	function animateLines() {
-		const lines = document.querySelectorAll('.line')
-
-		animateVisibleElements(lines, addAnimateClasses)
 	}
 
 	function pageUpdate() {
@@ -889,12 +895,15 @@ function main() {
 	function homePageEvents() {
 		function animateHomePageElements() {
 			const titles = document.querySelectorAll('.hmp-titles')
+
+			const progreessBoxes = document.querySelectorAll('.hmp-cards__inner-progress')
+			const cardsContainer = document.querySelectorAll('.hmp-cards__container')
 			const gettingTitle = document.getElementById('hmp-getting-hidden-title')
 			const gittingBlink = document.getElementById('hmp-getting-group-text')
 			const logoFront = document.getElementById('hmp-getting-front')
 
-			const elements = [...titles]
-			const hideElements = [gittingBlink, gettingTitle, logoFront]
+			const elements = [...titles, ...cardsContainer]
+			const hideElements = [gittingBlink, gettingTitle, logoFront, ...progreessBoxes]
 
 			animateVisibleElements(elements, addAnimateClasses)
 			animateVisibleElements(hideElements, addAnimateClassesInHideElements)
@@ -1143,10 +1152,10 @@ function main() {
 
 		function animateCards() {
 			const configProgress = [
-				{ id: 0, className: 'html', precent: 70, progressDuration: 6000, precentChangeTime: 2000 },
-				{ id: 1, className: 'css', precent: 80, progressDuration: 7500, precentChangeTime: 2200 },
-				{ id: 2, className: 'js', precent: 40, progressDuration: 4000, precentChangeTime: 2400 },
-				{ id: 3, className: 'react', precent: 10, progressDuration: 2000, precentChangeTime: 2600 },
+				{ id: 0, className: 'html', precent: 70, progressDuration: 6000, precentChangeTime: 2000, handleAnimation: null },
+				{ id: 1, className: 'css', precent: 80, progressDuration: 7500, precentChangeTime: 2200, handleAnimation: null },
+				{ id: 2, className: 'js', precent: 40, progressDuration: 4000, precentChangeTime: 2400, handleAnimation: null },
+				{ id: 3, className: 'react', precent: 10, progressDuration: 2000, precentChangeTime: 2600, handleAnimation: null },
 			]
 
 			const conteiners = document.querySelectorAll('.hmp-cards__container')
@@ -1169,8 +1178,6 @@ function main() {
 				const visibleIndexes = []
 				const animationEnd = {}
 				const fluctuateStatus = {}
-
-				let handleAnimation = null
 
 				conteiners.forEach((_, index) => {
 					progressBoxes[index].setAttribute('id', `hmp-cards-inner-progress-${index}`)
@@ -1263,58 +1270,44 @@ function main() {
 				}
 
 				function animate() {
-					svgBoxes.forEach((_, index) => {
-						if (!animationEnd[index]) {
-							animationEnd[index] = { isEnded: false, isStarted: false }
-						}
-
-						if (seenElements.has(elementKeys[index])) {
-							if (!animationEnd[index].isStarted) {
-								animationEnd[index].isStarted = true
-
-								const { id, className, precent, progressDuration, precentChangeTime } = configProgress[index]
-
-								const svgBox = svgBoxes[index]
-								const progressText = texts[index]
-								const container = conteiners[index]
-								const progressBox = progressBoxes[index]
-
-								progressBox.classList.add('hmp-cards__inner-progress--animate')
-
-								visibleIndexes.push(index)
-
-								setTimeout(() => {
-									visibleIndexes.length = 0
-								}, 100)
-
-								const delay = visibleIndexes.indexOf(index) * 100
-
-								const timeout = setTimeout(() => {
-									svgBox.classList.add('hmp-cards__svg-box--animate')
-									progressText.classList.add('hmp-cards__progress-text--animate')
-									container.classList.add(`hmp-cards__container--${className}-animate`)
-								}, delay)
-
-								timeouts.push(timeout)
-
-								handleAnimation = event => {
-									if (event.target === svgBoxes[index] && event.animationName === 'hmp-cards-svg-box' && !animationEnd[index].isEnded) {
-										animationEnd[index].isEnded = true
-
-										getPrecentCards(`hmp-cards-circle-${id}`, `hmp-cards-value-${id}`, `hmp-cards-progress-${id}`, precent, progressDuration, precentChangeTime)
-
-										const timeout = setTimeout(() => {
-											circles[index].classList.add(`hmp-cards__circle--${className}`)
-										}, 100)
-
-										timeouts.push(timeout)
-									}
-								}
-
-								document.addEventListener('animationend', handleAnimation)
-							}
-						}
-					})
+					// svgBoxes.forEach((_, index) => {
+					// 	if (!animationEnd[index]) {
+					// 		animationEnd[index] = { isEnded: false, isStarted: false }
+					// 	}
+					// 	if (seenElements.has(elementKeys[index])) {
+					// 		if (!animationEnd[index].isStarted) {
+					// 			animationEnd[index].isStarted = true
+					// 			const { id, className, precent, progressDuration, precentChangeTime } = configProgress[index]
+					// 			const svgBox = svgBoxes[index]
+					// 			const progressText = texts[index]
+					// 			const container = conteiners[index]
+					// 			const progressBox = progressBoxes[index]
+					// 			progressBox.classList.add('hmp-cards__inner-progress--animate')
+					// 			visibleIndexes.push(index)
+					// 			setTimeout(() => {
+					// 				visibleIndexes.length = 0
+					// 			}, 100)
+					// 			const delay = visibleIndexes.indexOf(index) * 100
+					// 			const timeout = setTimeout(() => {
+					// 				svgBox.classList.add('hmp-cards__svg-box--animate')
+					// 				progressText.classList.add('hmp-cards__progress-text--animate')
+					// 				container.classList.add(`hmp-cards__container--${className}-animate`)
+					// 			}, delay)
+					// 			timeouts.push(timeout)
+					// 			handleAnimation = event => {
+					// 				if (event.target === svgBoxes[index] && event.animationName === 'hmp-cards-svg-box' && !animationEnd[index].isEnded) {
+					// 					animationEnd[index].isEnded = true
+					// 					getPrecentCards(`hmp-cards-circle-${id}`, `hmp-cards-value-${id}`, `hmp-cards-progress-${id}`, precent, progressDuration, precentChangeTime)
+					// 					const timeout = setTimeout(() => {
+					// 						circles[index].classList.add(`hmp-cards__circle--${className}`)
+					// 					}, 100)
+					// 					timeouts.push(timeout)
+					// 				}
+					// 			}
+					// 			document.addEventListener('animationend', handleAnimation)
+					// 		}
+					// 	}
+					// })
 				}
 
 				function reset() {
@@ -2615,8 +2608,7 @@ function main() {
 	}
 
 	window.addEventListener('load', () => {
-		animateScrollLine()
-		animateLines()
+		animateSameElements()
 		setCurrentDate()
 		calculateExp()
 		backgroundColorChange()
@@ -2633,9 +2625,9 @@ function main() {
 		asideMenu()
 	})
 
-	window.addEventListener('beforeunload', () => {
-		pageUpdate()
-	})
+	// window.addEventListener('beforeunload', () => {
+	// 	pageUpdate()
+	// })
 
 	changeLanguageButton.addEventListener('click', () => {
 		isLanguageRussian = !isLanguageRussian

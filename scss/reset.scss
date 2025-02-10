@@ -1,0 +1,17 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	font-family: Tektur, sans-serif;
+	text-decoration: none;
+}
+
+ul,
+li {
+	list-style: none;
+}
+
+body::-webkit-progress-bar {
+	scrollbar-color: $orange $white;
+	scrollbar-width: thin;
+}
