@@ -816,8 +816,6 @@ function main() {
 			container.classList.add('header__wrapper--animate')
 		}
 
-		animateHeaderContainer()
-
 		function burgerMenu() {
 			const burgerMenu = document.getElementById('burger-menu')
 			const container = document.getElementById('header-nav-container')
@@ -923,7 +921,75 @@ function main() {
 			window.addEventListener('resize', handleChangeOnResize)
 		}
 
+		function switchPagesAnimation() {
+			const buttons = document.querySelectorAll('.header__btn')
+			const lines = document.querySelectorAll('.header__line')
+
+			const START_POSITION = 0
+
+			function getLines(button) {
+				return Array.from(button.childNodes).filter(node => node.nodeType === 1 && node.classList.contains('header__line'))
+			}
+
+			function startPosition() {
+				const validatedPosition = Math.max(0, Math.min(buttons.length - 1, START_POSITION))
+				const button = buttons[validatedPosition]
+				const buttonLines = getLines(button)
+
+				if (validatedPosition === 0) logo.disabled = true
+
+				button.disabled = true
+				button.classList.add('header__btn--active')
+				buttonLines.forEach(line => line.classList.add('header__line--active'))
+			}
+
+			function handleLogoClick(event) {
+				if (event.target !== logo) return
+
+				logo.disabled = true
+
+				buttons.forEach(button => {
+					button.disabled = false
+					button.classList.remove('header__btn--active')
+				})
+
+				const firstButton = buttons[0]
+				firstButton.disabled = true
+				firstButton.classList.add('header__btn--active')
+
+				lines.forEach(line => line.classList.remove('header__line--active'))
+				getLines(firstButton).forEach(line => line.classList.add('header__line--active'))
+			}
+
+			function handleBtnClick(event) {
+				const index = [...buttons].indexOf(event.target)
+				if (index === -1) return
+
+				buttons.forEach(button => {
+					button.disabled = false
+					button.classList.remove('header__btn--active')
+				})
+
+				const button = buttons[index]
+				const buttonLines = getLines(button)
+
+				button.disabled = true
+				button.classList.add('header__btn--active')
+
+				lines.forEach(line => line.classList.remove('header__line--active'))
+				buttonLines.forEach(line => line.classList.add('header__line--active'))
+
+				logo.disabled = index === 0
+			}
+
+			startPosition()
+			document.addEventListener('click', handleBtnClick)
+			logo.addEventListener('click', handleLogoClick)
+		}
+
+		animateHeaderContainer()
 		burgerMenu()
+		switchPagesAnimation()
 	}
 
 	function homePageEvents() {
@@ -2655,7 +2721,7 @@ function main() {
 		aboutMePageEvents()
 		footerEvents()
 
-		switchPages()
+		// switchPages()
 		climbUp()
 		asideMenu()
 	})

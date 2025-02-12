@@ -95,47 +95,37 @@ $colors: (
 		pointer-events: none;
 	}
 
+	@mixin button-acitve-line($width) {
+		width: $width;
+
+		&:nth-of-type(odd) {
+			left: 0;
+		}
+
+		&:nth-of-type(even) {
+			right: 0;
+		}
+
+		@for $i from 1 through 3 {
+			&:nth-child(#{$i}) {
+				top: #{($i - 1) * 33.4%};
+			}
+		}
+	}
+
 	&__line {
 		position: absolute;
 		z-index: var(--z-index-header-btn-line);
-		width: 0%;
 		height: 33.4%;
 		background-color: var(--header-btn-lines-bg-color);
 		transition: all 0.5s ease-out;
 		pointer-events: none;
-	}
 
-	&__line--right {
-		right: 0;
-	}
-
-	&__line--left {
-		left: 0;
+		@include button-acitve-line(0);
 	}
 
 	&__line--active {
-		width: 100%;
-	}
-
-	$header-lines: (
-		0: 0,
-		1: 33.4%,
-		2: 66.7%,
-	);
-
-	@mixin nav-hover-line($modifier, $position) {
-		&__line--#{$modifier} {
-			top: $position;
-		}
-
-		&__item:hover .header-nav__line--#{$modifier} {
-			top: $position;
-			width: 100%;
-		}
-	}
-
-	@each $modifier, $position in $header-lines {
-		@include nav-hover-line($modifier, $position);
+		@include button-acitve-line(100%);
 	}
 
 	&__btn {
@@ -152,7 +142,7 @@ $colors: (
 			color 0.4s ease-out;
 
 		&:hover .header__line {
-			width: 100%;
+			@include button-acitve-line(100%);
 		}
 
 		&:hover {

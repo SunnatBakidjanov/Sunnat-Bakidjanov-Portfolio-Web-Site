@@ -218,41 +218,44 @@ button {
 .header__line {
   position: absolute;
   z-index: var(--z-index-header-btn-line);
-  width: 0%;
   height: 33.4%;
   background-color: var(--header-btn-lines-bg-color);
   transition: all 0.5s ease-out;
   pointer-events: none;
+  width: 0;
 }
-.header__line--right {
+.header__line:nth-of-type(odd) {
+  left: 0;
+}
+.header__line:nth-of-type(even) {
   right: 0;
 }
-.header__line--left {
-  left: 0;
+.header__line:nth-child(1) {
+  top: 0%;
+}
+.header__line:nth-child(2) {
+  top: 33.4%;
+}
+.header__line:nth-child(3) {
+  top: 66.8%;
 }
 .header__line--active {
   width: 100%;
 }
-.header__line--0 {
-  top: 0;
+.header__line--active:nth-of-type(odd) {
+  left: 0;
 }
-.header__item:hover .header-nav__line--0 {
-  top: 0;
-  width: 100%;
+.header__line--active:nth-of-type(even) {
+  right: 0;
 }
-.header__line--1 {
+.header__line--active:nth-child(1) {
+  top: 0%;
+}
+.header__line--active:nth-child(2) {
   top: 33.4%;
 }
-.header__item:hover .header-nav__line--1 {
-  top: 33.4%;
-  width: 100%;
-}
-.header__line--2 {
-  top: 66.7%;
-}
-.header__item:hover .header-nav__line--2 {
-  top: 66.7%;
-  width: 100%;
+.header__line--active:nth-child(3) {
+  top: 66.8%;
 }
 .header__btn {
   position: relative;
@@ -267,6 +270,21 @@ button {
 }
 .header__btn:hover .header__line {
   width: 100%;
+}
+.header__btn:hover .header__line:nth-of-type(odd) {
+  left: 0;
+}
+.header__btn:hover .header__line:nth-of-type(even) {
+  right: 0;
+}
+.header__btn:hover .header__line:nth-child(1) {
+  top: 0%;
+}
+.header__btn:hover .header__line:nth-child(2) {
+  top: 33.4%;
+}
+.header__btn:hover .header__line:nth-child(3) {
+  top: 66.8%;
 }
 .header__btn:hover {
   color: var(--text-hover-color);
