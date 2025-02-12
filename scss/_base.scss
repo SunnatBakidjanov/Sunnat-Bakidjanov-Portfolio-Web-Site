@@ -1,42 +1,100 @@
-// colors
-$gradient-color_1: #6dac2f;
-$gradient-color_2: #d1b200;
-$gradient-color_3: #d35400;
-$gradient-color_4: #5dade2;
-$orange: #f8aa01;
-$white: #fff;
-$black: #000;
-$gray: #a9a9a9;
-
-// line
-$line-background-color: $white;
-
-// scroll-line
-$scroll-line-bg-color: $white;
-$scroll-text-color: $white;
-
 :root {
 	// main-colors
-	--text-color: #fff;
-	--accent-text-color: #f8aa01;
+	--orange: #f8aa01;
+	--milky: #f5deb3;
+	--white: #fff;
+	--black: #000;
+	--gray: #a9a9a9;
+	--green: #6dac2f;
+	--yellow: #d1b200;
+	--red: #d35400;
+	--blue: #5dade2;
 
-	// change-colors
-	--gradient-color: #5dade2;
+	// special-color
+	--google: #ea4335;
+	--telegram: #08c;
+	--github: #181717;
+	--facebook: #3b5998;
+
+	// box-shadow
+	--box-shadow-main-color: var(--white);
+	--box-shadow-secondary-color: var(--orange);
+	--box-shadow-accent-color: var(--milky);
+
+	// text
+	--text-color: var(--white);
+	--text-hover-color: var(--black);
+	--accent-text-color: var(--orange);
+
+	// lines
+	--line-color: var(--white);
+	--line-accent-color: var(--orange);
+
+	// scroll-bar
+	--thumb-color: var(--orange);
+	--scrollbar-bg-color: var(--white);
+
+	// header-nav-btn
+	--header-btn-lines-bg-color: var(--white);
+
+	// change
+	--gradient-color: var(--blue);
+	--change-color: var(--blue);
+
+	// size
 	--gradient-transition-point: 30%;
-	--change-color: #5dade2;
+	--letter-spacing-title: 1px;
+	--letter-spacing-text: 0.5px;
+
+	// 1440px
+	--header-logo-font-size-1440: 1.8em;
+	--header-btn-font-size-1440: 1.2em;
+	--header-heigth-1440: 90px;
+
+	// 1024px
+	--header-btn-font-size-1024: 2.2em;
+
+	// 768px
+	--header-logo-font-size-768: 1.6em;
+	--header-btn-font-size-768: 2em;
+
+	// 425px
+	--header-logo-font-size-425: 1.4em;
+	--header-btn-font-size-425: 1.6em;
+	--header-height-425: 75px;
+
+	// height 667px
+	--header-btn-font-size-heigth-667: 1.8em;
+
+	// height 430px
+	--header-btn-font-size-heigth-430: 1.6em;
+
+	// z-indexes content 1-10, nav 11-20, modal 100, overlay 1000
+	--z-index-header-btn-line: -1;
+	--z-index-header-btn: 2;
+	--z-index-social-container: 2;
+	--z-index-nav-container: 3;
+	--z-index-burger-menu: 4;
 }
+
+// colors
+$green: var(--green);
+$yellow: var(--yellow);
+$red: var(--red);
+$blue: var(--blue);
 
 @font-face {
-	font-family: Tektur;
+	font-family: Furore;
+	src: url('../fonts/Furore/Furore.otf');
 	font-style: normal;
-	font-weight: 400;
-	src: url('../fonts/Tektur/Tektur-VariableFont_wdth\,wght.ttf') format('opentype');
+	font-weight: 600;
 }
 
-.russian-font {
-	font-family: Tektur, sans-serif;
-	font-weight: 100 !important;
-	letter-spacing: 0 !important;
+.main-title {
+	visibility: hidden;
+	width: 0;
+	height: 0;
+	opacity: 0;
 }
 
 .page {
@@ -51,13 +109,13 @@ $scroll-text-color: $white;
 .container {
 	margin: 0 auto;
 	padding: 0 15px;
-	max-width: 1400px;
+	max-width: 1440px;
 }
 
 .line {
 	width: 0;
 	height: 4px;
-	background-color: $line-background-color;
+	background-color: var(--line-color);
 }
 
 .line--animate {
@@ -83,7 +141,7 @@ $scroll-text-color: $white;
 
 	&__line--animate {
 		height: 80%;
-		background-color: $scroll-line-bg-color;
+		background-color: var(--line-color);
 		opacity: 1;
 		transition:
 			height 1s ease-out,
@@ -95,15 +153,15 @@ $scroll-text-color: $white;
 		overflow: hidden;
 		font-weight: 600;
 		font-size: 36px;
-		color: $scroll-text-color;
+		color: var(--text-color);
 	}
 }
 
 $page-background-colors: (
-	1: $gradient-color_1,
-	2: $gradient-color_2,
-	3: $gradient-color_3,
-	4: $gradient-color_4,
+	1: $green,
+	2: $yellow,
+	3: $red,
+	4: $blue,
 );
 
 @mixin change-bg-color($modifier, $color) {

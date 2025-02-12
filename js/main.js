@@ -193,7 +193,7 @@ function main() {
 
 			const options = {
 				root: null,
-				rootMargin: '-100px',
+				rootMargin: '-30px',
 				threshold: 1,
 			}
 
@@ -810,21 +810,13 @@ function main() {
 	}
 
 	function headerEvents() {
-		function socialItemTransition() {
-			const items = document.querySelectorAll('.header__social-item')
-
-			items.forEach((element, index) => (element.style.transition = `top ${0.1 * (items.length - 1 + index)}s ease-out`))
-		}
-
-		socialItemTransition()
-
-		function animateHeaderMain() {
+		function animateHeaderContainer() {
 			const container = document.getElementById('header')
 
 			container.classList.add('header__wrapper--animate')
 		}
 
-		animateHeaderMain()
+		animateHeaderContainer()
 
 		function burgerMenu() {
 			const burgerMenu = document.getElementById('burger-menu')
@@ -839,18 +831,24 @@ function main() {
 
 			const timeouts = []
 
+			const TRANSITION_DURATION = 1000
+			const INNER_WIDTH = 1024
+
 			let isOpen = false
-			let isAnimation = false
+			let isWindowResized = false
 
-			burgerMenu.addEventListener('click', () => {
-				if (isAnimation) return
-				isAnimation = true
-
+			function openCloseBurgerMenu() {
 				if (!isOpen) {
-					setTimeout(() => {
+					timeouts.forEach(element => clearTimeout(element))
+
+					burgerMenu.disabled = true
+
+					const openTimeout = setTimeout(() => {
 						isOpen = true
-						isAnimation = false
-					}, 1000)
+						burgerMenu.disabled = false
+					}, TRANSITION_DURATION)
+
+					timeouts.push(openTimeout)
 
 					window.scrollTo(0, 0)
 
@@ -864,29 +862,65 @@ function main() {
 						})
 					})
 				} else {
-					setTimeout(() => {
+					timeouts.forEach(element => clearTimeout(element))
+
+					burgerMenu.disabled = true
+
+					const closeTimeout = setTimeout(() => {
 						isOpen = false
-						isAnimation = false
-					}, 1000)
+						burgerMenu.disabled = false
+					}, TRANSITION_DURATION)
+
+					timeouts.push(closeTimeout)
 
 					elements.forEach(element => {
 						const classNames = element.classList
 
 						element.classList.add(`${classNames[0]}--close`)
 
-						classNames.forEach(className => {
-							if (className.includes('--open')) element.classList.remove(className)
-						})
+						classNames.forEach(className => (className.includes('--open') ? element.classList.remove(className) : null))
 
-						if (element.classList.contains(`${classNames[0]}--close`)) {
-							setTimeout(() => {
-								const timeout = element.classList.remove(`${classNames[0]}--close`)
-								timeouts.push(timeout)
-							}, 1000)
+						if (classNames.contains(`${classNames[0]}--close`)) {
+							const closeTimeout = setTimeout(() => {
+								element.classList.remove(`${classNames[0]}--close`)
+							}, TRANSITION_DURATION)
+
+							timeouts.push(closeTimeout)
 						}
 					})
 				}
-			})
+			}
+
+			function handleChangeOnResize() {
+				if (window.innerWidth <= INNER_WIDTH && !isWindowResized) {
+					isWindowResized = true
+
+					burgerMenu.addEventListener('click', openCloseBurgerMenu)
+				}
+
+				if (window.innerWidth > INNER_WIDTH && isWindowResized) {
+					isWindowResized = false
+
+					elements.forEach(element => {
+						const classNames = element.classList
+
+						burgerMenu.disabled = false
+						isOpen = false
+
+						timeouts.forEach(element => clearTimeout(element))
+
+						classNames.forEach(className => {
+							if (className.includes('--open')) element.classList.remove(className)
+						})
+					})
+
+					burgerMenu.removeEventListener('click', openCloseBurgerMenu)
+				}
+			}
+
+			if (window.innerWidth <= INNER_WIDTH) burgerMenu.addEventListener('click', openCloseBurgerMenu)
+
+			window.addEventListener('resize', handleChangeOnResize)
 		}
 
 		burgerMenu()
@@ -2502,6 +2536,7 @@ function main() {
 		const yearText = document.getElementById('about-me-exp-total-exp-year-text')
 		const monthDate = document.getElementById('about-me-exp-total-exp-month-date')
 		const yearDate = document.getElementById('about-me-exp-total-exp-year-date')
+
 		let totalMonths = 0
 
 		expList.forEach(element => {
