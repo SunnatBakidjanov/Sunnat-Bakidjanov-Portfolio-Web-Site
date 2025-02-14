@@ -85,7 +85,7 @@ $hmp-my-way-border-color: $white;
 	}
 
 	&__inner-text {
-		margin-top: 70px;
+		margin-top: 80px;
 		margin-left: 30px;
 		overflow: hidden;
 	}
@@ -95,47 +95,34 @@ $hmp-my-way-border-color: $white;
 	}
 
 	&__title {
-		transform: translateX(-370px);
-		font-style: normal;
-		font-weight: 700;
-		line-height: 115%;
-		font-size: 54px;
-		letter-spacing: 0.5px;
+		transform: translateX(-400px);
+		line-height: 100%;
+		font-size: var(--hmp-getting-logo-font-size-1440);
+		letter-spacing: 1px;
 	}
 
 	&__title--animate {
 		transform: translateX(0);
-		transition: transform 1.2s ease-out;
+		transition: transform 1s ease-out;
 	}
 
 	&__title--font-color {
-		color: $hmp-title-color;
+		color: var(--text-color);
 	}
 
 	&__title--accent-color {
-		transition: color 0.4s ease-out;
+		transition: color var(--change-color-transition);
 		color: var(--change-color);
-	}
-
-	&__title--rus-lang {
-		line-height: 100%;
-		font-size: 52px;
 	}
 
 	&__text-group {
 		display: inline-block;
 		margin-top: 20px;
 		margin-bottom: 70px;
-		font-style: normal;
-		font-weight: 700;
-		font-size: 36px;
-		color: $hmp-text-color;
+		font-size: var(--hmp-getting-text-font-size-1440);
+		color: var(--text-color);
 		letter-spacing: 1px;
 		overflow: hidden;
-	}
-
-	&__text--rus-lang {
-		font-size: 34px;
 	}
 
 	&__blink {
@@ -144,6 +131,9 @@ $hmp-my-way-border-color: $white;
 	}
 
 	&__blink--animate {
+		left: 0;
+		opacity: 0.3s;
+
 		@keyframes hmp-getting-blink-start {
 			0% {
 				left: -100%;

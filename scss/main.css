@@ -47,10 +47,11 @@ button {
   --gradient-color: var(--blue);
   --change-color: var(--blue);
   --gradient-transition-point: 30%;
-  --letter-spacing-title: 1px;
-  --letter-spacing-text: 0.5px;
+  --change-color-transition: 0.4s ease-out;
   --header-logo-font-size-1440: 1.8em;
   --header-btn-font-size-1440: 1.2em;
+  --hmp-getting-logo-font-size-1440: 3.5em;
+  --hmp-getting-text-font-size-1440: 2.2em;
   --header-heigth-1440: 90px;
   --header-btn-font-size-1024: 2.2em;
   --header-logo-font-size-768: 1.6em;
@@ -60,7 +61,7 @@ button {
   --header-height-425: 75px;
   --header-btn-font-size-heigth-667: 1.8em;
   --header-btn-font-size-heigth-430: 1.6em;
-  --z-index-header-btn-line: -1;
+  --z-index-header-btn-line: 1;
   --z-index-header-btn: 2;
   --z-index-social-container: 2;
   --z-index-nav-container: 3;
@@ -127,7 +128,7 @@ button {
 .scroll-section__text {
   overflow: hidden;
   font-weight: 600;
-  font-size: 36px;
+  font-size: 2.4em;
   color: var(--text-color);
 }
 
@@ -177,7 +178,7 @@ button {
   line-height: 100%;
   font-size: var(--header-logo-font-size-1440);
   color: var(--text-color);
-  letter-spacing: var(--letter-spacing-text);
+  letter-spacing: 0.5px;
   text-align: left;
   transition: color 0.5s ease;
   pointer-events: none;
@@ -213,6 +214,8 @@ button {
   border-radius: 50px 0;
 }
 .header__btn-text {
+  position: relative;
+  z-index: var(--z-index-header-btn);
   pointer-events: none;
 }
 .header__line {
@@ -259,11 +262,10 @@ button {
 }
 .header__btn {
   position: relative;
-  z-index: var(--z-index-header-btn);
   padding: 5px 30px;
   font-size: var(--header-btn-font-size-1440);
   color: var(--text-color);
-  letter-spacing: var(--letter-spacing-text);
+  letter-spacing: 0.5px;
   border-radius: 50px 0;
   overflow: hidden;
   transition: width 0.4s ease-out, color 0.4s ease-out;
@@ -469,14 +471,6 @@ button {
     inset: 0;
     opacity: 1;
   }
-  .header__nav-container--close {
-    width: 100%;
-    height: 100%;
-    visibility: visible;
-    animation: burger-close 0.6s ease-out forwards;
-    inset: 0;
-    pointer-events: none;
-  }
   @keyframes burger-close {
     0% {
       opacity: 1;
@@ -484,6 +478,15 @@ button {
     100% {
       opacity: 0;
     }
+  }
+  .header__nav-container--close {
+    width: 100%;
+    height: 100%;
+    visibility: visible;
+    transition: opacity 0.6s ease-out;
+    animation: burger-close 0.6s ease-out forwards;
+    inset: 0;
+    pointer-events: none;
   }
   .header__nav {
     flex-flow: column wrap;
@@ -735,7 +738,7 @@ button {
   height: 400px;
 }
 .hmp-getting__inner-text {
-  margin-top: 70px;
+  margin-top: 80px;
   margin-left: 30px;
   overflow: hidden;
 }
@@ -743,47 +746,38 @@ button {
   overflow: hidden;
 }
 .hmp-getting__title {
-  transform: translateX(-370px);
-  font-style: normal;
-  font-weight: 700;
-  line-height: 115%;
-  font-size: 54px;
-  letter-spacing: 0.5px;
+  transform: translateX(-400px);
+  line-height: 100%;
+  font-size: var(--hmp-getting-logo-font-size-1440);
+  letter-spacing: 1px;
 }
 .hmp-getting__title--animate {
   transform: translateX(0);
-  transition: transform 1.2s ease-out;
+  transition: transform 1s ease-out;
 }
 .hmp-getting__title--font-color {
-  color: #f8aa01;
+  color: var(--text-color);
 }
 .hmp-getting__title--accent-color {
-  transition: color 0.4s ease-out;
+  transition: color var(--change-color-transition);
   color: var(--change-color);
-}
-.hmp-getting__title--rus-lang {
-  line-height: 100%;
-  font-size: 52px;
 }
 .hmp-getting__text-group {
   display: inline-block;
   margin-top: 20px;
   margin-bottom: 70px;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 36px;
-  color: #fff;
+  font-size: var(--hmp-getting-text-font-size-1440);
+  color: var(--text-color);
   letter-spacing: 1px;
   overflow: hidden;
-}
-.hmp-getting__text--rus-lang {
-  font-size: 34px;
 }
 .hmp-getting__blink {
   position: relative;
   left: -100%;
 }
 .hmp-getting__blink--animate {
+  left: 0;
+  opacity: 0.3s;
   animation: hmp-getting-blink 0.7s infinite, hmp-getting-blink-start 0s forwards 0.3s;
 }
 @keyframes hmp-getting-blink-start {

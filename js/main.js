@@ -4,7 +4,7 @@ function main() {
 
 	const changeLanguageButton = document.getElementById('translator')
 
-	const pages = ['page-1', 'page-2', 'page-3', 'page-4']
+	const START_PAGE_POSITION = 0
 
 	const tickingState = {}
 	const clickState = {}
@@ -104,24 +104,6 @@ function main() {
 		}
 	}
 
-	// function visibleOnLoad(element, elementKey, startingHeight, startCallback) {
-	// 	if (!tickingState[elementKey]) {
-	// 		tickingState[elementKey] = { ticking: false }
-	// 	}
-
-	// 	if (handleVisibilityChange(element, startingHeight, elementKey)) {
-	// 		if (!tickingState[elementKey].ticking) {
-	// 			window.requestAnimationFrame(() => {
-	// 				startCallback()
-
-	// 				scrollState[elementKey] = { scrolState: true }
-	// 				tickingState[elementKey].ticking = false
-	// 			})
-	// 			tickingState[elementKey].ticking = true
-	// 		}
-	// 	}
-	// }
-
 	function handleVisibilityChange(element, startingHeight, elementKey) {
 		const rect = element.getBoundingClientRect()
 
@@ -148,8 +130,6 @@ function main() {
 				console.error(`${element} not found`)
 				return
 			}
-
-			// visibleOnLoad(element, elementKey, startingHeight, startCallback)
 
 			document.addEventListener('scroll', () => {
 				handlePageChangeOnScroll(element, elementKey, startingHeight, startCallback)
@@ -179,11 +159,14 @@ function main() {
 	}
 
 	function animateVisibleElements(elements, callbackAnimate) {
+		const pages = ['page-1', 'page-2', 'page-3', 'page-4']
+
 		elements.forEach(element => {
 			const callback = entries => {
 				entries.forEach(entry => {
 					const isAnyPageActive = pages.some(pageId => {
 						const pageElement = document.getElementById(pageId)
+
 						return pageElement && pageElement.classList.contains('page--active')
 					})
 
@@ -457,67 +440,12 @@ function main() {
 			const text = element.dataset[language]
 			if (text) element.textContent = text
 
-			element.classList[language === 'ru' ? 'add' : 'remove'](ruClassName)
+			element.classList.toggle(ruClassName, language === 'ru')
 		})
 	}
 
 	function pageUpdate() {
 		window.scrollTo(0, 0)
-	}
-
-	function switchPages() {
-		const pages = document.querySelectorAll('.page')
-		const buttons = document.querySelectorAll('.header__btn')
-		const lines = document.querySelectorAll('.header__line')
-
-		buttons.forEach((element, index) => {
-			element.addEventListener('click', handleBtnClick)
-
-			const node = [...buttons[index].childNodes].filter(node => node.nodeType === 1 && node.classList.contains('header__line'))
-
-			node.forEach((element, index) => {
-				element.classList.add(`header__line--${index}`)
-				element.classList.add(index % 2 === 0 ? 'header__line--left' : 'header__line--right')
-			})
-		})
-
-		function removeClasses() {
-			lines.forEach(element => element.classList.remove('header__line--active'))
-			buttons.forEach(element => element.classList.remove('header__btn--active'))
-			pages.forEach(page => page.classList.remove('page--active'))
-
-			window.scrollTo(0, 0)
-		}
-
-		function handleBtnClick(event) {
-			const index = [...buttons].indexOf(event.target)
-			const pageId = `page-${buttons[index].dataset.page}`
-			const activePage = document.getElementById(pageId)
-
-			if (index === -1) return
-
-			removeClasses()
-
-			const line = [...buttons[index].childNodes].filter(node => node.nodeType === 1 && node.classList.contains('header__line'))
-
-			buttons[index].classList.add('header__btn--active')
-			line.forEach(element => element.classList.add('header__line--active'))
-			activePage.classList.add('page--active')
-		}
-
-		function handleLogoClick() {
-			const homePage = document.getElementById('page-1')
-			const homePageBtn = document.getElementById('home-page-btn')
-			const line = [...homePageBtn.childNodes].filter(node => node.nodeType === 1 && node.classList.contains('header__line'))
-
-			removeClasses()
-
-			line.forEach(element => element.classList.add('header__line--active'))
-			homePageBtn.classList.add('header__btn--active')
-			homePage.classList.add('page--active')
-		}
-
-		logo.addEventListener('click', handleLogoClick)
 	}
 
 	function climbUp() {
@@ -925,61 +853,38 @@ function main() {
 			const buttons = document.querySelectorAll('.header__btn')
 			const lines = document.querySelectorAll('.header__line')
 
-			const START_POSITION = 0
+			const HOME_PAGE_POSITION = 0
 
 			function getLines(button) {
 				return Array.from(button.childNodes).filter(node => node.nodeType === 1 && node.classList.contains('header__line'))
 			}
 
+			function resetButtons(activeIndex) {
+				buttons.forEach((button, index) => {
+					button.disabled = index === activeIndex
+					button.classList.toggle('header__btn--active', index === activeIndex)
+				})
+
+				lines.forEach(line => line.classList.remove('header__line--active'))
+				getLines(buttons[activeIndex]).forEach(line => line.classList.add('header__line--active'))
+
+				logo.disabled = activeIndex === 0
+			}
+
 			function startPosition() {
-				const validatedPosition = Math.max(0, Math.min(buttons.length - 1, START_POSITION))
-				const button = buttons[validatedPosition]
-				const buttonLines = getLines(button)
-
-				if (validatedPosition === 0) logo.disabled = true
-
-				button.disabled = true
-				button.classList.add('header__btn--active')
-				buttonLines.forEach(line => line.classList.add('header__line--active'))
+				const VALIDATED_POSITION = Math.max(0, Math.min(buttons.length - 1, START_PAGE_POSITION))
+				resetButtons(VALIDATED_POSITION)
 			}
 
 			function handleLogoClick(event) {
 				if (event.target !== logo) return
-
-				logo.disabled = true
-
-				buttons.forEach(button => {
-					button.disabled = false
-					button.classList.remove('header__btn--active')
-				})
-
-				const firstButton = buttons[0]
-				firstButton.disabled = true
-				firstButton.classList.add('header__btn--active')
-
-				lines.forEach(line => line.classList.remove('header__line--active'))
-				getLines(firstButton).forEach(line => line.classList.add('header__line--active'))
+				resetButtons(HOME_PAGE_POSITION)
 			}
 
 			function handleBtnClick(event) {
 				const index = [...buttons].indexOf(event.target)
 				if (index === -1) return
-
-				buttons.forEach(button => {
-					button.disabled = false
-					button.classList.remove('header__btn--active')
-				})
-
-				const button = buttons[index]
-				const buttonLines = getLines(button)
-
-				button.disabled = true
-				button.classList.add('header__btn--active')
-
-				lines.forEach(line => line.classList.remove('header__line--active'))
-				buttonLines.forEach(line => line.classList.add('header__line--active'))
-
-				logo.disabled = index === 0
+				resetButtons(index)
 			}
 
 			startPosition()
@@ -1000,10 +905,10 @@ function main() {
 			const cardsContainer = document.querySelectorAll('.hmp-cards__container')
 			const gettingTitle = document.getElementById('hmp-getting-hidden-title')
 			const gittingBlink = document.getElementById('hmp-getting-group-text')
-			const logoFront = document.getElementById('hmp-getting-front')
+			const logo3dFront = document.getElementById('hmp-getting-front')
 
 			const elements = [...titles, ...cardsContainer]
-			const hideElements = [gittingBlink, gettingTitle, logoFront, ...progreessBoxes]
+			const hideElements = [gittingBlink, gettingTitle, logo3dFront, ...progreessBoxes]
 
 			animateVisibleElements(elements, addAnimateClasses)
 			animateVisibleElements(hideElements, addAnimateClassesInHideElements)
@@ -1011,16 +916,9 @@ function main() {
 
 		animateHomePageElements()
 
-		singleElementsAnimation('hmp-projects-text', 150, ['hmp-projects__text--animate'], 'hmp-projects-text')
-
 		function writeAndResetSkilsText() {
-			const container = document.getElementById('hmp-getting-group-text')
 			const text = document.getElementById('hmp-getting-text')
 			const blink = document.getElementById('hmp-getting-blink')
-
-			const ids = [container]
-			const elementKeys = ['hmp-getting-group-text']
-			const startHeight = 0
 
 			const texts = {
 				en: [
@@ -1049,67 +947,114 @@ function main() {
 				],
 			}
 
-			let textIndex = 0
+			let textIndex = Math.floor(Math.random() * texts.en.length)
 			let letterIndex = 0
-			let isDeleted = false
-			let blinkHasAnimated = false
-			let textTyping = false
 			let timeout = null
-			let isReseted = false
+
+			let blinkHasAnimated = false
+			let isLogged = false
+			let isHidden = false
+
+			let state = 'writing'
 
 			const cfg = {
 				typeSpeed: 70,
-				deleteSpeed: 50,
-				startWrite: 1700,
-				nextString: 2200,
+				deleteSpeed: 60,
+				startWrite: 1400,
+				delayDeleteString: 2200,
 				delayWriteNextString: 1500,
 			}
 
-			let tempLanguageState = null
+			function stopAnimationIsOutVisability(entries) {
+				const entry = entries[0]
+
+				if (entry.isIntersecting) {
+					if (isHidden && state === 'nextString') timeout = setTimeout(() => startTyping(), cfg.startWrite)
+					if (state === 'nextString') state = 'writing'
+
+					isHidden = false
+				} else {
+					if (state === 'nextString') clearTimeout(timeout)
+					isHidden = true
+				}
+			}
+
+			const options = {
+				root: null,
+				rootMargin: '-30px',
+				threshold: 1,
+			}
+
+			const observer = new IntersectionObserver(stopAnimationIsOutVisability, options)
+			observer.observe(blink)
 
 			function startTyping() {
-				let currentText = tempLanguageState ? texts.ru[textIndex] : texts.en[textIndex]
+				if (isHidden && state === 'nextString') return
+
+				let currentText = isLanguageRussian ? texts.ru[textIndex] : texts.en[textIndex]
 				text.textContent = currentText.substring(0, letterIndex)
 
 				clearTimeout(timeout)
 
-				if (!isDeleted && letterIndex < currentText.length) {
-					if (!textTyping) {
-						tempLanguageState = isLanguageRussian
-						text.classList.toggle('russian-font', tempLanguageState)
-						text.classList.toggle('hmp-getting__text--rus-lang', tempLanguageState)
-					}
-					textTyping = true
-					letterIndex++
-					timeout = setTimeout(startTyping, cfg.typeSpeed)
-				} else if (isDeleted && letterIndex > 0) {
-					letterIndex--
-					timeout = setTimeout(startTyping, cfg.deleteSpeed)
-				} else if (!isDeleted && letterIndex === currentText.length) {
-					textTyping = false
-					isDeleted = true
-					timeout = setTimeout(startTyping, cfg.nextString)
-				} else if (isDeleted && letterIndex === 0) {
-					isDeleted = false
-					timeout = setTimeout(startTyping, cfg.delayWriteNextString)
-					textIndex = (textIndex + 1) % (isLanguageRussian ? texts.ru.length : texts.en.length)
+				switch (state) {
+					case 'writing':
+						if (letterIndex >= currentText.length) state = 'waiting'
+
+						letterIndex++
+						timeout = setTimeout(() => {
+							startTyping()
+						}, cfg.typeSpeed)
+						break
+
+					case 'waiting':
+						let currentLetterIndex = (letterIndex = currentText.length)
+						text.textContent = currentText.substring(0, currentLetterIndex)
+
+						timeout = setTimeout(() => {
+							state = 'deleting'
+							startTyping()
+						}, cfg.delayDeleteString)
+						break
+
+					case 'deleting':
+						if (letterIndex <= 0) state = 'nextString'
+
+						letterIndex--
+						timeout = setTimeout(() => {
+							startTyping()
+						}, cfg.deleteSpeed)
+						break
+
+					case 'nextString':
+						timeout = setTimeout(() => {
+							textIndex = (textIndex + 1) % (isLanguageRussian ? texts.ru.length : texts.en.length)
+							state = 'writing'
+							startTyping()
+						}, cfg.delayWriteNextString)
+						break
+
+					default:
+						if (!isLogged) console.error(`Неизвестное состояние: ${state}.`)
+						isLogged = true
+
+						state = 'writing'
+						startTyping()
+						break
 				}
 			}
+
+			changeLanguageButton.addEventListener('click', startTyping)
 
 			function handleBlinkAnimation(event) {
 				if (event.animationName === 'hmp-getting-blink-start' && !blinkHasAnimated) {
 					blinkHasAnimated = true
 					timeout = setTimeout(startTyping, cfg.startWrite)
+
+					document.removeEventListener('animationend', handleBlinkAnimation)
 				}
 			}
 
 			document.addEventListener('animationend', handleBlinkAnimation)
-
-			function animate() {
-				isReseted = false
-
-				blink.classList.add('hmp-getting__blink--animate')
-			}
 
 			function reset() {
 				if (isReseted) return
@@ -1127,8 +1072,6 @@ function main() {
 
 				document.removeEventListener('animationend', handleBlinkAnimation)
 			}
-
-			createAnimation(ids, elementKeys, startHeight, animate, reset)
 		}
 
 		writeAndResetSkilsText()

@@ -43,12 +43,13 @@
 
 	// size
 	--gradient-transition-point: 30%;
-	--letter-spacing-title: 1px;
-	--letter-spacing-text: 0.5px;
+	--change-color-transition: 0.4s ease-out;
 
 	// 1440px
 	--header-logo-font-size-1440: 1.8em;
 	--header-btn-font-size-1440: 1.2em;
+	--hmp-getting-logo-font-size-1440: 3.5em;
+	--hmp-getting-text-font-size-1440: 2.2em;
 	--header-heigth-1440: 90px;
 
 	// 1024px
@@ -70,7 +71,7 @@
 	--header-btn-font-size-heigth-430: 1.6em;
 
 	// z-indexes content 1-10, nav 11-20, modal 100, overlay 1000
-	--z-index-header-btn-line: -1;
+	--z-index-header-btn-line: 1;
 	--z-index-header-btn: 2;
 	--z-index-social-container: 2;
 	--z-index-nav-container: 3;
@@ -152,7 +153,7 @@ $blue: var(--blue);
 	&__text {
 		overflow: hidden;
 		font-weight: 600;
-		font-size: 36px;
+		font-size: 2.4em;
 		color: var(--text-color);
 	}
 }
