@@ -25,25 +25,30 @@ function main() {
 
 	function animateAndResetAnimations(animateCallback, resetCallback, pageName = 'home') {
 		let currentPage = pageName
-		let lastPage = null
+		let hasLeftPage = false
 
 		function handleClick(event) {
 			const target = event.target
 			const targetPage = pageIds[target.id]
 
-			if (!targetPage) return
+			if (!targetPage || targetPage === currentPage) return
 
-			if (pageName === currentPage) resetCallback()
+			if (currentPage === pageName && !hasLeftPage) {
+				resetCallback()
 
-			lastPage = currentPage
+				hasLeftPage = true
+			}
+
 			currentPage = targetPage
 
-			if (targetPage === pageName) animateCallback()
+			if (currentPage === pageName) {
+				animateCallback()
+				hasLeftPage = false
+			}
 		}
 
 		document.addEventListener('click', handleClick)
 	}
-
 	function removeAnimateClasses(elementsArray, hideElementsArray, pageName = 'home') {
 		let currentPage = pageName
 
@@ -953,9 +958,11 @@ function main() {
 			const gettingTitle = document.getElementById('hmp-getting-hidden-title')
 			const gittingBlink = document.getElementById('hmp-getting-group-text')
 			const logo3dFront = document.getElementById('hmp-getting-front')
+			const logo3dShadow = document.getElementById('hmp-getting-shadow')
+			const logo3dContainer = document.getElementById('hmp-getting-preverve')
 			const gettingTextGroup = document.getElementById('hmp-getting-group-text')
 
-			const elements = [...titles, ...cardsContainer, ...lines]
+			const elements = [...titles, ...cardsContainer, logo3dFront, logo3dShadow, logo3dContainer, ...lines]
 			const hideElements = [gittingBlink, gettingTitle, logo3dFront, gettingTextGroup, ...progreessBoxes]
 
 			animateVisibleElements(elements, addAnimateClasses)
@@ -1121,88 +1128,6 @@ function main() {
 		}
 
 		writeAndResetSkilsText()
-
-		function animateLogo3d() {
-			const container = document.getElementById('hmp-getting-inner-logo-3d')
-			const preverve = document.getElementById('hmp-getting-preverve')
-			const front = document.getElementById('hmp-getting-front')
-			const shadow = document.getElementById('hmp-getting-shadow')
-			const img = document.getElementById('hmp-getting-img')
-
-			const ids = [container]
-			const elementKeys = ['hmp-getting-inner-logo-3d']
-			const startHeight = 0
-
-			const elements = [container, preverve, front, shadow, img]
-
-			let isLineAnimated = false
-			let isFontAnimated = false
-
-			const lineAnimations = ['hmp-getting-logo-3d-line-left', 'hmp-getting-logo-3d-line-right', 'hmp-getting-logo-3d-line-top', 'hmp-getting-logo-3d-line-bottom']
-			const mainAnimations = ['hmp-getting-logo-3d-front-start', 'hmp-getting-logo-3d-img-start']
-
-			const completedLineAnimations = new Set()
-			const completedMainAnimations = new Set()
-
-			function handleLineAnimations(event) {
-				if (lineAnimations.includes(event.animationName)) {
-					completedLineAnimations.add(event.animationName)
-
-					if (completedLineAnimations.size === lineAnimations.length) {
-						if (isLineAnimated) return
-						isLineAnimated = true
-
-						front.classList.add('hmp-getting__front--animate')
-						shadow.classList.add('hmp-getting__shadow--animate')
-						img.classList.add('hmp-getting__img--animate')
-
-						completedLineAnimations.clear()
-					}
-				}
-			}
-
-			function handleMainAnimations(event) {
-				if (mainAnimations.includes(event.animationName)) {
-					completedMainAnimations.add(event.animationName)
-
-					if (completedMainAnimations.size === mainAnimations.length) {
-						if (isFontAnimated) return
-						isFontAnimated = true
-
-						preverve.classList.add('hmp-getting__preserve-3d--animate')
-
-						completedMainAnimations.clear()
-					}
-				}
-			}
-
-			document.addEventListener('animationend', handleLineAnimations)
-			document.addEventListener('animationend', handleMainAnimations)
-
-			function animate() {}
-
-			function reset() {
-				isFontAnimated = false
-				isLineAnimated = false
-
-				elements.forEach(element => {
-					const classList = Array.from(element.classList)
-
-					classList.forEach(className => {
-						if (className.includes('--animate')) {
-							element.classList.remove(className)
-						}
-					})
-				})
-
-				document.removeEventListener('animationend', handleLineAnimations)
-				document.removeEventListener('animationend', handleMainAnimations)
-			}
-
-			createAnimation(ids, elementKeys, startHeight, animate, reset)
-		}
-
-		animateLogo3d()
 
 		function animateScrollText() {
 			const textBox = document.getElementById('hmp-scroll-text')

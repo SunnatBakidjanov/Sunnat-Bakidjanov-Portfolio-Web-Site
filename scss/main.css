@@ -46,7 +46,8 @@ button {
   --header-btn-lines-bg-color: var(--white);
   --gradient-color: var(--blue);
   --change-color: var(--blue);
-  --hmp-logo-3d-lines-color: var(--white);
+  --hmp-logo-3d-color: var(--white);
+  --hmp-logo-lines-duration: 0.8s;
   --gradient-transition-point: 30%;
   --change-color-transition: 0.4s ease-out;
   --header-logo-font-size-1440: 1.8em;
@@ -730,6 +731,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-top: 30px;
   height: 400px;
 }
 .hmp-getting__inner-text {
@@ -810,7 +812,7 @@ button {
   transform-style: preserve-3d;
 }
 .hmp-getting__preserve-3d--animate {
-  animation: hmp-getting-logo-3d-rotation 25s linear infinite;
+  animation: hmp-getting-logo-3d-rotation 25s linear infinite calc(var(--hmp-logo-lines-duration) + 0.5s);
 }
 @keyframes hmp-getting-logo-3d-rotation {
   0% {
@@ -830,31 +832,18 @@ button {
   height: 92.3%;
   transform: translateZ(25px);
   backface-visibility: hidden;
+  box-shadow: 0 0 0 var(--hmp-logo-3d-color);
 }
 .hmp-getting__front--animate {
-  animation: hmp-getting-logo-3d-front-start 0.5s ease-in forwards;
-}
-@keyframes hmp-getting-logo-3d-front-start {
-  0% {
-    box-shadow: 0 0 0 var(--hmp-logo-3d-lines-color);
-  }
-  100% {
-    box-shadow: 0 0 15px var(--hmp-logo-3d-lines-color);
-  }
+  box-shadow: 0 0 15px var(--hmp-logo-3d-color);
+  transition: box-shadow 0.5s ease-in var(--hmp-logo-lines-duration);
 }
 .hmp-getting__img {
   opacity: 0;
 }
 .hmp-getting__img--animate {
-  animation: hmp-getting-logo-3d-img-start 1s linear forwards;
-}
-@keyframes hmp-getting-logo-3d-img-start {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+  opacity: 1;
+  transition: opacity 1s linear var(--hmp-logo-lines-duration);
 }
 .hmp-getting__line-bottom {
   position: absolute;
@@ -862,20 +851,13 @@ button {
   bottom: 0;
   width: 0%;
   height: 2px;
-  background: linear-gradient(-90deg, transparent, var(--hmp-logo-3d-lines-color));
+  background: linear-gradient(-90deg, transparent, var(--hmp-logo-3d-color));
   border-top-right-radius: 1px;
   border-top-left-radius: 1px;
 }
 .hmp-getting__line-bottom--animate {
-  animation: hmp-getting-logo-3d-line-bottom 1s linear forwards 0s;
-}
-@keyframes hmp-getting-logo-3d-line-bottom {
-  0% {
-    width: 0%;
-  }
-  100% {
-    width: 100%;
-  }
+  width: 100%;
+  transition: width var(--hmp-logo-lines-duration) linear;
 }
 .hmp-getting__line-top {
   position: absolute;
@@ -883,20 +865,13 @@ button {
   left: 0;
   width: 0%;
   height: 2px;
-  background: linear-gradient(90deg, transparent, var(--hmp-logo-3d-lines-color));
+  background: linear-gradient(90deg, transparent, var(--hmp-logo-3d-color));
   border-top-right-radius: 1px;
   border-top-left-radius: 1px;
 }
 .hmp-getting__line-top--animate {
-  animation: hmp-getting-logo-3d-line-top 1s linear forwards 0s;
-}
-@keyframes hmp-getting-logo-3d-line-top {
-  0% {
-    width: 0%;
-  }
-  100% {
-    width: 100%;
-  }
+  width: 100%;
+  transition: width var(--hmp-logo-lines-duration) linear;
 }
 .hmp-getting__line-right {
   position: absolute;
@@ -904,20 +879,13 @@ button {
   bottom: 0;
   width: 2px;
   height: 0%;
-  background: linear-gradient(0deg, transparent, var(--hmp-logo-3d-lines-color));
+  background: linear-gradient(0deg, transparent, var(--hmp-logo-3d-color));
   border-top-right-radius: 1px;
   border-top-left-radius: 1px;
 }
 .hmp-getting__line-right--animate {
-  animation: hmp-getting-logo-3d-line-right 1s linear forwards 0s;
-}
-@keyframes hmp-getting-logo-3d-line-right {
-  0% {
-    height: 0%;
-  }
-  100% {
-    height: 100%;
-  }
+  height: 100%;
+  transition: height var(--hmp-logo-lines-duration) linear;
 }
 .hmp-getting__line-left {
   position: absolute;
@@ -925,26 +893,19 @@ button {
   left: 0;
   width: 2px;
   height: 0%;
-  background: linear-gradient(180deg, transparent, var(--hmp-logo-3d-lines-color));
+  background: linear-gradient(180deg, transparent, var(--hmp-logo-3d-color));
   border-top-right-radius: 1px;
   border-top-left-radius: 1px;
 }
 .hmp-getting__line-left--animate {
-  animation: hmp-getting-logo-3d-line-left 1s linear forwards 0s;
-}
-@keyframes hmp-getting-logo-3d-line-left {
-  0% {
-    height: 0%;
-  }
-  100% {
-    height: 100%;
-  }
+  height: 100%;
+  transition: height var(--hmp-logo-lines-duration) linear;
 }
 .hmp-getting__back {
   position: absolute;
   transform: translateZ(-25px) rotateY(180deg);
   backface-visibility: hidden;
-  box-shadow: 0 0 15px var(--hmp-logo-3d-lines-color);
+  box-shadow: 0 0 15px var(--hmp-logo-3d-color);
   height: 92.3%;
 }
 .hmp-getting__left {
@@ -953,7 +914,7 @@ button {
   height: 92.3%;
   transform: translateX(-26px) rotateY(-90deg);
   backface-visibility: hidden;
-  box-shadow: 0 0 15px var(--hmp-logo-3d-lines-color);
+  box-shadow: 0 0 15px var(--hmp-logo-3d-color);
 }
 .hmp-getting__right {
   position: absolute;
@@ -961,7 +922,7 @@ button {
   height: 92.3%;
   transform: translateX(203px) rotateY(90deg);
   backface-visibility: hidden;
-  box-shadow: 0 0 15px var(--hmp-logo-3d-lines-color);
+  box-shadow: 0 0 15px var(--hmp-logo-3d-color);
 }
 .hmp-getting__shadow {
   position: absolute;
@@ -970,12 +931,13 @@ button {
   height: 100%;
   transform: translateY(150px) translateX(-50%) rotateZ(90deg) rotateY(90deg);
   filter: blur(10px);
-  box-shadow: 0 0 150px var(--hmp-logo-3d-lines-color);
+  box-shadow: 0 0 150px var(--hmp-logo-3d-color);
   opacity: 0;
   transition: opacity 1s ease-out;
 }
 .hmp-getting__shadow--animate {
   opacity: 1;
+  transition: opacity 1s ease-out var(--hmp-logo-lines-duration);
 }
 @media (width <= 1150px) {
   .hmp-getting__inner-text {
