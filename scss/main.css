@@ -81,11 +81,11 @@ button {
   opacity: 0;
 }
 
-.page {
+.main-page {
   background: linear-gradient(90deg, rgb(0, 0, 0) var(--gradient-transition-point), var(--gradient-color) 130%);
 }
 
-.page--open {
+.main-page--open {
   overflow: hidden;
   height: 100vh;
 }
@@ -704,11 +704,7 @@ button {
 }
 
 .home-page {
-  position: absolute;
-  left: -9999px;
-  width: 0;
-  height: 0;
-  overflow: hidden;
+  display: none;
 }
 
 .hmp-titles {
@@ -777,7 +773,6 @@ button {
 }
 .hmp-getting__blink--animate {
   left: 0;
-  opacity: 0.3s;
   animation: hmp-getting-blink 0.7s infinite, hmp-getting-blink-start 0s forwards 0.3s;
 }
 @keyframes hmp-getting-blink-start {

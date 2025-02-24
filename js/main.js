@@ -6,7 +6,6 @@ function main() {
 
 	const START_PAGE_POSITION = 0
 
-	const tickingState = {}
 	const clickState = {}
 	const scrollState = {}
 	const heightValue = {}
@@ -15,6 +14,35 @@ function main() {
 	let isLanguageRussian = false
 
 	const seenElements = new Set()
+
+	function animateAndResetAnimations(animateCallback, resetCallback, pageName = 'home') {
+		const pageIds = {
+			'home-page-btn': 'home',
+			'uses-page-btn': 'uses',
+			'resume-page-btn': 'resume',
+			'about-me-page-btn': 'about-me',
+			[logo.id]: 'home',
+		}
+
+		let currentPage = pageName
+		let lastPage = null
+
+		function handleClick(event) {
+			const target = event.target
+			const targetPage = pageIds[target.id]
+
+			if (!targetPage) return
+
+			if (pageName === currentPage) resetCallback()
+
+			lastPage = currentPage
+			currentPage = targetPage
+
+			if (targetPage === pageName) animateCallback()
+		}
+
+		document.addEventListener('click', handleClick)
+	}
 
 	function handlePageChangeOnClick(event, element, elementKey, startingHeight, startCallback, resetCallback) {
 		const target = event.target
@@ -550,7 +578,6 @@ function main() {
 	function updateAnimationText() {
 		const element = document.getElementById('aside-menu-animation-state')
 		const state = isLanguageRussian ? (isAnimationStopped ? 'ВЫКЛ' : 'ВКЛ') : isAnimationStopped ? 'OFF' : 'ON'
-		element.classList.toggle('russian-font', isLanguageRussian)
 		element.textContent = state
 	}
 
@@ -747,7 +774,7 @@ function main() {
 		function burgerMenu() {
 			const burgerMenu = document.getElementById('burger-menu')
 			const container = document.getElementById('header-nav-container')
-			const page = document.getElementById('page')
+			const page = document.getElementById('main-page')
 
 			const lines = document.querySelectorAll('.header__burger-line')
 			const items = document.querySelectorAll('.header__item')
@@ -852,8 +879,7 @@ function main() {
 		function switchPagesAnimation() {
 			const buttons = document.querySelectorAll('.header__btn')
 			const lines = document.querySelectorAll('.header__line')
-
-			const HOME_PAGE_POSITION = 0
+			const pages = document.querySelectorAll('.page')
 
 			function getLines(button) {
 				return Array.from(button.childNodes).filter(node => node.nodeType === 1 && node.classList.contains('header__line'))
@@ -865,6 +891,8 @@ function main() {
 					button.classList.toggle('header__btn--active', index === activeIndex)
 				})
 
+				pages.forEach((page, index) => page.classList.toggle('page--active', index === activeIndex))
+
 				lines.forEach(line => line.classList.remove('header__line--active'))
 				getLines(buttons[activeIndex]).forEach(line => line.classList.add('header__line--active'))
 
@@ -873,12 +901,13 @@ function main() {
 
 			function startPosition() {
 				const VALIDATED_POSITION = Math.max(0, Math.min(buttons.length - 1, START_PAGE_POSITION))
+
 				resetButtons(VALIDATED_POSITION)
 			}
 
 			function handleLogoClick(event) {
 				if (event.target !== logo) return
-				resetButtons(HOME_PAGE_POSITION)
+				resetButtons(START_PAGE_POSITION)
 			}
 
 			function handleBtnClick(event) {
@@ -912,6 +941,13 @@ function main() {
 
 			animateVisibleElements(elements, addAnimateClasses)
 			animateVisibleElements(hideElements, addAnimateClassesInHideElements)
+			document.addEventListener('click', () => {
+				elements.forEach(element => {
+					const classNames = element.classList
+
+					classNames.forEach(className => (className.includes('--animate') ? classNames.remove(className) : null))
+				})
+			})
 		}
 
 		animateHomePageElements()
@@ -1049,29 +1085,27 @@ function main() {
 				if (event.animationName === 'hmp-getting-blink-start' && !blinkHasAnimated) {
 					blinkHasAnimated = true
 					timeout = setTimeout(startTyping, cfg.startWrite)
-
-					document.removeEventListener('animationend', handleBlinkAnimation)
 				}
 			}
 
-			document.addEventListener('animationend', handleBlinkAnimation)
+			function animate() {
+				document.addEventListener('animationend', handleBlinkAnimation)
+			}
 
 			function reset() {
-				if (isReseted) return
-				isReseted = true
-
 				blink.classList.remove('hmp-getting__blink--animate')
-
-				isDeleted = false
+				state = 'writing'
 				blinkHasAnimated = false
 				clearTimeout(timeout)
 				text.textContent = ''
 				textIndex = (textIndex + 1) % (isLanguageRussian ? texts.ru.length : texts.en.length)
-
 				letterIndex = 0
 
 				document.removeEventListener('animationend', handleBlinkAnimation)
 			}
+
+			animate()
+			animateAndResetAnimations(animate, reset, 'home')
 		}
 
 		writeAndResetSkilsText()

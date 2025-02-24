@@ -98,11 +98,11 @@ $blue: var(--blue);
 	opacity: 0;
 }
 
-.page {
+.main-page {
 	background: linear-gradient(90deg, rgb(0 0 0 / 100%) var(--gradient-transition-point), var(--gradient-color) 130%);
 }
 
-.page--open {
+.main-page--open {
 	overflow: hidden;
 	height: 100vh;
 }

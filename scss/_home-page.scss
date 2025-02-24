@@ -43,11 +43,7 @@ $hmp-way-btn-hover-border-color: $orange;
 $hmp-my-way-border-color: $white;
 
 .home-page {
-	position: absolute;
-	left: -9999px;
-	width: 0;
-	height: 0;
-	overflow: hidden;
+	display: none;
 }
 
 // Same components
@@ -132,7 +128,6 @@ $hmp-my-way-border-color: $white;
 
 	&__blink--animate {
 		left: 0;
-		opacity: 0.3s;
 
 		@keyframes hmp-getting-blink-start {
 			0% {
