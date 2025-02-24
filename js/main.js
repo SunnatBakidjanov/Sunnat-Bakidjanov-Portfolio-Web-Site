@@ -49,6 +49,7 @@ function main() {
 
 		document.addEventListener('click', handleClick)
 	}
+
 	function removeAnimateClasses(elementsArray, hideElementsArray, pageName = 'home') {
 		let currentPage = pageName
 
@@ -82,6 +83,47 @@ function main() {
 		}
 
 		document.addEventListener('click', handleClick)
+	}
+
+	function addAnimateClasses(element) {
+		const classNames = element.classList
+		if (!classNames.contains(`${classNames[0]}--animate`)) classNames.add(`${classNames[0]}--animate`)
+	}
+
+	function addAnimateClassesInHideElements(element) {
+		const nodes = [...element.childNodes].filter(node => node.nodeType === 1 && node.classList?.contains(`${node.classList[0]}--hide`))
+
+		nodes.forEach(node => {
+			if (!node.classList.contains(`${node.classList[0]}--animate`)) node.classList.add(`${node.classList[0]}--animate`)
+		})
+	}
+
+	function animateVisibleElements(elements, callbackAnimate) {
+		const pages = ['page-1', 'page-2', 'page-3', 'page-4']
+
+		elements.forEach(element => {
+			const callback = entries => {
+				entries.forEach(entry => {
+					const isAnyPageActive = pages.some(pageId => {
+						const pageElement = document.getElementById(pageId)
+
+						return pageElement && pageElement.classList.contains('page--active')
+					})
+
+					if (entry.isIntersecting && isAnyPageActive) callbackAnimate(element)
+				})
+			}
+
+			const options = {
+				root: null,
+				rootMargin: '0px',
+				threshold: 1,
+			}
+
+			const observer = new IntersectionObserver(callback, options)
+
+			observer.observe(element)
+		})
 	}
 
 	function handlePageChangeOnClick(event, element, elementKey, startingHeight, startCallback, resetCallback) {
@@ -210,47 +252,6 @@ function main() {
 			logo.addEventListener('click', event => {
 				handlePageChangeOnClick(event, element, elementKey, startingHeight, startCallback, resetCallback)
 			})
-		})
-	}
-
-	function addAnimateClasses(element) {
-		const classNames = element.classList
-		if (!classNames.contains(`${classNames[0]}--animate`)) classNames.add(`${classNames[0]}--animate`)
-	}
-
-	function addAnimateClassesInHideElements(element) {
-		const nodes = [...element.childNodes].filter(node => node.nodeType === 1 && node.classList?.contains(`${node.classList[0]}--hide`))
-
-		nodes.forEach(node => {
-			if (!node.classList.contains(`${node.classList[0]}--animate`)) node.classList.add(`${node.classList[0]}--animate`)
-		})
-	}
-
-	function animateVisibleElements(elements, callbackAnimate) {
-		const pages = ['page-1', 'page-2', 'page-3', 'page-4']
-
-		elements.forEach(element => {
-			const callback = entries => {
-				entries.forEach(entry => {
-					const isAnyPageActive = pages.some(pageId => {
-						const pageElement = document.getElementById(pageId)
-
-						return pageElement && pageElement.classList.contains('page--active')
-					})
-
-					if (entry.isIntersecting && isAnyPageActive) callbackAnimate(element)
-				})
-			}
-
-			const options = {
-				root: null,
-				rootMargin: '-30px',
-				threshold: 1,
-			}
-
-			const observer = new IntersectionObserver(callback, options)
-
-			observer.observe(element)
 		})
 	}
 
@@ -1037,7 +1038,7 @@ function main() {
 
 			const options = {
 				root: null,
-				rootMargin: '-30px',
+				rootMargin: '0px',
 				threshold: 1,
 			}
 
@@ -1117,13 +1118,13 @@ function main() {
 				blinkHasAnimated = false
 				clearTimeout(timeout)
 				text.textContent = ''
-				textIndex = (textIndex + 1) % (isLanguageRussian ? texts.ru.length : texts.en.length)
 				letterIndex = 0
+				textIndex = (textIndex + 1) % (isLanguageRussian ? texts.ru.length : texts.en.length)
 
 				document.removeEventListener('animationend', handleBlinkAnimation)
 			}
 
-			animate()
+			animateVisibleElements([blink], animate)
 			animateAndResetAnimations(animate, reset, 'home')
 		}
 
@@ -1132,7 +1133,7 @@ function main() {
 		function animateScrollText() {
 			const textBox = document.getElementById('hmp-scroll-text')
 
-			function callback(element) {
+			function animateLetters(element) {
 				const nodes = [...element.childNodes].filter(node => node.nodeType === 1)
 
 				nodes.forEach((node, index) => {
@@ -1159,7 +1160,8 @@ function main() {
 				})
 			}
 
-			animateVisibleElements([textBox], callback)
+			animateVisibleElements([textBox], animateLetters)
+			removeAnimateClasses([], [textBox], 'home')
 		}
 
 		animateScrollText()
