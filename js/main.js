@@ -15,15 +15,15 @@ function main() {
 
 	const seenElements = new Set()
 
-	function animateAndResetAnimations(animateCallback, resetCallback, pageName = 'home') {
-		const pageIds = {
-			'home-page-btn': 'home',
-			'uses-page-btn': 'uses',
-			'resume-page-btn': 'resume',
-			'about-me-page-btn': 'about-me',
-			[logo.id]: 'home',
-		}
+	const pageIds = {
+		'home-page-btn': 'home',
+		'uses-page-btn': 'uses',
+		'resume-page-btn': 'resume',
+		'about-me-page-btn': 'about-me',
+		[logo.id]: 'home',
+	}
 
+	function animateAndResetAnimations(animateCallback, resetCallback, pageName = 'home') {
 		let currentPage = pageName
 		let lastPage = null
 
@@ -39,6 +39,41 @@ function main() {
 			currentPage = targetPage
 
 			if (targetPage === pageName) animateCallback()
+		}
+
+		document.addEventListener('click', handleClick)
+	}
+
+	function removeAnimateClasses(elementsArray, hideElementsArray, pageName = 'home') {
+		let currentPage = pageName
+
+		function handleClick(event) {
+			const target = event.target
+			const targetPage = pageIds[target.id]
+
+			if (!targetPage) return
+
+			if (pageName === currentPage) {
+				if (elementsArray) {
+					elementsArray.forEach(element => {
+						const classNames = element.classList
+
+						classNames.forEach(className => (className.includes('--animate') ? classNames.remove(className) : null))
+					})
+				}
+
+				if (hideElementsArray) {
+					hideElementsArray.forEach(element => {
+						element.childNodes.forEach(node => {
+							if (node.nodeType === 1) {
+								;[...node.classList].forEach(className => {
+									if (className.includes('--animate')) node.classList.remove(className)
+								})
+							}
+						})
+					})
+				}
+			}
 		}
 
 		document.addEventListener('click', handleClick)
@@ -212,24 +247,6 @@ function main() {
 
 			observer.observe(element)
 		})
-	}
-
-	function animateSameElements() {
-		function animateScrollLine() {
-			const lines = document.querySelectorAll('.scroll-section__line')
-
-			animateVisibleElements(lines, addAnimateClasses)
-		}
-
-		animateScrollLine()
-
-		function animateLines() {
-			const lines = document.querySelectorAll('.line')
-
-			animateVisibleElements(lines, addAnimateClasses)
-		}
-
-		animateLines()
 	}
 
 	function writeAndResetText(elements, englishTexts, russianTexts, typeSpeed, elementKeys, className, delay) {
@@ -929,25 +946,21 @@ function main() {
 	function homePageEvents() {
 		function animateHomePageElements() {
 			const titles = document.querySelectorAll('.hmp-titles')
+			const lines = document.querySelectorAll('.hmp-line')
 
 			const progreessBoxes = document.querySelectorAll('.hmp-cards__inner-progress')
 			const cardsContainer = document.querySelectorAll('.hmp-cards__container')
 			const gettingTitle = document.getElementById('hmp-getting-hidden-title')
 			const gittingBlink = document.getElementById('hmp-getting-group-text')
 			const logo3dFront = document.getElementById('hmp-getting-front')
+			const gettingTextGroup = document.getElementById('hmp-getting-group-text')
 
-			const elements = [...titles, ...cardsContainer]
-			const hideElements = [gittingBlink, gettingTitle, logo3dFront, ...progreessBoxes]
+			const elements = [...titles, ...cardsContainer, ...lines]
+			const hideElements = [gittingBlink, gettingTitle, logo3dFront, gettingTextGroup, ...progreessBoxes]
 
 			animateVisibleElements(elements, addAnimateClasses)
 			animateVisibleElements(hideElements, addAnimateClassesInHideElements)
-			document.addEventListener('click', () => {
-				elements.forEach(element => {
-					const classNames = element.classList
-
-					classNames.forEach(className => (className.includes('--animate') ? classNames.remove(className) : null))
-				})
-			})
+			removeAnimateClasses(elements, hideElements, 'home')
 		}
 
 		animateHomePageElements()
@@ -1093,7 +1106,6 @@ function main() {
 			}
 
 			function reset() {
-				blink.classList.remove('hmp-getting__blink--animate')
 				state = 'writing'
 				blinkHasAnimated = false
 				clearTimeout(timeout)
@@ -2686,7 +2698,6 @@ function main() {
 	}
 
 	window.addEventListener('load', () => {
-		animateSameElements()
 		setCurrentDate()
 		calculateExp()
 		backgroundColorChange()

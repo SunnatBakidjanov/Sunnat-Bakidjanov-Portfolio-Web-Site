@@ -22,7 +22,6 @@ $colors: (
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 0 10px;
 		height: var(--header-heigth-1440);
 		border-bottom: 2px solid transparent;
 	}
@@ -76,14 +75,14 @@ $colors: (
 	&__nav-container {
 		display: flex;
 		align-items: center;
-		column-gap: 20px;
+		column-gap: 10px;
 		height: 42px;
 	}
 
 	&__nav {
 		display: flex;
 		align-items: center;
-		column-gap: 10px;
+		column-gap: 5px;
 	}
 
 	&__item {
@@ -319,6 +318,10 @@ $colors: (
 					bottom 0.4s ease-out,
 					width 0.4s ease-out;
 			}
+		}
+
+		&__wrapper {
+			padding: 0 10px;
 		}
 
 		&__nav-container {

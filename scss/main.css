@@ -46,6 +46,7 @@ button {
   --header-btn-lines-bg-color: var(--white);
   --gradient-color: var(--blue);
   --change-color: var(--blue);
+  --hmp-logo-3d-lines-color: var(--white);
   --gradient-transition-point: 30%;
   --change-color-transition: 0.4s ease-out;
   --header-logo-font-size-1440: 1.8em;
@@ -102,11 +103,6 @@ button {
   background-color: var(--line-color);
 }
 
-.line--animate {
-  width: 100%;
-  transition: all 1.2s ease-out;
-}
-
 .scroll-section__wrapper {
   display: flex;
   align-items: center;
@@ -154,7 +150,6 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 10px;
   height: var(--header-heigth-1440);
   border-bottom: 2px solid transparent;
 }
@@ -199,15 +194,15 @@ button {
 .header__nav-container {
   display: flex;
   align-items: center;
-  -moz-column-gap: 20px;
-       column-gap: 20px;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
   height: 42px;
 }
 .header__nav {
   display: flex;
   align-items: center;
-  -moz-column-gap: 10px;
-       column-gap: 10px;
+  -moz-column-gap: 5px;
+       column-gap: 5px;
 }
 .header__item {
   flex-shrink: 0;
@@ -447,6 +442,9 @@ button {
     width: 75%;
     transform: rotate(45deg);
     transition: transform 0.4s ease-out 0.4s, bottom 0.4s ease-out, width 0.4s ease-out;
+  }
+  .header__wrapper {
+    padding: 0 10px;
   }
   .header__nav-container {
     position: fixed;
@@ -723,8 +721,9 @@ button {
   transition: transform 0.8s ease-out, opacity 0.8s ease-out;
 }
 
-.hmp-titles--rus-lang {
-  font-size: 2.8em;
+.hmp-line--animate {
+  width: 100%;
+  transition: all 1.2s ease-out;
 }
 
 .hmp-getting__wrapper {
@@ -837,10 +836,10 @@ button {
 }
 @keyframes hmp-getting-logo-3d-front-start {
   0% {
-    box-shadow: 0 0 0 #fff;
+    box-shadow: 0 0 0 var(--hmp-logo-3d-lines-color);
   }
   100% {
-    box-shadow: 0 0 15px #fff;
+    box-shadow: 0 0 15px var(--hmp-logo-3d-lines-color);
   }
 }
 .hmp-getting__img {
@@ -863,7 +862,7 @@ button {
   bottom: 0;
   width: 0%;
   height: 2px;
-  background: linear-gradient(-90deg, transparent, #fff);
+  background: linear-gradient(-90deg, transparent, var(--hmp-logo-3d-lines-color));
   border-top-right-radius: 1px;
   border-top-left-radius: 1px;
 }
@@ -884,7 +883,7 @@ button {
   left: 0;
   width: 0%;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #fff);
+  background: linear-gradient(90deg, transparent, var(--hmp-logo-3d-lines-color));
   border-top-right-radius: 1px;
   border-top-left-radius: 1px;
 }
@@ -905,7 +904,7 @@ button {
   bottom: 0;
   width: 2px;
   height: 0%;
-  background: linear-gradient(0deg, transparent, #fff);
+  background: linear-gradient(0deg, transparent, var(--hmp-logo-3d-lines-color));
   border-top-right-radius: 1px;
   border-top-left-radius: 1px;
 }
@@ -926,7 +925,7 @@ button {
   left: 0;
   width: 2px;
   height: 0%;
-  background: linear-gradient(180deg, transparent, #fff);
+  background: linear-gradient(180deg, transparent, var(--hmp-logo-3d-lines-color));
   border-top-right-radius: 1px;
   border-top-left-radius: 1px;
 }
@@ -945,7 +944,7 @@ button {
   position: absolute;
   transform: translateZ(-25px) rotateY(180deg);
   backface-visibility: hidden;
-  box-shadow: 0 0 15px #fff;
+  box-shadow: 0 0 15px var(--hmp-logo-3d-lines-color);
   height: 92.3%;
 }
 .hmp-getting__left {
@@ -954,7 +953,7 @@ button {
   height: 92.3%;
   transform: translateX(-26px) rotateY(-90deg);
   backface-visibility: hidden;
-  box-shadow: 0 0 15px #fff;
+  box-shadow: 0 0 15px var(--hmp-logo-3d-lines-color);
 }
 .hmp-getting__right {
   position: absolute;
@@ -962,7 +961,7 @@ button {
   height: 92.3%;
   transform: translateX(203px) rotateY(90deg);
   backface-visibility: hidden;
-  box-shadow: 0 0 15px #fff;
+  box-shadow: 0 0 15px var(--hmp-logo-3d-lines-color);
 }
 .hmp-getting__shadow {
   position: absolute;
@@ -971,7 +970,7 @@ button {
   height: 100%;
   transform: translateY(150px) translateX(-50%) rotateZ(90deg) rotateY(90deg);
   filter: blur(10px);
-  box-shadow: 0 0 150px #fff;
+  box-shadow: 0 0 150px var(--hmp-logo-3d-lines-color);
   opacity: 0;
   transition: opacity 1s ease-out;
 }

@@ -41,6 +41,9 @@
 	--gradient-color: var(--blue);
 	--change-color: var(--blue);
 
+	// hmp-logo-3d
+	--hmp-logo-3d-lines-color: var(--white);
+
 	// size
 	--gradient-transition-point: 30%;
 	--change-color-transition: 0.4s ease-out;
@@ -117,11 +120,6 @@ $blue: var(--blue);
 	width: 0;
 	height: 4px;
 	background-color: var(--line-color);
-}
-
-.line--animate {
-	width: 100%;
-	transition: all 1.2s ease-out;
 }
 
 .scroll-section {
