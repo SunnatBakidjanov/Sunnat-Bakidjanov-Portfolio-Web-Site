@@ -9,10 +9,6 @@ $css-color: #0071c5;
 $js-color: #f7df1e;
 $react-color: #61dafb;
 
-// same elemnts
-
-$hmp-title-color: $orange;
-
 // cards-section
 $hmp-cards-circle-color: $white;
 $hmp-cards-text-color: $white;
@@ -45,7 +41,7 @@ $hmp-my-way-border-color: $white;
 .hmp-titles {
 	font-weight: 700;
 	font-size: 3em;
-	color: $hmp-title-color;
+	color: var(--change-color);
 	letter-spacing: 0.5px;
 	text-align: center;
 	opacity: 0;
@@ -73,7 +69,7 @@ $hmp-my-way-border-color: $white;
 		align-items: center;
 		justify-content: space-between;
 		margin-top: 30px;
-		height: 400px;
+		height: var(--hmp-getting-wrapper-height);
 	}
 
 	&__inner-text {
@@ -356,10 +352,6 @@ $hmp-my-way-border-color: $white;
 			margin-top: 120px;
 			height: auto;
 		}
-
-		&__line {
-			animation-delay: 0.6s;
-		}
 	}
 
 	@media (width <= 768px) {
@@ -392,6 +384,7 @@ $hmp-my-way-border-color: $white;
 		}
 
 		&__text-group {
+			margin-top: 15px;
 			font-size: var(--hmp-getting-text-font-size-425);
 		}
 
@@ -422,15 +415,22 @@ $hmp-my-way-border-color: $white;
 		display: flex;
 		align-items: center;
 		margin-left: 160px;
-		height: calc(100vh - 500px);
+		height: calc(100vh - var(--hmp-getting-wrapper-height) - var(--header-heigth-1440) - 30px);
 	}
 
-	// &__line {}
+	&__line--animate {
+		height: 80%;
+		background-color: var(--line-color);
+		opacity: 1;
+		transition:
+			height 1s ease-out,
+			width 0s,
+			opacity 1s ease-out;
+	}
 
 	&__hide-text {
 		margin-left: 30px;
-		width: 190px;
-		letter-spacing: -4px;
+		width: 170px;
 	}
 
 	&__letter-left {
@@ -453,18 +453,7 @@ $hmp-my-way-border-color: $white;
 		transition: right 0.8s ease-out;
 	}
 
-	@media (width <= 1150px) {
-		&__wrapper {
-			margin-left: 140px;
-		}
-
-		&__hide-text {
-			width: auto;
-			font-size: 34px;
-		}
-	}
-
-	@media (width <= 1000px) {
+	@mixin hmp-scroll-media {
 		&__wrapper {
 			flex-direction: column;
 			margin-top: 150px;
@@ -480,7 +469,7 @@ $hmp-my-way-border-color: $white;
 				width 1s ease-out;
 		}
 
-		.scroll-section__line--animate {
+		&__line--animate {
 			width: 100%;
 		}
 
@@ -490,44 +479,42 @@ $hmp-my-way-border-color: $white;
 		}
 	}
 
-	@media (width <= 800px) {
+	@media (width <= 1024px) {
+		@include hmp-scroll-media;
+	}
+
+	@media (width <= 768px) {
 		&__wrapper {
 			margin-top: 140px;
 		}
-
-		&__hide-text {
-			font-size: 32px;
-			letter-spacing: -3.5px;
-		}
 	}
 
-	@media (width <= 600px) {
+	@media (width <= 425px) {
 		&__wrapper {
 			margin-top: 130px;
 		}
 
 		&__hide-text {
-			margin-top: 18px;
-			font-size: 30px;
+			margin-top: 15px;
+			width: 140px;
+			font-size: var(--hmp-scroll-text-font-size-425);
 		}
 	}
 
-	@media (width <= 480px) {
+	@media (width <= 375px) {
 		&__wrapper {
-			margin-top: 110px;
+			margin-top: 130px;
 		}
 
 		&__hide-text {
-			margin-top: 15px;
-			font-size: 28px;
-			letter-spacing: -3px;
+			width: 130px;
+			font-size: var(--hmp-scroll-text-font-size-375);
+			letter-spacing: -5px;
 		}
 	}
 
-	@media (height <= 800px) and (width >= 1000px) {
-		&__wrapper {
-			height: 70vh;
-		}
+	@media (height <= 800px) and (width >= 1024px) {
+		@include hmp-scroll-media;
 	}
 }
 
@@ -554,7 +541,7 @@ $hmp-my-way-border-color: $white;
 			filter: drop-shadow(0 0 15px $color);
 		}
 
-		&__container--#{$modifier}-animate {
+		&__container-#{$modifier}--animate {
 			@keyframes cards-content-container-#{$modifier} {
 				0% {
 					border-top: 1px solid transparent;
@@ -567,7 +554,7 @@ $hmp-my-way-border-color: $white;
 				}
 			}
 
-			animation: cards-content-container-#{$modifier} 0.6s ease-out forwards;
+			animation: cards-content-container-#{$modifier} 1s ease-out forwards;
 		}
 
 		&__text--#{$modifier} {
@@ -607,7 +594,7 @@ $hmp-my-way-border-color: $white;
 		width: 100%;
 		flex-wrap: wrap;
 		gap: 50px 0;
-		border: 0 solid transparent;
+		border: 1px solid transparent;
 	}
 
 	&__inner-progress {
@@ -622,6 +609,7 @@ $hmp-my-way-border-color: $white;
 	}
 
 	&__svg-box {
+		stroke-dashoffset: 439.823;
 		position: relative;
 		opacity: 0;
 		transform: translateY(-30px);

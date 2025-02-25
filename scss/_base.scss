@@ -43,7 +43,7 @@
 
 	// hmp-logo-3d
 	--hmp-logo-3d-color: var(--white);
-	--hmp-logo-lines-duration: 0.8s;
+	--hmp-logo-lines-duration: 0.7s;
 
 	// size
 	--gradient-transition-point: 30%;
@@ -53,8 +53,10 @@
 	--header-logo-font-size-1440: 1.8em;
 	--header-btn-font-size-1440: 1.2em;
 	--header-heigth-1440: 90px;
+	--hmp-getting-wrapper-height: 400px;
 	--hmp-getting-logo-font-size-1440: 3.5em;
 	--hmp-getting-text-font-size-1440: 2.2em;
+	--hmp-scroll-text-font-size-1440: 2.2em;
 
 	// 1024px
 	--header-btn-font-size-1024: 2.2em;
@@ -72,10 +74,12 @@
 	--header-height-425: 75px;
 	--hmp-getting-logo-font-size-425: 2.7em;
 	--hmp-getting-text-font-size-425: 1.7em;
+	--hmp-scroll-text-font-size-425: 2em;
 
 	// 375px
 	--hmp-getting-logo-font-size-375: 2.2em;
 	--hmp-getting-text-font-size-375: 1.5em;
+	--hmp-scroll-text-font-size-375: 1.8em;
 
 	// height 667px
 	--header-btn-font-size-heigth-667: 1.8em;
@@ -148,21 +152,12 @@ $blue: var(--blue);
 		opacity: 0;
 	}
 
-	&__line--animate {
-		height: 80%;
-		background-color: var(--line-color);
-		opacity: 1;
-		transition:
-			height 1s ease-out,
-			width 0s,
-			opacity 1s ease-out;
-	}
-
 	&__text {
-		overflow: hidden;
 		font-weight: 600;
-		font-size: 2.4em;
+		font-size: var(--hmp-scroll-text-font-size-1440);
 		color: var(--text-color);
+		letter-spacing: -6px;
+		overflow: hidden;
 	}
 }
 

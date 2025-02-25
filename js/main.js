@@ -23,28 +23,16 @@ function main() {
 		[logo.id]: 'home',
 	}
 
-	function animateAndResetAnimations(animateCallback, resetCallback, pageName = 'home') {
+	function resetAnimations(resetCallback, pageName = 'home') {
 		let currentPage = pageName
-		let hasLeftPage = false
 
 		function handleClick(event) {
 			const target = event.target
 			const targetPage = pageIds[target.id]
 
-			if (!targetPage || targetPage === currentPage) return
-
-			if (currentPage === pageName && !hasLeftPage) {
-				resetCallback()
-
-				hasLeftPage = true
-			}
+			if (currentPage === pageName) resetCallback()
 
 			currentPage = targetPage
-
-			if (currentPage === pageName) {
-				animateCallback()
-				hasLeftPage = false
-			}
 		}
 
 		document.addEventListener('click', handleClick)
@@ -101,29 +89,29 @@ function main() {
 	function animateVisibleElements(elements, callbackAnimate) {
 		const pages = ['page-1', 'page-2', 'page-3', 'page-4']
 
-		elements.forEach(element => {
-			const callback = entries => {
+		function isAnyPageActive() {
+			return pages.some(pageId => {
+				const pageElement = document.getElementById(pageId)
+				return pageElement?.classList.contains('page--active')
+			})
+		}
+
+		const observer = new IntersectionObserver(
+			entries => {
+				if (!isAnyPageActive()) return
+
 				entries.forEach(entry => {
-					const isAnyPageActive = pages.some(pageId => {
-						const pageElement = document.getElementById(pageId)
-
-						return pageElement && pageElement.classList.contains('page--active')
-					})
-
-					if (entry.isIntersecting && isAnyPageActive) callbackAnimate(element)
+					if (entry.isIntersecting) callbackAnimate(entry.target)
 				})
-			}
-
-			const options = {
+			},
+			{
 				root: null,
 				rootMargin: '0px',
 				threshold: 1,
 			}
+		)
 
-			const observer = new IntersectionObserver(callback, options)
-
-			observer.observe(element)
-		})
+		elements.forEach(element => observer.observe(element))
 	}
 
 	function handlePageChangeOnClick(event, element, elementKey, startingHeight, startCallback, resetCallback) {
@@ -605,7 +593,7 @@ function main() {
 	}
 
 	function backgroundColorChange() {
-		const root = document.querySelector('.page')
+		const root = document.querySelector('.main-page')
 		const buttons = document.querySelectorAll('.aside-menu__colors')
 		const classes = ['bg-color--1', 'bg-color--2', 'bg-color--3', 'bg-color--4']
 		const colors = ['#6dac2f', '#d1b200', '#d35400', '#5dade2']
@@ -962,8 +950,9 @@ function main() {
 			const logo3dShadow = document.getElementById('hmp-getting-shadow')
 			const logo3dContainer = document.getElementById('hmp-getting-preverve')
 			const gettingTextGroup = document.getElementById('hmp-getting-group-text')
+			const scrollLine = document.getElementById('hmp-scroll-line')
 
-			const elements = [...titles, ...cardsContainer, logo3dFront, logo3dShadow, logo3dContainer, ...lines]
+			const elements = [...titles, ...cardsContainer, logo3dFront, logo3dShadow, logo3dContainer, scrollLine, ...lines]
 			const hideElements = [gittingBlink, gettingTitle, logo3dFront, gettingTextGroup, ...progreessBoxes]
 
 			animateVisibleElements(elements, addAnimateClasses)
@@ -1125,7 +1114,7 @@ function main() {
 			}
 
 			animateVisibleElements([blink], animate)
-			animateAndResetAnimations(animate, reset, 'home')
+			resetAnimations(reset, 'home')
 		}
 
 		writeAndResetSkilsText()
@@ -1146,7 +1135,7 @@ function main() {
 											nodes[i].classList.add(`${nodes[i].classList[0]}--animate`)
 										}
 									},
-									(nodes.length - 1 - i) * 100
+									(nodes.length - 1 - i) * 70
 								)
 							}
 						}
@@ -1154,60 +1143,54 @@ function main() {
 						if (node.classList.contains('hmp-scroll__letter-right')) {
 							setTimeout(() => {
 								node.classList.add(`${node.classList[0]}--animate`)
-							}, index * 100)
+							}, index * 70)
 						}
 					}
 				})
 			}
 
 			animateVisibleElements([textBox], animateLetters)
-			removeAnimateClasses([], [textBox], 'home')
+			removeAnimateClasses(null, [textBox], 'home')
 		}
 
 		animateScrollText()
 
 		function animateCards() {
 			const configProgress = [
-				{ id: 0, className: 'html', precent: 70, progressDuration: 6000, precentChangeTime: 2000, handleAnimation: null },
-				{ id: 1, className: 'css', precent: 80, progressDuration: 7500, precentChangeTime: 2200, handleAnimation: null },
-				{ id: 2, className: 'js', precent: 40, progressDuration: 4000, precentChangeTime: 2400, handleAnimation: null },
-				{ id: 3, className: 'react', precent: 10, progressDuration: 2000, precentChangeTime: 2600, handleAnimation: null },
+				{ id: 0, className: 'html', precent: 70, progressDuration: 6000, precentChangeTime: 2000 },
+				{ id: 1, className: 'css', precent: 80, progressDuration: 7500, precentChangeTime: 2200 },
+				{ id: 2, className: 'js', precent: 40, progressDuration: 4000, precentChangeTime: 2400 },
+				{ id: 3, className: 'react', precent: 10, progressDuration: 2000, precentChangeTime: 2600 },
 			]
+
+			const DISH_OFFSET_VALUE = 439.823
 
 			const conteiners = document.querySelectorAll('.hmp-cards__container')
 			const svgBoxes = document.querySelectorAll('.hmp-cards__svg-box')
-			const texts = document.querySelectorAll('.hmp-cards__progress-text')
 			const values = document.querySelectorAll('.hmp-cards__value')
 			const textBoxes = document.querySelectorAll('.hmp-cards__inner-text')
-			const textsElements = document.querySelectorAll('.hmp-cards__text')
 			const progressBoxes = document.querySelectorAll('.hmp-cards__inner-progress')
 
 			function animateProgress() {
-				const ids = []
-				const elementKeys = []
-				const startHeight = 30
-
 				const circles = []
 				const intervals = []
 				const animationFrames = []
-				const timeouts = []
-				const visibleIndexes = []
-				const animationEnd = {}
-				const fluctuateStatus = {}
 
 				conteiners.forEach((_, index) => {
 					progressBoxes[index].setAttribute('id', `hmp-cards-inner-progress-${index}`)
 					values[index].setAttribute('id', `hmp-cards-value-${index}`)
 
-					const id = document.getElementById(`hmp-cards-inner-progress-${index}`)
 					const circle = document.getElementById(`hmp-cards-circle-${index}`)
 
-					elementKeys.push(`cards-inner-progress-${index}`)
-					ids.push(id)
 					circles.push(circle)
 				})
 
-				function getPrecentCards(circleId, numberId, elementKey, targetPercent, duration, precentChangeTime) {
+				const processElements = new Set()
+
+				function getPrecentCards(circleId, numberId, targetPercent, duration, precentChangeTime) {
+					if (processElements.has(circleId)) return
+					processElements.add(circleId)
+
 					const progressCircle = document.getElementById(circleId)
 					const percentValue = document.getElementById(numberId)
 					const radius = progressCircle.r.baseVal.value
@@ -1215,10 +1198,6 @@ function main() {
 					const initialOffset = circumference * 0.99
 
 					let intervalFluctuateProgress = null
-
-					if (!fluctuateStatus[elementKeys]) {
-						fluctuateStatus[elementKey] = { isStart: false }
-					}
 
 					progressCircle.style.strokeDasharray = `${circumference}`
 					progressCircle.style.strokeDashoffset = `${initialOffset}`
@@ -1242,9 +1221,7 @@ function main() {
 							if (progress < duration) {
 								const animationFrame = requestAnimationFrame(step)
 								animationFrames.push(animationFrame)
-							} else if (!fluctuateStatus[elementKey].isStart) {
-								fluctuateStatus[elementKey].isStart = true
-
+							} else {
 								fluctuateProgress()
 							}
 						}
@@ -1285,152 +1262,43 @@ function main() {
 					}
 				}
 
-				function animate() {
-					// svgBoxes.forEach((_, index) => {
-					// 	if (!animationEnd[index]) {
-					// 		animationEnd[index] = { isEnded: false, isStarted: false }
-					// 	}
-					// 	if (seenElements.has(elementKeys[index])) {
-					// 		if (!animationEnd[index].isStarted) {
-					// 			animationEnd[index].isStarted = true
-					// 			const { id, className, precent, progressDuration, precentChangeTime } = configProgress[index]
-					// 			const svgBox = svgBoxes[index]
-					// 			const progressText = texts[index]
-					// 			const container = conteiners[index]
-					// 			const progressBox = progressBoxes[index]
-					// 			progressBox.classList.add('hmp-cards__inner-progress--animate')
-					// 			visibleIndexes.push(index)
-					// 			setTimeout(() => {
-					// 				visibleIndexes.length = 0
-					// 			}, 100)
-					// 			const delay = visibleIndexes.indexOf(index) * 100
-					// 			const timeout = setTimeout(() => {
-					// 				svgBox.classList.add('hmp-cards__svg-box--animate')
-					// 				progressText.classList.add('hmp-cards__progress-text--animate')
-					// 				container.classList.add(`hmp-cards__container--${className}-animate`)
-					// 			}, delay)
-					// 			timeouts.push(timeout)
-					// 			handleAnimation = event => {
-					// 				if (event.target === svgBoxes[index] && event.animationName === 'hmp-cards-svg-box' && !animationEnd[index].isEnded) {
-					// 					animationEnd[index].isEnded = true
-					// 					getPrecentCards(`hmp-cards-circle-${id}`, `hmp-cards-value-${id}`, `hmp-cards-progress-${id}`, precent, progressDuration, precentChangeTime)
-					// 					const timeout = setTimeout(() => {
-					// 						circles[index].classList.add(`hmp-cards__circle--${className}`)
-					// 					}, 100)
-					// 					timeouts.push(timeout)
-					// 				}
-					// 			}
-					// 			document.addEventListener('animationend', handleAnimation)
-					// 		}
-					// 	}
-					// })
+				function animate(index) {
+					circles[index].classList.add(`${circles[index].classList[0]}--${configProgress[index].className}`)
+					conteiners[index].classList.add(`${conteiners[index].classList[0]}-${configProgress[index].className}--animate`)
+
+					getPrecentCards(`hmp-cards-circle-${index}`, `hmp-cards-value-${index}`, configProgress[index].precent, configProgress[index].progressDuration, configProgress[index].precentChangeTime)
 				}
 
 				function reset() {
-					svgBoxes.forEach((_, index) => {
-						const { className } = configProgress[index]
+					svgBoxes.forEach((_, index) => (values[index].textContent = 0))
 
-						animationEnd[index] = { isEnded: false, isStarted: false }
-						fluctuateStatus[index] = { isStart: false }
-
-						conteiners[index].classList.remove(`hmp-cards__container--${className}-animate`)
-						svgBoxes[index].classList.remove('hmp-cards__svg-box--animate')
-						texts[index].classList.remove('hmp-cards__progress-text--animate')
-
-						circles[index].classList.remove(`hmp-cards__circle--${className}`)
-
-						values[index].textContent = 0
-						clearInterval(intervals[index])
-					})
-
+					intervals.forEach(interval => clearInterval(interval))
 					animationFrames.forEach(frame => cancelAnimationFrame(frame))
+					circles.forEach(circle => (circle.style.strokeDashoffset = DISH_OFFSET_VALUE))
+
+					processElements.clear()
 
 					animationFrames.length = 0
 					intervals.length = 0
 				}
 
-				createAnimation(ids, elementKeys, startHeight, animate, reset)
+				svgBoxes.forEach((box, index) => animateVisibleElements([box], () => animate(index)))
+				resetAnimations(reset, 'home')
 			}
 
 			animateProgress()
 
 			function animateTexts() {
-				const ids = []
-				const elementKeys = []
-				let startHeight = document.documentElement.clientWidth < 1030 ? 30 : 215
+				textBoxes.forEach((box, boxIndex) => {
+					const texts = [...box.childNodes].filter(node => node.nodeType === 1 && node.classList.contains('hmp-cards__text'))
 
-				textsElements.forEach((element, index) => {
-					const id = `hmp-cards-text-${index}`
-					element.setAttribute('id', id)
+					texts.forEach((text, index) => {
+						if (index % 2 !== 0) text.classList.add(`${text.classList[0]}--${configProgress[boxIndex].className}`)
 
-					elementKeys.push(`hmp-cards-text-${index}`)
-					ids.push(element)
-				})
-
-				conteiners.forEach((_, index) => {
-					const { className } = configProgress[index]
-					const textElements = [...textBoxes[index].childNodes].filter(node => node.nodeType === 1 && node.classList.contains('hmp-cards__text'))
-
-					textElements.forEach((element, index) => {
-						if (index % 2 === 0) {
-							element.classList.add(`hmp-cards__text--${className}`)
-						}
+						animateVisibleElements([text], addAnimateClasses)
+						removeAnimateClasses([text], null, 'home')
 					})
 				})
-
-				const timeouts = []
-				const visibleIndexes = []
-				const animationEnd = {}
-
-				function updateStartingHeight() {
-					startHeight = document.documentElement.clientWidth < 1030 ? 50 : 215
-				}
-
-				function animate() {
-					window.addEventListener('resize', updateStartingHeight)
-
-					textsElements.forEach((element, index) => {
-						if (!animationEnd[index]) {
-							animationEnd[index] = { isStarted: false }
-						}
-
-						if (seenElements.has(elementKeys[index])) {
-							if (!animationEnd[index].isStarted) {
-								animationEnd[index].isStarted = true
-
-								visibleIndexes.push(index)
-
-								setTimeout(() => {
-									visibleIndexes.length = 0
-								}, 80)
-
-								const delay = visibleIndexes.indexOf(index) * 80
-
-								const timeout = setTimeout(() => {
-									element.classList.add('hmp-cards__text--animate')
-								}, delay)
-
-								timeouts.push(timeout)
-							}
-						}
-					})
-				}
-
-				function reset() {
-					window.removeEventListener('resize', updateStartingHeight)
-
-					textsElements.forEach((element, index) => {
-						element.classList.remove('hmp-cards__text--animate')
-
-						clearTimeout(timeouts[index])
-
-						animationEnd[index] = { isStarted: false }
-					})
-
-					timeouts.length = 0
-				}
-
-				createAnimation(ids, elementKeys, startHeight, animate, reset)
 			}
 
 			animateTexts()

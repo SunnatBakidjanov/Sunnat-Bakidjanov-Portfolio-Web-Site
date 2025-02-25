@@ -47,14 +47,16 @@ button {
   --gradient-color: var(--blue);
   --change-color: var(--blue);
   --hmp-logo-3d-color: var(--white);
-  --hmp-logo-lines-duration: 0.8s;
+  --hmp-logo-lines-duration: 0.7s;
   --gradient-transition-point: 30%;
   --change-color-transition: 0.4s ease-out;
   --header-logo-font-size-1440: 1.8em;
   --header-btn-font-size-1440: 1.2em;
   --header-heigth-1440: 90px;
+  --hmp-getting-wrapper-height: 400px;
   --hmp-getting-logo-font-size-1440: 3.5em;
   --hmp-getting-text-font-size-1440: 2.2em;
+  --hmp-scroll-text-font-size-1440: 2.2em;
   --header-btn-font-size-1024: 2.2em;
   --hmp-getting-logo-font-size-1024: 3.8em;
   --header-logo-font-size-768: 1.6em;
@@ -66,8 +68,10 @@ button {
   --header-height-425: 75px;
   --hmp-getting-logo-font-size-425: 2.7em;
   --hmp-getting-text-font-size-425: 1.7em;
+  --hmp-scroll-text-font-size-425: 2em;
   --hmp-getting-logo-font-size-375: 2.2em;
   --hmp-getting-text-font-size-375: 1.5em;
+  --hmp-scroll-text-font-size-375: 1.8em;
   --header-btn-font-size-heigth-667: 1.8em;
   --header-btn-font-size-heigth-430: 1.6em;
   --z-index-header-btn-line: 1;
@@ -123,17 +127,12 @@ button {
   height: 0;
   opacity: 0;
 }
-.scroll-section__line--animate {
-  height: 80%;
-  background-color: var(--line-color);
-  opacity: 1;
-  transition: height 1s ease-out, width 0s, opacity 1s ease-out;
-}
 .scroll-section__text {
-  overflow: hidden;
   font-weight: 600;
-  font-size: 2.4em;
+  font-size: var(--hmp-scroll-text-font-size-1440);
   color: var(--text-color);
+  letter-spacing: -6px;
+  overflow: hidden;
 }
 
 .bg-color--1 {
@@ -716,7 +715,7 @@ button {
 .hmp-titles {
   font-weight: 700;
   font-size: 3em;
-  color: #f8aa01;
+  color: var(--change-color);
   letter-spacing: 0.5px;
   text-align: center;
   opacity: 0;
@@ -739,7 +738,7 @@ button {
   align-items: center;
   justify-content: space-between;
   margin-top: 30px;
-  height: 400px;
+  height: var(--hmp-getting-wrapper-height);
 }
 .hmp-getting__inner-text {
   margin-top: 80px;
@@ -976,9 +975,6 @@ button {
     margin-top: 120px;
     height: auto;
   }
-  .hmp-getting__line {
-    animation-delay: 0.6s;
-  }
 }
 @media (width <= 768px) {
   .hmp-getting__inner-text {
@@ -1004,6 +1000,7 @@ button {
     font-size: var(--hmp-getting-logo-font-size-425);
   }
   .hmp-getting__text-group {
+    margin-top: 15px;
     font-size: var(--hmp-getting-text-font-size-425);
   }
   .hmp-getting__inner-logo-3d {
@@ -1028,12 +1025,17 @@ button {
   display: flex;
   align-items: center;
   margin-left: 160px;
-  height: calc(100vh - 500px);
+  height: calc(100vh - var(--hmp-getting-wrapper-height) - var(--header-heigth-1440) - 30px);
+}
+.hmp-scroll__line--animate {
+  height: 80%;
+  background-color: var(--line-color);
+  opacity: 1;
+  transition: height 1s ease-out, width 0s, opacity 1s ease-out;
 }
 .hmp-scroll__hide-text {
   margin-left: 30px;
-  width: 190px;
-  letter-spacing: -4px;
+  width: 170px;
 }
 .hmp-scroll__letter-left {
   position: relative;
@@ -1051,16 +1053,7 @@ button {
   right: 0;
   transition: right 0.8s ease-out;
 }
-@media (width <= 1150px) {
-  .hmp-scroll__wrapper {
-    margin-left: 140px;
-  }
-  .hmp-scroll__hide-text {
-    width: auto;
-    font-size: 34px;
-  }
-}
-@media (width <= 1000px) {
+@media (width <= 1024px) {
   .hmp-scroll__wrapper {
     flex-direction: column;
     margin-top: 150px;
@@ -1072,7 +1065,7 @@ button {
     height: 4px;
     transition: height 0s, width 1s ease-out;
   }
-  .hmp-scroll .scroll-section__line--animate {
+  .hmp-scroll__line--animate {
     width: 100%;
   }
   .hmp-scroll__hide-text {
@@ -1080,37 +1073,49 @@ button {
     margin-left: 0;
   }
 }
-@media (width <= 800px) {
+@media (width <= 768px) {
   .hmp-scroll__wrapper {
     margin-top: 140px;
   }
-  .hmp-scroll__hide-text {
-    font-size: 32px;
-    letter-spacing: -3.5px;
-  }
 }
-@media (width <= 600px) {
+@media (width <= 425px) {
   .hmp-scroll__wrapper {
     margin-top: 130px;
   }
   .hmp-scroll__hide-text {
-    margin-top: 18px;
-    font-size: 30px;
+    margin-top: 15px;
+    width: 140px;
+    font-size: var(--hmp-scroll-text-font-size-425);
   }
 }
-@media (width <= 480px) {
+@media (width <= 375px) {
   .hmp-scroll__wrapper {
-    margin-top: 110px;
+    margin-top: 130px;
   }
   .hmp-scroll__hide-text {
-    margin-top: 15px;
-    font-size: 28px;
-    letter-spacing: -3px;
+    width: 130px;
+    font-size: var(--hmp-scroll-text-font-size-375);
+    letter-spacing: -5px;
   }
 }
-@media (height <= 800px) and (width >= 1000px) {
+@media (height <= 800px) and (width >= 1024px) {
   .hmp-scroll__wrapper {
-    height: 70vh;
+    flex-direction: column;
+    margin-top: 150px;
+    margin-left: 0;
+    height: auto;
+  }
+  .hmp-scroll__line {
+    width: 0;
+    height: 4px;
+    transition: height 0s, width 1s ease-out;
+  }
+  .hmp-scroll__line--animate {
+    width: 100%;
+  }
+  .hmp-scroll__hide-text {
+    margin-top: 20px;
+    margin-left: 0;
   }
 }
 
@@ -1139,7 +1144,7 @@ button {
   width: 100%;
   flex-wrap: wrap;
   gap: 50px 0;
-  border: 0 solid transparent;
+  border: 1px solid transparent;
 }
 .hmp-cards__inner-progress {
   display: flex;
@@ -1152,6 +1157,7 @@ button {
   row-gap: 25px;
 }
 .hmp-cards__svg-box {
+  stroke-dashoffset: 439.823;
   position: relative;
   opacity: 0;
   transform: translateY(-30px);
@@ -1258,8 +1264,8 @@ button {
 .hmp-cards__progress-text--html {
   filter: drop-shadow(0 0 15px #ff5733);
 }
-.hmp-cards__container--html-animate {
-  animation: cards-content-container-html 0.6s ease-out forwards;
+.hmp-cards__container-html--animate {
+  animation: cards-content-container-html 1s ease-out forwards;
 }
 @keyframes cards-content-container-html {
   0% {
@@ -1288,8 +1294,8 @@ button {
 .hmp-cards__progress-text--css {
   filter: drop-shadow(0 0 15px #0071c5);
 }
-.hmp-cards__container--css-animate {
-  animation: cards-content-container-css 0.6s ease-out forwards;
+.hmp-cards__container-css--animate {
+  animation: cards-content-container-css 1s ease-out forwards;
 }
 @keyframes cards-content-container-css {
   0% {
@@ -1318,8 +1324,8 @@ button {
 .hmp-cards__progress-text--js {
   filter: drop-shadow(0 0 15px #f7df1e);
 }
-.hmp-cards__container--js-animate {
-  animation: cards-content-container-js 0.6s ease-out forwards;
+.hmp-cards__container-js--animate {
+  animation: cards-content-container-js 1s ease-out forwards;
 }
 @keyframes cards-content-container-js {
   0% {
@@ -1348,8 +1354,8 @@ button {
 .hmp-cards__progress-text--react {
   filter: drop-shadow(0 0 15px #61dafb);
 }
-.hmp-cards__container--react-animate {
-  animation: cards-content-container-react 0.6s ease-out forwards;
+.hmp-cards__container-react--animate {
+  animation: cards-content-container-react 1s ease-out forwards;
 }
 @keyframes cards-content-container-react {
   0% {
