@@ -30,6 +30,8 @@ function main() {
 			const target = event.target
 			const targetPage = pageIds[target.id]
 
+			if (!targetPage) return
+
 			if (currentPage === pageName) resetCallback()
 
 			currentPage = targetPage
@@ -993,7 +995,7 @@ function main() {
 				],
 			}
 
-			let textIndex = Math.floor(Math.random() * texts.en.length)
+			let textIndex = 7
 			let letterIndex = 0
 			let timeout = null
 
@@ -1092,14 +1094,15 @@ function main() {
 			changeLanguageButton.addEventListener('click', startTyping)
 
 			function handleBlinkAnimation(event) {
-				if (event.animationName === 'hmp-getting-blink-start' && !blinkHasAnimated) {
-					blinkHasAnimated = true
-					timeout = setTimeout(startTyping, cfg.startWrite)
-				}
+				if (event.animationName === 'hmp-getting-blink-start') timeout = setTimeout(startTyping, cfg.startWrite)
 			}
 
 			function animate() {
+				if (blinkHasAnimated) return
+
 				document.addEventListener('animationend', handleBlinkAnimation)
+
+				blinkHasAnimated = true
 			}
 
 			function reset() {
@@ -1122,8 +1125,8 @@ function main() {
 		function animateScrollText() {
 			const textBox = document.getElementById('hmp-scroll-text')
 
-			function animateLetters(element) {
-				const nodes = [...element.childNodes].filter(node => node.nodeType === 1)
+			function animateLetters() {
+				const nodes = [...textBox.childNodes].filter(node => node.nodeType === 1)
 
 				nodes.forEach((node, index) => {
 					if (!node.classList.contains(`${node.classList[0]}--animate`)) {
@@ -1170,6 +1173,8 @@ function main() {
 			const values = document.querySelectorAll('.hmp-cards__value')
 			const textBoxes = document.querySelectorAll('.hmp-cards__inner-text')
 			const progressBoxes = document.querySelectorAll('.hmp-cards__inner-progress')
+
+			const isAnimated = {}
 
 			function animateProgress() {
 				const circles = []
@@ -1263,10 +1268,21 @@ function main() {
 				}
 
 				function animate(index) {
-					circles[index].classList.add(`${circles[index].classList[0]}--${configProgress[index].className}`)
+					if (!isAnimated[index]) isAnimated[index] = { animate: false }
+					if (isAnimated[index].animate) return
+
 					conteiners[index].classList.add(`${conteiners[index].classList[0]}-${configProgress[index].className}--animate`)
 
-					getPrecentCards(`hmp-cards-circle-${index}`, `hmp-cards-value-${index}`, configProgress[index].precent, configProgress[index].progressDuration, configProgress[index].precentChangeTime)
+					const onAnimationEnd = () => {
+						circles[index].classList.add(`${circles[index].classList[0]}--${configProgress[index].className}`)
+						getPrecentCards(`hmp-cards-circle-${index}`, `hmp-cards-value-${index}`, configProgress[index].precent, configProgress[index].progressDuration, configProgress[index].precentChangeTime)
+
+						svgBoxes[index].removeEventListener('animationend', onAnimationEnd)
+					}
+
+					svgBoxes[index].addEventListener('animationend', onAnimationEnd)
+
+					isAnimated[index].animate = true
 				}
 
 				function reset() {
@@ -1274,6 +1290,10 @@ function main() {
 
 					intervals.forEach(interval => clearInterval(interval))
 					animationFrames.forEach(frame => cancelAnimationFrame(frame))
+					svgBoxes.forEach((_, index) => {
+						if (!isAnimated[index]) isAnimated[index] = {}
+						isAnimated[index].animate = false
+					})
 					circles.forEach(circle => (circle.style.strokeDashoffset = DISH_OFFSET_VALUE))
 
 					processElements.clear()
@@ -1282,7 +1302,9 @@ function main() {
 					intervals.length = 0
 				}
 
-				svgBoxes.forEach((box, index) => animateVisibleElements([box], () => animate(index)))
+				svgBoxes.forEach((box, index) => {
+					animateVisibleElements([box], () => animate(index))
+				})
 				resetAnimations(reset, 'home')
 			}
 

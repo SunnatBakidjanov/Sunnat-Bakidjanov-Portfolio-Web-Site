@@ -33,6 +33,10 @@ button {
   --telegram: #08c;
   --github: #181717;
   --facebook: #3b5998;
+  --html: #ff5733;
+  --css: #0071c5;
+  --js: #f7df1e;
+  --react: #61dafb;
   --box-shadow-main-color: var(--white);
   --box-shadow-secondary-color: var(--orange);
   --box-shadow-accent-color: var(--milky);
@@ -48,27 +52,44 @@ button {
   --change-color: var(--blue);
   --hmp-logo-3d-color: var(--white);
   --hmp-logo-lines-duration: 0.7s;
+  --hmp-cards-circle-color: var(--white);
   --gradient-transition-point: 30%;
   --change-color-transition: 0.4s ease-out;
   --header-logo-font-size-1440: 1.8em;
   --header-btn-font-size-1440: 1.2em;
   --header-heigth-1440: 90px;
+  --title-font-size-1440: 3em;
   --hmp-getting-wrapper-height: 400px;
   --hmp-getting-logo-font-size-1440: 3.5em;
   --hmp-getting-text-font-size-1440: 2.2em;
   --hmp-scroll-text-font-size-1440: 2.2em;
+  --hmp-cards-value-font-size-1440: 3em;
+  --hmp-cards-precent-font-size-1440: 1.4em;
+  --hmp-cards-progress-text-font-size-1440: 2.6em;
+  --hmp-cards-text-font-size-1440: 1.4em;
+  --title-font-size-1024: 2.8em;
   --header-btn-font-size-1024: 2.2em;
   --hmp-getting-logo-font-size-1024: 3.8em;
+  --title-font-size-768: 2.4em;
   --header-logo-font-size-768: 1.6em;
   --header-btn-font-size-768: 2em;
   --hmp-getting-logo-font-size-768: 3.2em;
   --hmp-getting-text-font-size-768: 2em;
+  --hmp-cards-value-font-size-768: 2.8em;
+  --hmp-cards-precent-font-size-768: 1.3em;
+  --hmp-cards-progress-text-font-size-768: 2.4em;
+  --title-font-size-425: 2em;
   --header-logo-font-size-425: 1.4em;
   --header-btn-font-size-425: 1.6em;
   --header-height-425: 75px;
   --hmp-getting-logo-font-size-425: 2.7em;
   --hmp-getting-text-font-size-425: 1.7em;
   --hmp-scroll-text-font-size-425: 2em;
+  --hmp-cards-value-font-size-425: 2.5em;
+  --hmp-cards-precent-font-size-425: 1.2em;
+  --hmp-cards-progress-text-font-size-425: 2.4em;
+  --hmp-cards-text-font-size-425: 1.2em;
+  --title-font-size-375: 1.8em;
   --hmp-getting-logo-font-size-375: 2.2em;
   --hmp-getting-text-font-size-375: 1.5em;
   --hmp-scroll-text-font-size-375: 1.8em;
@@ -713,8 +734,7 @@ button {
 }
 
 .hmp-titles {
-  font-weight: 700;
-  font-size: 3em;
+  font-size: var(--title-font-size-1440);
   color: var(--change-color);
   letter-spacing: 0.5px;
   text-align: center;
@@ -733,6 +753,26 @@ button {
   transition: all 1.2s ease-out;
 }
 
+@media (width <= 1024px) {
+  .hmp-titles {
+    font-size: var(--title-font-size-1024);
+  }
+}
+@media (width <= 768px) {
+  .hmp-titles {
+    font-size: var(--title-font-size-768);
+  }
+}
+@media (width <= 425px) {
+  .hmp-titles {
+    font-size: var(--title-font-size-425);
+  }
+}
+@media (width <= 375px) {
+  .hmp-titles {
+    font-size: var(--title-font-size-375);
+  }
+}
 .hmp-getting__wrapper {
   display: flex;
   align-items: center;
@@ -744,6 +784,7 @@ button {
   margin-top: 80px;
   margin-left: 30px;
   overflow: hidden;
+  width: 700px;
 }
 .hmp-getting__hidden-title {
   overflow: hidden;
@@ -1184,7 +1225,7 @@ button {
 }
 .hmp-cards__circle {
   fill: none;
-  stroke: #fff;
+  stroke: var(--hmp-cards-circle-color);
   stroke-width: 8;
   transform: translate(5px, -5px) rotate(-90deg);
   transform-origin: center;
@@ -1195,14 +1236,14 @@ button {
   left: 50%;
   display: flex;
   align-items: flex-end;
-  color: #fff;
+  color: var(--text-color);
   transform: translate(-50%, -50%);
 }
 .hmp-cards__value {
   font-style: normal;
   font-weight: 500;
   line-height: 100%;
-  font-size: 40px;
+  font-size: var(--hmp-cards-value-font-size-1440);
 }
 .hmp-cards__precent {
   position: relative;
@@ -1210,14 +1251,14 @@ button {
   left: 5px;
   font-style: normal;
   font-weight: 800;
-  font-size: 20px;
+  font-size: var(--hmp-cards-precent-font-size-1440);
 }
 .hmp-cards__progress-text {
   position: relative;
   left: 5px;
   font-style: normal;
   font-weight: 700;
-  font-size: 40px;
+  font-size: var(--hmp-cards-progress-text-font-size-1440);
   letter-spacing: 1px;
   text-align: center;
   opacity: 0;
@@ -1225,7 +1266,7 @@ button {
 }
 .hmp-cards__progress-text--animate {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) !important;
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
 .hmp-cards__inner-text {
@@ -1241,8 +1282,8 @@ button {
 .hmp-cards__text {
   font-style: normal;
   font-weight: 500;
-  font-size: 22px;
-  color: #fff;
+  font-size: var(--hmp-cards-text-font-size-1440);
+  color: var(--text-color);
   letter-spacing: 0.5px;
   text-align: center;
   opacity: 0;
@@ -1255,14 +1296,14 @@ button {
 }
 .hmp-cards__circle--html {
   transition: all 0.2s linear;
-  stroke: #ff5733;
-  filter: drop-shadow(0 0 3px #ff5733);
+  stroke: var(--html);
+  filter: drop-shadow(0 0 3px var(--html));
 }
 .hmp-cards__value-box--html {
-  filter: drop-shadow(0 0 15px #ff5733);
+  filter: drop-shadow(0 0 15px var(--html));
 }
 .hmp-cards__progress-text--html {
-  filter: drop-shadow(0 0 15px #ff5733);
+  filter: drop-shadow(0 0 15px var(--html));
 }
 .hmp-cards__container-html--animate {
   animation: cards-content-container-html 1s ease-out forwards;
@@ -1273,26 +1314,26 @@ button {
     border-bottom: 1px solid transparent;
   }
   100% {
-    border-top: 1px solid #ff5733;
-    border-bottom: 1px solid #ff5733;
+    border-top: 1px solid var(--html);
+    border-bottom: 1px solid var(--html);
   }
 }
 .hmp-cards__text--html {
-  color: #ff5733;
+  color: var(--html);
 }
 .hmp-cards__progress-text--html {
-  color: #ff5733;
+  color: var(--html);
 }
 .hmp-cards__circle--css {
   transition: all 0.2s linear;
-  stroke: #0071c5;
-  filter: drop-shadow(0 0 3px #0071c5);
+  stroke: var(--css);
+  filter: drop-shadow(0 0 3px var(--css));
 }
 .hmp-cards__value-box--css {
-  filter: drop-shadow(0 0 15px #0071c5);
+  filter: drop-shadow(0 0 15px var(--css));
 }
 .hmp-cards__progress-text--css {
-  filter: drop-shadow(0 0 15px #0071c5);
+  filter: drop-shadow(0 0 15px var(--css));
 }
 .hmp-cards__container-css--animate {
   animation: cards-content-container-css 1s ease-out forwards;
@@ -1303,26 +1344,26 @@ button {
     border-bottom: 1px solid transparent;
   }
   100% {
-    border-top: 1px solid #0071c5;
-    border-bottom: 1px solid #0071c5;
+    border-top: 1px solid var(--css);
+    border-bottom: 1px solid var(--css);
   }
 }
 .hmp-cards__text--css {
-  color: #0071c5;
+  color: var(--css);
 }
 .hmp-cards__progress-text--css {
-  color: #0071c5;
+  color: var(--css);
 }
 .hmp-cards__circle--js {
   transition: all 0.2s linear;
-  stroke: #f7df1e;
-  filter: drop-shadow(0 0 3px #f7df1e);
+  stroke: var(--js);
+  filter: drop-shadow(0 0 3px var(--js));
 }
 .hmp-cards__value-box--js {
-  filter: drop-shadow(0 0 15px #f7df1e);
+  filter: drop-shadow(0 0 15px var(--js));
 }
 .hmp-cards__progress-text--js {
-  filter: drop-shadow(0 0 15px #f7df1e);
+  filter: drop-shadow(0 0 15px var(--js));
 }
 .hmp-cards__container-js--animate {
   animation: cards-content-container-js 1s ease-out forwards;
@@ -1333,26 +1374,26 @@ button {
     border-bottom: 1px solid transparent;
   }
   100% {
-    border-top: 1px solid #f7df1e;
-    border-bottom: 1px solid #f7df1e;
+    border-top: 1px solid var(--js);
+    border-bottom: 1px solid var(--js);
   }
 }
 .hmp-cards__text--js {
-  color: #f7df1e;
+  color: var(--js);
 }
 .hmp-cards__progress-text--js {
-  color: #f7df1e;
+  color: var(--js);
 }
 .hmp-cards__circle--react {
   transition: all 0.2s linear;
-  stroke: #61dafb;
-  filter: drop-shadow(0 0 3px #61dafb);
+  stroke: var(--react);
+  filter: drop-shadow(0 0 3px var(--react));
 }
 .hmp-cards__value-box--react {
-  filter: drop-shadow(0 0 15px #61dafb);
+  filter: drop-shadow(0 0 15px var(--react));
 }
 .hmp-cards__progress-text--react {
-  filter: drop-shadow(0 0 15px #61dafb);
+  filter: drop-shadow(0 0 15px var(--react));
 }
 .hmp-cards__container-react--animate {
   animation: cards-content-container-react 1s ease-out forwards;
@@ -1363,127 +1404,85 @@ button {
     border-bottom: 1px solid transparent;
   }
   100% {
-    border-top: 1px solid #61dafb;
-    border-bottom: 1px solid #61dafb;
+    border-top: 1px solid var(--react);
+    border-bottom: 1px solid var(--react);
   }
 }
 .hmp-cards__text--react {
-  color: #61dafb;
+  color: var(--react);
 }
 .hmp-cards__progress-text--react {
-  color: #61dafb;
+  color: var(--react);
 }
-@media (width <= 1150px) {
+@media (width <= 1024px) {
+  .hmp-cards__wrapper {
+    padding-top: 70px;
+  }
   .hmp-cards__inner-content {
     margin-top: 60px;
   }
   .hmp-cards__inner-progress {
-    row-gap: 22px;
-  }
-  .hmp-cards__svg {
-    transform: scale(0.9);
-  }
-  .hmp-cards__value {
-    font-size: 36px;
+    padding: 0;
   }
   .hmp-cards__progress-text {
-    font-size: 38px;
+    transform: translateY(20px);
+  }
+  .hmp-cards__inner-text {
+    width: 100%;
+    gap: 30px 50px;
   }
 }
-@media (width <= 1000px) {
+@media (width <= 768px) {
+  .hmp-cards__svg {
+    transform: scale(0.95);
+  }
+  .hmp-cards__progress-text {
+    font-size: var(--hmp-cards-progress-text-font-size-768);
+  }
+  .hmp-cards__value {
+    font-size: var(--hmp-cards-value-font-size-768);
+  }
+  .hmp-cards__precent {
+    font-size: var(--hmp-cards-precent-font-size-768);
+  }
+  .hmp-cards__inner-text {
+    gap: 30px;
+  }
+}
+@media (width <= 425px) {
   .hmp-cards__wrapper {
-    padding-top: 100px;
+    padding-top: 50px;
   }
-}
-@media (width <= 800px) {
+  .hmp-cards__title {
+    margin-bottom: 20px;
+  }
   .hmp-cards__inner-content {
     margin-top: 50px;
   }
   .hmp-cards__container {
-    padding-top: 50px;
-    row-gap: 40px;
-  }
-  .hmp-cards__inner-progress {
-    row-gap: 20px;
+    gap: 30px 0;
+    padding: 40px 0;
   }
   .hmp-cards__svg {
-    transform: scale(0.8);
-  }
-  .hmp-cards__value {
-    font-size: 34px;
-  }
-  .hmp-cards__precent {
-    font-size: 18px;
-  }
-  .hmp-cards__progress-text {
-    font-size: 36px;
-  }
-  .hmp-cards__inner-text {
-    gap: 40px 50px;
-  }
-  .hmp-cards__text {
-    font-size: 20px;
-  }
-}
-@media (width <= 600px) {
-  .hmp-cards__container {
-    padding-top: 30px;
-    row-gap: 30px;
+    transform: scale(0.9);
   }
   .hmp-cards__inner-progress {
     row-gap: 15px;
-    padding: 0;
+    width: -moz-fit-content;
+    width: fit-content;
   }
   .hmp-cards__value {
-    font-size: 32px;
-  }
-  .hmp-cards__precent {
-    font-size: 16px;
+    font-size: var(--hmp-cards-value-font-size-425);
   }
   .hmp-cards__progress-text {
-    font-size: 34px;
+    font-size: var(--hmp-cards-progress-text-font-size-425);
+    transform: translateY(10px);
   }
   .hmp-cards__inner-text {
-    gap: 30px 50px;
-  }
-}
-@media (width <= 480px) {
-  .hmp-cards__inner-content {
-    margin-top: 40px;
-  }
-  .hmp-cards__container {
-    padding-top: 10px;
-    row-gap: 30px;
-  }
-  .hmp-cards__inner-progress {
-    row-gap: 5px;
-    padding: 0;
-  }
-  .hmp-cards__svg {
-    transform: scale(0.75);
-  }
-  .hmp-cards__value {
-    font-size: 30px;
-  }
-  .hmp-cards__precent {
-    font-size: 16px;
-  }
-  .hmp-cards__progress-text {
-    font-size: 30px;
-  }
-  .hmp-cards__inner-text {
-    gap: 20px 50px;
+    gap: 20px 30px;
   }
   .hmp-cards__text {
-    font-size: 18px;
-  }
-}
-@media (width <= 430px) {
-  .hmp-cards__container {
-    padding-top: 0;
-  }
-  .hmp-cards__inner-progress {
-    width: auto;
+    font-size: var(--hmp-cards-text-font-size-425);
   }
 }
 
@@ -1522,7 +1521,7 @@ button {
   width: 600px;
   font-weight: 500;
   font-size: 36px;
-  color: #fff;
+  color: var(--text-color);
 }
 .hmp-projects__text--animate {
   transform: translateY(0);
@@ -1533,7 +1532,7 @@ button {
 }
 .hmp-projects__text-span {
   margin-top: 5px;
-  color: #f8aa01;
+  color: white;
 }
 .hmp-projects__inner-cloud {
   position: relative;
@@ -1936,44 +1935,6 @@ button {
   }
 }
 
-@media (width <= 1150px) {
-  .hmp-titles {
-    margin-bottom: 18px;
-    font-size: 38px;
-  }
-  .hmp-titles--rus-lang {
-    font-size: 36px;
-  }
-}
-@media (width <= 800px) {
-  .hmp-titles {
-    margin-bottom: 15px;
-    font-size: 36px;
-  }
-  .hmp-titles--rus-lang {
-    font-size: 34px;
-  }
-}
-@media (width <= 600px) {
-  .hmp-titles {
-    margin-bottom: 12px;
-    width: auto;
-    font-size: 34px;
-    text-align: center;
-  }
-  .hmp-titles--rus-lang {
-    font-size: 32px;
-  }
-}
-@media (width <= 430px) {
-  .hmp-titles {
-    margin-bottom: 10px;
-    font-size: 32px;
-  }
-  .hmp-titles--rus-lang {
-    font-size: 30px;
-  }
-}
 .uses-page {
   position: absolute;
   left: -9999px;

@@ -1,21 +1,15 @@
+$html-color: var(--html);
+$css-color: var(--css);
+$js-color: var(--js);
+$react-color: var(--react);
 $orange: #f8aa01;
 $white: #fff;
 $black: #000;
 $gray: #a9a9a9;
 $milky: #f5deb3;
 $water-color: #00bfff;
-$html-color: #ff5733;
-$css-color: #0071c5;
-$js-color: #f7df1e;
-$react-color: #61dafb;
-
-// cards-section
-$hmp-cards-circle-color: $white;
-$hmp-cards-text-color: $white;
 
 // projects-section
-$hmp-projects-text-color: $white;
-$hmp-projects-accent-text-color: $orange;
 $cloud-particle-center-bg-color: $white;
 $cloud-particle-center-box-shadow-color: $gray;
 $cloud-particle-top-bg-color: $white;
@@ -39,8 +33,7 @@ $hmp-my-way-border-color: $white;
 // Same components
 
 .hmp-titles {
-	font-weight: 700;
-	font-size: 3em;
+	font-size: var(--title-font-size-1440);
 	color: var(--change-color);
 	letter-spacing: 0.5px;
 	text-align: center;
@@ -61,6 +54,30 @@ $hmp-my-way-border-color: $white;
 	transition: all 1.2s ease-out;
 }
 
+@media (width <= 1024px) {
+	.hmp-titles {
+		font-size: var(--title-font-size-1024);
+	}
+}
+
+@media (width <= 768px) {
+	.hmp-titles {
+		font-size: var(--title-font-size-768);
+	}
+}
+
+@media (width <= 425px) {
+	.hmp-titles {
+		font-size: var(--title-font-size-425);
+	}
+}
+
+@media (width <= 375px) {
+	.hmp-titles {
+		font-size: var(--title-font-size-375);
+	}
+}
+
 // Other components
 
 .hmp-getting {
@@ -76,6 +93,7 @@ $hmp-my-way-border-color: $white;
 		margin-top: 80px;
 		margin-left: 30px;
 		overflow: hidden;
+		width: 700px;
 	}
 
 	&__hidden-title {
@@ -641,7 +659,7 @@ $hmp-my-way-border-color: $white;
 
 	&__circle {
 		fill: none;
-		stroke: $hmp-cards-circle-color;
+		stroke: var(--hmp-cards-circle-color);
 		stroke-width: 8;
 		transform: translate(5px, -5px) rotate(-90deg);
 		transform-origin: center;
@@ -653,7 +671,7 @@ $hmp-my-way-border-color: $white;
 		left: 50%;
 		display: flex;
 		align-items: flex-end;
-		color: $hmp-cards-text-color;
+		color: var(--text-color);
 		transform: translate(-50%, -50%);
 	}
 
@@ -661,7 +679,7 @@ $hmp-my-way-border-color: $white;
 		font-style: normal;
 		font-weight: 500;
 		line-height: 100%;
-		font-size: 40px;
+		font-size: var(--hmp-cards-value-font-size-1440);
 	}
 
 	&__precent {
@@ -670,7 +688,7 @@ $hmp-my-way-border-color: $white;
 		left: 5px;
 		font-style: normal;
 		font-weight: 800;
-		font-size: 20px;
+		font-size: var(--hmp-cards-precent-font-size-1440);
 	}
 
 	&__progress-text {
@@ -678,7 +696,7 @@ $hmp-my-way-border-color: $white;
 		left: 5px;
 		font-style: normal;
 		font-weight: 700;
-		font-size: 40px;
+		font-size: var(--hmp-cards-progress-text-font-size-1440);
 		letter-spacing: 1px;
 		text-align: center;
 		opacity: 0;
@@ -687,7 +705,7 @@ $hmp-my-way-border-color: $white;
 
 	&__progress-text--animate {
 		opacity: 1;
-		transform: translateY(0);
+		transform: translateY(0) !important;
 		transition:
 			opacity 0.8s ease-out,
 			transform 0.8s ease-out;
@@ -706,8 +724,8 @@ $hmp-my-way-border-color: $white;
 	&__text {
 		font-style: normal;
 		font-weight: 500;
-		font-size: 22px;
-		color: $hmp-cards-text-color;
+		font-size: var(--hmp-cards-text-font-size-1440);
+		color: var(--text-color);
 		letter-spacing: 0.5px;
 		text-align: center;
 		opacity: 0;
@@ -726,148 +744,93 @@ $hmp-my-way-border-color: $white;
 		@include hmp-cards-colors($color, $modifier);
 	}
 
-	@media (width <= 1150px) {
+	@media (width <= 1024px) {
+		&__wrapper {
+			padding-top: 70px;
+		}
+
 		&__inner-content {
 			margin-top: 60px;
 		}
 
 		&__inner-progress {
-			row-gap: 22px;
+			padding: 0;
+		}
+
+		&__progress-text {
+			transform: translateY(20px);
+		}
+
+		&__inner-text {
+			width: 100%;
+			gap: 30px 50px;
+		}
+	}
+
+	@media (width <= 768px) {
+		&__svg {
+			transform: scale(0.95);
+		}
+
+		&__progress-text {
+			font-size: var(--hmp-cards-progress-text-font-size-768);
+		}
+
+		&__value {
+			font-size: var(--hmp-cards-value-font-size-768);
+		}
+
+		&__precent {
+			font-size: var(--hmp-cards-precent-font-size-768);
+		}
+
+		&__inner-text {
+			gap: 30px;
+		}
+	}
+
+	@media (width <= 425px) {
+		&__wrapper {
+			padding-top: 50px;
+		}
+
+		&__title {
+			margin-bottom: 20px;
+		}
+
+		&__inner-content {
+			margin-top: 50px;
+		}
+
+		&__container {
+			gap: 30px 0;
+			padding: 40px 0;
 		}
 
 		&__svg {
 			transform: scale(0.9);
 		}
 
-		&__value {
-			font-size: 36px;
-		}
-
-		&__progress-text {
-			font-size: 38px;
-		}
-	}
-
-	@media (width <= 1000px) {
-		&__wrapper {
-			padding-top: 100px;
-		}
-	}
-
-	@media (width <= 800px) {
-		&__inner-content {
-			margin-top: 50px;
-		}
-
-		&__container {
-			padding-top: 50px;
-			row-gap: 40px;
-		}
-
-		&__inner-progress {
-			row-gap: 20px;
-		}
-
-		&__svg {
-			transform: scale(0.8);
-		}
-
-		&__value {
-			font-size: 34px;
-		}
-
-		&__precent {
-			font-size: 18px;
-		}
-
-		&__progress-text {
-			font-size: 36px;
-		}
-
-		&__inner-text {
-			gap: 40px 50px;
-		}
-
-		&__text {
-			font-size: 20px;
-		}
-	}
-
-	@media (width <= 600px) {
-		&__container {
-			padding-top: 30px;
-			row-gap: 30px;
-		}
-
 		&__inner-progress {
 			row-gap: 15px;
-			padding: 0;
+			width: fit-content;
 		}
 
 		&__value {
-			font-size: 32px;
-		}
-
-		&__precent {
-			font-size: 16px;
+			font-size: var(--hmp-cards-value-font-size-425);
 		}
 
 		&__progress-text {
-			font-size: 34px;
+			font-size: var(--hmp-cards-progress-text-font-size-425);
+			transform: translateY(10px);
 		}
 
 		&__inner-text {
-			gap: 30px 50px;
-		}
-	}
-
-	@media (width <= 480px) {
-		&__inner-content {
-			margin-top: 40px;
-		}
-
-		&__container {
-			padding-top: 10px;
-			row-gap: 30px;
-		}
-
-		&__inner-progress {
-			row-gap: 5px;
-			padding: 0;
-		}
-
-		&__svg {
-			transform: scale(0.75);
-		}
-
-		&__value {
-			font-size: 30px;
-		}
-
-		&__precent {
-			font-size: 16px;
-		}
-
-		&__progress-text {
-			font-size: 30px;
-		}
-
-		&__inner-text {
-			gap: 20px 50px;
+			gap: 20px 30px;
 		}
 
 		&__text {
-			font-size: 18px;
-		}
-	}
-
-	@media (width <= 430px) {
-		&__container {
-			padding-top: 0;
-		}
-
-		&__inner-progress {
-			width: auto;
+			font-size: var(--hmp-cards-text-font-size-425);
 		}
 	}
 }
@@ -918,7 +881,7 @@ $hmp-my-way-border-color: $white;
 		width: 600px;
 		font-weight: 500;
 		font-size: 36px;
-		color: $hmp-projects-text-color;
+		color: var(--text-color);
 	}
 
 	&__text--animate {
@@ -932,7 +895,7 @@ $hmp-my-way-border-color: $white;
 
 	&__text-span {
 		margin-top: 5px;
-		color: $hmp-projects-accent-text-color;
+		color: white;
 	}
 
 	&__inner-cloud {
@@ -1434,51 +1397,5 @@ $hmp-my-way-border-color: $white;
 				letter-spacing: 0 !important;
 			}
 		}
-	}
-}
-
-@media (width <= 1150px) {
-	.hmp-titles {
-		margin-bottom: 18px;
-		font-size: 38px;
-	}
-
-	.hmp-titles--rus-lang {
-		font-size: 36px;
-	}
-}
-
-@media (width <= 800px) {
-	.hmp-titles {
-		margin-bottom: 15px;
-		font-size: 36px;
-	}
-
-	.hmp-titles--rus-lang {
-		font-size: 34px;
-	}
-}
-
-@media (width <= 600px) {
-	.hmp-titles {
-		margin-bottom: 12px;
-		width: auto;
-		font-size: 34px;
-		text-align: center;
-	}
-
-	.hmp-titles--rus-lang {
-		font-size: 32px;
-	}
-}
-
-@media (width <= 430px) {
-	.hmp-titles {
-		margin-bottom: 10px;
-		font-size: 32px;
-	}
-
-	.hmp-titles--rus-lang {
-		font-size: 30px;
 	}
 }
