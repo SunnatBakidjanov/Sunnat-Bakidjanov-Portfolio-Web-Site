@@ -9,6 +9,7 @@
 	--yellow: #d1b200;
 	--red: #d35400;
 	--blue: #5dade2;
+	--drop-color: #00bfff;
 
 	// special-color
 	--google: #ea4335;
@@ -52,6 +53,10 @@
 	// hmp-cards
 	--hmp-cards-circle-color: var(--white);
 
+	// hmp-projects
+	--hmp-projects-cloud-color: var(--white);
+	--hmp-projects-cloud-drop-color: var(--drop-color);
+
 	// size
 	--gradient-transition-point: 30%;
 	--change-color-transition: 0.4s ease-out;
@@ -69,6 +74,7 @@
 	--hmp-cards-precent-font-size-1440: 1.4em;
 	--hmp-cards-progress-text-font-size-1440: 2.6em;
 	--hmp-cards-text-font-size-1440: 1.4em;
+	--hmp-projects-text-font-size-1440: 2em;
 
 	// 1024px
 	--title-font-size-1024: 2.8em;
@@ -112,8 +118,10 @@
 
 	// z-indexes content 1-10, nav 11-20, modal 100, overlay 1000
 	--z-index-header-btn-line: 1;
+	--z-index-cloud-top: 1;
 	--z-index-header-btn: 2;
 	--z-index-social-container: 2;
+	--z-index-cloud-center: 2;
 	--z-index-nav-container: 3;
 	--z-index-burger-menu: 4;
 }

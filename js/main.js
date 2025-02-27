@@ -944,8 +944,6 @@ function main() {
 			const titles = document.querySelectorAll('.hmp-titles')
 			const lines = document.querySelectorAll('.hmp-line')
 
-			const progreessBoxes = document.querySelectorAll('.hmp-cards__inner-progress')
-			const cardsContainer = document.querySelectorAll('.hmp-cards__container')
 			const gettingTitle = document.getElementById('hmp-getting-hidden-title')
 			const gittingBlink = document.getElementById('hmp-getting-group-text')
 			const logo3dFront = document.getElementById('hmp-getting-front')
@@ -953,9 +951,13 @@ function main() {
 			const logo3dContainer = document.getElementById('hmp-getting-preverve')
 			const gettingTextGroup = document.getElementById('hmp-getting-group-text')
 			const scrollLine = document.getElementById('hmp-scroll-line')
+			const progreessBoxes = document.querySelectorAll('.hmp-cards__inner-progress')
+			const cardsContainer = document.querySelectorAll('.hmp-cards__container')
+			const projectsText = document.getElementById('hmp-projects-hidden-text')
+			const cloud = document.getElementById('hmp-cloud-particle-center')
 
 			const elements = [...titles, ...cardsContainer, logo3dFront, logo3dShadow, logo3dContainer, scrollLine, ...lines]
-			const hideElements = [gittingBlink, gettingTitle, logo3dFront, gettingTextGroup, ...progreessBoxes]
+			const hideElements = [gittingBlink, gettingTitle, logo3dFront, gettingTextGroup, projectsText, cloud, ...progreessBoxes]
 
 			animateVisibleElements(elements, addAnimateClasses)
 			animateVisibleElements(hideElements, addAnimateClassesInHideElements)
@@ -998,6 +1000,7 @@ function main() {
 			let textIndex = 7
 			let letterIndex = 0
 			let timeout = null
+			let observer = null
 
 			let blinkHasAnimated = false
 			let isLogged = false
@@ -1013,28 +1016,28 @@ function main() {
 				delayWriteNextString: 1500,
 			}
 
-			function stopAnimationIsOutVisability(entries) {
-				const entry = entries[0]
+			function stopAnimationIsOutVisability() {
+				observer = new IntersectionObserver(
+					entries => {
+						const entry = entries[0]
 
-				if (entry.isIntersecting) {
-					if (isHidden && state === 'nextString') timeout = setTimeout(() => startTyping(), cfg.startWrite)
-					if (state === 'nextString') state = 'writing'
+						if (entry.isIntersecting) {
+							if (isHidden && state === 'nextString') timeout = setTimeout(() => startTyping(), cfg.startWrite)
 
-					isHidden = false
-				} else {
-					if (state === 'nextString') clearTimeout(timeout)
-					isHidden = true
-				}
+							isHidden = false
+						} else {
+							isHidden = true
+						}
+					},
+					{
+						root: null,
+						rootMargin: '0px',
+						threshold: 1,
+					}
+				)
+
+				observer.observe(blink)
 			}
-
-			const options = {
-				root: null,
-				rootMargin: '0px',
-				threshold: 1,
-			}
-
-			const observer = new IntersectionObserver(stopAnimationIsOutVisability, options)
-			observer.observe(blink)
 
 			function startTyping() {
 				if (isHidden && state === 'nextString') return
@@ -1100,6 +1103,7 @@ function main() {
 			function animate() {
 				if (blinkHasAnimated) return
 
+				stopAnimationIsOutVisability()
 				document.addEventListener('animationend', handleBlinkAnimation)
 
 				blinkHasAnimated = true
@@ -1112,6 +1116,12 @@ function main() {
 				text.textContent = ''
 				letterIndex = 0
 				textIndex = (textIndex + 1) % (isLanguageRussian ? texts.ru.length : texts.en.length)
+
+				if (observer) {
+					observer.unobserve(blink)
+					observer.disconnect()
+					observer = null
+				}
 
 				document.removeEventListener('animationend', handleBlinkAnimation)
 			}
@@ -1334,71 +1344,44 @@ function main() {
 			const cloudTop = document.getElementById('hmp-cloud-partilce-top')
 			const cloudBottom = document.getElementById('hmp-cloud-bottom')
 
-			const elements = [container, cloud, cloudTop, cloudBottom]
-
-			const ids = [container]
-			const elementKeys = ['hmp-cloud-container']
-			const startHeight = 130
-
-			let timeout = null
 			let interval = null
+			let observer = null
 
-			function handleAnimationEnd(event) {
-				const { animationName } = event
-
-				if (animationName === 'cloud-partilce-center-start') {
-					container.classList.add('hmp-projects__inner-cloud--animate')
-				}
-
-				if (animationName === 'cloud-container-visible') {
-					cloudTop.classList.add('hmp-projects__particle-top--animate')
-					cloudBottom.classList.add('hmp-projects__bottom--animate')
-
-					interval = setInterval(() => {
-						rain()
-					}, 50)
-				}
-			}
+			const DROP_INTERVAL_TIMER = 50
 
 			function rain() {
-				const elements = document.createElement('div')
-				const position = Math.floor(Math.random() * (cloud.offsetWidth - 50) + 25)
+				const element = document.createElement('div')
+				const position = Math.floor(Math.random() * (cloud.offsetWidth - 60) + 35)
 				const width = Math.random() * 5
 				const height = Math.random() * 50
-				const duration = Math.random() * 0.5
 
-				elements.classList.add('hmp-projects__drop')
-				cloud.appendChild(elements)
-				elements.style.left = `${position}px`
-				elements.style.width = `${0.5 * width}px`
-				elements.style.height = `${0.5 * height}px`
-				elements.style.animationDuration = `${1.5 + duration}s`
+				element.classList.add('hmp-projects__drop')
+				element.style.left = `${position}px`
+				element.style.width = `${0.5 * width}px`
+				element.style.height = `${0.5 * height}px`
 
-				timeout = setTimeout(() => {
-					if (cloud.contains(elements)) {
-						cloud.removeChild(elements)
-					}
-				}, 2000)
+				cloud.appendChild(element)
+
+				element.addEventListener('animationend', event => {
+					if (event.animationName === 'cloud-drop') handleDropAnimationEnd(event, element)
+				})
 			}
 
-			function setupRainObserver() {
-				const observer = new IntersectionObserver(
+			function setupIntersectionObserver() {
+				observer = new IntersectionObserver(
 					([entry]) => {
 						if (entry.isIntersecting && cloudBottom.classList.contains('hmp-projects__bottom--animate')) {
-							interval = setInterval(() => {
-								rain()
-							}, 50)
+							if (!interval) {
+								interval = setInterval(rain, DROP_INTERVAL_TIMER)
+							}
 						} else {
 							clearInterval(interval)
-							clearTimeout(timeout)
-
-							const drops = [...cloud.childNodes].filter(node => node.nodeType === 1 && node.classList.contains('hmp-projects__drop'))
-							drops.forEach(element => element.remove())
+							interval = null
 						}
 					},
 					{
 						root: null,
-						rootMargin: '0px 0px 100px 0px',
+						rootMargin: '0px 0px 200px 0px',
 						threshold: 1,
 					}
 				)
@@ -1406,37 +1389,53 @@ function main() {
 				observer.observe(container)
 			}
 
-			setupRainObserver()
+			const handleAnimationEnd = event => {
+				const { animationName } = event
+
+				if (animationName === 'cloud-partilce-center-start') {
+					cloudTop.classList.add('hmp-projects__particle-top--animate')
+					container.classList.add('hmp-projects__inner-cloud--animate')
+					cloudBottom.classList.add('hmp-projects__bottom--animate')
+				}
+
+				if (animationName === 'cloud-particle-top-start') setupIntersectionObserver()
+			}
+
+			const handleDropAnimationEnd = (event, element) => {
+				if (event.animationName === 'cloud-drop') {
+					element.remove()
+					element.removeEventListener('animationend', handleDropAnimationEnd)
+				}
+			}
 
 			function animate() {
-				cloud.classList.add('hmp-projects__particle-center--animate')
-
 				document.addEventListener('animationend', handleAnimationEnd)
 			}
 
 			function reset() {
-				elements.forEach(element => {
-					const classList = element.classList
+				cloudTop.classList.remove('hmp-projects__particle-top--animate')
+				container.classList.remove('hmp-projects__inner-cloud--animate')
+				cloudBottom.classList.remove('hmp-projects__bottom--animate')
 
-					classList.forEach(className => {
-						if (className.includes('--animate')) {
-							element.classList.remove(className)
-						}
-					})
-				})
+				if (interval) {
+					clearInterval(interval)
+					interval = null
+				}
 
-				clearInterval(interval)
-				clearTimeout(timeout)
+				if (observer) {
+					observer.unobserve(container)
+					observer.disconnect()
+					observer = null
+				}
 
-				const drop = [...cloud.childNodes].filter(node => node.nodeType === 1 && node.classList.contains('hmp-projects__drop'))
-				drop.forEach(element => {
+				const drops = [...cloud.childNodes].filter(node => node.nodeType === 1 && node.classList.contains('hmp-projects__drop'))
+				drops.forEach(element => {
 					element.remove()
 				})
-
-				document.removeEventListener('animationend', handleAnimationEnd)
 			}
 
-			createAnimation(ids, elementKeys, startHeight, animate, reset)
+			animateVisibleElements([cloud], animate)
+			resetAnimations(reset, 'home')
 		}
 
 		animateCloud()
