@@ -57,6 +57,9 @@
 	--hmp-projects-cloud-color: var(--white);
 	--hmp-projects-cloud-drop-color: var(--drop-color);
 
+	// hmp-my-way
+	--hmp-my-way-blink-color: var(--white);
+
 	// size
 	--gradient-transition-point: 30%;
 	--change-color-transition: 0.4s ease-out;
@@ -75,11 +78,15 @@
 	--hmp-cards-progress-text-font-size-1440: 2.6em;
 	--hmp-cards-text-font-size-1440: 1.4em;
 	--hmp-projects-text-font-size-1440: 2em;
+	--hmp-my-way-text-font-size-1440: 1.1em;
+	--hmp-my-way-btn-text-font-size-1440: 1.8em;
 
 	// 1024px
 	--title-font-size-1024: 2.8em;
 	--header-btn-font-size-1024: 2.2em;
 	--hmp-getting-logo-font-size-1024: 3.8em;
+	--hmp-projects-text-font-size-1024: 1.9em;
+	--hmp-my-way-btn-text-font-size-1024: 1.7em;
 
 	// 768px
 	--title-font-size-768: 2.4em;
@@ -90,6 +97,8 @@
 	--hmp-cards-value-font-size-768: 2.8em;
 	--hmp-cards-precent-font-size-768: 1.3em;
 	--hmp-cards-progress-text-font-size-768: 2.4em;
+	--hmp-projects-text-font-size-768: 1.6em;
+	--hmp-my-way-btn-text-font-size-768: 1.6em;
 
 	// 425px
 	--title-font-size-425: 2em;
@@ -103,12 +112,16 @@
 	--hmp-cards-precent-font-size-425: 1.2em;
 	--hmp-cards-progress-text-font-size-425: 2.4em;
 	--hmp-cards-text-font-size-425: 1.2em;
+	--hmp-projects-text-font-size-425: 1.2em;
+	--hmp-my-way-btn-text-font-size-425: 1.2em;
+	--hmp-my-way-text-font-size-425: 1em;
 
 	// 375px
 	--title-font-size-375: 1.8em;
 	--hmp-getting-logo-font-size-375: 2.2em;
 	--hmp-getting-text-font-size-375: 1.5em;
 	--hmp-scroll-text-font-size-375: 1.8em;
+	--hmp-projects-text-font-size-375: 1.1em;
 
 	// height 667px
 	--header-btn-font-size-heigth-667: 1.8em;

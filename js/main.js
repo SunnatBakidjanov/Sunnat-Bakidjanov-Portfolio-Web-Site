@@ -306,7 +306,7 @@ function main() {
 			config.element.textContent = ''
 		}
 
-		changeLanguageButton.addEventListener('click', handleLanguageChange)
+		updateLanguageContent(handleLanguageChange)
 
 		return {
 			writeAll() {
@@ -472,6 +472,10 @@ function main() {
 
 			if (el) el.classList[isLanguageRussian ? 'add' : 'remove'](...classNames)
 		}
+	}
+
+	function updateLanguageContent(callback) {
+		changeLanguageButton.addEventListener('click', callback)
 	}
 
 	function translateText(language, ruClassName) {
@@ -955,8 +959,10 @@ function main() {
 			const cardsContainer = document.querySelectorAll('.hmp-cards__container')
 			const projectsText = document.getElementById('hmp-projects-hidden-text')
 			const cloud = document.getElementById('hmp-cloud-particle-center')
+			const myWayContainer = document.getElementById('hmp-way-inner-content')
+			const hmpWaybtn = document.getElementById('hmp-way-btn')
 
-			const elements = [...titles, ...cardsContainer, logo3dFront, logo3dShadow, logo3dContainer, scrollLine, ...lines]
+			const elements = [...titles, ...cardsContainer, logo3dFront, logo3dShadow, logo3dContainer, scrollLine, myWayContainer, hmpWaybtn, ...lines]
 			const hideElements = [gittingBlink, gettingTitle, logo3dFront, gettingTextGroup, projectsText, cloud, ...progreessBoxes]
 
 			animateVisibleElements(elements, addAnimateClasses)
@@ -997,7 +1003,7 @@ function main() {
 				],
 			}
 
-			let textIndex = 7
+			let textIndex = Math.floor(Math.random() * (!isLanguageRussian ? texts.en.length : texts.ru.length))
 			let letterIndex = 0
 			let timeout = null
 			let observer = null
@@ -1017,14 +1023,17 @@ function main() {
 			}
 
 			function stopAnimationIsOutVisability() {
+				if (observer) return
+
 				observer = new IntersectionObserver(
 					entries => {
 						const entry = entries[0]
 
 						if (entry.isIntersecting) {
-							if (isHidden && state === 'nextString') timeout = setTimeout(() => startTyping(), cfg.startWrite)
-
-							isHidden = false
+							if (isHidden && state === 'nextString') {
+								isHidden = false
+								startTyping()
+							}
 						} else {
 							isHidden = true
 						}
@@ -1094,16 +1103,17 @@ function main() {
 				}
 			}
 
-			changeLanguageButton.addEventListener('click', startTyping)
+			updateLanguageContent(startTyping)
 
 			function handleBlinkAnimation(event) {
 				if (event.animationName === 'hmp-getting-blink-start') timeout = setTimeout(startTyping, cfg.startWrite)
+
+				stopAnimationIsOutVisability()
 			}
 
 			function animate() {
 				if (blinkHasAnimated) return
 
-				stopAnimationIsOutVisability()
 				document.addEventListener('animationend', handleBlinkAnimation)
 
 				blinkHasAnimated = true
@@ -1119,7 +1129,6 @@ function main() {
 
 				if (observer) {
 					observer.unobserve(blink)
-					observer.disconnect()
 					observer = null
 				}
 
@@ -1368,6 +1377,8 @@ function main() {
 			}
 
 			function setupIntersectionObserver() {
+				if (observer) return
+
 				observer = new IntersectionObserver(
 					([entry]) => {
 						if (entry.isIntersecting && cloudBottom.classList.contains('hmp-projects__bottom--animate')) {
@@ -1440,145 +1451,6 @@ function main() {
 
 		animateCloud()
 
-		function animateExperience() {
-			const elements = {
-				container: document.getElementById('exp-inner-content'),
-				firstElement: document.getElementById('exp-element-0'),
-				top: document.getElementById('exp-top'),
-				start: document.getElementById('exp-start'),
-				bottomLine: document.getElementById('exp-bottom-line'),
-			}
-
-			const queryElements = {
-				boxElements: document.querySelectorAll('.exp__box'),
-				centerLine: document.querySelectorAll('.exp__center-line'),
-				horizontalLine: document.querySelectorAll('.exp__horizont-line'),
-				circle: document.querySelectorAll('.exp__circle'),
-				hiddenText: document.querySelectorAll('.exp__hidden-text'),
-				text: document.querySelectorAll('.exp__text'),
-			}
-
-			const ids = []
-			const elementKeys = []
-			const startHeight = 0
-
-			const elementSeen = []
-			let currentStepIndex = 0
-
-			queryElements.boxElements.forEach((_, index) => {
-				const elementId = document.getElementById(`exp-element-${index}`)
-				if (elementId) ids.push(elementId)
-
-				elementSeen.push(`exp-element-${index}`)
-				elementKeys.push(`exp-element-${index}`)
-			})
-
-			const isAnimation = {}
-			let isStartAnimation = false
-
-			let handleAnimationEnd = null
-
-			function addClasses(elements, classes) {
-				elements.forEach((element, index) => {
-					element.classList.add(index % 2 === 0 ? `${classes}--left` : `${classes}--right`)
-				})
-			}
-
-			addClasses(queryElements.horizontalLine, 'exp__horizont-line')
-			addClasses(queryElements.hiddenText, 'exp__hidden-text')
-			addClasses(queryElements.text, 'exp__text')
-
-			function handleStartAnimation(event) {
-				if (event.animationName === 'exp-top' && !isStartAnimation) {
-					isStartAnimation = true
-					handleAnimation()
-				}
-			}
-
-			function handleAnimation(stepIndex = currentStepIndex) {
-				if (currentStepIndex >= queryElements.boxElements.length) return
-
-				if (!isAnimation[currentStepIndex]) {
-					isAnimation[currentStepIndex] = { isStarted: false, isEnded: false }
-				}
-
-				if (seenElements.has(elementSeen[currentStepIndex]) && !isAnimation[currentStepIndex]?.isStarted) {
-					isAnimation[currentStepIndex].isStarted = true
-
-					queryElements.centerLine[currentStepIndex].classList.add('exp__center-line--animate')
-					queryElements.horizontalLine[currentStepIndex].classList.add(currentStepIndex % 2 === 0 ? 'exp__horizont-line--left-animate' : 'exp__horizont-line--right-animate')
-
-					handleAnimationEnd = async event => {
-						const { animationName } = event
-
-						if (animationName === 'exp-center-line' && !isAnimation[currentStepIndex].isEnded && seenElements.has(elementSeen[currentStepIndex])) {
-							isAnimation[currentStepIndex].isEnded = true
-							queryElements.circle[currentStepIndex].classList.add(currentStepIndex % 2 === 0 ? 'exp__circle--left' : 'exp__circle--right')
-							queryElements.text[currentStepIndex].classList.add(currentStepIndex % 2 === 0 ? 'exp__text--left-animate' : 'exp__text--right-animate')
-							queryElements.boxElements[currentStepIndex].classList.add('exp__box--animate')
-
-							await new Promise(resolve => {
-								queryElements.centerLine[currentStepIndex].removeEventListener('animationend', handleAnimationEnd)
-								setTimeout(resolve, 10)
-							})
-
-							currentStepIndex = stepIndex + 1
-							handleAnimation(currentStepIndex)
-
-							if (currentStepIndex >= queryElements.boxElements.length) {
-								elements.bottomLine.classList.add('exp__bottom-line--animate')
-							}
-						}
-					}
-
-					queryElements.centerLine[currentStepIndex].addEventListener('animationend', handleAnimationEnd)
-				}
-			}
-
-			function animate() {
-				handleAnimation()
-
-				if (seenElements.has('exp-element-0')) {
-					elements.top.classList.add('exp__top--animate')
-					elements.start.classList.add('exp__start--animate')
-				}
-
-				document.addEventListener('animationend', handleStartAnimation)
-			}
-
-			function reset() {
-				queryElements.boxElements.forEach((_, index) => {
-					queryElements.centerLine[index].classList.remove('exp__center-line--animate')
-					queryElements.horizontalLine[index].classList.remove('exp__horizont-line--left-animate', 'exp__horizont-line--right-animate')
-					queryElements.circle[index].classList.remove('exp__circle--left', 'exp__circle--right')
-					queryElements.text[index].classList.remove('exp__text--left-animate', 'exp__text--right-animate')
-					queryElements.circle[index].classList.remove('exp__circle--left', 'exp__circle--right')
-					queryElements.text[index].classList.remove('exp__text--left-animate', 'exp__text--right-animate')
-					queryElements.boxElements[index].classList.remove('exp__box--scroll-animate', 'exp__box--animate')
-
-					isAnimation[index] = { isStarted: false, isEnded: false }
-				})
-
-				queryElements.centerLine.forEach(element => {
-					element.removeEventListener('animationend', handleAnimationEnd)
-				})
-
-				currentStepIndex = 0
-
-				elements.top.classList.remove('exp__top--animate')
-				elements.start.classList.remove('exp__start--animate', 'exp__start--scroll-animate')
-				elements.bottomLine.classList.remove('exp__bottom-line--animate', 'exp__bottom-line--scroll-animate')
-
-				isStartAnimation = false
-
-				document.removeEventListener('animationend', handleStartAnimation)
-			}
-
-			createAnimation(ids, elementKeys, startHeight, animate, reset)
-		}
-
-		animateExperience()
-
 		function myWayAnimate() {
 			const container = document.getElementById('hmp-way-inner-content')
 			const blink = document.getElementById('hmp-way-blink')
@@ -1614,19 +1486,23 @@ function main() {
 
 			let letterIndex = 0
 			let currentIndex = 0
+
 			let timeout = null
-			let clickTimeout = null
-			let typingStartTimeout = null
-			let currentLanguage = en
-			let isPageChanged = false
+			let observer = null
+
+			let isLogged = false
+			let isHidden = false
 			let isTextShowed = false
+
+			const textBoxes = []
 			const textElements = []
-			const boxes = []
+
+			let state = 'writing'
 
 			const cfg = {
-				startDelay: 1500,
-				getNextStringDelay: () => Math.round(Math.random() * 1500) + 500,
-				getWriteSpeed: () => Math.round(Math.random() * 40) + 30,
+				startDelay: 500,
+				getNextStringDelay: () => Math.round(Math.random() * 1000) + 500,
+				getWriteSpeed: () => Math.round(Math.random() * 50) + 30,
 			}
 
 			function createBox() {
@@ -1638,168 +1514,201 @@ function main() {
 				textElement.classList.add('hmp-way__text')
 				box.appendChild(textElement)
 				box.appendChild(blink)
-				boxes.push(box)
+				textBoxes.push(box)
 				textElements.push(textElement)
 			}
 
-			function writeText() {
-				if (currentIndex >= currentLanguage.length) {
-					btnShow.classList.add('hmp-way__btn-show--hide-show')
-					btnAgain.classList.add('hmp-way__btn-again--hide-show')
-					isTextShowed = true
+			function nextString() {
+				createBox()
+				blink.classList.remove('hmp-way__blink--write')
+				currentIndex++
+				letterIndex = 0
+			}
+
+			function resetContent() {
+				container.innerHTML = ''
+				letterIndex = 0
+				currentIndex = 0
+				container.appendChild(blink)
+				textElements.length = 0
+			}
+
+			function startTyping() {
+				const currentText = !isLanguageRussian ? en[currentIndex] : ru[currentIndex]
+				textElements[currentIndex].textContent = currentText.substring(0, letterIndex)
+
+				if (isTextShowed) return
+				if (isHidden && currentText.length <= letterIndex) {
+					state = 'waiting'
 					return
 				}
 
-				if (textElements.length <= currentIndex) {
-					createBox()
-					clearTimeout(timeout)
+				clearTimeout(timeout)
+
+				if (currentText.includes('[')) textElements[currentIndex].classList.add(`${textElements[currentIndex].classList[0]}--date`)
+
+				switch (state) {
+					case 'writing':
+						timeout = setTimeout(() => {
+							if (letterIndex >= currentText.length) state = 'nextString'
+							if (letterIndex >= 1) blink.classList.add('hmp-way__blink--write')
+
+							letterIndex++
+							startTyping()
+						}, cfg.getWriteSpeed())
+						break
+
+					case 'waiting':
+						timeout = setTimeout(() => {
+							state = 'writing'
+							startTyping()
+						}, cfg.startDelay)
+						break
+
+					case 'nextString':
+						if (currentIndex >= (!isLanguageRussian ? en.length - 1 : ru.length - 1)) {
+							isTextShowed = !isTextShowed
+							btnAgain.classList.toggle('hmp-way__btn-again--show-agian')
+							btnShow.classList.toggle('hmp-way__btn-show--hide-show')
+							return
+						}
+
+						nextString()
+
+						timeout = setTimeout(() => {
+							state = 'writing'
+							startTyping()
+						}, cfg.getNextStringDelay())
+						break
+
+					default:
+						if (!isLogged) console.error(`Неизвестное состояние: ${state}.`)
+						isLogged = true
+
+						timeout = setTimeout(() => {
+							if (letterIndex >= currentText.length) state = 'waiting'
+							if (letterIndex >= 1) blink.classList.add('hmp-way__blink--write')
+
+							letterIndex++
+							startTyping()
+						}, cfg.getWriteSpeed())
+						break
 				}
+			}
 
-				const text = textElements[currentIndex]
-				const writeSpeed = cfg.getWriteSpeed()
-				const nextStringDelay = cfg.getNextStringDelay()
+			function handleLanguageChange() {
+				let currentLanguage = isLanguageRussian ? ru : en
 
-				function write() {
-					if (isPageChanged) return
+				textElements.forEach((textElement, index) => {
+					const currentText = textElement.textContent.trim()
+					const targetText = currentLanguage[index]
 
-					currentLanguage = !isLanguageRussian ? en : ru
-					const currentText = currentLanguage[currentIndex]
+					if (currentText === (!isLanguageRussian ? ru[index] : en[index])) textElement.textContent = targetText
+				})
+			}
 
-					if (currentText.includes('[') && currentText.includes(']')) text.classList.add('hmp-way__text--date')
+			function stopAnimationIsOutVisability() {
+				if (observer) return
 
-					if (letterIndex === 1) blink.style.marginLeft = 10 + 'px'
-					if (letterIndex <= 0) blink.style.margin = 0
+				observer = new IntersectionObserver(entries => {
+					const entry = entries[0]
 
-					if (letterIndex > currentText.length) {
-						currentIndex++
-						letterIndex = 0
-						timeout = setTimeout(writeText, nextStringDelay)
-						return
+					if (entry.isIntersecting && !isTextShowed) {
+						if (isHidden && state === 'waiting') {
+							nextString()
+							startTyping()
+						}
+						isHidden = false
+					} else {
+						isHidden = true
 					}
+				})
 
-					text.textContent = currentText.substring(0, letterIndex)
-					letterIndex++
-
-					timeout = setTimeout(write, writeSpeed)
-				}
-
-				write()
+				observer.observe(container)
 			}
 
 			function handleAnimationEnd(event) {
 				if (event.animationName === 'my-way-container') {
-					typingStartTimeout = setTimeout(writeText, cfg.startDelay)
-					btn.classList.add('hmp-way__btn--animate')
-					setTimeout(() => {
-						container.scrollIntoView({ behavior: 'smooth', block: 'center' })
-					}, 150)
+					timeout = setTimeout(() => {
+						createBox()
+						startTyping()
+						stopAnimationIsOutVisability()
+					}, cfg.startDelay)
 				}
 			}
 
 			function handleShowTextOnClick() {
-				if (!isTextShowed) {
-					isTextShowed = true
+				const currentText = isLanguageRussian ? ru : en
 
-					btnShow.classList.add('hmp-way__btn-show--hide-show')
-					btnAgain.classList.add('hmp-way__btn-again--hide-show')
+				btn.disabled = true
+				setTimeout(() => (btn.disabled = false), 500)
+				isTextShowed = !isTextShowed
 
+				btnAgain.classList.toggle('hmp-way__btn-again--show-agian', isTextShowed)
+				btnShow.classList.toggle('hmp-way__btn-show--hide-show', isTextShowed)
+				blink.classList.toggle('hmp-way__blink--write', isTextShowed)
+
+				if (isTextShowed) {
 					clearTimeout(timeout)
-					clearTimeout(typingStartTimeout)
-					isPageChanged = true
+					state = 'waiting'
 
-					blink.style.marginLeft = 10 + 'px'
+					const missingElements = currentText.length - textElements.length
 
-					currentLanguage.forEach((_, index) => {
-						if (index >= textElements.length) {
-							createBox()
+					for (let i = 0; i < missingElements; i++) {
+						createBox()
+					}
+
+					setTimeout(() => {
+						btn.scrollIntoView({ behavior: 'smooth', block: 'end' })
+					}, 200)
+
+					currentText.forEach((text, index) => {
+						if (currentText.length >= textElements.length) {
+							if (text.includes('[')) textElements[index].classList.add(`${textElements[index].classList[0]}--date`)
+							textElements[index].textContent = text
 						}
 					})
-
-					textElements.forEach((textElement, index) => {
-						if (!isLanguageRussian) textElement.textContent = en[index]
-						if (isLanguageRussian) textElement.textContent = ru[index]
-
-						currentLanguage = !isLanguageRussian ? en : ru
-						const currentText = currentLanguage[index]
-
-						if (currentText.includes('[') && currentText.includes(']')) textElement.classList.add('hmp-way__text--date')
-					})
-
-					setTimeout(() => btn.scrollIntoView({ behavior: 'smooth', block: 'end' }), 300)
 
 					return
 				}
 
-				isTextShowed = false
-
-				btnShow.classList.remove('hmp-way__btn-show--hide-show')
-				btnAgain.classList.remove('hmp-way__btn-again--hide-show')
-
-				clearTimeout(timeout)
-
-				container.appendChild(blink)
-				letterIndex = 0
-				currentIndex = 0
-				isPageChanged = false
-				textElements.length = 0
-				blink.removeAttribute('style')
-
-				boxes.forEach(element => {
-					element.remove()
-				})
-
-				textElements.forEach(element => {
-					element.remove()
-				})
-
-				timeout = setTimeout(writeText, cfg.startDelay)
+				resetContent()
+				createBox()
+				state = 'writing'
+				setTimeout(() => {
+					startTyping()
+				}, cfg.startDelay)
 			}
 
 			function animate() {
-				container.classList.add('hmp-way__inner-content--animate')
-
-				isPageChanged = false
-
-				btn.addEventListener('click', handleShowTextOnClick)
 				document.addEventListener('animationend', handleAnimationEnd)
 			}
 
 			function reset() {
-				container.classList.remove('hmp-way__inner-content--animate')
-				btn.classList.remove('hmp-way__btn--animate')
-				container.appendChild(blink)
-
-				clearTimeout(timeout)
-				clearTimeout(clickTimeout)
-				clearTimeout(typingStartTimeout)
-
-				btnShow.classList.remove('hmp-way__btn-show--hide-show')
-				btnAgain.classList.remove('hmp-way__btn-again--hide-show')
-
-				letterIndex = 0
-				currentIndex = 0
-				isPageChanged = true
-				isTextShowed = false
-				textElements.length = 0
-				blink.removeAttribute('style')
-				boxes.forEach(element => {
-					element.remove()
-				})
-				textElements.forEach(element => {
-					element.remove()
-				})
-
 				document.removeEventListener('animationend', handleAnimationEnd)
+
+				state = 'writing'
+				isTextShowed = false
+				btnAgain.classList.remove('hmp-way__btn-again--show-agian')
+				btnShow.classList.remove('hmp-way__btn-show--hide-show')
+				blink.classList.remove('hmp-way__blink--write')
+				resetContent()
+
+				if (timeout) {
+					clearTimeout(timeout)
+					timeout = null
+				}
+
+				if (observer) {
+					observer.unobserve(container)
+					observer = null
+				}
 			}
 
-			createAnimation([container], ['hmp-way-inner-content'], 70, animate, reset)
-
-			changeLanguageButton.addEventListener('click', () => {
-				textElements.forEach((textElement, index) => {
-					if (!isLanguageRussian) textElement.textContent = en[index]
-					if (isLanguageRussian) textElement.textContent = ru[index]
-				})
-			})
+			btn.addEventListener('click', handleShowTextOnClick)
+			updateLanguageContent(handleLanguageChange)
+			resetAnimations(reset, 'home')
+			animateVisibleElements([container], animate)
 		}
 
 		myWayAnimate()
