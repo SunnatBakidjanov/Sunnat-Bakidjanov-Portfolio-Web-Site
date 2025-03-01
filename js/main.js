@@ -4,7 +4,16 @@ function main() {
 
 	const changeLanguageButton = document.getElementById('translator')
 
-	const START_PAGE_POSITION = 0
+	const START_PAGE_POSITION = 1
+	const START_PAGE_NAME = 'uses'
+
+	const pageIds = {
+		'home-page-btn': 'home',
+		'uses-page-btn': 'uses',
+		'resume-page-btn': 'resume',
+		'about-me-page-btn': 'about-me',
+		[logo.id]: 'home',
+	}
 
 	const clickState = {}
 	const scrollState = {}
@@ -15,15 +24,7 @@ function main() {
 
 	const seenElements = new Set()
 
-	const pageIds = {
-		'home-page-btn': 'home',
-		'uses-page-btn': 'uses',
-		'resume-page-btn': 'resume',
-		'about-me-page-btn': 'about-me',
-		[logo.id]: 'home',
-	}
-
-	function resetAnimations(resetCallback, pageName = 'home') {
+	function resetAnimations(resetCallback, pageName = START_PAGE_NAME) {
 		let currentPage = pageName
 
 		function handleClick(event) {
@@ -40,7 +41,7 @@ function main() {
 		document.addEventListener('click', handleClick)
 	}
 
-	function removeAnimateClasses(elementsArray, hideElementsArray, pageName = 'home') {
+	function removeAnimateClasses(elementsArray, hideElementsArray, pageName = START_PAGE_NAME) {
 		let currentPage = pageName
 
 		function handleClick(event) {
@@ -924,7 +925,7 @@ function main() {
 
 			function handleLogoClick(event) {
 				if (event.target !== logo) return
-				resetButtons(START_PAGE_POSITION)
+				resetButtons(0)
 			}
 
 			function handleBtnClick(event) {
@@ -950,10 +951,8 @@ function main() {
 
 			const gettingTitle = document.getElementById('hmp-getting-hidden-title')
 			const gittingBlink = document.getElementById('hmp-getting-group-text')
-			const logo3dFront = document.getElementById('hmp-getting-front')
-			const logo3dShadow = document.getElementById('hmp-getting-shadow')
-			const logo3dContainer = document.getElementById('hmp-getting-preverve')
 			const gettingTextGroup = document.getElementById('hmp-getting-group-text')
+			const logo3dFront = document.getElementById('hmp-getting-front')
 			const scrollLine = document.getElementById('hmp-scroll-line')
 			const progreessBoxes = document.querySelectorAll('.hmp-cards__inner-progress')
 			const cardsContainer = document.querySelectorAll('.hmp-cards__container')
@@ -962,7 +961,7 @@ function main() {
 			const myWayContainer = document.getElementById('hmp-way-inner-content')
 			const hmpWaybtn = document.getElementById('hmp-way-btn')
 
-			const elements = [...titles, ...cardsContainer, logo3dFront, logo3dShadow, logo3dContainer, scrollLine, myWayContainer, hmpWaybtn, ...lines]
+			const elements = [...titles, ...cardsContainer, scrollLine, myWayContainer, hmpWaybtn, ...lines]
 			const hideElements = [gittingBlink, gettingTitle, logo3dFront, gettingTextGroup, projectsText, cloud, ...progreessBoxes]
 
 			animateVisibleElements(elements, addAnimateClasses)
@@ -1140,6 +1139,46 @@ function main() {
 		}
 
 		writeAndResetSkilsText()
+
+		function logoAnimate() {
+			const line = document.querySelector('.hmp-getting__line-left')
+			const shadow = document.getElementById('hmp-getting-shadow')
+			const front = document.getElementById('hmp-getting-front')
+			const container = document.getElementById('hmp-getting-preverve')
+			const img = document.getElementById('hmp-getting-img')
+
+			const elements = [line, shadow, front, container, img]
+
+			function handleTransitionEnd(event) {
+				if (event.propertyName === 'height') {
+					shadow.classList.add(`${shadow.classList[0]}--animate`)
+					img.classList.add(`${img.classList[0]}--animate`)
+					container.classList.add(`${container.classList[0]}--animate`)
+					front.classList.add(`${front.classList[0]}--animate`)
+				}
+			}
+
+			function animate() {
+				line.addEventListener('transitionend', handleTransitionEnd)
+			}
+
+			function reset() {
+				line.removeEventListener('transitionend', handleTransitionEnd)
+
+				elements.forEach(element => {
+					const classNames = element.classList
+
+					classNames.forEach(className => {
+						if (className.includes('--animate')) classNames.remove(className)
+					})
+				})
+			}
+
+			resetAnimations(reset, 'home')
+			animateVisibleElements([front], animate)
+		}
+
+		logoAnimate()
 
 		function animateScrollText() {
 			const textBox = document.getElementById('hmp-scroll-text')
@@ -1715,6 +1754,20 @@ function main() {
 	}
 
 	function usesPageEvents() {
+		function animateUsesPageElements() {
+			const mainTitle = document.getElementById('uses-getting-title')
+			const mainSubtitle = document.getElementById('uses-getting-subtitle')
+
+			const elements = [mainTitle]
+			const hideElements = [mainSubtitle]
+
+			animateVisibleElements(elements, addAnimateClasses)
+			animateVisibleElements(hideElements, addAnimateClassesInHideElements)
+			removeAnimateClasses(elements, hideElements, 'home')
+		}
+
+		animateUsesPageElements()
+
 		const texts = document.querySelectorAll('.uses-text')
 		const img = document.querySelectorAll('.uses-img')
 
@@ -1723,8 +1776,6 @@ function main() {
 
 		let isModalVisible = false
 
-		singleElementsAnimation('uses-getting-title', 0, ['uses-getting__title--animate'], null)
-		singleElementsAnimation('uses-getting-subtitle', 0, ['uses-getting__subtitle--animate'], null)
 		singleElementsAnimation('uses-linters-settings-title', 70, ['uses-linters__settings-title--animate'], null)
 		singleElementsAnimation('uses-linters-settings-subtitle', 40, ['uses-linters__settings-subtitle--animate'], null)
 

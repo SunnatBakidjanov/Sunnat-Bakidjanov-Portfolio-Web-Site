@@ -74,6 +74,8 @@ button {
   --hmp-projects-text-font-size-1440: 2em;
   --hmp-my-way-text-font-size-1440: 1.1em;
   --hmp-my-way-btn-text-font-size-1440: 1.8em;
+  --uses-main-title-font-size-1440: 3.5em;
+  --uses-main-subtitle-font-size-1440: 2.2em;
   --title-font-size-1024: 2.8em;
   --header-btn-font-size-1024: 2.2em;
   --hmp-getting-logo-font-size-1024: 3.8em;
@@ -758,18 +760,6 @@ button {
   opacity: 0;
   transform: translateY(-30px);
 }
-
-.hmp-titles--animate {
-  transform: translateY(0);
-  opacity: 1;
-  transition: transform 0.8s ease-out, opacity 0.8s ease-out;
-}
-
-.hmp-line--animate {
-  width: 100%;
-  transition: all 1.2s ease-out;
-}
-
 @media (width <= 1024px) {
   .hmp-titles {
     font-size: var(--title-font-size-1024);
@@ -790,6 +780,18 @@ button {
     font-size: var(--title-font-size-375);
   }
 }
+
+.hmp-titles--animate {
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+}
+
+.hmp-line--animate {
+  width: 100%;
+  transition: all 1.2s ease-out;
+}
+
 .hmp-getting__wrapper {
   display: flex;
   align-items: center;
@@ -876,7 +878,7 @@ button {
   transform-style: preserve-3d;
 }
 .hmp-getting__preserve-3d--animate {
-  animation: hmp-getting-logo-3d-rotation 25s linear infinite calc(var(--hmp-logo-lines-duration) + 0.6s);
+  animation: hmp-getting-logo-3d-rotation 25s linear infinite 0.7s;
 }
 @keyframes hmp-getting-logo-3d-rotation {
   0% {
@@ -900,14 +902,14 @@ button {
 }
 .hmp-getting__front--animate {
   box-shadow: 0 0 15px var(--hmp-logo-3d-color);
-  transition: box-shadow 0.5s ease-in var(--hmp-logo-lines-duration);
+  transition: box-shadow 0.5s ease-in;
 }
 .hmp-getting__img {
   opacity: 0;
 }
 .hmp-getting__img--animate {
   opacity: 1;
-  transition: opacity 1s linear var(--hmp-logo-lines-duration);
+  transition: opacity 1s linear;
 }
 .hmp-getting__line-bottom {
   position: absolute;
@@ -993,7 +995,7 @@ button {
   left: 45%;
   width: 30%;
   height: 100%;
-  transform: translateY(150px) translateX(-50%) rotateZ(90deg) rotateY(90deg);
+  transform: translateY(180px) translateX(-50%) rotateZ(90deg) rotateY(90deg);
   filter: blur(10px);
   box-shadow: 0 0 150px var(--hmp-logo-3d-color);
   opacity: 0;
@@ -1001,7 +1003,7 @@ button {
 }
 .hmp-getting__shadow--animate {
   opacity: 1;
-  transition: opacity 1s ease-out var(--hmp-logo-lines-duration);
+  transition: opacity 1s ease-out;
 }
 @media (width <= 1024px) {
   .hmp-getting__wrapper {
@@ -1905,12 +1907,7 @@ button {
 }
 
 .uses-page {
-  position: absolute;
-  left: -9999px;
   display: none;
-  width: 0;
-  height: 0;
-  overflow: hidden;
 }
 
 .uses-title {
@@ -2016,42 +2013,48 @@ button {
   flex-direction: column;
   row-gap: 5px;
   margin: 50px 0 0 40px;
-  transition: margin 0.2s ease;
 }
 .uses-getting__title {
-  transform: translateX(-40px);
-  font-weight: 700;
-  font-size: 50px;
-  color: #fff;
+  transform: translateX(-50px);
+  font-size: var(--uses-main-title-font-size-1440);
+  color: var(--text-color);
   opacity: 0;
-}
-.uses-getting__title--rus-lang {
-  font-size: 48px;
 }
 .uses-getting__title--animate {
   transform: translateX(0);
   opacity: 1;
-  transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+  transition: transform 1s ease-out, opacity 0.8s ease-out;
 }
-.uses-getting__subtitle {
-  font-weight: 600;
-  font-size: 32px;
-  color: #fff;
+.uses-getting__text {
+  display: inline-block;
+  font-size: var(--uses-main-subtitle-font-size-1440);
+  color: var(--text-color);
   letter-spacing: 0.5px;
   opacity: 0;
   transform: translateY(30px);
 }
-.uses-getting__subtitle--rus-lang {
-  margin-top: 5px;
-  font-size: 30px;
-}
-.uses-getting__subtitle--animate {
+.uses-getting__text--animate {
   transform: translateY(0);
   opacity: 1;
   transition: transform 0.8s ease-out, opacity 0.8s ease-out;
 }
-.uses-getting__subtitle--span {
-  color: #f8aa01;
+.uses-getting__text--animate:nth-child(1) {
+  transition-delay: 0.1s;
+}
+.uses-getting__text--animate:nth-child(2) {
+  transition-delay: 0.2s;
+}
+.uses-getting__text--animate:nth-child(3) {
+  transition-delay: 0.3s;
+}
+.uses-getting__text--animate:nth-child(4) {
+  transition-delay: 0.4s;
+}
+.uses-getting__text--animate:nth-child(5) {
+  transition-delay: 0.5s;
+}
+.uses-getting__text--accent-color {
+  color: var(--change-color);
 }
 @media (width <= 1150px) {
   .uses-getting__wrapper {
@@ -4922,8 +4925,5 @@ button {
 }
 
 .page--active {
-  position: static;
   display: block;
-  width: auto;
-  height: auto;
 }/*# sourceMappingURL=main.css.map */

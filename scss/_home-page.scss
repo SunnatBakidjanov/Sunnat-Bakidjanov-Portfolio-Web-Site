@@ -2,26 +2,10 @@ $html-color: var(--html);
 $css-color: var(--css);
 $js-color: var(--js);
 $react-color: var(--react);
-$orange: #f8aa01;
-$white: #fff;
-$black: #000;
-$gray: #a9a9a9;
-$milky: #f5deb3;
-
-// my-way-section
-$hmp-my-way-blink-color: $white;
-$hmp-my-way-text-accent-color: $orange;
-$hmp-my-way-text-color: $white;
-$hmp-way-border-color: $white;
-$hmp-way-btn-border-color: $milky;
-$hmp-way-btn-hover-border-color: $orange;
-$hmp-my-way-border-color: $white;
 
 .home-page {
 	display: none;
 }
-
-// Same components
 
 .hmp-titles {
 	font-size: var(--title-font-size-1440);
@@ -30,6 +14,30 @@ $hmp-my-way-border-color: $white;
 	text-align: center;
 	opacity: 0;
 	transform: translateY(-30px);
+
+	@media (width <= 1024px) {
+		& {
+			font-size: var(--title-font-size-1024);
+		}
+	}
+
+	@media (width <= 768px) {
+		& {
+			font-size: var(--title-font-size-768);
+		}
+	}
+
+	@media (width <= 425px) {
+		& {
+			font-size: var(--title-font-size-425);
+		}
+	}
+
+	@media (width <= 375px) {
+		& {
+			font-size: var(--title-font-size-375);
+		}
+	}
 }
 
 .hmp-titles--animate {
@@ -44,32 +52,6 @@ $hmp-my-way-border-color: $white;
 	width: 100%;
 	transition: all 1.2s ease-out;
 }
-
-@media (width <= 1024px) {
-	.hmp-titles {
-		font-size: var(--title-font-size-1024);
-	}
-}
-
-@media (width <= 768px) {
-	.hmp-titles {
-		font-size: var(--title-font-size-768);
-	}
-}
-
-@media (width <= 425px) {
-	.hmp-titles {
-		font-size: var(--title-font-size-425);
-	}
-}
-
-@media (width <= 375px) {
-	.hmp-titles {
-		font-size: var(--title-font-size-375);
-	}
-}
-
-// Other components
 
 .hmp-getting {
 	&__wrapper {
@@ -188,7 +170,7 @@ $hmp-my-way-border-color: $white;
 			}
 		}
 
-		animation: hmp-getting-logo-3d-rotation 25s linear infinite calc(var(--hmp-logo-lines-duration) + 0.6s);
+		animation: hmp-getting-logo-3d-rotation 25s linear infinite 0.7s;
 	}
 
 	&__sides {
@@ -207,7 +189,7 @@ $hmp-my-way-border-color: $white;
 
 	&__front--animate {
 		box-shadow: 0 0 15px var(--hmp-logo-3d-color);
-		transition: box-shadow 0.5s ease-in var(--hmp-logo-lines-duration);
+		transition: box-shadow 0.5s ease-in;
 	}
 
 	&__img {
@@ -216,7 +198,7 @@ $hmp-my-way-border-color: $white;
 
 	&__img--animate {
 		opacity: 1;
-		transition: opacity 1s linear var(--hmp-logo-lines-duration);
+		transition: opacity 1s linear;
 	}
 
 	&__line-bottom {
@@ -314,7 +296,7 @@ $hmp-my-way-border-color: $white;
 		left: 45%;
 		width: 30%;
 		height: 100%;
-		transform: translateY(150px) translateX(-50%) rotateZ(90deg) rotateY(90deg);
+		transform: translateY(180px) translateX(-50%) rotateZ(90deg) rotateY(90deg);
 		filter: blur(10px);
 		box-shadow: 0 0 150px var(--hmp-logo-3d-color);
 		opacity: 0;
@@ -323,7 +305,7 @@ $hmp-my-way-border-color: $white;
 
 	&__shadow--animate {
 		opacity: 1;
-		transition: opacity 1s ease-out var(--hmp-logo-lines-duration);
+		transition: opacity 1s ease-out;
 	}
 
 	@media (width <= 1024px) {
