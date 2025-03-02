@@ -411,7 +411,6 @@ $react-color: var(--react);
 
 	&__line--animate {
 		height: 80%;
-		background-color: var(--line-color);
 		opacity: 1;
 		transition:
 			height 1s ease-out,
@@ -424,24 +423,41 @@ $react-color: var(--react);
 		width: 170px;
 	}
 
-	&__letter-left {
+	&__letter {
 		position: relative;
-		left: -110%;
+		opacity: 0;
+
+		@for $i from 1 through 6 {
+			&:nth-child(#{$i}) {
+				@if $i <= 3 {
+					left: -60%;
+				} @else {
+					right: -60%;
+				}
+			}
+		}
 	}
 
-	&__letter-left--animate {
-		left: 0;
-		transition: left 0.8s ease-out;
-	}
+	&__letter--animate {
+		@for $i from 1 through 6 {
+			&:nth-child(#{$i}) {
+				$delayIndex: if($i <= 3, 4 - $i, $i - 3);
 
-	&__letter-right {
-		position: relative;
-		right: -110%;
-	}
+				@if $i <= 3 {
+					left: 0;
+				} @else {
+					right: 0;
+				}
 
-	&__letter-right--animate {
-		right: 0;
-		transition: right 0.8s ease-out;
+				transition-delay: 0.1s * $delayIndex;
+			}
+		}
+
+		opacity: 1;
+		transition:
+			left 1s ease-out,
+			right 1s ease-out,
+			opacity 1.5s ease-out;
 	}
 
 	@mixin hmp-scroll-media {
@@ -488,7 +504,6 @@ $react-color: var(--react);
 		&__hide-text {
 			margin-top: 15px;
 			width: 140px;
-			font-size: var(--hmp-scroll-text-font-size-425);
 		}
 	}
 

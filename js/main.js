@@ -954,6 +954,7 @@ function main() {
 			const gettingTextGroup = document.getElementById('hmp-getting-group-text')
 			const logo3dFront = document.getElementById('hmp-getting-front')
 			const scrollLine = document.getElementById('hmp-scroll-line')
+			const scrollText = document.getElementById('hmp-scroll-text')
 			const progreessBoxes = document.querySelectorAll('.hmp-cards__inner-progress')
 			const cardsContainer = document.querySelectorAll('.hmp-cards__container')
 			const projectsText = document.getElementById('hmp-projects-hidden-text')
@@ -962,14 +963,12 @@ function main() {
 			const hmpWaybtn = document.getElementById('hmp-way-btn')
 
 			const elements = [...titles, ...cardsContainer, scrollLine, myWayContainer, hmpWaybtn, ...lines]
-			const hideElements = [gittingBlink, gettingTitle, logo3dFront, gettingTextGroup, projectsText, cloud, ...progreessBoxes]
+			const hideElements = [gittingBlink, gettingTitle, logo3dFront, gettingTextGroup, projectsText, cloud, scrollText, ...progreessBoxes]
 
 			animateVisibleElements(elements, addAnimateClasses)
 			animateVisibleElements(hideElements, addAnimateClassesInHideElements)
 			removeAnimateClasses(elements, hideElements, 'home')
 		}
-
-		animateHomePageElements()
 
 		function writeAndResetSkilsText() {
 			const text = document.getElementById('hmp-getting-text')
@@ -1138,8 +1137,6 @@ function main() {
 			resetAnimations(reset, 'home')
 		}
 
-		writeAndResetSkilsText()
-
 		function logoAnimate() {
 			const line = document.querySelector('.hmp-getting__line-left')
 			const shadow = document.getElementById('hmp-getting-shadow')
@@ -1177,44 +1174,6 @@ function main() {
 			resetAnimations(reset, 'home')
 			animateVisibleElements([front], animate)
 		}
-
-		logoAnimate()
-
-		function animateScrollText() {
-			const textBox = document.getElementById('hmp-scroll-text')
-
-			function animateLetters() {
-				const nodes = [...textBox.childNodes].filter(node => node.nodeType === 1)
-
-				nodes.forEach((node, index) => {
-					if (!node.classList.contains(`${node.classList[0]}--animate`)) {
-						if (node.classList.contains('hmp-scroll__letter-left')) {
-							for (let i = nodes.length / 2 - 1; i >= 0; i--) {
-								setTimeout(
-									() => {
-										if (!nodes[i].classList.contains(`${nodes[i].classList[0]}--animate`)) {
-											nodes[i].classList.add(`${nodes[i].classList[0]}--animate`)
-										}
-									},
-									(nodes.length - 1 - i) * 70
-								)
-							}
-						}
-
-						if (node.classList.contains('hmp-scroll__letter-right')) {
-							setTimeout(() => {
-								node.classList.add(`${node.classList[0]}--animate`)
-							}, index * 70)
-						}
-					}
-				})
-			}
-
-			animateVisibleElements([textBox], animateLetters)
-			removeAnimateClasses(null, [textBox], 'home')
-		}
-
-		animateScrollText()
 
 		function animateCards() {
 			const configProgress = [
@@ -1384,8 +1343,6 @@ function main() {
 			animateTexts()
 		}
 
-		animateCards()
-
 		function animateCloud() {
 			const container = document.getElementById('hmp-cloud-container')
 			const cloud = document.getElementById('hmp-cloud-particle-center')
@@ -1487,8 +1444,6 @@ function main() {
 			animateVisibleElements([cloud], animate)
 			resetAnimations(reset, 'home')
 		}
-
-		animateCloud()
 
 		function myWayAnimate() {
 			const container = document.getElementById('hmp-way-inner-content')
@@ -1750,6 +1705,11 @@ function main() {
 			animateVisibleElements([container], animate)
 		}
 
+		animateCloud()
+		animateCards()
+		logoAnimate()
+		writeAndResetSkilsText()
+		animateHomePageElements()
 		myWayAnimate()
 	}
 
@@ -1757,9 +1717,12 @@ function main() {
 		function animateUsesPageElements() {
 			const mainTitle = document.getElementById('uses-getting-title')
 			const mainSubtitle = document.getElementById('uses-getting-subtitle')
+			const gear = document.getElementById('uses-gear')
+			const scrollLine = document.getElementById('uses-scroll-line')
+			const scrollText = document.getElementById('uses-scroll-text')
 
-			const elements = [mainTitle]
-			const hideElements = [mainSubtitle]
+			const elements = [mainTitle, scrollLine]
+			const hideElements = [mainSubtitle, scrollText, gear]
 
 			animateVisibleElements(elements, addAnimateClasses)
 			animateVisibleElements(hideElements, addAnimateClassesInHideElements)
