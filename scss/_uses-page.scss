@@ -5,11 +5,11 @@ $gray: #a9a9a9;
 $milky: #f5deb3;
 
 // soft-colors
-$vs-code: #007acc;
-$pixel-perfect: #ff84af;
-$photoshop: #31a8ff;
-$bootstrap: #7952b3;
-$git: #f34f29;
+$vs-code: var(--vs-code);
+$pixel-perfect: var(--pixel-perfect);
+$bootstrap: var(--bootstrap);
+$figma: var(--text-color);
+$git: var(--git);
 
 // same elements
 
@@ -661,8 +661,9 @@ $uses-linters-line-color: $white;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		margin-top: 50px;
-		gap: 70px 120px;
+		margin-top: 70px;
+		padding: 0 50px;
+		gap: 70px 150px;
 		flex-wrap: wrap;
 	}
 
@@ -670,27 +671,27 @@ $uses-linters-line-color: $white;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		justify-content: space-between;
-		width: 215px;
-		height: 130px;
+		row-gap: 20px;
 	}
 
 	&__img {
+		width: 80px;
+		height: 80px;
 		opacity: 0;
 		transform: translateX(-20px);
 	}
 
 	&__img--animate {
 		transition:
-			transform 0.8s ease-out,
-			opacity 0.8s ease-out;
+			transform 1s ease-out,
+			opacity 1s ease-out;
 		opacity: 1;
 		transform: translateX(0);
 	}
 
 	&__text {
 		font-weight: 600;
-		font-size: 30px;
+		font-size: var(--uses-software-font-size-1440);
 		letter-spacing: 0.5px;
 		opacity: 0;
 		transform: translateY(20px);
@@ -698,142 +699,78 @@ $uses-linters-line-color: $white;
 
 	&__text--animate {
 		transition:
-			transform 0.8s ease-out,
-			opacity 0.8s ease-out;
+			transform 1s ease-out,
+			opacity 1s ease-out;
 		opacity: 1;
 		transform: translateY(0);
 	}
 
-	&__text--rus-lang {
-		font-size: 28px;
-	}
-
 	$colors: (
-		0: $vs-code,
-		1: $white,
-		2: $pixel-perfect,
-		3: $photoshop,
-		4: $bootstrap,
-		5: $git,
+		vscode: $vs-code,
+		figma: $figma,
+		pixel-perfect: $pixel-perfect,
+		bootstrap: $bootstrap,
+		git: $git,
 	);
 
-	@mixin software-colors($index, $color) {
-		.uses-software__text--color-#{$index} {
+	@mixin software-colors($name, $color) {
+		.uses-software__text--#{$name} {
 			color: $color;
 		}
 	}
 
-	@each $index, $color in $colors {
-		@include software-colors($index, $color);
+	@each $name, $color in $colors {
+		@include software-colors($name, $color);
 	}
 
-	@media (width <= 1150px) {
-		&__wrapper {
-			margin-top: 90px;
-		}
-
-		&__title {
-			margin-bottom: 25px;
-		}
-
+	@media (width <= 1024px) {
 		&__inner-content {
-			margin-top: 40px;
-			row-gap: 60px;
-		}
-
-		&__item {
-			height: 125px;
-		}
-
-		&__img {
-			width: 75px;
-			height: 75px;
-		}
-
-		&__text {
-			font-size: 28px;
+			padding: 0 30px;
 		}
 	}
 
-	@media (width <= 800px) {
-		&__wrapper {
-			margin-top: 80px;
-		}
-
-		&__title {
-			margin-bottom: 20px;
-		}
-
-		&__inner-content {
-			margin-top: 40px;
-			gap: 50px 100px;
-		}
-
-		&__item {
-			height: 120px;
-		}
-
-		&__img {
-			width: 70px;
-			height: 70px;
-		}
-
-		&__text {
-			font-size: 26px;
-		}
-	}
-
-	@media (width <= 600px) {
+	@media (width <= 768px) {
 		&__wrapper {
 			margin-top: 70px;
 		}
 
-		&__title {
-			margin-bottom: 15px;
-		}
-
 		&__inner-content {
-			margin-top: 40px;
-			gap: 40px 90px;
+			padding: 0;
+			column-gap: 120px;
 		}
 
-		&__item {
-			width: 150px;
-			height: 110px;
+		&__text {
+			font-size: var(--uses-software-font-size-768);
 		}
 
 		&__img {
 			width: 60px;
 			height: 60px;
 		}
-
-		&__text {
-			font-size: 24px;
-		}
 	}
 
-	@media (width <= 480px) {
+	@media (width <= 425px) {
 		&__wrapper {
 			margin-top: 60px;
 		}
 
 		&__inner-content {
-			margin-top: 40px;
-			gap: 50px 200px;
+			flex-direction: column;
+			margin-top: 50px;
+			gap: 60px 0;
 		}
 
 		&__item {
-			width: 150px;
-			height: 110px;
-		}
-
-		&__img {
-			width: 65px;
-			height: 65px;
+			row-gap: 15px;
 		}
 
 		&__text {
-			font-size: 26px;
+			font-size: var(--uses-software-font-size-425);
+		}
+
+		&__img {
+			width: 55px;
+			height: 55px;
 		}
 	}
 }

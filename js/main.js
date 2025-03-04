@@ -1481,9 +1481,10 @@ function main() {
 			const gear = document.getElementById('uses-gear')
 			const scrollLine = document.getElementById('uses-scroll-line')
 			const scrollText = document.getElementById('uses-scroll-text')
+			const softWearItem = document.querySelectorAll('.uses-software__item')
 
 			const elements = [mainTitle, scrollLine, ...lines, ...titles, ...btn]
-			const hideElements = [mainSubtitle, scrollText, gear, ...btn]
+			const hideElements = [mainSubtitle, scrollText, gear, ...btn, ...softWearItem]
 
 			animateVisibleElements(elements, addAnimateClasses)
 			animateVisibleElements(hideElements, addAnimateClassesInHideElements)
@@ -1512,7 +1513,7 @@ function main() {
 			function toggleUIElements(event) {
 				const index = [...btn].indexOf(event.target)
 
-				if (event.target !== btn[index]) return
+				if (index === -1) return
 				if (!status[index]) status[index] = { isOpen: false }
 
 				btn[index].disabled = true
@@ -1540,7 +1541,7 @@ function main() {
 
 			function changeScrollWidth() {
 				hideGroup.forEach((element, index) => {
-					if (equipmentHideBox[index]?.classList.contains(`${equipmentHideBox[index].classList[0]}--open`)) element.style.height = `${equipmentHideBox[index].scrollHeight}px`
+					if (equipmentHideBox[index] && equipmentHideBox[index]?.classList.contains(`${equipmentHideBox[index].classList[0]}--open`)) element.style.height = `${equipmentHideBox[index].scrollHeight}px`
 				})
 			}
 
