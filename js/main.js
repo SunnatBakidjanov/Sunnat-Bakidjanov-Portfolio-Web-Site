@@ -2,8 +2,6 @@ function main() {
 	'use strict'
 	const logo = document.getElementById('logo')
 
-	const changeLanguageButton = document.getElementById('translator')
-
 	const START_PAGE_POSITION = 1
 	const START_PAGE_NAME = 'uses'
 
@@ -20,9 +18,32 @@ function main() {
 	const heightValue = {}
 
 	let isAnimationStopped = false
+
+	const languageCallbacks = []
 	let isLanguageRussian = false
 
-	const seenElements = new Set()
+	function updateLanguageContent(callback) {
+		const changeLanguageButton = document.getElementById('translator')
+
+		if (callback) languageCallbacks.push(callback)
+
+		if (updateLanguageContent.initialized) return
+		updateLanguageContent.initialized = true
+
+		const elements = document.querySelectorAll('[data-ru][data-en]')
+
+		changeLanguageButton.addEventListener('click', () => {
+			isLanguageRussian = !isLanguageRussian
+			const language = isLanguageRussian ? 'ru' : 'en'
+
+			elements.forEach(element => {
+				const text = element.dataset[language]
+				if (text) element.textContent = text
+			})
+
+			languageCallbacks.forEach(callback => callback())
+		})
+	}
 
 	function resetAnimations(resetCallback, pageName = START_PAGE_NAME) {
 		let currentPage = pageName
@@ -89,7 +110,7 @@ function main() {
 		})
 	}
 
-	function animateVisibleElements(elements, callbackAnimate) {
+	function animateVisibleElements(elements, callbackAnimate, thresholdElement = 1) {
 		const pages = ['page-1', 'page-2', 'page-3', 'page-4']
 
 		function isAnyPageActive() {
@@ -110,140 +131,11 @@ function main() {
 			{
 				root: null,
 				rootMargin: '0px',
-				threshold: 1,
+				threshold: thresholdElement,
 			}
 		)
 
 		elements.forEach(element => observer.observe(element))
-	}
-
-	function handlePageChangeOnClick(event, element, elementKey, startingHeight, startCallback, resetCallback) {
-		const target = event.target
-		const currentTarget = event.currentTarget
-
-		if (!clickState[elementKey]) clickState[elementKey] = { newPage: 'home', previousPage: 'home', isClicked: false }
-
-		scrollState[elementKey] = { scrolState: false }
-
-		const allowedButtons = ['logo', 'home-page-btn', 'uses-page-btn', 'resume-page-btn', 'about-me-page-btn']
-
-		const pageMapping = {
-			'home-page-btn': 'home',
-			'uses-page-btn': 'uses',
-			'resume-page-btn': 'resume',
-			'about-me-page-btn': 'about-me',
-			[logo.id]: 'home',
-		}
-
-		clickState[elementKey].newPage = pageMapping[target.id] || pageMapping[currentTarget.id] || null
-
-		if (clickState[elementKey].newPage === clickState[elementKey].previousPage) return
-		if (!allowedButtons.includes(target.id)) return
-
-		clickState[elementKey].previousPage = clickState[elementKey].newPage
-
-		if (clickState[elementKey].previousPage) {
-			if (!isAnimationStopped) {
-				resetCallback(clickState[elementKey].previousPage)
-
-				seenElements.clear()
-
-				clickState[elementKey].isClicked = false
-			}
-		}
-
-		if (document.documentElement.clientWidth > 1150) {
-			clickState[elementKey].isClicked = true
-
-			window.requestAnimationFrame(() => {
-				if (handleVisibilityChange(element, startingHeight, elementKey)) {
-					startCallback(clickState[elementKey].newPage)
-
-					scrollState[elementKey].scrolState = true
-				}
-			})
-		} else {
-			const onBurgerAnimationEnd = event => {
-				if (event.animationName === 'burger-close') {
-					clickState[elementKey].isClicked = true
-
-					if (handleVisibilityChange(element, startingHeight, elementKey)) {
-						startCallback(clickState[elementKey].newPage)
-
-						scrollState[elementKey].scrolState = true
-					}
-
-					document.removeEventListener('animationend', onBurgerAnimationEnd)
-				}
-			}
-
-			document.addEventListener('animationend', onBurgerAnimationEnd)
-
-			if (target.id === 'logo') {
-				window.requestAnimationFrame(() => {
-					if (handleVisibilityChange(element, startingHeight, elementKey)) {
-						startCallback(clickState[elementKey].newPage)
-
-						scrollState[elementKey].scrolState = true
-					}
-				})
-			}
-		}
-	}
-
-	function handlePageChangeOnScroll(element, elementKey, startingHeight, startCallback) {
-		if (!scrollState[elementKey]) scrollState[elementKey] = { scrolState: false }
-
-		if (scrollState[elementKey].scrolState) return
-
-		if (handleVisibilityChange(element, startingHeight, elementKey)) {
-			if (!scrollState[elementKey].scrolState) {
-				scrollState[elementKey].scrolState = true
-
-				startCallback()
-			}
-		}
-	}
-
-	function handleVisibilityChange(element, startingHeight, elementKey) {
-		const rect = element.getBoundingClientRect()
-
-		if (!heightValue[elementKey]) {
-			heightValue[elementKey] = { value: startingHeight }
-		}
-
-		const isVisible =
-			rect.top >= 0 &&
-			rect.left >= 0 &&
-			rect.bottom <= (window.innerHeight - heightValue[elementKey].value || document.documentElement.clientHeight - heightValue[elementKey].value) &&
-			rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-
-		if (isVisible && element !== undefined && elementKey !== undefined) seenElements.add(elementKey)
-
-		return isVisible
-	}
-
-	function createAnimation(elements, elementKeys, startingHeight, startCallback, resetCallback) {
-		elements.forEach((element, index) => {
-			const elementKey = elementKeys[index]
-
-			if (!element) {
-				console.error(`${element} not found`)
-				return
-			}
-
-			document.addEventListener('scroll', () => {
-				handlePageChangeOnScroll(element, elementKey, startingHeight, startCallback)
-			})
-
-			document.addEventListener('click', event => {
-				handlePageChangeOnClick(event, element, elementKey, startingHeight, startCallback, resetCallback)
-			})
-
-			logo.addEventListener('click', event => {
-				handlePageChangeOnClick(event, element, elementKey, startingHeight, startCallback, resetCallback)
-			})
-		})
 	}
 
 	function writeAndResetText(elements, englishTexts, russianTexts, typeSpeed, elementKeys, className, delay) {
@@ -349,147 +241,6 @@ function main() {
 		}
 	}
 
-	function sameElementsAnimation(queryElemetns, setIds, classes, startHeight, delay) {
-		if (!queryElemetns) {
-			console.error(`${queryElemetns} not found`)
-			return
-		}
-
-		const elements = document.querySelectorAll(queryElemetns)
-
-		const ids = []
-		const elementKeys = []
-		const startingHeight = startHeight
-
-		const isAnimation = {}
-		const visibleIndexes = []
-
-		elements.forEach((element, index) => {
-			const setId = `${setIds}-${index}`
-			element.setAttribute('id', setId)
-
-			const id = document.getElementById(`${setIds}-${index}`)
-			ids.push(id)
-
-			elementKeys.push(`${setIds}-${index}`)
-		})
-
-		function animate() {
-			elements.forEach((element, index) => {
-				if (seenElements.has(elementKeys[index])) {
-					if (!isAnimation[index]) {
-						isAnimation[index] = { animated: false, timeout: null }
-					}
-
-					if (!isAnimation[index].animated) {
-						isAnimation[index].animated = true
-
-						if (delay) {
-							visibleIndexes.push(index)
-
-							const indexDelay = visibleIndexes.indexOf(index) * delay
-
-							isAnimation[index].timeout = setTimeout(() => {
-								element.classList.add(...classes)
-							}, indexDelay)
-						} else {
-							element.classList.add(...classes)
-						}
-					}
-				}
-			})
-		}
-
-		function reset() {
-			elements.forEach((element, index) => {
-				if (isAnimation[index]?.animated) {
-					isAnimation[index].animated = false
-				}
-
-				element.classList.remove(...classes)
-			})
-		}
-
-		createAnimation(ids, elementKeys, startingHeight, animate, reset)
-	}
-
-	function singleElementsAnimation(id, startingHeight, classNames, containerId) {
-		if (!id) {
-			console.error(`${id} not found`)
-			return
-		}
-
-		const container = document.getElementById(containerId)
-		const element = document.getElementById(id)
-
-		const ids = [element]
-		const elementKey = [id, containerId]
-		const startHeight = startingHeight
-
-		if (containerId) ids.push(container)
-
-		function animate() {
-			element.classList.add(...classNames)
-		}
-
-		function reset() {
-			element.classList.remove(...classNames)
-		}
-
-		createAnimation(ids, elementKey, startHeight, animate, reset)
-	}
-
-	function addId(elements, id, startHeight) {
-		const ids = []
-		const elementKeys = []
-		const startingHeight = startHeight
-
-		elements.forEach((element, index) => {
-			const setId = `${id}-${index}`
-			element.setAttribute('id', setId)
-
-			const addId = document.getElementById(setId)
-			elementKeys.push(`${id}-${index}`)
-
-			ids.push(addId)
-		})
-
-		return {
-			ids,
-			elementKeys,
-			startingHeight,
-		}
-	}
-
-	function manageClasses(elements, classNames, singleElementSelector) {
-		if (elements && elements.length) {
-			elements.forEach(element => {
-				element.classList[isLanguageRussian ? 'add' : 'remove'](...classNames)
-			})
-		}
-
-		if (singleElementSelector) {
-			const el = document.querySelector(singleElementSelector)
-
-			if (el) el.classList[isLanguageRussian ? 'add' : 'remove'](...classNames)
-		}
-	}
-
-	function updateLanguageContent(callback) {
-		changeLanguageButton.addEventListener('click', callback)
-	}
-
-	function translateText(language, ruClassName) {
-		const elements = document.querySelectorAll('[data-ru][data-en]')
-
-		elements.forEach(element => {
-			const text = element.dataset[language]
-			if (text) element.textContent = text
-
-			element.classList.toggle(ruClassName, language === 'ru')
-		})
-	}
-
 	function pageUpdate() {
 		window.scrollTo(0, 0)
 	}
@@ -591,12 +342,6 @@ function main() {
 				requestAnimationFrame(handleScroll)
 			}
 		})
-	}
-
-	function updateAnimationText() {
-		const element = document.getElementById('aside-menu-animation-state')
-		const state = isLanguageRussian ? (isAnimationStopped ? 'ВЫКЛ' : 'ВКЛ') : isAnimationStopped ? 'OFF' : 'ON'
-		element.textContent = state
 	}
 
 	function backgroundColorChange() {
@@ -708,6 +453,14 @@ function main() {
 			element.classList.add(`aside-menu__item--${index}`)
 			btns[index].classList.add(`aside-menu__inner-btn--${index}`)
 		})
+
+		function updateAnimationText() {
+			const element = document.getElementById('aside-menu-animation-state')
+			const state = isLanguageRussian ? (isAnimationStopped ? 'ВЫКЛ' : 'ВКЛ') : isAnimationStopped ? 'OFF' : 'ON'
+			element.textContent = state
+		}
+
+		updateLanguageContent(updateAnimationText)
 
 		animationBtn.addEventListener('click', () => {
 			isAnimationStopped = !isAnimationStopped
@@ -1018,6 +771,7 @@ function main() {
 				startWrite: 1400,
 				delayDeleteString: 2200,
 				delayWriteNextString: 1500,
+				startDelayIsHidden: 500,
 			}
 
 			function stopAnimationIsOutVisability() {
@@ -1029,9 +783,12 @@ function main() {
 
 						if (entry.isIntersecting) {
 							if (isHidden && state === 'nextString') {
-								isHidden = false
-								startTyping()
+								state = 'writing'
+								timeout = setTimeout(() => {
+									startTyping()
+								}, cfg.startDelayIsHidden)
 							}
+							isHidden = false
 						} else {
 							isHidden = true
 						}
@@ -1715,212 +1472,116 @@ function main() {
 
 	function usesPageEvents() {
 		function animateUsesPageElements() {
+			const lines = document.querySelectorAll('.uses-line')
+			const titles = document.querySelectorAll('.uses-title')
+			const btn = document.querySelectorAll('.uses-btn')
+
 			const mainTitle = document.getElementById('uses-getting-title')
 			const mainSubtitle = document.getElementById('uses-getting-subtitle')
 			const gear = document.getElementById('uses-gear')
 			const scrollLine = document.getElementById('uses-scroll-line')
 			const scrollText = document.getElementById('uses-scroll-text')
 
-			const elements = [mainTitle, scrollLine]
-			const hideElements = [mainSubtitle, scrollText, gear]
+			const elements = [mainTitle, scrollLine, ...lines, ...titles, ...btn]
+			const hideElements = [mainSubtitle, scrollText, gear, ...btn]
 
 			animateVisibleElements(elements, addAnimateClasses)
 			animateVisibleElements(hideElements, addAnimateClassesInHideElements)
-			removeAnimateClasses(elements, hideElements, 'home')
+			animateVisibleElements([gear], addAnimateClassesInHideElements, 0.5)
+			removeAnimateClasses(elements, hideElements, 'uses')
 		}
 
 		animateUsesPageElements()
 
-		const texts = document.querySelectorAll('.uses-text')
-		const img = document.querySelectorAll('.uses-img')
+		function controlButtonAndContent() {
+			const imgs = document.querySelectorAll('.uses-img')
+			const btn = document.querySelectorAll('.uses-btn')
+			const hideGroup = document.querySelectorAll('.uses-hide-group')
+			const equipmentHideBox = document.querySelectorAll('.uses-equipment__hide-box')
 
-		const copyBtn = document.querySelectorAll('.uses-linters__copy-btn')
-		const code = document.querySelectorAll('.uses-linters__code')
+			const status = {}
+			const timeouts = {}
 
-		let isModalVisible = false
-
-		singleElementsAnimation('uses-linters-settings-title', 70, ['uses-linters__settings-title--animate'], null)
-		singleElementsAnimation('uses-linters-settings-subtitle', 40, ['uses-linters__settings-subtitle--animate'], null)
-
-		sameElementsAnimation('.uses-title', 'uses-title', ['uses-title--animate'], 50, null)
-		sameElementsAnimation('.uses-btn', 'uses-btn', ['uses-btn--animate'], 50, null)
-		sameElementsAnimation('.uses-img', 'uses-img', ['uses-img--animate'], 60, null)
-		sameElementsAnimation('.uses-hide-group', 'uses-hide-group', ['uses-hide-group--animate'], 50, null)
-		sameElementsAnimation('.uses-software__img', 'uses-software-img', ['uses-software__img--animate'], 110, 50)
-		sameElementsAnimation('.uses-software__text', 'uses-software-text', ['uses-software__text--animate'], 40, 50)
-		sameElementsAnimation('.uses-linters__task', 'uses-linters-task', ['uses-linters__task--animate'], 50, 100)
-
-		function scrollText() {
-			const container = document.getElementById('uses-scroll-text')
-			const letters = document.querySelectorAll('.uses-scroll__letter')
-
-			const ids = [container]
-			const elementKeys = ['uses-scroll-text']
-			const startHeight = 0
-
-			const timeouts = []
-
-			function animate() {
-				letters.forEach((element, index) => {
-					const timeout = setTimeout(() => {
-						element.classList.add('uses-scroll__letter--animate')
-					}, 60 * index)
-
-					timeouts.push(timeout)
-				})
+			const timers = {
+				disabledTimer: 300,
 			}
 
-			function reset() {
-				letters.forEach((element, index) => {
-					element.classList.remove('uses-scroll__letter--animate')
+			let lastResizeTime = 0
+			let resizeTimeout = null
 
-					clearTimeout(timeouts[index])
-				})
+			function toggleUIElements(event) {
+				const index = [...btn].indexOf(event.target)
 
-				timeouts.length = 0
-			}
+				if (event.target !== btn[index]) return
+				if (!status[index]) status[index] = { isOpen: false }
 
-			createAnimation(ids, elementKeys, startHeight, animate, reset)
-		}
+				btn[index].disabled = true
+				clearTimeout(timeouts[index])
+				timeouts[index] = setTimeout(() => (btn[index].disabled = false), timers.disabledTimer)
 
-		scrollText()
+				if (!status[index].isOpen) {
+					imgs[index].classList.add(`${imgs[index].classList[0]}--open`)
+					hideGroup[index].classList.add(`${hideGroup[index].classList[0]}--open`)
+					hideGroup[index].style.height = `${hideGroup[index].scrollHeight}px`
 
-		function btnsAnimate() {
-			const hideEquipmentElement = document.querySelectorAll('.uses-equipment__hidden-group')
-			const equipmentBtn = document.querySelectorAll('.uses-equipment__button')
-			const equipmantImg = document.querySelectorAll('.uses-equipment__img')
+					equipmentHideBox[index].classList.add(`${equipmentHideBox[index].classList[0]}--open`)
 
-			const hideLinterElement = document.querySelectorAll('.uses-linters__hide-group')
-			const linterBtn = document.querySelectorAll('.uses-linters__btn')
-			const linterImg = document.querySelectorAll('.uses-linters__img')
-			const linterCode = document.querySelectorAll('.uses-linters__code')
-
-			const climbUpBtn = document.querySelectorAll('.uses-linters__up-btn')
-
-			const isLinterOpen = Array.from({ length: hideLinterElement.length }, () => ({
-				isOpen: false,
-				timeout: null,
-				codeTimeout: null,
-			}))
-
-			const setId = addId(texts, 'uses-text', 60)
-
-			const en = ['Monitor', 'PC Case', 'Chair', 'Desk', 'Keyboard', 'Mouse', 'Webcam', 'Microphone', 'Prettier', 'ESLint', 'Stylelint', 'Settings.json']
-			const ru = ['Монитор', 'ПК Кейс', 'Кресло', 'Стол', 'Клавиатура', 'Мышь', 'Веб-камера', 'Микрофон', 'Prettier', 'ESLint', 'Stylelint', 'Settings.json']
-
-			const handleTextWrite = writeAndResetText(setId.ids, en, ru, 80, setId.elementKeys, ['uses-text--rus-lang'], null)
-
-			function openHiddenEquipmentOnClick(event) {
-				const index = [...equipmentBtn].indexOf(event.target)
-
-				if (index === -1) return
-
-				const element = hideEquipmentElement[index]
-				const images = equipmantImg[index]
-				const isOpen = element.classList.contains('uses-equipment__hidden-group--open')
-
-				equipmantImg.forEach(imgElement => imgElement.classList.remove('uses-img--open'))
-				hideEquipmentElement.forEach(el => el.classList.remove('uses-equipment__hidden-group--open'))
-
-				if (!isOpen) {
-					element.classList.add('uses-equipment__hidden-group--open')
-					images.classList.add('uses-img--open')
+					status[index].isOpen = true
+					return
 				}
+
+				imgs[index].classList.remove(`${imgs[index].classList[0]}--open`)
+				hideGroup[index].classList.remove(`${hideGroup[index].classList[0]}--open`)
+				equipmentHideBox[index].classList.remove(`${equipmentHideBox[index].classList[0]}--open`)
+				hideGroup[index].style.height = 0
+
+				status[index].isOpen = false
 			}
 
-			function openHiddenLinterOnClick(event) {
-				const index = [...linterBtn].indexOf(event.target)
-
-				if (index === -1) return
-
-				const element = hideLinterElement[index]
-				const images = linterImg[index]
-				const state = isLinterOpen[index]
-
-				const transitionDuration = Math.max(0.5, Math.min(element.scrollHeight / 1500, 1.5))
-				element.style.transition = `height ${transitionDuration}s ease-out`
-
-				state.isOpen = !state.isOpen
-				images.classList.toggle('uses-img--open')
-
-				if (!state.isOpen) {
-					clearTimeout(state.timeout)
-					clearTimeout(state.codeTimeout)
-
-					linterCode[index].removeAttribute('style')
-					element.style.height = 0
-				} else {
-					element.style.height = `${element.scrollHeight}px`
-
-					state.timeout = setTimeout(() => {
-						linterBtn[index].scrollIntoView({ behavior: 'smooth', block: 'start' })
-					}, 600)
-
-					state.codeTimeout = setTimeout(() => {
-						linterCode[index].style.overflow = 'auto hidden'
-					}, 10)
-				}
-			}
-
-			function closeBtnsOnResize() {
-				hideLinterElement.forEach((element, index) => {
-					element.style.height = 0
-					isLinterOpen[index].isOpen = false
-					linterCode[index].removeAttribute('style')
+			function changeScrollWidth() {
+				hideGroup.forEach((element, index) => {
+					if (equipmentHideBox[index]?.classList.contains(`${equipmentHideBox[index].classList[0]}--open`)) element.style.height = `${equipmentHideBox[index].scrollHeight}px`
 				})
-				hideEquipmentElement.forEach(element => element.classList.remove('uses-equipment__hidden-group--open'))
-				img.forEach(element => element.classList.remove('uses-img--open'))
 			}
 
-			function climbUpLinterBtn(event) {
-				const index = [...climbUpBtn].indexOf(event.target)
+			function handleChangeOnResize() {
+				const now = Date.now()
 
-				if (index === -1) return
+				if (now - lastResizeTime >= 1000) {
+					changeScrollWidth()
+					lastResizeTime = now
+				}
 
-				linterBtn[index + 1].scrollIntoView({ behavior: 'smooth', block: 'start' })
+				clearTimeout(resizeTimeout)
+				resizeTimeout = setTimeout(() => changeScrollWidth(), 500)
 			}
 
 			function animate() {
-				handleTextWrite.writeAll()
-
-				document.addEventListener('click', openHiddenEquipmentOnClick)
-				document.addEventListener('click', openHiddenLinterOnClick)
-				document.addEventListener('click', climbUpLinterBtn)
-				window.addEventListener('resize', closeBtnsOnResize)
+				window.addEventListener('resize', handleChangeOnResize)
+				handleChangeOnResize()
 			}
 
 			function reset() {
-				handleTextWrite.resetAll()
-
-				img.forEach(el => el.classList.remove('uses-img--open'))
-				hideEquipmentElement.forEach(el => el.classList.remove('uses-equipment__hidden-group--open'))
-				hideLinterElement.forEach((el, index) => {
-					el.style.height = 0
-					linterCode[index].removeAttribute('style')
-
-					if (isLinterOpen[index].timeout) {
-						clearTimeout(isLinterOpen[index].timeout)
-
-						isLinterOpen[index].timeout = null
-					}
-
-					if (isLinterOpen[index].isOpen) {
-						isLinterOpen[index].isOpen = false
-					}
+				hideGroup.forEach(box => {
+					box.classList.remove(`${box.classList[0]}--open`)
+					box.style.height = 0
 				})
+				imgs.forEach(img => img.classList.remove(`${img.classList[0]}--open`))
+				equipmentHideBox.forEach(box => box.classList.remove(`${box.classList[0]}--open`))
 
-				document.removeEventListener('click', openHiddenEquipmentOnClick)
-				document.removeEventListener('click', openHiddenLinterOnClick)
-				document.removeEventListener('click', climbUpLinterBtn)
-				window.removeEventListener('resize', closeBtnsOnResize)
+				window.removeEventListener('resize', handleChangeOnResize)
 			}
 
-			createAnimation(setId.ids, setId.elementKeys, setId.startingHeight, animate, reset)
+			animateVisibleElements([hideGroup[0]], animate)
+			resetAnimations(reset, 'uses')
+			document.addEventListener('click', toggleUIElements)
 		}
 
-		btnsAnimate()
+		controlButtonAndContent()
 
 		function copyText() {
+			const copyBtn = document.querySelectorAll('.uses-linters__copy-btn')
+			const code = document.querySelectorAll('.uses-linters__code')
 			const btns = [...copyBtn]
 			const texts = [...code]
 			const hmpName = document.getElementById('hmp-getting-name')
@@ -2444,11 +2105,10 @@ function main() {
 		headerEvents()
 		homePageEvents()
 		usesPageEvents()
-		resumePageEvents()
-		aboutMePageEvents()
-		footerEvents()
+		// resumePageEvents()
+		// aboutMePageEvents()
+		// footerEvents()
 
-		// switchPages()
 		climbUp()
 		asideMenu()
 	})
@@ -2456,103 +2116,6 @@ function main() {
 	// window.addEventListener('beforeunload', () => {
 	// 	pageUpdate()
 	// })
-
-	changeLanguageButton.addEventListener('click', () => {
-		isLanguageRussian = !isLanguageRussian
-		const currentLanguage = isLanguageRussian ? 'ru' : 'en'
-
-		translateText(currentLanguage, 'russian-font')
-
-		setCurrentDate()
-		calculateExp()
-		updateAnimationText()
-
-		function homePageTextEdit() {
-			const cardsText = document.querySelectorAll('.hmp-cards__progress-text')
-
-			manageClasses(cardsText, ['russian-font'], null)
-
-			manageClasses(null, ['hmp-getting__title--rus-lang'], '.hmp-getting__title')
-			manageClasses(null, ['hmp-cards__title--rus-lang'], '.hmp-cards__title')
-			manageClasses(null, ['hmp-projects__title--rus-lang'], '.hmp-projects__title')
-			manageClasses(null, ['hmp-projects__text--rus-lang'], '.hmp-projects__text')
-			manageClasses(null, ['hmp-way__title--rus-lang'], '.hmp-way__title')
-			manageClasses(null, ['hmp-way__btn--rus-lang'], '.hmp-way__btn')
-		}
-
-		homePageTextEdit()
-
-		function resumeTextEdit() {
-			const subtitlesGetting = document.querySelectorAll('.resume-getting__subtitle')
-			const subtitles = document.querySelectorAll('.resume-subtitle')
-			const titles = document.querySelectorAll('.resume-title')
-			const label = document.querySelectorAll('.resume-feedback__label')
-			const copyBtn = document.querySelectorAll('.uses-linters__copy-btn')
-			const pasteTextSpan = document.querySelectorAll('.uses-linters__paste-text--accent')
-			const pasteText = document.querySelectorAll('.uses-linters__paste-text')
-
-			manageClasses(subtitlesGetting, ['resume-getting__subtitle--rus-lang'], null)
-			manageClasses(subtitles, ['resume-subtitle--rus-lang'], null)
-			manageClasses(titles, ['resume-title--rus-lang'], null)
-			manageClasses(label, ['resume-feedback__label--rus-lang'], null)
-			manageClasses(copyBtn, ['uses-linters__copy-btn--rus-lang'], null)
-			manageClasses(pasteTextSpan, ['russian-font'], null)
-			manageClasses(pasteText, ['uses-linters__paste-text--rus-lang'], null)
-
-			manageClasses(null, ['resume-feedback__form-btn--rus-lang'], '.resume-feedback__form-btn')
-			manageClasses(null, ['resume-download__link--rus-lang'], '.resume-download__link')
-			manageClasses(null, ['resume-getting__title--rus-lang'], '.resume-getting__title')
-			manageClasses(null, ['resume-feedback__label--textarea-rus-lang'], '.resume-feedback__label--textarea')
-		}
-
-		resumeTextEdit()
-
-		function usesTextEdit() {
-			const titles = document.querySelectorAll('.uses-title')
-			const equipmentHideText = document.querySelectorAll('.uses-equipment__hidden-text')
-			const softwareText = document.querySelectorAll('.uses-software__text')
-			const linterTasksText = document.querySelectorAll('.uses-linters__task')
-
-			manageClasses(titles, ['uses-title--rus-lang'], null)
-			manageClasses(equipmentHideText, ['uses-equipment__hidden-text--rus-lang'], null)
-			manageClasses(softwareText, ['uses-software__text--rus-lang', 'russian-font'], null)
-			manageClasses(linterTasksText, ['uses-linters__task--rus-lang'], null)
-
-			manageClasses(null, ['uses-getting__title--rus-lang'], '.uses-getting__title')
-			manageClasses(null, ['uses-getting__subtitle--rus-lang'], '.uses-getting__subtitle')
-			manageClasses(null, ['uses-linters__settings-title--rus-lang'], '.uses-linters__settings-title')
-
-			function settingToggleClasses() {
-				const fontText = document.querySelector('.uses-linters__settings-subtitle--font-color')
-				const accentText = document.querySelector('.uses-linters__settings-subtitle--span')
-
-				fontText.classList.toggle('uses-linters__settings-subtitle--accent-color', isLanguageRussian)
-				accentText.classList.toggle('uses-linters__settings-subtitle--accent-color', !isLanguageRussian)
-			}
-
-			settingToggleClasses()
-		}
-
-		usesTextEdit()
-
-		function aboutMeTextEdit() {
-			const expText = document.querySelectorAll('.about-me-exp__text')
-			const totalText = document.querySelectorAll('.about-me-exp__total-text')
-			const linksText = document.querySelectorAll('.about-me-self__links-text')
-
-			manageClasses(expText, ['about-me-exp__text--rus-lang'], null)
-			manageClasses(totalText, ['russian-font'], null)
-			manageClasses(linksText, ['russian-font', 'about-me-self__links-text--rus-lang'], null)
-
-			manageClasses(null, ['about-me-getting__title--rus-lang'], '.about-me-getting__title')
-			manageClasses(null, ['about-me-getting__subtitle--rus-lang'], '.about-me-getting__subtitle')
-			manageClasses(null, ['about-me-exp__total-exp--rus-lang', 'russian-font'], '.about-me-exp__total-exp')
-			manageClasses(null, ['about-me-self__text--rus-lang'], '.about-me-self__text')
-			manageClasses(null, ['about-me-self__accent-text--rus-lang'], '.about-me-self__accent-text')
-		}
-
-		aboutMeTextEdit()
-	})
 }
 
 main()
