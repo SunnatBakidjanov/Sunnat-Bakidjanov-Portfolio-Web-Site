@@ -1523,8 +1523,6 @@ function main() {
 			let resizeTimeout = null
 			let isAnimated = false
 
-			hideGroup[8].style.height = `${hideGroup[8].scrollHeight}px`
-
 			function toggleUIElements(event) {
 				const index = [...btn].indexOf(event.target)
 
