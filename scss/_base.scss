@@ -64,6 +64,9 @@
 	// hmp-my-way
 	--hmp-my-way-blink-color: var(--white);
 
+	// uses-modal-window
+	--uses-modal-window: var(--white);
+
 	// size
 	--gradient-transition-point: 30%;
 	--change-color-transition: 0.4s ease-out;
@@ -89,6 +92,14 @@
 	--uses-btn-text-font-size-1440: 2em;
 	--uses-equipment-hide-text-font-size-1440: 1.3em;
 	--uses-software-font-size-1440: 2.2em;
+	--uses-linters-tasks-font-size-1440: 2em;
+	--uses-linters-title-font-size-1440: 2.5em;
+	--uses-linters-setting-subtitle-font-size-1440: 2em;
+	--uses-linters-info-font-size-1440: 1em;
+	--uses-linters-past-font-size-1440: 1.2em;
+	--uses-linters-copy-btn-font-size-1440: 1.5em;
+	--uses-modal-window-font-size-1440: 1.5em;
+	--uses-linters-code-font-size-1440: 1.1em;
 
 	// 1024px
 	--title-font-size-1024: 2.8em;
@@ -99,6 +110,12 @@
 	--uses-main-title-font-size-1024: 4em;
 	--uses-main-subtitle-font-size-1024: 2.5em;
 	--uses-equipment-hide-text-font-size-1024: 1.2em;
+	--uses-linters-tasks-font-size-1024: 1.8em;
+	--uses-linters-title-font-size-1024: 2.3em;
+	--uses-linters-setting-subtitle-font-size-1024: 1.8em;
+	--uses-linters-past-font-size-1024: 1.1em;
+	--uses-linters-copy-btn-font-size-1024: 1.4em;
+	--uses-modal-window-font-size-1024: 1.4em;
 
 	// 768px
 	--title-font-size-768: 2.4em;
@@ -116,6 +133,14 @@
 	--uses-btn-text-font-size-768: 1.8em;
 	--uses-equipment-hide-text-font-size-768: 1.1em;
 	--uses-software-font-size-768: 1.8em;
+	--uses-linters-tasks-font-size-768: 1.5em;
+	--uses-linters-title-font-size-768: 2.1em;
+	--uses-linters-setting-subtitle-font-size-768: 1.6em;
+	--uses-modal-window-font-size-768: 1.3em;
+	--uses-linters-past-font-size-768: 1em;
+	--uses-linters-copy-btn-font-size-768: 1.2em;
+	--uses-linters-info-font-size-768: 0.9em;
+	--uses-linters-code-font-size-768: 1em;
 
 	// 425px
 	--title-font-size-425: 2em;
@@ -137,6 +162,13 @@
 	--uses-btn-text-font-size-425: 1.5em;
 	--uses-equipment-hide-text-font-size-425: 0.9em;
 	--uses-software-font-size-425: 1.6em;
+	--uses-linters-tasks-font-size-425: 1.2em;
+	--uses-linters-title-font-size-425: 1.6em;
+	--uses-linters-setting-subtitle-font-size-425: 1.2em;
+	--uses-modal-window-font-size-425: 1.1em;
+	--uses-linters-copy-btn-font-size-425: 1em;
+	--uses-linters-past-font-size-425: 0.8em;
+	--uses-linters-code-font-size-425: 0.9em;
 
 	// 375px
 	--title-font-size-375: 1.8em;
@@ -146,6 +178,8 @@
 	--hmp-projects-text-font-size-375: 1.1em;
 	--uses-main-title-font-size-375: 2.6em;
 	--uses-main-subtitle-font-size-375: 1.6em;
+	--uses-linters-tasks-font-size-375: 1.1em;
+	--uses-linters-setting-subtitle-font-size-375: 1em;
 
 	// height 667px
 	--header-btn-font-size-heigth-667: 1.8em;
@@ -161,6 +195,7 @@
 	--z-index-cloud-center: 2;
 	--z-index-nav-container: 3;
 	--z-index-burger-menu: 4;
+	--z-index-moda-widnow-copy: 10;
 }
 
 // colors

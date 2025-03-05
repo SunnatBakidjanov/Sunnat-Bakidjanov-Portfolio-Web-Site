@@ -66,7 +66,7 @@ $react-color: var(--react);
 		margin-top: 80px;
 		margin-left: 30px;
 		overflow: hidden;
-		width: 700px;
+		width: 740px;
 	}
 
 	&__hidden-title {
@@ -98,6 +98,7 @@ $react-color: var(--react);
 		display: inline-block;
 		margin-top: 20px;
 		margin-bottom: 70px;
+		height: 80px;
 		font-size: var(--hmp-getting-text-font-size-1440);
 		color: var(--text-color);
 		letter-spacing: 1px;
@@ -355,7 +356,6 @@ $react-color: var(--react);
 		}
 
 		&__text-group {
-			height: 80px;
 			font-size: var(--hmp-getting-text-font-size-768);
 		}
 

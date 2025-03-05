@@ -13,10 +13,6 @@ function main() {
 		[logo.id]: 'home',
 	}
 
-	const clickState = {}
-	const scrollState = {}
-	const heightValue = {}
-
 	let isAnimationStopped = false
 
 	const languageCallbacks = []
@@ -822,9 +818,6 @@ function main() {
 						break
 
 					case 'waiting':
-						let currentLetterIndex = (letterIndex = currentText.length)
-						text.textContent = currentText.substring(0, currentLetterIndex)
-
 						timeout = setTimeout(() => {
 							state = 'deleting'
 							startTyping()
@@ -858,7 +851,23 @@ function main() {
 				}
 			}
 
-			updateLanguageContent(startTyping)
+			function handleLanguageChangeOnTextWrited() {
+				if (!blink.classList.contains('hmp-getting__blink--animate')) return
+
+				const currentTexts = isLanguageRussian ? texts.ru : texts.en
+				const previousTexts = isLanguageRussian ? texts.en : texts.ru
+
+				if (state === 'waiting') {
+					const newIndex = previousTexts.indexOf(text.textContent.trim())
+					if (newIndex !== -1) {
+						textIndex = newIndex
+						text.textContent = currentTexts[textIndex]
+						letterIndex = currentTexts[textIndex].length
+					}
+				}
+			}
+
+			updateLanguageContent(handleLanguageChangeOnTextWrited)
 
 			function handleBlinkAnimation(event) {
 				if (event.animationName === 'hmp-getting-blink-start') timeout = setTimeout(startTyping, cfg.startWrite)
@@ -1482,9 +1491,12 @@ function main() {
 			const scrollLine = document.getElementById('uses-scroll-line')
 			const scrollText = document.getElementById('uses-scroll-text')
 			const softWearItem = document.querySelectorAll('.uses-software__item')
+			const lintersTasks = document.querySelectorAll('.uses-linters__task')
+			const linterTitle = document.getElementById('uses-linters-settings-title')
+			const linterSubitile = document.getElementById('uses-linters-settings-subtitle')
 
-			const elements = [mainTitle, scrollLine, ...lines, ...titles, ...btn]
-			const hideElements = [mainSubtitle, scrollText, gear, ...btn, ...softWearItem]
+			const elements = [mainTitle, scrollLine, ...lintersTasks, linterTitle, ...lines, ...titles, ...btn]
+			const hideElements = [mainSubtitle, scrollText, gear, linterSubitile, ...btn, ...softWearItem]
 
 			animateVisibleElements(elements, addAnimateClasses)
 			animateVisibleElements(hideElements, addAnimateClassesInHideElements)
@@ -1492,23 +1504,26 @@ function main() {
 			removeAnimateClasses(elements, hideElements, 'uses')
 		}
 
-		animateUsesPageElements()
-
 		function controlButtonAndContent() {
 			const imgs = document.querySelectorAll('.uses-img')
 			const btn = document.querySelectorAll('.uses-btn')
 			const hideGroup = document.querySelectorAll('.uses-hide-group')
-			const equipmentHideBox = document.querySelectorAll('.uses-equipment__hide-box')
+			const equipmentHideBox = document.querySelectorAll('.uses-hide-box')
 
 			const status = {}
-			const timeouts = {}
+			const timeouts = []
 
 			const timers = {
 				disabledTimer: 300,
+				resizeTimer: 1000,
+				endResizeTimer: 500,
 			}
 
 			let lastResizeTime = 0
 			let resizeTimeout = null
+			let isAnimated = false
+
+			hideGroup[8].style.height = `${hideGroup[8].scrollHeight}px`
 
 			function toggleUIElements(event) {
 				const index = [...btn].indexOf(event.target)
@@ -1520,12 +1535,15 @@ function main() {
 				clearTimeout(timeouts[index])
 				timeouts[index] = setTimeout(() => (btn[index].disabled = false), timers.disabledTimer)
 
+				const transitionDuration = Math.min(0.8, Math.max(0.4, hideGroup[index].scrollHeight / 800))
+				hideGroup[index].style.transition = `all ${transitionDuration.toFixed(2)}s ease-out`
+
 				if (!status[index].isOpen) {
 					imgs[index].classList.add(`${imgs[index].classList[0]}--open`)
 					hideGroup[index].classList.add(`${hideGroup[index].classList[0]}--open`)
 					hideGroup[index].style.height = `${hideGroup[index].scrollHeight}px`
 
-					equipmentHideBox[index].classList.add(`${equipmentHideBox[index].classList[0]}--open`)
+					equipmentHideBox[index]?.classList.add(`${equipmentHideBox[index].classList[0]}--open`)
 
 					status[index].isOpen = true
 					return
@@ -1533,8 +1551,8 @@ function main() {
 
 				imgs[index].classList.remove(`${imgs[index].classList[0]}--open`)
 				hideGroup[index].classList.remove(`${hideGroup[index].classList[0]}--open`)
-				equipmentHideBox[index].classList.remove(`${equipmentHideBox[index].classList[0]}--open`)
 				hideGroup[index].style.height = 0
+				equipmentHideBox[index]?.classList.remove(`${equipmentHideBox[index].classList[0]}--open`)
 
 				status[index].isOpen = false
 			}
@@ -1548,105 +1566,219 @@ function main() {
 			function handleChangeOnResize() {
 				const now = Date.now()
 
-				if (now - lastResizeTime >= 1000) {
+				if (now - lastResizeTime >= timers.resizeTimer) {
 					changeScrollWidth()
 					lastResizeTime = now
 				}
 
 				clearTimeout(resizeTimeout)
-				resizeTimeout = setTimeout(() => changeScrollWidth(), 500)
+				resizeTimeout = setTimeout(() => changeScrollWidth(), timers.endResizeTimer)
 			}
 
 			function animate() {
+				if (isAnimated) return
+				isAnimated = true
+
 				window.addEventListener('resize', handleChangeOnResize)
 				handleChangeOnResize()
 			}
 
 			function reset() {
-				hideGroup.forEach(box => {
+				isAnimated = false
+				lastResizeTime = 0
+				timeouts.forEach(timeout => clearTimeout(timeout))
+
+				if (resizeTimeout) {
+					clearTimeout(resizeTimeout)
+					resizeTimeout = null
+				}
+
+				hideGroup.forEach((box, index) => {
 					box.classList.remove(`${box.classList[0]}--open`)
 					box.style.height = 0
+
+					if (status[index]) status[index].isOpen = false
 				})
+
+				btn.forEach(btn => (btn.disabled = false))
 				imgs.forEach(img => img.classList.remove(`${img.classList[0]}--open`))
 				equipmentHideBox.forEach(box => box.classList.remove(`${box.classList[0]}--open`))
 
 				window.removeEventListener('resize', handleChangeOnResize)
 			}
 
-			animateVisibleElements([hideGroup[0]], animate)
+			animateVisibleElements([...hideGroup], animate)
 			resetAnimations(reset, 'uses')
 			document.addEventListener('click', toggleUIElements)
 		}
 
-		controlButtonAndContent()
+		function lintersEvents() {
+			const btn = document.querySelectorAll('.uses-linters__btn')
+			const upBtn = document.querySelectorAll('.uses-linters__up-btn')
+
+			const state = {}
+			const timeouts = []
+
+			const timers = {
+				scrollTimer: 500,
+			}
+
+			function lintersBtnClick(event) {
+				const index = [...btn].indexOf(event.target)
+
+				if (index === -1) return
+				if (!state[index]) state[index] = { isOpen: false }
+
+				if (!state[index].isOpen) {
+					clearTimeout(timeouts[index])
+					timeouts[index] = setTimeout(() => btn[index].scrollIntoView({ behavior: 'smooth', block: 'start' }), timers.scrollTimer)
+
+					state[index] = { isOpen: true }
+					return
+				}
+
+				state[index] = { isOpen: false }
+			}
+
+			function handleUpOnClick(event) {
+				const index = [...upBtn].indexOf(event.target)
+
+				if (index === -1) return
+
+				btn[index + 1].scrollIntoView({ behavior: 'smooth', block: 'start' })
+			}
+
+			document.addEventListener('click', event => {
+				lintersBtnClick(event)
+				handleUpOnClick(event)
+			})
+		}
 
 		function copyText() {
-			const copyBtn = document.querySelectorAll('.uses-linters__copy-btn')
-			const code = document.querySelectorAll('.uses-linters__code')
-			const btns = [...copyBtn]
-			const texts = [...code]
-			const hmpName = document.getElementById('hmp-getting-name')
+			const copyButtons = document.querySelectorAll('.uses-linters__copy-btn')
+			const infoCopyButtons = document.querySelectorAll('.uses-linters__info-copy-btn')
+			const codeBlocks = document.querySelectorAll('.uses-linters__code')
+			const infoTexts = document.querySelectorAll('.uses-linters__info-text--accent-color')
 
 			let isClicked = false
+			let isModalVisible = false
+			const visibleTimer = 2000
 
-			function showModalWindow(message, classes) {
-				if (isModalVisible) return
+			function showModalWindow(message, type) {
+				if (isModalVisible) {
+					const modalWindow = document.querySelector('.uses-linters__modal-window')
+					modalWindow.textContent = message
+					modalWindow.dataset.message = type
+					return
+				}
+
 				isModalVisible = true
 
 				const modalWindow = document.createElement('div')
-				modalWindow.classList.add(...classes)
+				modalWindow.classList.add('uses-linters__modal-window')
 				modalWindow.textContent = message
-				modalWindow.style.cssText = hmpName.style.cssText
+				modalWindow.dataset.message = type
 				document.body.appendChild(modalWindow)
 
 				setTimeout(() => {
 					modalWindow.remove()
 					isModalVisible = false
-				}, 2000)
+				}, visibleTimer)
 			}
+
+			function updateModalText() {
+				const modalWindow = document.querySelector('.uses-linters__modal-window')
+				if (!modalWindow) return
+
+				const messageType = modalWindow.dataset.message
+
+				let newMessage = ''
+				switch (messageType) {
+					case 'success':
+						newMessage = isLanguageRussian ? 'Текст скопирован' : 'Text Copied'
+						break
+					case 'error':
+						newMessage = isLanguageRussian ? 'Ошибка копирования' : 'Copy Error'
+						break
+					default:
+						newMessage = modalWindow.textContent
+				}
+
+				modalWindow.textContent = newMessage
+			}
+
+			updateLanguageContent(updateModalText)
 
 			function cleanText(text) {
-				let cleanedText = text.replace(/<\/?[^>]+(>|$)/g, '')
-				cleanedText = cleanedText.replace(/\s+/g, ' ').trim()
-				return cleanedText
+				return text
+					.replace(/<\/?[^>]+(>|$)/g, '')
+					.replace(/\s+/g, ' ')
+					.trim()
 			}
 
-			btns.forEach((element, index) => {
-				element.addEventListener('click', () => {
-					if (isClicked) return
-					isClicked = true
+			function handleCodeCopy(index) {
+				if (isClicked) return
+				isClicked = true
 
-					let textToCopy = texts[index].textContent
-					textToCopy = cleanText(textToCopy)
+				let textToCopy = codeBlocks[index]?.textContent || ''
+				textToCopy = cleanText(textToCopy)
 
-					try {
-						const jsonObject = JSON.parse(textToCopy)
-						textToCopy = JSON.stringify(jsonObject, null, '\t')
-					} catch (error) {
-						console.warn('Текст не является валидным JSON:', textToCopy)
-					}
+				try {
+					const jsonObject = JSON.parse(textToCopy)
+					textToCopy = JSON.stringify(jsonObject, null, '\t')
+				} catch (error) {
+					console.warn('Текст не является валидным JSON:', textToCopy)
+				}
 
-					navigator.clipboard
-						.writeText(textToCopy)
-						.then(() => {
-							const message = isLanguageRussian ? 'Текст скопирован' : 'Text Copied'
-							const font = isLanguageRussian ? ['uses-linters__modal-window', 'russian-font', 'uses-linters__modal-window--rus-lang'] : ['uses-linters__modal-window']
-							showModalWindow(message, font)
-						})
-						.catch(() => {
-							const message = isLanguageRussian ? 'Ошибка копирования' : 'Copy Error'
-							const font = isLanguageRussian ? ['uses-linters__modal-window', 'russian-font', 'uses-linters__modal-window--rus-lang'] : ['uses-linters__modal-window']
-							showModalWindow(message, font)
-						})
-						.finally(() => {
-							setTimeout(() => {
-								isClicked = false
-							}, 2000)
-						})
-				})
+				navigator.clipboard
+					.writeText(textToCopy)
+					.then(() => {
+						const message = isLanguageRussian ? 'Текст скопирован' : 'Text Copied'
+						showModalWindow(message, 'success')
+					})
+					.catch(() => {
+						const message = isLanguageRussian ? 'Ошибка копирования' : 'Copy Error'
+						showModalWindow(message, 'error')
+					})
+					.finally(() => {
+						setTimeout(() => (isClicked = false), visibleTimer)
+					})
+			}
+
+			function handleInfoCopy(index) {
+				if (isClicked) return
+				isClicked = true
+
+				let textToCopy = infoTexts[index]?.textContent || ''
+				textToCopy = cleanText(textToCopy)
+
+				navigator.clipboard
+					.writeText(textToCopy)
+					.then(() => {
+						const message = isLanguageRussian ? 'Текст скопирован' : 'Text Copied'
+						showModalWindow(message, 'success')
+					})
+					.catch(() => {
+						const message = isLanguageRussian ? 'Ошибка копирования' : 'Copy Error'
+						showModalWindow(message, 'error')
+					})
+					.finally(() => {
+						setTimeout(() => (isClicked = false), visibleTimer)
+					})
+			}
+
+			copyButtons.forEach((button, index) => {
+				button.addEventListener('click', () => handleCodeCopy(index))
+			})
+
+			infoCopyButtons.forEach((button, index) => {
+				button.addEventListener('click', () => handleInfoCopy(index))
 			})
 		}
 
+		animateUsesPageElements()
+		controlButtonAndContent()
+		lintersEvents()
 		copyText()
 	}
 

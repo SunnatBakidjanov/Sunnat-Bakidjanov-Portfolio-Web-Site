@@ -1,46 +1,12 @@
-$orange: #f8aa01;
-$white: #fff;
-$black: #000;
-$gray: #a9a9a9;
-$milky: #f5deb3;
-
-// soft-colors
 $vs-code: var(--vs-code);
 $pixel-perfect: var(--pixel-perfect);
 $bootstrap: var(--bootstrap);
 $figma: var(--text-color);
 $git: var(--git);
 
-// same elements
-
-$uses-title-color: $orange;
-$uses-text-hover-color: $orange;
-$uses-text-color: $white;
-$uses-btn-border-color: $milky;
-$uses-btn-border-hover-color: $orange;
-$uses-hide-group-border-color: $milky;
-
-// uses-getting-color
-$uses-getting-title-color: $white;
-$uses-getting-text-color: $white;
-$uses-getting-text-span-color: $orange;
-
-// uses-equipment
-$uses-equipment-text-color: $white;
-
-// uses-linters
-$uses-linters-text-color: $white;
-$uses-linters-hover-text-color: $orange;
-$uses-linters-accent-text-color: $orange;
-$uses-linters-border-color: $milky;
-$uses-linters-border-hover-color: $orange;
-$uses-linters-line-color: $white;
-
 .uses-page {
 	display: none;
 }
-
-// Same components
 
 .uses-title {
 	margin-bottom: 30px;
@@ -68,6 +34,7 @@ $uses-linters-line-color: $white;
 .uses-item {
 	display: flex;
 	flex-direction: column;
+	width: 100%;
 }
 
 .uses-text {
@@ -150,10 +117,6 @@ $uses-linters-line-color: $white;
 	overflow: hidden;
 	border-top: 1px solid transparent;
 	box-shadow: 0 0 4px transparent;
-	transition:
-		height 0.6s ease-out,
-		box-shadow 0.8s ease-out,
-		border-top 0.6s ease-out;
 	will-change: height;
 }
 
@@ -208,7 +171,21 @@ $uses-linters-line-color: $white;
 	}
 }
 
-// Other compontents
+@media (hover: none) and (pointer: coarse) {
+	.uses-btn {
+		&:hover {
+			box-shadow: 0 0 4px var(--box-shadow-main-color);
+		}
+
+		&:hover .uses-text {
+			color: var(--text-color);
+		}
+
+		&:hover .uses-img {
+			filter: unset;
+		}
+	}
+}
 
 .uses-getting {
 	&__wrapper {
@@ -678,7 +655,7 @@ $uses-linters-line-color: $white;
 		width: 80px;
 		height: 80px;
 		opacity: 0;
-		transform: translateX(-20px);
+		transform: translateY(-20px);
 	}
 
 	&__img--animate {
@@ -686,7 +663,7 @@ $uses-linters-line-color: $white;
 			transform 1s ease-out,
 			opacity 1s ease-out;
 		opacity: 1;
-		transform: translateX(0);
+		transform: translateY(0);
 	}
 
 	&__text {
@@ -777,32 +754,25 @@ $uses-linters-line-color: $white;
 
 .uses-linters {
 	&__wrapper {
-		display: none;
+		display: flex;
 		flex-direction: column;
 		align-items: center;
 		margin-top: 100px;
 		margin-bottom: 50px;
 	}
 
-	&__title {
-		margin-bottom: 30px;
-	}
-
-	// &__line {}
-
 	&__tasks-group {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		margin-top: 50px;
+		margin: 50px 0;
 		flex-wrap: wrap;
-		gap: 40px 150px;
+		gap: 25px 150px;
 	}
 
 	&__task {
-		font-weight: 500;
-		font-size: 32px;
-		color: $uses-linters-text-color;
+		font-size: var(--uses-linters-tasks-font-size-1440);
+		color: var(--text-color);
 		text-align: center;
 		opacity: 0;
 		transform: translateY(-20px);
@@ -814,10 +784,12 @@ $uses-linters-line-color: $white;
 		transition:
 			transform 0.8s ease-out,
 			opacity 0.8s ease-out;
-	}
 
-	&__task--rus-lang {
-		font-size: 30px;
+		@for $i from 2 through 5 {
+			&:nth-child(#{$i}) {
+				transition-delay: #{$i * 0.1s};
+			}
+		}
 	}
 
 	&__inner-settings {
@@ -830,64 +802,53 @@ $uses-linters-line-color: $white;
 	}
 
 	&__settings-title {
-		margin-bottom: 5px;
-		font-weight: 600;
-		font-size: 40px;
-		color: $uses-linters-text-color;
+		font-size: var(--uses-linters-title-font-size-1440);
+		color: var(--text-color);
 		letter-spacing: 0.5px;
-		transform: translateX(-20px);
+		transform: translateY(-20px);
 		opacity: 0;
 	}
 
 	&__settings-title--animate {
-		transform: translateX(0) !important;
+		transform: translateY(0);
 		opacity: 1;
 		transition:
-			transform 0.8s ease-out,
-			opacity 0.8s ease-out;
-	}
-
-	&__settings-title--rus-lang {
-		margin-bottom: 10px;
-		font-size: 38px;
+			transform 0.6s ease-out,
+			opacity 0.6s ease-out;
 	}
 
 	&__settings-subtitle {
 		margin-bottom: 30px;
-		font-weight: 600;
-		font-size: 26px;
-		color: $uses-linters-text-color;
-		letter-spacing: 1px;
+		font-size: var(--uses-linters-setting-subtitle-font-size-1440);
+		color: var(--text-color);
+		letter-spacing: 0.5px;
 		text-align: center;
-		transform: translateX(20px);
-		opacity: 0;
+		overflow: hidden;
 	}
 
-	&__settings-subtitle--accent-color {
-		color: $uses-linters-accent-text-color;
+	&__settings-text {
+		display: inline-block;
+		transform: translateY(60px);
 	}
 
-	&__settings-subtitle--animate {
-		transform: translateX(0) !important;
-		opacity: 1;
-		transition:
-			transform 0.8s ease-out,
-			opacity 0.8s ease-out;
+	&__settings-text--animate {
+		transform: translateY(0);
+		transition: transform 0.6s ease-out;
+
+		@for $i from 2 through 3 {
+			&:nth-child(#{$i}) {
+				transition-delay: #{$i * 0.1s};
+			}
+		}
+	}
+
+	&__settings-text--accent-color {
+		color: var(--change-color);
 	}
 
 	&__settings-line {
 		margin-bottom: 35px;
 	}
-
-	&__item {
-		width: 100%;
-	}
-
-	// &__btn {}
-
-	// &__text {}
-
-	// &__img {}
 
 	&__hide-group {
 		display: flex;
@@ -899,34 +860,29 @@ $uses-linters-line-color: $white;
 	&__copy-btn {
 		margin-top: 15px;
 		padding: 7px 0;
-		font-weight: 500;
-		font-size: 22px;
-		color: $uses-linters-text-color;
+		font-size: var(--uses-linters-copy-btn-font-size-1440);
+		color: var(--text-color);
 		letter-spacing: 0.5px;
 		background-color: transparent;
 		border: none;
 		cursor: pointer;
-		box-shadow: 0 0 4px $milky;
+		box-shadow: 0 0 4px var(--box-shadow-main-color);
 		transition:
 			color 0.2s ease,
 			letter-spacing 0.3s ease,
 			box-shadow 0.2s ease;
 
 		&:hover {
-			color: $uses-linters-hover-text-color;
-			box-shadow: 0 0 4px $uses-linters-border-hover-color;
-			letter-spacing: 1px !important;
+			color: var(--accent-text-color);
+			box-shadow: 0 0 4px var(--box-shadow-secondary-color);
+			letter-spacing: 1px;
 		}
-	}
-
-	&__copy-btn--rus-lang {
-		font-size: 20px;
 	}
 
 	&__paste-group {
 		display: flex;
 		align-items: center;
-		margin-top: 15px;
+		margin: 15px 0;
 		column-gap: 5px;
 	}
 
@@ -936,114 +892,94 @@ $uses-linters-line-color: $white;
 	}
 
 	&__paste-text {
-		font-weight: 500;
-		font-size: 20px;
-		color: $uses-linters-text-color;
+		font-size: var(--uses-linters-past-font-size-1440);
+		color: var(--text-color);
 		letter-spacing: 0.5px;
 	}
 
 	&__paste-text--accent {
-		color: $uses-linters-accent-text-color;
+		color: var(--accent-text-color);
 	}
 
-	&__paste-text--rus-lang {
-		font-size: 18px;
+	&__info {
+		margin: 10px 0;
+		font-size: var(--uses-linters-info-font-size-1440);
+		color: var(--text-color);
+	}
+
+	&__info-copy-btn {
+		position: relative;
+		top: 2px;
+	}
+
+	&__info-copy-img {
+		margin-left: 5px;
+		width: 20px;
+		height: 20px;
+		object-fit: contain;
+		cursor: pointer;
+		transition: all 0.1s ease-out;
+
+		&:hover {
+			filter: drop-shadow(0 0 3px var(--box-shadow-main-color));
+		}
+	}
+
+	&__info-text {
+		line-height: 150%;
+	}
+
+	&__info-text--accent-color {
+		color: var(--accent-text-color);
 	}
 
 	&__code-line {
-		margin: 10px 0 20px;
-		padding: 1px 0;
 		width: 100%;
-		background-color: $uses-linters-line-color;
+		height: 2px;
+		background-color: var(--line-color);
 	}
 
 	&__code {
-		font-weight: 400;
-		font-size: 20px;
-		color: $uses-linters-text-color;
+		margin-top: 25px;
+		line-height: 125%;
+		font-size: var(--uses-linters-code-font-size-1440);
+		color: var(--text-color);
 	}
 
 	&__code-span {
-		color: $uses-linters-accent-text-color;
+		color: var(--accent-text-color);
 	}
 
 	&__up-img {
+		object-fit: contain;
 		pointer-events: none;
-		transition: transform 0.3s ease;
+		transition: filter 0.3s ease;
 	}
 
 	&__up-btn {
-		margin: 10px 0 20px;
+		display: flex;
+		align-items: center;
+		justify-content: space-evenly;
+		margin: 20px 0;
+		padding: 5px;
 		background-color: transparent;
 		border: none;
 		cursor: pointer;
-		box-shadow: 0 0 4px $uses-linters-border-color;
+		box-shadow: 0 0 4px var(--box-shadow-main-color);
 		transition: box-shadow 0.2s ease;
 
 		&:hover {
-			box-shadow: 0 0 4px $uses-linters-border-hover-color;
+			box-shadow: 0 0 4px var(--box-shadow-secondary-color);
 		}
 
 		&:hover .uses-linters__up-img {
-			transform: scale(1.1);
+			filter: drop-shadow(0 0 3px var(--box-shadow-main-color));
 		}
 	}
 
-	@media (width <= 1150px) {
-		&__wrapper {
-			margin-top: 90px;
-		}
-
-		&__title {
-			margin-bottom: 25px;
-		}
-
-		&__tasks-group {
-			margin-top: 40px;
-			gap: 30px 90px;
-		}
-
+	@media (width <= 1024px) {
 		&__task {
-			font-size: 30px;
-		}
-
-		&__task--rus-lang {
-			font-size: 28px;
-		}
-
-		&__inner-settings {
-			margin-top: 70px;
-		}
-
-		&__settings-title {
-			font-size: 38px;
-		}
-
-		&__settings-title--rus-lang {
-			font-size: 36px;
-		}
-	}
-
-	@media (width <= 800px) {
-		&__wrapper {
-			margin-top: 80px;
-		}
-
-		&__title {
-			margin-bottom: 20px;
-		}
-
-		&__tasks-group {
-			margin-top: 35px;
-			gap: 25px 80px;
-		}
-
-		&__task {
-			font-size: 28px;
-		}
-
-		&__task--rus-lang {
-			font-size: 26px;
+			font-size: var(--uses-linters-tasks-font-size-1024);
 		}
 
 		&__inner-settings {
@@ -1051,107 +987,122 @@ $uses-linters-line-color: $white;
 		}
 
 		&__settings-title {
-			font-size: 36px;
-		}
-
-		&__settings-title--rus-lang {
-			font-size: 34px;
+			font-size: var(--uses-linters-title-font-size-1024);
 		}
 
 		&__settings-subtitle {
-			margin-bottom: 20px;
-			font-size: 24px;
-		}
-
-		&__settings-line {
-			margin-bottom: 30px;
+			font-size: var(--uses-linters-setting-subtitle-font-size-1024);
 		}
 
 		&__copy-btn {
-			padding: 5px 0;
-			font-size: 20px;
-		}
-
-		&__copy-btn--rus-lang {
-			font-size: 18px;
-		}
-
-		&__paste-img {
-			width: 28px;
-			height: 28px;
+			font-size: var(--uses-linters-copy-btn-font-size-1024);
 		}
 
 		&__paste-text {
-			font-size: 18px;
+			font-size: var(--uses-linters-past-font-size-1024);
 		}
 
-		&__paste-text--rus-lang {
-			font-size: 16px;
-		}
-
-		&__code-line {
-			margin-bottom: 15px;
-		}
-
-		&__code {
-			font-size: 18px;
-		}
-
-		&__up-img {
-			width: 28px;
-			height: 28px;
+		&__paste-img {
+			width: 30px;
+			height: 30px;
 		}
 	}
 
-	@media (width <= 600px) {
-		&__wrapper {
-			margin-top: 70px;
-		}
-
-		&__title {
-			margin-bottom: 15px;
-		}
-
+	@media (width <= 768px) {
 		&__tasks-group {
-			margin-top: 30px;
-			gap: 20px 60px;
+			margin: 40px 0;
 		}
 
 		&__task {
-			font-size: 24px;
+			font-size: var(--uses-linters-tasks-font-size-768);
 		}
 
-		&__task--rus-lang {
-			font-size: 22px;
+		&__inner-settings {
+			margin-top: 50px;
 		}
 
 		&__settings-title {
-			margin-bottom: 0;
-			font-size: 34px;
-			letter-spacing: 1px;
-			transform: translateX(-10px);
-		}
-
-		&__settings-title--rus-lang {
-			font-size: 32px;
+			font-size: var(--uses-linters-title-font-size-768);
 		}
 
 		&__settings-subtitle {
-			margin-bottom: 20px;
-			font-size: 22px;
+			margin-bottom: 25px;
+			font-size: var(--uses-linters-setting-subtitle-font-size-768);
 		}
 
 		&__settings-line {
 			margin-bottom: 25px;
 		}
 
-		&__copy-btn {
-			padding: 5px 0;
-			font-size: 18px;
+		&__past-group {
+			margin: 10px 0;
 		}
 
-		&__copy-btn--rus-lang {
-			font-size: 16px;
+		&__copy-btn {
+			padding: 5px;
+			font-size: var(--uses-linters-copy-btn-font-size-768);
+		}
+
+		&__paste-text {
+			font-size: var(--uses-linters-past-font-size-768);
+		}
+
+		&__paste-img {
+			width: 26px;
+			height: 26px;
+		}
+
+		&__info {
+			font-size: var(--uses-linters-info-font-size-768);
+		}
+
+		&__code {
+			overflow-x: auto;
+			font-size: var(--uses-linters-code-font-size-768);
+		}
+
+		&__up-btn {
+			margin: 10px 0;
+		}
+
+		&__up-img {
+			width: 20px;
+			height: 20px;
+		}
+	}
+
+	@media (width <= 425px) {
+		&__tasks-group {
+			margin: 35px 0;
+		}
+
+		&__task {
+			font-size: var(--uses-linters-tasks-font-size-425);
+		}
+
+		&__inner-settings {
+			margin-top: 30px;
+		}
+
+		&__settings-title {
+			font-size: var(--uses-linters-title-font-size-425);
+		}
+
+		&__settings-subtitle {
+			margin-bottom: 15px;
+			font-size: var(--uses-linters-setting-subtitle-font-size-425);
+		}
+
+		&__settings-line {
+			margin-bottom: 15px;
+		}
+
+		&__copy-btn {
+			font-size: var(--uses-linters-copy-btn-font-size-425);
+		}
+
+		&__paste-text {
+			font-size: var(--uses-linters-past-font-size-425);
 		}
 
 		&__paste-img {
@@ -1159,98 +1110,47 @@ $uses-linters-line-color: $white;
 			height: 24px;
 		}
 
-		&__paste-text {
-			font-size: 16px;
-		}
-
-		&__paste-text--rus-lang {
-			font-size: 14px;
-		}
-
-		&__code-line {
-			margin-bottom: 10px;
-		}
-
 		&__code {
-			font-size: 16px;
-		}
-
-		&__up-btn {
-			margin-bottom: 15px;
+			font-size: var(--uses-linters-code-font-size-425);
 		}
 	}
 
-	@media (width <= 480px) {
+	@media (width <= 375px) {
 		&__inner-settings {
-			row-gap: 10px;
-			margin-top: 50px;
-		}
-
-		&__settings-subtitle {
-			margin-bottom: 15px;
-		}
-
-		&__settings-line {
-			margin-bottom: 15px;
+			margin-top: 25px;
 		}
 
 		&__tasks-group {
-			margin-top: 25px;
-			gap: 15px 100px;
+			margin: 30px 0;
 		}
-	}
 
-	@media (width <= 430px) {
 		&__task {
-			font-size: 20px;
-		}
-
-		&__task--rus-lang {
-			font-size: 18px;
-		}
-
-		&__settings-title {
-			font-size: 30px;
-		}
-
-		&__settings-title--rus-lang {
-			font-size: 28px;
-		}
-
-		&__settings-subtitle {
-			margin-bottom: 5px;
-			font-size: 20px;
-			transform: translateX(10px);
-		}
-
-		&__up-img {
-			width: 26px;
-			height: 26px;
+			font-size: var(--uses-linters-tasks-font-size-375);
 		}
 	}
 
 	@media (hover: none) and (pointer: coarse) {
 		&__copy-btn {
 			&:hover {
-				color: $uses-linters-text-color;
-				box-shadow: 0 0 4px $uses-linters-border-color;
+				color: var(--text-color);
+				box-shadow: 0 0 4px var(--box-shadow-main-color);
 				letter-spacing: 0.5px !important;
 			}
 		}
 
-		&__copy-btn--rus-lang {
+		&__info-copy-img {
 			&:hover {
-				letter-spacing: 0 !important;
+				filter: unset;
 			}
 		}
 
 		&__up-btn {
 			&:hover {
-				box-shadow: 0 0 4px $uses-linters-border-color;
+				box-shadow: 0 0 4px var(--box-shadow-main-color);
 			}
 
 			&:hover .uses-linters__up-img {
-				transform: scale(1);
+				filter: unset;
 			}
 		}
 	}
@@ -1258,20 +1158,19 @@ $uses-linters-line-color: $white;
 
 .uses-linters__modal-window {
 	position: fixed;
-	z-index: 10;
+	z-index: var(--z-index-moda-widnow-copy);
 	bottom: 0;
 	left: 50%;
-	display: none;
+	display: flex;
 	align-items: center;
 	justify-content: center;
 	padding: 5px 0;
 	width: 100%;
-	font-weight: 500;
-	font-size: 22px;
+	font-size: var(--uses-modal-window-font-size-1440);
 	color: var(--change-color);
 	letter-spacing: 0.5px;
 	text-align: center;
-	background-color: $white;
+	background-color: var(--uses-modal-window);
 	opacity: 0;
 	transform: translateX(-50%);
 	animation: linters-modal-windows 2s linear;
@@ -1293,20 +1192,16 @@ $uses-linters-line-color: $white;
 			opacity: 0;
 		}
 	}
-}
 
-@media (hover: none) and (pointer: coarse) {
-	.uses-btn {
-		&:hover {
-			box-shadow: 0 0 4px var(--box-shadow-main-color);
-		}
+	@media (width <= 1024px) {
+		font-size: var(--uses-modal-window-font-size-1024);
+	}
 
-		&:hover .uses-text {
-			color: var(--text-color);
-		}
+	@media (width <= 768px) {
+		font-size: var(--uses-modal-window-font-size-768);
+	}
 
-		&:hover .uses-img {
-			filter: unset;
-		}
+	@media (width <= 425px) {
+		font-size: var(--uses-modal-window-font-size-425);
 	}
 }
