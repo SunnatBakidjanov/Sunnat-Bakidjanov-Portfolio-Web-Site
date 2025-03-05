@@ -2,26 +2,10 @@ $html-color: var(--html);
 $css-color: var(--css);
 $js-color: var(--js);
 $react-color: var(--react);
-$orange: #f8aa01;
-$white: #fff;
-$black: #000;
-$gray: #a9a9a9;
-$milky: #f5deb3;
-
-// my-way-section
-$hmp-my-way-blink-color: $white;
-$hmp-my-way-text-accent-color: $orange;
-$hmp-my-way-text-color: $white;
-$hmp-way-border-color: $white;
-$hmp-way-btn-border-color: $milky;
-$hmp-way-btn-hover-border-color: $orange;
-$hmp-my-way-border-color: $white;
 
 .home-page {
 	display: none;
 }
-
-// Same components
 
 .hmp-titles {
 	font-size: var(--title-font-size-1440);
@@ -30,6 +14,30 @@ $hmp-my-way-border-color: $white;
 	text-align: center;
 	opacity: 0;
 	transform: translateY(-30px);
+
+	@media (width <= 1024px) {
+		& {
+			font-size: var(--title-font-size-1024);
+		}
+	}
+
+	@media (width <= 768px) {
+		& {
+			font-size: var(--title-font-size-768);
+		}
+	}
+
+	@media (width <= 425px) {
+		& {
+			font-size: var(--title-font-size-425);
+		}
+	}
+
+	@media (width <= 375px) {
+		& {
+			font-size: var(--title-font-size-375);
+		}
+	}
 }
 
 .hmp-titles--animate {
@@ -45,32 +53,6 @@ $hmp-my-way-border-color: $white;
 	transition: all 1.2s ease-out;
 }
 
-@media (width <= 1024px) {
-	.hmp-titles {
-		font-size: var(--title-font-size-1024);
-	}
-}
-
-@media (width <= 768px) {
-	.hmp-titles {
-		font-size: var(--title-font-size-768);
-	}
-}
-
-@media (width <= 425px) {
-	.hmp-titles {
-		font-size: var(--title-font-size-425);
-	}
-}
-
-@media (width <= 375px) {
-	.hmp-titles {
-		font-size: var(--title-font-size-375);
-	}
-}
-
-// Other components
-
 .hmp-getting {
 	&__wrapper {
 		display: flex;
@@ -84,7 +66,7 @@ $hmp-my-way-border-color: $white;
 		margin-top: 80px;
 		margin-left: 30px;
 		overflow: hidden;
-		width: 700px;
+		width: 740px;
 	}
 
 	&__hidden-title {
@@ -116,6 +98,7 @@ $hmp-my-way-border-color: $white;
 		display: inline-block;
 		margin-top: 20px;
 		margin-bottom: 70px;
+		height: 80px;
 		font-size: var(--hmp-getting-text-font-size-1440);
 		color: var(--text-color);
 		letter-spacing: 1px;
@@ -188,7 +171,7 @@ $hmp-my-way-border-color: $white;
 			}
 		}
 
-		animation: hmp-getting-logo-3d-rotation 25s linear infinite calc(var(--hmp-logo-lines-duration) + 0.6s);
+		animation: hmp-getting-logo-3d-rotation 25s linear infinite 0.7s;
 	}
 
 	&__sides {
@@ -207,7 +190,7 @@ $hmp-my-way-border-color: $white;
 
 	&__front--animate {
 		box-shadow: 0 0 15px var(--hmp-logo-3d-color);
-		transition: box-shadow 0.5s ease-in var(--hmp-logo-lines-duration);
+		transition: box-shadow 0.5s ease-in;
 	}
 
 	&__img {
@@ -216,7 +199,7 @@ $hmp-my-way-border-color: $white;
 
 	&__img--animate {
 		opacity: 1;
-		transition: opacity 1s linear var(--hmp-logo-lines-duration);
+		transition: opacity 1s linear;
 	}
 
 	&__line-bottom {
@@ -314,7 +297,7 @@ $hmp-my-way-border-color: $white;
 		left: 45%;
 		width: 30%;
 		height: 100%;
-		transform: translateY(150px) translateX(-50%) rotateZ(90deg) rotateY(90deg);
+		transform: translateY(180px) translateX(-50%) rotateZ(90deg) rotateY(90deg);
 		filter: blur(10px);
 		box-shadow: 0 0 150px var(--hmp-logo-3d-color);
 		opacity: 0;
@@ -323,7 +306,7 @@ $hmp-my-way-border-color: $white;
 
 	&__shadow--animate {
 		opacity: 1;
-		transition: opacity 1s ease-out var(--hmp-logo-lines-duration);
+		transition: opacity 1s ease-out;
 	}
 
 	@media (width <= 1024px) {
@@ -373,7 +356,6 @@ $hmp-my-way-border-color: $white;
 		}
 
 		&__text-group {
-			height: 80px;
 			font-size: var(--hmp-getting-text-font-size-768);
 		}
 
@@ -429,7 +411,6 @@ $hmp-my-way-border-color: $white;
 
 	&__line--animate {
 		height: 80%;
-		background-color: var(--line-color);
 		opacity: 1;
 		transition:
 			height 1s ease-out,
@@ -442,24 +423,41 @@ $hmp-my-way-border-color: $white;
 		width: 170px;
 	}
 
-	&__letter-left {
+	&__letter {
 		position: relative;
-		left: -110%;
+		opacity: 0;
+
+		@for $i from 1 through 6 {
+			&:nth-child(#{$i}) {
+				@if $i <= 3 {
+					left: -60%;
+				} @else {
+					right: -60%;
+				}
+			}
+		}
 	}
 
-	&__letter-left--animate {
-		left: 0;
-		transition: left 0.8s ease-out;
-	}
+	&__letter--animate {
+		@for $i from 1 through 6 {
+			&:nth-child(#{$i}) {
+				$delayIndex: if($i <= 3, 4 - $i, $i - 3);
 
-	&__letter-right {
-		position: relative;
-		right: -110%;
-	}
+				@if $i <= 3 {
+					left: 0;
+				} @else {
+					right: 0;
+				}
 
-	&__letter-right--animate {
-		right: 0;
-		transition: right 0.8s ease-out;
+				transition-delay: 0.1s * $delayIndex;
+			}
+		}
+
+		opacity: 1;
+		transition:
+			left 1s ease-out,
+			right 1s ease-out,
+			opacity 1.5s ease-out;
 	}
 
 	@mixin hmp-scroll-media {
@@ -506,7 +504,6 @@ $hmp-my-way-border-color: $white;
 		&__hide-text {
 			margin-top: 15px;
 			width: 140px;
-			font-size: var(--hmp-scroll-text-font-size-425);
 		}
 	}
 

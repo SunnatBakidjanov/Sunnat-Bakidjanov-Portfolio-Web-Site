@@ -2,18 +2,8 @@ function main() {
 	'use strict'
 	const logo = document.getElementById('logo')
 
-	const changeLanguageButton = document.getElementById('translator')
-
-	const START_PAGE_POSITION = 0
-
-	const clickState = {}
-	const scrollState = {}
-	const heightValue = {}
-
-	let isAnimationStopped = false
-	let isLanguageRussian = false
-
-	const seenElements = new Set()
+	const START_PAGE_POSITION = 1
+	const START_PAGE_NAME = 'uses'
 
 	const pageIds = {
 		'home-page-btn': 'home',
@@ -23,7 +13,35 @@ function main() {
 		[logo.id]: 'home',
 	}
 
-	function resetAnimations(resetCallback, pageName = 'home') {
+	let isAnimationStopped = false
+
+	const languageCallbacks = []
+	let isLanguageRussian = false
+
+	function updateLanguageContent(callback) {
+		const changeLanguageButton = document.getElementById('translator')
+
+		if (callback) languageCallbacks.push(callback)
+
+		if (updateLanguageContent.initialized) return
+		updateLanguageContent.initialized = true
+
+		const elements = document.querySelectorAll('[data-ru][data-en]')
+
+		changeLanguageButton.addEventListener('click', () => {
+			isLanguageRussian = !isLanguageRussian
+			const language = isLanguageRussian ? 'ru' : 'en'
+
+			elements.forEach(element => {
+				const text = element.dataset[language]
+				if (text) element.textContent = text
+			})
+
+			languageCallbacks.forEach(callback => callback())
+		})
+	}
+
+	function resetAnimations(resetCallback, pageName = START_PAGE_NAME) {
 		let currentPage = pageName
 
 		function handleClick(event) {
@@ -40,7 +58,7 @@ function main() {
 		document.addEventListener('click', handleClick)
 	}
 
-	function removeAnimateClasses(elementsArray, hideElementsArray, pageName = 'home') {
+	function removeAnimateClasses(elementsArray, hideElementsArray, pageName = START_PAGE_NAME) {
 		let currentPage = pageName
 
 		function handleClick(event) {
@@ -88,7 +106,7 @@ function main() {
 		})
 	}
 
-	function animateVisibleElements(elements, callbackAnimate) {
+	function animateVisibleElements(elements, callbackAnimate, thresholdElement = 1) {
 		const pages = ['page-1', 'page-2', 'page-3', 'page-4']
 
 		function isAnyPageActive() {
@@ -109,140 +127,11 @@ function main() {
 			{
 				root: null,
 				rootMargin: '0px',
-				threshold: 1,
+				threshold: thresholdElement,
 			}
 		)
 
 		elements.forEach(element => observer.observe(element))
-	}
-
-	function handlePageChangeOnClick(event, element, elementKey, startingHeight, startCallback, resetCallback) {
-		const target = event.target
-		const currentTarget = event.currentTarget
-
-		if (!clickState[elementKey]) clickState[elementKey] = { newPage: 'home', previousPage: 'home', isClicked: false }
-
-		scrollState[elementKey] = { scrolState: false }
-
-		const allowedButtons = ['logo', 'home-page-btn', 'uses-page-btn', 'resume-page-btn', 'about-me-page-btn']
-
-		const pageMapping = {
-			'home-page-btn': 'home',
-			'uses-page-btn': 'uses',
-			'resume-page-btn': 'resume',
-			'about-me-page-btn': 'about-me',
-			[logo.id]: 'home',
-		}
-
-		clickState[elementKey].newPage = pageMapping[target.id] || pageMapping[currentTarget.id] || null
-
-		if (clickState[elementKey].newPage === clickState[elementKey].previousPage) return
-		if (!allowedButtons.includes(target.id)) return
-
-		clickState[elementKey].previousPage = clickState[elementKey].newPage
-
-		if (clickState[elementKey].previousPage) {
-			if (!isAnimationStopped) {
-				resetCallback(clickState[elementKey].previousPage)
-
-				seenElements.clear()
-
-				clickState[elementKey].isClicked = false
-			}
-		}
-
-		if (document.documentElement.clientWidth > 1150) {
-			clickState[elementKey].isClicked = true
-
-			window.requestAnimationFrame(() => {
-				if (handleVisibilityChange(element, startingHeight, elementKey)) {
-					startCallback(clickState[elementKey].newPage)
-
-					scrollState[elementKey].scrolState = true
-				}
-			})
-		} else {
-			const onBurgerAnimationEnd = event => {
-				if (event.animationName === 'burger-close') {
-					clickState[elementKey].isClicked = true
-
-					if (handleVisibilityChange(element, startingHeight, elementKey)) {
-						startCallback(clickState[elementKey].newPage)
-
-						scrollState[elementKey].scrolState = true
-					}
-
-					document.removeEventListener('animationend', onBurgerAnimationEnd)
-				}
-			}
-
-			document.addEventListener('animationend', onBurgerAnimationEnd)
-
-			if (target.id === 'logo') {
-				window.requestAnimationFrame(() => {
-					if (handleVisibilityChange(element, startingHeight, elementKey)) {
-						startCallback(clickState[elementKey].newPage)
-
-						scrollState[elementKey].scrolState = true
-					}
-				})
-			}
-		}
-	}
-
-	function handlePageChangeOnScroll(element, elementKey, startingHeight, startCallback) {
-		if (!scrollState[elementKey]) scrollState[elementKey] = { scrolState: false }
-
-		if (scrollState[elementKey].scrolState) return
-
-		if (handleVisibilityChange(element, startingHeight, elementKey)) {
-			if (!scrollState[elementKey].scrolState) {
-				scrollState[elementKey].scrolState = true
-
-				startCallback()
-			}
-		}
-	}
-
-	function handleVisibilityChange(element, startingHeight, elementKey) {
-		const rect = element.getBoundingClientRect()
-
-		if (!heightValue[elementKey]) {
-			heightValue[elementKey] = { value: startingHeight }
-		}
-
-		const isVisible =
-			rect.top >= 0 &&
-			rect.left >= 0 &&
-			rect.bottom <= (window.innerHeight - heightValue[elementKey].value || document.documentElement.clientHeight - heightValue[elementKey].value) &&
-			rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-
-		if (isVisible && element !== undefined && elementKey !== undefined) seenElements.add(elementKey)
-
-		return isVisible
-	}
-
-	function createAnimation(elements, elementKeys, startingHeight, startCallback, resetCallback) {
-		elements.forEach((element, index) => {
-			const elementKey = elementKeys[index]
-
-			if (!element) {
-				console.error(`${element} not found`)
-				return
-			}
-
-			document.addEventListener('scroll', () => {
-				handlePageChangeOnScroll(element, elementKey, startingHeight, startCallback)
-			})
-
-			document.addEventListener('click', event => {
-				handlePageChangeOnClick(event, element, elementKey, startingHeight, startCallback, resetCallback)
-			})
-
-			logo.addEventListener('click', event => {
-				handlePageChangeOnClick(event, element, elementKey, startingHeight, startCallback, resetCallback)
-			})
-		})
 	}
 
 	function writeAndResetText(elements, englishTexts, russianTexts, typeSpeed, elementKeys, className, delay) {
@@ -348,147 +237,6 @@ function main() {
 		}
 	}
 
-	function sameElementsAnimation(queryElemetns, setIds, classes, startHeight, delay) {
-		if (!queryElemetns) {
-			console.error(`${queryElemetns} not found`)
-			return
-		}
-
-		const elements = document.querySelectorAll(queryElemetns)
-
-		const ids = []
-		const elementKeys = []
-		const startingHeight = startHeight
-
-		const isAnimation = {}
-		const visibleIndexes = []
-
-		elements.forEach((element, index) => {
-			const setId = `${setIds}-${index}`
-			element.setAttribute('id', setId)
-
-			const id = document.getElementById(`${setIds}-${index}`)
-			ids.push(id)
-
-			elementKeys.push(`${setIds}-${index}`)
-		})
-
-		function animate() {
-			elements.forEach((element, index) => {
-				if (seenElements.has(elementKeys[index])) {
-					if (!isAnimation[index]) {
-						isAnimation[index] = { animated: false, timeout: null }
-					}
-
-					if (!isAnimation[index].animated) {
-						isAnimation[index].animated = true
-
-						if (delay) {
-							visibleIndexes.push(index)
-
-							const indexDelay = visibleIndexes.indexOf(index) * delay
-
-							isAnimation[index].timeout = setTimeout(() => {
-								element.classList.add(...classes)
-							}, indexDelay)
-						} else {
-							element.classList.add(...classes)
-						}
-					}
-				}
-			})
-		}
-
-		function reset() {
-			elements.forEach((element, index) => {
-				if (isAnimation[index]?.animated) {
-					isAnimation[index].animated = false
-				}
-
-				element.classList.remove(...classes)
-			})
-		}
-
-		createAnimation(ids, elementKeys, startingHeight, animate, reset)
-	}
-
-	function singleElementsAnimation(id, startingHeight, classNames, containerId) {
-		if (!id) {
-			console.error(`${id} not found`)
-			return
-		}
-
-		const container = document.getElementById(containerId)
-		const element = document.getElementById(id)
-
-		const ids = [element]
-		const elementKey = [id, containerId]
-		const startHeight = startingHeight
-
-		if (containerId) ids.push(container)
-
-		function animate() {
-			element.classList.add(...classNames)
-		}
-
-		function reset() {
-			element.classList.remove(...classNames)
-		}
-
-		createAnimation(ids, elementKey, startHeight, animate, reset)
-	}
-
-	function addId(elements, id, startHeight) {
-		const ids = []
-		const elementKeys = []
-		const startingHeight = startHeight
-
-		elements.forEach((element, index) => {
-			const setId = `${id}-${index}`
-			element.setAttribute('id', setId)
-
-			const addId = document.getElementById(setId)
-			elementKeys.push(`${id}-${index}`)
-
-			ids.push(addId)
-		})
-
-		return {
-			ids,
-			elementKeys,
-			startingHeight,
-		}
-	}
-
-	function manageClasses(elements, classNames, singleElementSelector) {
-		if (elements && elements.length) {
-			elements.forEach(element => {
-				element.classList[isLanguageRussian ? 'add' : 'remove'](...classNames)
-			})
-		}
-
-		if (singleElementSelector) {
-			const el = document.querySelector(singleElementSelector)
-
-			if (el) el.classList[isLanguageRussian ? 'add' : 'remove'](...classNames)
-		}
-	}
-
-	function updateLanguageContent(callback) {
-		changeLanguageButton.addEventListener('click', callback)
-	}
-
-	function translateText(language, ruClassName) {
-		const elements = document.querySelectorAll('[data-ru][data-en]')
-
-		elements.forEach(element => {
-			const text = element.dataset[language]
-			if (text) element.textContent = text
-
-			element.classList.toggle(ruClassName, language === 'ru')
-		})
-	}
-
 	function pageUpdate() {
 		window.scrollTo(0, 0)
 	}
@@ -590,12 +338,6 @@ function main() {
 				requestAnimationFrame(handleScroll)
 			}
 		})
-	}
-
-	function updateAnimationText() {
-		const element = document.getElementById('aside-menu-animation-state')
-		const state = isLanguageRussian ? (isAnimationStopped ? 'ВЫКЛ' : 'ВКЛ') : isAnimationStopped ? 'OFF' : 'ON'
-		element.textContent = state
 	}
 
 	function backgroundColorChange() {
@@ -707,6 +449,14 @@ function main() {
 			element.classList.add(`aside-menu__item--${index}`)
 			btns[index].classList.add(`aside-menu__inner-btn--${index}`)
 		})
+
+		function updateAnimationText() {
+			const element = document.getElementById('aside-menu-animation-state')
+			const state = isLanguageRussian ? (isAnimationStopped ? 'ВЫКЛ' : 'ВКЛ') : isAnimationStopped ? 'OFF' : 'ON'
+			element.textContent = state
+		}
+
+		updateLanguageContent(updateAnimationText)
 
 		animationBtn.addEventListener('click', () => {
 			isAnimationStopped = !isAnimationStopped
@@ -924,7 +674,7 @@ function main() {
 
 			function handleLogoClick(event) {
 				if (event.target !== logo) return
-				resetButtons(START_PAGE_POSITION)
+				resetButtons(0)
 			}
 
 			function handleBtnClick(event) {
@@ -950,11 +700,10 @@ function main() {
 
 			const gettingTitle = document.getElementById('hmp-getting-hidden-title')
 			const gittingBlink = document.getElementById('hmp-getting-group-text')
-			const logo3dFront = document.getElementById('hmp-getting-front')
-			const logo3dShadow = document.getElementById('hmp-getting-shadow')
-			const logo3dContainer = document.getElementById('hmp-getting-preverve')
 			const gettingTextGroup = document.getElementById('hmp-getting-group-text')
+			const logo3dFront = document.getElementById('hmp-getting-front')
 			const scrollLine = document.getElementById('hmp-scroll-line')
+			const scrollText = document.getElementById('hmp-scroll-text')
 			const progreessBoxes = document.querySelectorAll('.hmp-cards__inner-progress')
 			const cardsContainer = document.querySelectorAll('.hmp-cards__container')
 			const projectsText = document.getElementById('hmp-projects-hidden-text')
@@ -962,15 +711,13 @@ function main() {
 			const myWayContainer = document.getElementById('hmp-way-inner-content')
 			const hmpWaybtn = document.getElementById('hmp-way-btn')
 
-			const elements = [...titles, ...cardsContainer, logo3dFront, logo3dShadow, logo3dContainer, scrollLine, myWayContainer, hmpWaybtn, ...lines]
-			const hideElements = [gittingBlink, gettingTitle, logo3dFront, gettingTextGroup, projectsText, cloud, ...progreessBoxes]
+			const elements = [...titles, ...cardsContainer, scrollLine, myWayContainer, hmpWaybtn, ...lines]
+			const hideElements = [gittingBlink, gettingTitle, logo3dFront, gettingTextGroup, projectsText, cloud, scrollText, ...progreessBoxes]
 
 			animateVisibleElements(elements, addAnimateClasses)
 			animateVisibleElements(hideElements, addAnimateClassesInHideElements)
 			removeAnimateClasses(elements, hideElements, 'home')
 		}
-
-		animateHomePageElements()
 
 		function writeAndResetSkilsText() {
 			const text = document.getElementById('hmp-getting-text')
@@ -1020,6 +767,7 @@ function main() {
 				startWrite: 1400,
 				delayDeleteString: 2200,
 				delayWriteNextString: 1500,
+				startDelayIsHidden: 500,
 			}
 
 			function stopAnimationIsOutVisability() {
@@ -1031,9 +779,12 @@ function main() {
 
 						if (entry.isIntersecting) {
 							if (isHidden && state === 'nextString') {
-								isHidden = false
-								startTyping()
+								state = 'writing'
+								timeout = setTimeout(() => {
+									startTyping()
+								}, cfg.startDelayIsHidden)
 							}
+							isHidden = false
 						} else {
 							isHidden = true
 						}
@@ -1067,9 +818,6 @@ function main() {
 						break
 
 					case 'waiting':
-						let currentLetterIndex = (letterIndex = currentText.length)
-						text.textContent = currentText.substring(0, currentLetterIndex)
-
 						timeout = setTimeout(() => {
 							state = 'deleting'
 							startTyping()
@@ -1103,7 +851,23 @@ function main() {
 				}
 			}
 
-			updateLanguageContent(startTyping)
+			function handleLanguageChangeOnTextWrited() {
+				if (!blink.classList.contains('hmp-getting__blink--animate')) return
+
+				const currentTexts = isLanguageRussian ? texts.ru : texts.en
+				const previousTexts = isLanguageRussian ? texts.en : texts.ru
+
+				if (state === 'waiting') {
+					const newIndex = previousTexts.indexOf(text.textContent.trim())
+					if (newIndex !== -1) {
+						textIndex = newIndex
+						text.textContent = currentTexts[textIndex]
+						letterIndex = currentTexts[textIndex].length
+					}
+				}
+			}
+
+			updateLanguageContent(handleLanguageChangeOnTextWrited)
 
 			function handleBlinkAnimation(event) {
 				if (event.animationName === 'hmp-getting-blink-start') timeout = setTimeout(startTyping, cfg.startWrite)
@@ -1139,43 +903,43 @@ function main() {
 			resetAnimations(reset, 'home')
 		}
 
-		writeAndResetSkilsText()
+		function logoAnimate() {
+			const line = document.querySelector('.hmp-getting__line-left')
+			const shadow = document.getElementById('hmp-getting-shadow')
+			const front = document.getElementById('hmp-getting-front')
+			const container = document.getElementById('hmp-getting-preverve')
+			const img = document.getElementById('hmp-getting-img')
 
-		function animateScrollText() {
-			const textBox = document.getElementById('hmp-scroll-text')
+			const elements = [line, shadow, front, container, img]
 
-			function animateLetters() {
-				const nodes = [...textBox.childNodes].filter(node => node.nodeType === 1)
+			function handleTransitionEnd(event) {
+				if (event.propertyName === 'height') {
+					shadow.classList.add(`${shadow.classList[0]}--animate`)
+					img.classList.add(`${img.classList[0]}--animate`)
+					container.classList.add(`${container.classList[0]}--animate`)
+					front.classList.add(`${front.classList[0]}--animate`)
+				}
+			}
 
-				nodes.forEach((node, index) => {
-					if (!node.classList.contains(`${node.classList[0]}--animate`)) {
-						if (node.classList.contains('hmp-scroll__letter-left')) {
-							for (let i = nodes.length / 2 - 1; i >= 0; i--) {
-								setTimeout(
-									() => {
-										if (!nodes[i].classList.contains(`${nodes[i].classList[0]}--animate`)) {
-											nodes[i].classList.add(`${nodes[i].classList[0]}--animate`)
-										}
-									},
-									(nodes.length - 1 - i) * 70
-								)
-							}
-						}
+			function animate() {
+				line.addEventListener('transitionend', handleTransitionEnd)
+			}
 
-						if (node.classList.contains('hmp-scroll__letter-right')) {
-							setTimeout(() => {
-								node.classList.add(`${node.classList[0]}--animate`)
-							}, index * 70)
-						}
-					}
+			function reset() {
+				line.removeEventListener('transitionend', handleTransitionEnd)
+
+				elements.forEach(element => {
+					const classNames = element.classList
+
+					classNames.forEach(className => {
+						if (className.includes('--animate')) classNames.remove(className)
+					})
 				})
 			}
 
-			animateVisibleElements([textBox], animateLetters)
-			removeAnimateClasses(null, [textBox], 'home')
+			resetAnimations(reset, 'home')
+			animateVisibleElements([front], animate)
 		}
-
-		animateScrollText()
 
 		function animateCards() {
 			const configProgress = [
@@ -1345,8 +1109,6 @@ function main() {
 			animateTexts()
 		}
 
-		animateCards()
-
 		function animateCloud() {
 			const container = document.getElementById('hmp-cloud-container')
 			const cloud = document.getElementById('hmp-cloud-particle-center')
@@ -1448,8 +1210,6 @@ function main() {
 			animateVisibleElements([cloud], animate)
 			resetAnimations(reset, 'home')
 		}
-
-		animateCloud()
 
 		function myWayAnimate() {
 			const container = document.getElementById('hmp-way-inner-content')
@@ -1711,266 +1471,312 @@ function main() {
 			animateVisibleElements([container], animate)
 		}
 
+		animateCloud()
+		animateCards()
+		logoAnimate()
+		writeAndResetSkilsText()
+		animateHomePageElements()
 		myWayAnimate()
 	}
 
 	function usesPageEvents() {
-		const texts = document.querySelectorAll('.uses-text')
-		const img = document.querySelectorAll('.uses-img')
+		function animateUsesPageElements() {
+			const lines = document.querySelectorAll('.uses-line')
+			const titles = document.querySelectorAll('.uses-title')
+			const btn = document.querySelectorAll('.uses-btn')
 
-		const copyBtn = document.querySelectorAll('.uses-linters__copy-btn')
-		const code = document.querySelectorAll('.uses-linters__code')
+			const mainTitle = document.getElementById('uses-getting-title')
+			const mainSubtitle = document.getElementById('uses-getting-subtitle')
+			const gear = document.getElementById('uses-gear')
+			const scrollLine = document.getElementById('uses-scroll-line')
+			const scrollText = document.getElementById('uses-scroll-text')
+			const softWearItem = document.querySelectorAll('.uses-software__item')
+			const lintersTasks = document.querySelectorAll('.uses-linters__task')
+			const linterTitle = document.getElementById('uses-linters-settings-title')
+			const linterSubitile = document.getElementById('uses-linters-settings-subtitle')
 
-		let isModalVisible = false
+			const elements = [mainTitle, scrollLine, ...lintersTasks, linterTitle, ...lines, ...titles, ...btn]
+			const hideElements = [mainSubtitle, scrollText, gear, linterSubitile, ...btn, ...softWearItem]
 
-		singleElementsAnimation('uses-getting-title', 0, ['uses-getting__title--animate'], null)
-		singleElementsAnimation('uses-getting-subtitle', 0, ['uses-getting__subtitle--animate'], null)
-		singleElementsAnimation('uses-linters-settings-title', 70, ['uses-linters__settings-title--animate'], null)
-		singleElementsAnimation('uses-linters-settings-subtitle', 40, ['uses-linters__settings-subtitle--animate'], null)
+			animateVisibleElements(elements, addAnimateClasses)
+			animateVisibleElements(hideElements, addAnimateClassesInHideElements)
+			animateVisibleElements([gear], addAnimateClassesInHideElements, 0.5)
+			removeAnimateClasses(elements, hideElements, 'uses')
+		}
 
-		sameElementsAnimation('.uses-title', 'uses-title', ['uses-title--animate'], 50, null)
-		sameElementsAnimation('.uses-btn', 'uses-btn', ['uses-btn--animate'], 50, null)
-		sameElementsAnimation('.uses-img', 'uses-img', ['uses-img--animate'], 60, null)
-		sameElementsAnimation('.uses-hide-group', 'uses-hide-group', ['uses-hide-group--animate'], 50, null)
-		sameElementsAnimation('.uses-software__img', 'uses-software-img', ['uses-software__img--animate'], 110, 50)
-		sameElementsAnimation('.uses-software__text', 'uses-software-text', ['uses-software__text--animate'], 40, 50)
-		sameElementsAnimation('.uses-linters__task', 'uses-linters-task', ['uses-linters__task--animate'], 50, 100)
+		function controlButtonAndContent() {
+			const imgs = document.querySelectorAll('.uses-img')
+			const btn = document.querySelectorAll('.uses-btn')
+			const hideGroup = document.querySelectorAll('.uses-hide-group')
+			const equipmentHideBox = document.querySelectorAll('.uses-hide-box')
 
-		function scrollText() {
-			const container = document.getElementById('uses-scroll-text')
-			const letters = document.querySelectorAll('.uses-scroll__letter')
-
-			const ids = [container]
-			const elementKeys = ['uses-scroll-text']
-			const startHeight = 0
-
+			const status = {}
 			const timeouts = []
 
-			function animate() {
-				letters.forEach((element, index) => {
-					const timeout = setTimeout(() => {
-						element.classList.add('uses-scroll__letter--animate')
-					}, 60 * index)
+			const timers = {
+				disabledTimer: 300,
+				resizeTimer: 1000,
+				endResizeTimer: 500,
+			}
 
-					timeouts.push(timeout)
+			let lastResizeTime = 0
+			let resizeTimeout = null
+			let isAnimated = false
+
+			function toggleUIElements(event) {
+				const index = [...btn].indexOf(event.target)
+
+				if (index === -1) return
+				if (!status[index]) status[index] = { isOpen: false }
+
+				btn[index].disabled = true
+				clearTimeout(timeouts[index])
+				timeouts[index] = setTimeout(() => (btn[index].disabled = false), timers.disabledTimer)
+
+				const transitionDuration = Math.min(0.8, Math.max(0.4, hideGroup[index].scrollHeight / 800))
+				hideGroup[index].style.transition = `all ${transitionDuration.toFixed(2)}s ease-out`
+
+				if (!status[index].isOpen) {
+					imgs[index].classList.add(`${imgs[index].classList[0]}--open`)
+					hideGroup[index].classList.add(`${hideGroup[index].classList[0]}--open`)
+					hideGroup[index].style.height = `${hideGroup[index].scrollHeight}px`
+
+					equipmentHideBox[index]?.classList.add(`${equipmentHideBox[index].classList[0]}--open`)
+
+					status[index].isOpen = true
+					return
+				}
+
+				imgs[index].classList.remove(`${imgs[index].classList[0]}--open`)
+				hideGroup[index].classList.remove(`${hideGroup[index].classList[0]}--open`)
+				hideGroup[index].style.height = 0
+				equipmentHideBox[index]?.classList.remove(`${equipmentHideBox[index].classList[0]}--open`)
+
+				status[index].isOpen = false
+			}
+
+			function changeScrollWidth() {
+				hideGroup.forEach((element, index) => {
+					if (equipmentHideBox[index] && equipmentHideBox[index]?.classList.contains(`${equipmentHideBox[index].classList[0]}--open`)) element.style.height = `${equipmentHideBox[index].scrollHeight}px`
 				})
 			}
 
-			function reset() {
-				letters.forEach((element, index) => {
-					element.classList.remove('uses-scroll__letter--animate')
+			function handleChangeOnResize() {
+				const now = Date.now()
 
+				if (now - lastResizeTime >= timers.resizeTimer) {
+					changeScrollWidth()
+					lastResizeTime = now
+				}
+
+				clearTimeout(resizeTimeout)
+				resizeTimeout = setTimeout(() => changeScrollWidth(), timers.endResizeTimer)
+			}
+
+			function animate() {
+				if (isAnimated) return
+				isAnimated = true
+
+				window.addEventListener('resize', handleChangeOnResize)
+				handleChangeOnResize()
+			}
+
+			function reset() {
+				isAnimated = false
+				lastResizeTime = 0
+				timeouts.forEach(timeout => clearTimeout(timeout))
+
+				if (resizeTimeout) {
+					clearTimeout(resizeTimeout)
+					resizeTimeout = null
+				}
+
+				hideGroup.forEach((box, index) => {
+					box.classList.remove(`${box.classList[0]}--open`)
+					box.style.height = 0
+
+					if (status[index]) status[index].isOpen = false
+				})
+
+				btn.forEach(btn => (btn.disabled = false))
+				imgs.forEach(img => img.classList.remove(`${img.classList[0]}--open`))
+				equipmentHideBox.forEach(box => box.classList.remove(`${box.classList[0]}--open`))
+
+				window.removeEventListener('resize', handleChangeOnResize)
+			}
+
+			animateVisibleElements([...hideGroup], animate)
+			resetAnimations(reset, 'uses')
+			document.addEventListener('click', toggleUIElements)
+		}
+
+		function lintersEvents() {
+			const btn = document.querySelectorAll('.uses-linters__btn')
+			const upBtn = document.querySelectorAll('.uses-linters__up-btn')
+
+			const state = {}
+			const timeouts = []
+
+			const timers = {
+				scrollTimer: 500,
+			}
+
+			function lintersBtnClick(event) {
+				const index = [...btn].indexOf(event.target)
+
+				if (index === -1) return
+				if (!state[index]) state[index] = { isOpen: false }
+
+				if (!state[index].isOpen) {
 					clearTimeout(timeouts[index])
-				})
+					timeouts[index] = setTimeout(() => btn[index].scrollIntoView({ behavior: 'smooth', block: 'start' }), timers.scrollTimer)
 
-				timeouts.length = 0
-			}
-
-			createAnimation(ids, elementKeys, startHeight, animate, reset)
-		}
-
-		scrollText()
-
-		function btnsAnimate() {
-			const hideEquipmentElement = document.querySelectorAll('.uses-equipment__hidden-group')
-			const equipmentBtn = document.querySelectorAll('.uses-equipment__button')
-			const equipmantImg = document.querySelectorAll('.uses-equipment__img')
-
-			const hideLinterElement = document.querySelectorAll('.uses-linters__hide-group')
-			const linterBtn = document.querySelectorAll('.uses-linters__btn')
-			const linterImg = document.querySelectorAll('.uses-linters__img')
-			const linterCode = document.querySelectorAll('.uses-linters__code')
-
-			const climbUpBtn = document.querySelectorAll('.uses-linters__up-btn')
-
-			const isLinterOpen = Array.from({ length: hideLinterElement.length }, () => ({
-				isOpen: false,
-				timeout: null,
-				codeTimeout: null,
-			}))
-
-			const setId = addId(texts, 'uses-text', 60)
-
-			const en = ['Monitor', 'PC Case', 'Chair', 'Desk', 'Keyboard', 'Mouse', 'Webcam', 'Microphone', 'Prettier', 'ESLint', 'Stylelint', 'Settings.json']
-			const ru = ['Монитор', 'ПК Кейс', 'Кресло', 'Стол', 'Клавиатура', 'Мышь', 'Веб-камера', 'Микрофон', 'Prettier', 'ESLint', 'Stylelint', 'Settings.json']
-
-			const handleTextWrite = writeAndResetText(setId.ids, en, ru, 80, setId.elementKeys, ['uses-text--rus-lang'], null)
-
-			function openHiddenEquipmentOnClick(event) {
-				const index = [...equipmentBtn].indexOf(event.target)
-
-				if (index === -1) return
-
-				const element = hideEquipmentElement[index]
-				const images = equipmantImg[index]
-				const isOpen = element.classList.contains('uses-equipment__hidden-group--open')
-
-				equipmantImg.forEach(imgElement => imgElement.classList.remove('uses-img--open'))
-				hideEquipmentElement.forEach(el => el.classList.remove('uses-equipment__hidden-group--open'))
-
-				if (!isOpen) {
-					element.classList.add('uses-equipment__hidden-group--open')
-					images.classList.add('uses-img--open')
+					state[index] = { isOpen: true }
+					return
 				}
+
+				state[index] = { isOpen: false }
 			}
 
-			function openHiddenLinterOnClick(event) {
-				const index = [...linterBtn].indexOf(event.target)
+			function handleUpOnClick(event) {
+				const index = [...upBtn].indexOf(event.target)
 
 				if (index === -1) return
 
-				const element = hideLinterElement[index]
-				const images = linterImg[index]
-				const state = isLinterOpen[index]
-
-				const transitionDuration = Math.max(0.5, Math.min(element.scrollHeight / 1500, 1.5))
-				element.style.transition = `height ${transitionDuration}s ease-out`
-
-				state.isOpen = !state.isOpen
-				images.classList.toggle('uses-img--open')
-
-				if (!state.isOpen) {
-					clearTimeout(state.timeout)
-					clearTimeout(state.codeTimeout)
-
-					linterCode[index].removeAttribute('style')
-					element.style.height = 0
-				} else {
-					element.style.height = `${element.scrollHeight}px`
-
-					state.timeout = setTimeout(() => {
-						linterBtn[index].scrollIntoView({ behavior: 'smooth', block: 'start' })
-					}, 600)
-
-					state.codeTimeout = setTimeout(() => {
-						linterCode[index].style.overflow = 'auto hidden'
-					}, 10)
-				}
+				btn[index + 1].scrollIntoView({ behavior: 'smooth', block: 'start' })
 			}
 
-			function closeBtnsOnResize() {
-				hideLinterElement.forEach((element, index) => {
-					element.style.height = 0
-					isLinterOpen[index].isOpen = false
-					linterCode[index].removeAttribute('style')
-				})
-				hideEquipmentElement.forEach(element => element.classList.remove('uses-equipment__hidden-group--open'))
-				img.forEach(element => element.classList.remove('uses-img--open'))
-			}
-
-			function climbUpLinterBtn(event) {
-				const index = [...climbUpBtn].indexOf(event.target)
-
-				if (index === -1) return
-
-				linterBtn[index + 1].scrollIntoView({ behavior: 'smooth', block: 'start' })
-			}
-
-			function animate() {
-				handleTextWrite.writeAll()
-
-				document.addEventListener('click', openHiddenEquipmentOnClick)
-				document.addEventListener('click', openHiddenLinterOnClick)
-				document.addEventListener('click', climbUpLinterBtn)
-				window.addEventListener('resize', closeBtnsOnResize)
-			}
-
-			function reset() {
-				handleTextWrite.resetAll()
-
-				img.forEach(el => el.classList.remove('uses-img--open'))
-				hideEquipmentElement.forEach(el => el.classList.remove('uses-equipment__hidden-group--open'))
-				hideLinterElement.forEach((el, index) => {
-					el.style.height = 0
-					linterCode[index].removeAttribute('style')
-
-					if (isLinterOpen[index].timeout) {
-						clearTimeout(isLinterOpen[index].timeout)
-
-						isLinterOpen[index].timeout = null
-					}
-
-					if (isLinterOpen[index].isOpen) {
-						isLinterOpen[index].isOpen = false
-					}
-				})
-
-				document.removeEventListener('click', openHiddenEquipmentOnClick)
-				document.removeEventListener('click', openHiddenLinterOnClick)
-				document.removeEventListener('click', climbUpLinterBtn)
-				window.removeEventListener('resize', closeBtnsOnResize)
-			}
-
-			createAnimation(setId.ids, setId.elementKeys, setId.startingHeight, animate, reset)
+			document.addEventListener('click', event => {
+				lintersBtnClick(event)
+				handleUpOnClick(event)
+			})
 		}
-
-		btnsAnimate()
 
 		function copyText() {
-			const btns = [...copyBtn]
-			const texts = [...code]
-			const hmpName = document.getElementById('hmp-getting-name')
+			const copyButtons = document.querySelectorAll('.uses-linters__copy-btn')
+			const infoCopyButtons = document.querySelectorAll('.uses-linters__info-copy-btn')
+			const codeBlocks = document.querySelectorAll('.uses-linters__code')
+			const infoTexts = document.querySelectorAll('.uses-linters__info-text--accent-color')
 
 			let isClicked = false
+			let isModalVisible = false
+			const visibleTimer = 2000
 
-			function showModalWindow(message, classes) {
-				if (isModalVisible) return
+			function showModalWindow(message, type) {
+				if (isModalVisible) {
+					const modalWindow = document.querySelector('.uses-linters__modal-window')
+					modalWindow.textContent = message
+					modalWindow.dataset.message = type
+					return
+				}
+
 				isModalVisible = true
 
 				const modalWindow = document.createElement('div')
-				modalWindow.classList.add(...classes)
+				modalWindow.classList.add('uses-linters__modal-window')
 				modalWindow.textContent = message
-				modalWindow.style.cssText = hmpName.style.cssText
+				modalWindow.dataset.message = type
 				document.body.appendChild(modalWindow)
 
 				setTimeout(() => {
 					modalWindow.remove()
 					isModalVisible = false
-				}, 2000)
+				}, visibleTimer)
 			}
+
+			function updateModalText() {
+				const modalWindow = document.querySelector('.uses-linters__modal-window')
+				if (!modalWindow) return
+
+				const messageType = modalWindow.dataset.message
+
+				let newMessage = ''
+				switch (messageType) {
+					case 'success':
+						newMessage = isLanguageRussian ? 'Текст скопирован' : 'Text Copied'
+						break
+					case 'error':
+						newMessage = isLanguageRussian ? 'Ошибка копирования' : 'Copy Error'
+						break
+					default:
+						newMessage = modalWindow.textContent
+				}
+
+				modalWindow.textContent = newMessage
+			}
+
+			updateLanguageContent(updateModalText)
 
 			function cleanText(text) {
-				let cleanedText = text.replace(/<\/?[^>]+(>|$)/g, '')
-				cleanedText = cleanedText.replace(/\s+/g, ' ').trim()
-				return cleanedText
+				return text
+					.replace(/<\/?[^>]+(>|$)/g, '')
+					.replace(/\s+/g, ' ')
+					.trim()
 			}
 
-			btns.forEach((element, index) => {
-				element.addEventListener('click', () => {
-					if (isClicked) return
-					isClicked = true
+			function handleCodeCopy(index) {
+				if (isClicked) return
+				isClicked = true
 
-					let textToCopy = texts[index].textContent
-					textToCopy = cleanText(textToCopy)
+				let textToCopy = codeBlocks[index]?.textContent || ''
+				textToCopy = cleanText(textToCopy)
 
-					try {
-						const jsonObject = JSON.parse(textToCopy)
-						textToCopy = JSON.stringify(jsonObject, null, '\t')
-					} catch (error) {
-						console.warn('Текст не является валидным JSON:', textToCopy)
-					}
+				try {
+					const jsonObject = JSON.parse(textToCopy)
+					textToCopy = JSON.stringify(jsonObject, null, '\t')
+				} catch (error) {
+					console.warn('Текст не является валидным JSON:', textToCopy)
+				}
 
-					navigator.clipboard
-						.writeText(textToCopy)
-						.then(() => {
-							const message = isLanguageRussian ? 'Текст скопирован' : 'Text Copied'
-							const font = isLanguageRussian ? ['uses-linters__modal-window', 'russian-font', 'uses-linters__modal-window--rus-lang'] : ['uses-linters__modal-window']
-							showModalWindow(message, font)
-						})
-						.catch(() => {
-							const message = isLanguageRussian ? 'Ошибка копирования' : 'Copy Error'
-							const font = isLanguageRussian ? ['uses-linters__modal-window', 'russian-font', 'uses-linters__modal-window--rus-lang'] : ['uses-linters__modal-window']
-							showModalWindow(message, font)
-						})
-						.finally(() => {
-							setTimeout(() => {
-								isClicked = false
-							}, 2000)
-						})
-				})
+				navigator.clipboard
+					.writeText(textToCopy)
+					.then(() => {
+						const message = isLanguageRussian ? 'Текст скопирован' : 'Text Copied'
+						showModalWindow(message, 'success')
+					})
+					.catch(() => {
+						const message = isLanguageRussian ? 'Ошибка копирования' : 'Copy Error'
+						showModalWindow(message, 'error')
+					})
+					.finally(() => {
+						setTimeout(() => (isClicked = false), visibleTimer)
+					})
+			}
+
+			function handleInfoCopy(index) {
+				if (isClicked) return
+				isClicked = true
+
+				let textToCopy = infoTexts[index]?.textContent || ''
+				textToCopy = cleanText(textToCopy)
+
+				navigator.clipboard
+					.writeText(textToCopy)
+					.then(() => {
+						const message = isLanguageRussian ? 'Текст скопирован' : 'Text Copied'
+						showModalWindow(message, 'success')
+					})
+					.catch(() => {
+						const message = isLanguageRussian ? 'Ошибка копирования' : 'Copy Error'
+						showModalWindow(message, 'error')
+					})
+					.finally(() => {
+						setTimeout(() => (isClicked = false), visibleTimer)
+					})
+			}
+
+			copyButtons.forEach((button, index) => {
+				button.addEventListener('click', () => handleCodeCopy(index))
+			})
+
+			infoCopyButtons.forEach((button, index) => {
+				button.addEventListener('click', () => handleInfoCopy(index))
 			})
 		}
 
+		animateUsesPageElements()
+		controlButtonAndContent()
+		lintersEvents()
 		copyText()
 	}
 
@@ -2430,11 +2236,10 @@ function main() {
 		headerEvents()
 		homePageEvents()
 		usesPageEvents()
-		resumePageEvents()
-		aboutMePageEvents()
-		footerEvents()
+		// resumePageEvents()
+		// aboutMePageEvents()
+		// footerEvents()
 
-		// switchPages()
 		climbUp()
 		asideMenu()
 	})
@@ -2442,103 +2247,6 @@ function main() {
 	// window.addEventListener('beforeunload', () => {
 	// 	pageUpdate()
 	// })
-
-	changeLanguageButton.addEventListener('click', () => {
-		isLanguageRussian = !isLanguageRussian
-		const currentLanguage = isLanguageRussian ? 'ru' : 'en'
-
-		translateText(currentLanguage, 'russian-font')
-
-		setCurrentDate()
-		calculateExp()
-		updateAnimationText()
-
-		function homePageTextEdit() {
-			const cardsText = document.querySelectorAll('.hmp-cards__progress-text')
-
-			manageClasses(cardsText, ['russian-font'], null)
-
-			manageClasses(null, ['hmp-getting__title--rus-lang'], '.hmp-getting__title')
-			manageClasses(null, ['hmp-cards__title--rus-lang'], '.hmp-cards__title')
-			manageClasses(null, ['hmp-projects__title--rus-lang'], '.hmp-projects__title')
-			manageClasses(null, ['hmp-projects__text--rus-lang'], '.hmp-projects__text')
-			manageClasses(null, ['hmp-way__title--rus-lang'], '.hmp-way__title')
-			manageClasses(null, ['hmp-way__btn--rus-lang'], '.hmp-way__btn')
-		}
-
-		homePageTextEdit()
-
-		function resumeTextEdit() {
-			const subtitlesGetting = document.querySelectorAll('.resume-getting__subtitle')
-			const subtitles = document.querySelectorAll('.resume-subtitle')
-			const titles = document.querySelectorAll('.resume-title')
-			const label = document.querySelectorAll('.resume-feedback__label')
-			const copyBtn = document.querySelectorAll('.uses-linters__copy-btn')
-			const pasteTextSpan = document.querySelectorAll('.uses-linters__paste-text--accent')
-			const pasteText = document.querySelectorAll('.uses-linters__paste-text')
-
-			manageClasses(subtitlesGetting, ['resume-getting__subtitle--rus-lang'], null)
-			manageClasses(subtitles, ['resume-subtitle--rus-lang'], null)
-			manageClasses(titles, ['resume-title--rus-lang'], null)
-			manageClasses(label, ['resume-feedback__label--rus-lang'], null)
-			manageClasses(copyBtn, ['uses-linters__copy-btn--rus-lang'], null)
-			manageClasses(pasteTextSpan, ['russian-font'], null)
-			manageClasses(pasteText, ['uses-linters__paste-text--rus-lang'], null)
-
-			manageClasses(null, ['resume-feedback__form-btn--rus-lang'], '.resume-feedback__form-btn')
-			manageClasses(null, ['resume-download__link--rus-lang'], '.resume-download__link')
-			manageClasses(null, ['resume-getting__title--rus-lang'], '.resume-getting__title')
-			manageClasses(null, ['resume-feedback__label--textarea-rus-lang'], '.resume-feedback__label--textarea')
-		}
-
-		resumeTextEdit()
-
-		function usesTextEdit() {
-			const titles = document.querySelectorAll('.uses-title')
-			const equipmentHideText = document.querySelectorAll('.uses-equipment__hidden-text')
-			const softwareText = document.querySelectorAll('.uses-software__text')
-			const linterTasksText = document.querySelectorAll('.uses-linters__task')
-
-			manageClasses(titles, ['uses-title--rus-lang'], null)
-			manageClasses(equipmentHideText, ['uses-equipment__hidden-text--rus-lang'], null)
-			manageClasses(softwareText, ['uses-software__text--rus-lang', 'russian-font'], null)
-			manageClasses(linterTasksText, ['uses-linters__task--rus-lang'], null)
-
-			manageClasses(null, ['uses-getting__title--rus-lang'], '.uses-getting__title')
-			manageClasses(null, ['uses-getting__subtitle--rus-lang'], '.uses-getting__subtitle')
-			manageClasses(null, ['uses-linters__settings-title--rus-lang'], '.uses-linters__settings-title')
-
-			function settingToggleClasses() {
-				const fontText = document.querySelector('.uses-linters__settings-subtitle--font-color')
-				const accentText = document.querySelector('.uses-linters__settings-subtitle--span')
-
-				fontText.classList.toggle('uses-linters__settings-subtitle--accent-color', isLanguageRussian)
-				accentText.classList.toggle('uses-linters__settings-subtitle--accent-color', !isLanguageRussian)
-			}
-
-			settingToggleClasses()
-		}
-
-		usesTextEdit()
-
-		function aboutMeTextEdit() {
-			const expText = document.querySelectorAll('.about-me-exp__text')
-			const totalText = document.querySelectorAll('.about-me-exp__total-text')
-			const linksText = document.querySelectorAll('.about-me-self__links-text')
-
-			manageClasses(expText, ['about-me-exp__text--rus-lang'], null)
-			manageClasses(totalText, ['russian-font'], null)
-			manageClasses(linksText, ['russian-font', 'about-me-self__links-text--rus-lang'], null)
-
-			manageClasses(null, ['about-me-getting__title--rus-lang'], '.about-me-getting__title')
-			manageClasses(null, ['about-me-getting__subtitle--rus-lang'], '.about-me-getting__subtitle')
-			manageClasses(null, ['about-me-exp__total-exp--rus-lang', 'russian-font'], '.about-me-exp__total-exp')
-			manageClasses(null, ['about-me-self__text--rus-lang'], '.about-me-self__text')
-			manageClasses(null, ['about-me-self__accent-text--rus-lang'], '.about-me-self__accent-text')
-		}
-
-		aboutMeTextEdit()
-	})
 }
 
 main()

@@ -172,7 +172,7 @@
 									<div class="hmp-getting__perspective" id="hmp-getting-perspective">
 										<div class="hmp-getting__preserve-3d" id="hmp-getting-preverve">
 											<div class="hmp-getting__front hmp-getting__sides" id="hmp-getting-front">
-												<img class="hmp-getting__img hmp-getting__img--hide" id="hmp-getting-img" src="img/svg/super-man-getting.svg" alt="">
+												<img class="hmp-getting__img" id="hmp-getting-img" src="img/svg/super-man-getting.svg" alt="">
 												<span class="hmp-getting__line-left hmp-getting__line hmp-getting__line-left--hide"></span>
 												<span class="hmp-getting__line-right hmp-getting__line hmp-getting__line-right--hide"></span>
 												<span class="hmp-getting__line-top hmp-getting__line hmp-getting__line-top--hide"></span>
@@ -196,13 +196,12 @@
 							<div class="hmp-scroll__wrapper scroll-section__wrapper">
 								<div class="hmp-scroll__line scroll-section__line" id="hmp-scroll-line"></div>
 								<div class="hmp-scroll__hide-text scroll-section__text" id="hmp-scroll-text">
-									<span class="hmp-scroll__letter-left">S</span>
-									<span class="hmp-scroll__letter-left">C</span>
-									<span class="hmp-scroll__letter-left">R</span>
-
-									<span class="hmp-scroll__letter-right">O</span>
-									<span class="hmp-scroll__letter-right">L</span>
-									<span class="hmp-scroll__letter-right">L</span>
+									<span class="hmp-scroll__letter hmp-scroll__letter--hide">S</span>
+									<span class="hmp-scroll__letter hmp-scroll__letter--hide">C</span>
+									<span class="hmp-scroll__letter hmp-scroll__letter--hide">R</span>
+									<span class="hmp-scroll__letter hmp-scroll__letter--hide">O</span>
+									<span class="hmp-scroll__letter hmp-scroll__letter--hide">L</span>
+									<span class="hmp-scroll__letter hmp-scroll__letter--hide">L</span>
 								</div>
 							</div>
 						</div>
@@ -386,11 +385,23 @@
 							<div class="uses-getting__wrapper">
 								<h2 class="uses-getting__title" id="uses-getting-title" data-en="Uses" data-ru="Мой набор">Uses</h2>
 								<div class="uses-getting__subtitle" id="uses-getting-subtitle">
-									<span class="uses-getting__subtitle--span" data-en="Equipment" data-ru="Оборудование">Equipment</span> 
-									<span data-en="and" data-ru="и">and</span>
-									<span class="uses-getting__subtitle--span" data-en="Software" data-ru="Программное обеспечение">Software</span>
-									<span data-en="I Use for" data-ru="которое я использую для">I Use for</span>
-									<span class="uses-getting__subtitle--span" data-en="Development" data-ru="Разработки">Development</span>
+									<span class="uses-getting__text uses-getting__text--hide uses-getting__text--accent-color" data-en="Equipment" data-ru="Оборудование">Equipment</span> 
+									<span class="uses-getting__text uses-getting__text--hide" data-en="and" data-ru="и">and</span>
+									<span class="uses-getting__text uses-getting__text--hide uses-getting__text--accent-color" data-en="Software" data-ru="Программное обеспечение">Software</span>
+									<span class="uses-getting__text uses-getting__text--hide" data-en="I Use for" data-ru="которое я использую для">I Use for</span>
+									<span class="uses-getting__text uses-getting__text--hide uses-getting__text--accent-color" data-en="Development" data-ru="Разработки">Development</span>
+								</div>
+							</div>
+						</div>
+					</section>
+
+					<section class="uses-gear">
+						<div class="container">
+							<div class="uses-gear__wrapper">
+								<div class="uses-gear__inner" id="uses-gear">
+									<img class="uses-gear__img uses-gear__img--hide" src="img/svg/gear.svg" alt="">
+									<img class="uses-gear__img uses-gear__img--hide" src="img/svg/gear.svg" alt="">
+									<img class="uses-gear__img uses-gear__img--hide" src="img/svg/gear.svg" alt="">
 								</div>
 							</div>
 						</div>
@@ -401,15 +412,15 @@
 							<div class="uses-scroll__wrapper scroll-section__wrapper">
 								<h2 class="uses-scroll__title scroll-section__title">Scroll title</h2>
 
-								<div class="scroll-section__line uses-scroll__line"></div>
+								<div class="uses-scroll__line scroll-section__line" id="uses-scroll-line"></div>
 
 								<div class="uses-scroll__text scroll-section__text" id="uses-scroll-text">
-									<span class="uses-scroll__letter">S</span>
-									<span class="uses-scroll__letter">C</span>
-									<span class="uses-scroll__letter">R</span>
-									<span class="uses-scroll__letter">O</span>
-									<span class="uses-scroll__letter">L</span>
-									<span class="uses-scroll__letter">L</span>
+									<span class="uses-scroll__letter uses-scroll__letter--hide">S</span>
+									<span class="uses-scroll__letter uses-scroll__letter--hide">C</span>
+									<span class="uses-scroll__letter uses-scroll__letter--hide">R</span>
+									<span class="uses-scroll__letter uses-scroll__letter--hide">O</span>
+									<span class="uses-scroll__letter uses-scroll__letter--hide">L</span>
+									<span class="uses-scroll__letter uses-scroll__letter--hide">L</span>
 								</div>
 							</div>
 						</div>
@@ -418,104 +429,120 @@
 					<section class="uses-equipment">
 						<div class="container">
 							<div class="uses-equipment__wrapper">
-								<h2 class="uses-equipment__title uses-title" data-en="Equipment" data-ru="Оборудование">Equipment</h2>
+								<h2 class="uses-title uses-equipment__title" data-en="Equipment" data-ru="Оборудование">Equipment</h2>
 
-								<div class="line uses-equipment__line"></div>
+								<div class="uses-line uses-equipment__line line"></div>
 
 								<div class="uses-equipment__inner-content">
-									<div class="uses-equipment__item uses-item">
-										<button type="button" aria-label="Monitor" class="uses-equipment__button uses-btn">
-											<span class="uses-equipment__text uses-text"></span>
-											<img class="uses-equipment__img uses-img" src="img/svg/equipment-arrow.svg" alt="">
+									<div class="uses-item">
+										<button type="button" aria-label="Monitor" class="uses-btn">
+											<span class="uses-text uses-text--hide" data-ru="Монитор" data-en="Monitor">Monitor</span>
+											<img class="uses-img uses-img--hide" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
-										<div class="uses-equipment__hidden-group uses-hide-group">
-											<div class="uses-equipment__hidden-text" data-en="Lenovo – 32″ G32qc-10 Curved Monitor, VA, 144Hz, 1mc, QHD(2560×1440) 2K" data-ru="Lenovo – 32″ G32qc-10 Изогнутый Монитор, VA, 144Hz, 1mc, QHD(2560×1440) 2K">Lenovo – 32″ G32qc-10 Curved Monitor, VA, 144Hz, 1mc, QHD(2560×1440) 2K</div>
-											<img class="uses-equipment__hidden-img" src="img/png/monitor.png" alt="">
+										<div class="uses-hide-group">
+											<div class="uses-hide-box uses-equipment__hide-box">
+												<div class="uses-equipment__hidden-text" data-en="Lenovo – 32″ G32qc-10 Curved Monitor, VA, 144Hz, 1mc, QHD(2560×1440) 2K" data-ru="Lenovo – 32″ G32qc-10 Изогнутый Монитор, VA, 144Hz, 1mc, QHD(2560×1440) 2K">Lenovo – 32″ G32qc-10 Curved Monitor, VA, 144Hz, 1mc, QHD(2560×1440) 2K</div>
+												<img class="uses-equipment__hidden-img" src="img/png/monitor.png" alt="">
+											</div>
 										</div>
 									</div>
 
-									<div class="uses-equipment__item uses-item">
-										<button type="button" aria-label="PC Case" class="uses-equipment__button uses-btn">
-											<span class="uses-equipment__text uses-text"></span> 
-											<img class="uses-equipment__img uses-img" src="img/svg/equipment-arrow.svg" alt="">
+									<div class="uses-item">
+										<button type="button" aria-label="PC Case" class="uses-btn">
+											<span class="uses-text uses-text--hide" data-en="PC Case" data-ru="ПК Кейс">PC Case</span> 
+											<img class="uses-img uses-img--hide" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
-										<div class="uses-equipment__hidden-group uses-hide-group">
-											<div class="uses-equipment__hidden-text" data-en="13th Gen Intel(R) Core(TM) i7-13700KF 3.40 GHz | 2x Kingston DDR5 16GB 5200Mhz RGB | 12GB GeForce RTX3060" data-ru="13th Gen Intel(R) Core(TM) i7-13700KF 3.40 GHz | 2x Kingston DDR5 16GB 5200Mhz RGB | 12GB GeForce RTX3060">13th Gen Intel(R) Core(TM) i7-13700KF 3.40 GHz | 2x Kingston DDR5 16GB 5200Mhz | RGB 12GB GeForce RTX3060</div>
-											<img class="uses-equipment__hidden-img" src="img/png/PCcase.png" alt="">
+										<div class="uses-hide-group">
+											<div class="uses-hide-box uses-equipment__hide-box">
+												<div class="uses-equipment__hidden-text" data-en="13th Gen Intel(R) Core(TM) i7-13700KF 3.40 GHz | 2x Kingston DDR5 16GB 5200Mhz RGB | 12GB GeForce RTX3060" data-ru="13th Gen Intel(R) Core(TM) i7-13700KF 3.40 GHz | 2x Kingston DDR5 16GB 5200Mhz RGB | 12GB GeForce RTX3060">13th Gen Intel(R) Core(TM) i7-13700KF 3.40 GHz | 2x Kingston DDR5 16GB 5200Mhz | RGB 12GB GeForce RTX3060</div>
+												<img class="uses-equipment__hidden-img" src="img/png/PCcase.png" alt="">
+											</div>
 										</div>
 									</div>
 
-									<div class="uses-equipment__item uses-item">
-										<button type="button" aria-label="Chair" class="uses-equipment__button uses-btn">
-											<span class="uses-equipment__text uses-text"></span> 
-											<img class="uses-equipment__img uses-img" src="img/svg/equipment-arrow.svg" alt="">
+									<div class="uses-item">
+										<button type="button" aria-label="Chair" class="uses-btn">
+											<span class="uses-text uses-text--hide" data-en="Chair" data-ru="Кресло">Chair</span> 
+											<img class="uses-img uses-img--hide" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
-										<div class="uses-equipment__hidden-group uses-hide-group">
-											<div class="uses-equipment__hidden-text" data-en="Gaming Chair Cougar ARMOR ONE Sky Blue" data-ru="Игровое кресло Cougar ARMOR ONE Sky Blue">Gaming Chair Cougar ARMOR ONE Sky Blue</div>
-											<img class="uses-equipment__hidden-img" src="img/png/chair.png" alt="">
+										<div class="uses-hide-group">
+											<div class="uses-hide-box uses-equipment__hide-box">
+												<div class="uses-equipment__hidden-text" data-en="Gaming Chair Cougar ARMOR ONE Sky Blue" data-ru="Игровое кресло Cougar ARMOR ONE Sky Blue">Gaming Chair Cougar ARMOR ONE Sky Blue</div>
+												<img class="uses-equipment__hidden-img" src="img/png/chair.png" alt="">
+											</div>
 										</div>
 									</div>
 
-									<div class="uses-equipment__item uses-item">
-										<button type="button" aria-label="Desk" class="uses-equipment__button uses-btn">
-											<span class="uses-equipment__text uses-text"></span> 
-											<img class="uses-equipment__img uses-img" src="img/svg/equipment-arrow.svg" alt="">
+									<div class="uses-item">
+										<button type="button" aria-label="Desk" class="uses-btn">
+											<span class="uses-text uses-text--hide" data-en="Desk" data-ru="Стол">Desk</span> 
+											<img class="uses-img uses-img--hide" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
-										<div class="uses-equipment__hidden-group uses-hide-group">
-											<div class="uses-equipment__hidden-text" data-en="Cougar E-Deimus 120" data-ru="Cougar E-Deimus 120">Cougar E-Deimus 120</div>
-											<img class="uses-equipment__hidden-img" src="img/png/desk.png" alt="">
+										<div class="uses-hide-group">
+											<div class="uses-hide-box uses-equipment__hide-box">
+												<div class="uses-equipment__hidden-text" data-en="Cougar E-Deimus 120" data-ru="Cougar E-Deimus 120">Cougar E-Deimus 120</div>
+												<img class="uses-equipment__hidden-img" src="img/png/desk.png" alt="">
+											</div>
 										</div>
 									</div>
 
-									<div class="uses-equipment__item uses-item">
-										<button type="button" aria-label="equipment-button" class="uses-equipment__button uses-btn">
-											<span class="uses-equipment__text uses-text"></span> 
-											<img class="uses-equipment__img uses-img" src="img/svg/equipment-arrow.svg" alt="">
+									<div class="uses-item">
+										<button type="button" aria-label="Keyboard" class="uses-btn">
+											<span class="uses-text uses-text--hide" data-en="Keyboard" data-ru="Клавиатура">Keyboard</span> 
+											<img class="uses-img uses-img--hide" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
-										<div class="uses-equipment__hidden-group uses-hide-group">
-											<div class="uses-equipment__hidden-text" data-en="Keyboard ASUS | ROG | FALCHION |" data-ru="Клавиатура ASUS | ROG | FALCHION |">Keyboard ASUS | ROG | FALCHION |</div>
-											<img class="uses-equipment__hidden-img" src="img/png/keyboard.png" alt="">
+										<div class="uses-hide-group">
+											<div class="uses-hide-box uses-equipment__hide-box">
+												<div class="uses-equipment__hidden-text" data-en="Keyboard ASUS | ROG | FALCHION |" data-ru="Клавиатура ASUS | ROG | FALCHION |">Keyboard ASUS | ROG | FALCHION |</div>
+												<img class="uses-equipment__hidden-img" src="img/png/keyboard.png" alt="">
+											</div>
 										</div>
 									</div>
 
-									<div class="uses-equipment__item uses-item">
-										<button type="button" aria-label="Mouse" class="uses-equipment__button uses-btn">
-											<span class="uses-equipment__text uses-text"></span> 
-											<img class="uses-equipment__img uses-img" src="img/svg/equipment-arrow.svg" alt="">
+									<div class="uses-item">
+										<button type="button" aria-label="Mouse" class="uses-btn">
+											<span class="uses-text uses-text--hide" data-en="Mouse" data-ru="Мышь">Mouse</span> 
+											<img class="uses-img uses-img--hide" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
-										<div class="uses-equipment__hidden-group uses-hide-group">
-											<div class="uses-equipment__hidden-text" data-en="Cougar Minos X5" data-ru="Cougar Minos X5">Cougar Minos X5</div>
-											<img class="uses-equipment__hidden-img" src="img/png/mouse.png" alt="">
+										<div class="uses-hide-group">
+											<div class="uses-hide-box uses-equipment__hide-box">
+												<div class="uses-equipment__hidden-text" data-en="Cougar Minos X5" data-ru="Cougar Minos X5">Cougar Minos X5</div>
+												<img class="uses-equipment__hidden-img" src="img/png/mouse.png" alt="">
+											</div>
 										</div>
 									</div>
 
-									<div class="uses-equipment__item uses-item">
-										<button type="button" aria-label="Webcam" class="uses-equipment__button uses-btn">
-											<span class="uses-equipment__text uses-text"></span> 
-											<img class="uses-equipment__img uses-img" src="img/svg/equipment-arrow.svg" alt="">
+									<div class="uses-item">
+										<button type="button" aria-label="Webcam" class="uses-btn">
+											<span class="uses-text uses-text--hide" data-en="Webcam" data-ru="Веб-камера">Webcam</span> 
+											<img class="uses-img uses-img--hide" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
-										<div class="uses-equipment__hidden-group uses-hide-group">
-											<div class="uses-equipment__hidden-text" data-en="Logitech 920 HD Pro Stream" data-ru="Logitech 920 HD Pro Stream">Logitech 920 HD Pro Stream</div>
-											<img class="uses-equipment__hidden-img" src="img/png/webcam.png" alt="">
+										<div class="uses-hide-group">
+											<div class="uses-hide-box uses-equipment__hide-box">
+												<div class="uses-equipment__hidden-text" data-en="Logitech 920 HD Pro Stream" data-ru="Logitech 920 HD Pro Stream">Logitech 920 HD Pro Stream</div>
+												<img class="uses-equipment__hidden-img" src="img/png/webcam.png" alt="">
+											</div>
 										</div>
 									</div>
 
-									<div class="uses-equipment__item uses-item">
-										<button type="button" aria-label="Microphone" class="uses-equipment__button uses-btn">
-											<span class="uses-equipment__text uses-text"></span> 
-											<img class="uses-equipment__img uses-img" src="img/svg/equipment-arrow.svg" alt="">
+									<div class="uses-item">
+										<button type="button" aria-label="Microphone" class="uses-btn">
+											<span class="uses-text uses-text--hide" data-en="Microphone" data-ru="Микрофон">Microphone</span> 
+											<img class="uses-img uses-img--hide" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
-										<div class="uses-equipment__hidden-group uses-hide-group">
-											<div class="uses-equipment__hidden-text" data-en="Maono DGM20S" data-ru="Maono DGM20S">Maono DGM20S</div>
-											<img class="uses-equipment__hidden-img" src="img/png/microphone.png" alt="">
+										<div class="uses-hide-group">
+											<div class="uses-hide-box uses-equipment__hide-box">
+												<div class="uses-equipment__hidden-text" data-en="Maono DGM20S" data-ru="Maono DGM20S">Maono DGM20S</div>
+												<img class="uses-equipment__hidden-img" src="img/png/microphone.png" alt="">
+											</div>
 										</div>
 									</div>
 
@@ -527,40 +554,34 @@
 					<section class="uses-software">
 						<div class="container">
 							<div class="uses-software__wrapper">
-								<h2 class="uses-software__title uses-title" data-en="Software" data-ru="Программное обеспечение">Software</h2>
+								<h2 class="uses-title uses-software__title" data-en="Software" data-ru="Программное обеспечение">Software</h2>
 
-								<div class="line uses-software__line"></div>
+								<div class="uses-line uses-software__line line"></div>
 
 								<div class="uses-software__inner-content">
 									<div class="uses-software__item">
-										<img class="uses-software__img" src="img/svg/vscode.svg" alt="">
-										<div class="uses-software__text uses-software__text--color-0">VSCode</div>
+										<img class="uses-software__img uses-software__img--hide" src="img/svg/vscode.svg" alt="">
+										<div class="uses-software__text uses-software__text--vscode uses-software__text--hide">VSCode</div>
 									</div>
 
 									<div class="uses-software__item">
-										<img class="uses-software__img" src="img/svg/figma.svg" alt="">
-										<div class="uses-software__text uses-software__text--color-1">Figma</div>
+										<img class="uses-software__img uses-software__img--hide" src="img/svg/figma.svg" alt="">
+										<div class="uses-software__text uses-software__text--figma uses-software__text--hide">Figma</div>
 									</div>
 
 									<div class="uses-software__item">
-										<img class="uses-software__img" src="img/png/pixel-perfect.png" alt="">
-										<div class="uses-software__text uses-software__text--color-2">PerfectPixel</div>
+										<img class="uses-software__img uses-software__img--hide" src="img/png/pixel-perfect.png" alt="">
+										<div class="uses-software__text uses-software__text--pixel-perfect uses-software__text--hide">PerfectPixel</div>
 									</div>
-
-									<div class="uses-software__item">
-										<img class="uses-software__img" src="img/svg/photoshop.svg" alt="">
-										<div class="uses-software__text uses-software__text--color-3">Photoshop</div>
-									</div>
-
 									
 									<div class="uses-software__item">
-										<img class="uses-software__img" src="img/svg/bootstrap.svg" alt="">
-										<div class="uses-software__text uses-software__text--color-4">Bootstrap</div>
+										<img class="uses-software__img uses-software__img--hide" src="img/svg/bootstrap.svg" alt="">
+										<div class="uses-software__text uses-software__text--bootstrap uses-software__text--hide">Bootstrap</div>
 									</div>
 
 									<div class="uses-software__item">
-										<img class="uses-software__img" src="img/svg/git.svg" alt="">
-										<div class="uses-software__text uses-software__text--color-5">Git</div>
+										<img class="uses-software__img uses-software__img--hide" src="img/svg/git.svg" alt="">
+										<div class="uses-software__text uses-software__text--git uses-software__text--hide">Git</div>
 									</div>
 								</div>
 							</div>
@@ -570,9 +591,9 @@
 					<section class="uses-linters"> 
 						<div class="container">
 							<div class="uses-linters__wrapper">
-								<h2 class="uses-linters__title uses-title" data-en="Linters" data-ru="Линтеры">Linters</h2>
+								<h2 class="uses-title uses-linters__title" data-en="Linters" data-ru="Линтеры">Linters</h2>
 
-								<div class="uses-linters__line line"></div>
+								<div class="uses-line uses-linters__line line"></div>
 
 								<div class="uses-linters__tasks-group">
 									<div class="uses-linters__task" data-en="for code cleanliness" data-ru="для чистоты кода">for code cleanliness</div>
@@ -582,36 +603,52 @@
 									<div class="uses-linters__task" data-en="for code improvement" data-ru="для улучшения кода">for code improvement</div>
 								</div>
 
+								<div class="uses-line uses-linters__line line"></div>
+
 								<div class="uses-linters__inner-settings">
 									<h3 class="uses-linters__settings-title" id="uses-linters-settings-title" data-en="Settings" data-ru="Настройки">Settings</h3>
 									<h4 class="uses-linters__settings-subtitle" id="uses-linters-settings-subtitle">
-										<span class="uses-linters__settings-subtitle--font-color" data-en="Linter" data-ru="Настройки">Linter</span>
-										<span class="uses-linters__settings-subtitle--span uses-linters__settings-subtitle--accent-color" data-en="settings" data-ru="Линтеров">settings</span>
-										<span data-en="that I use" data-ru="которые я использую">that I use</span>
+										<span class="uses-linters__settings-text uses-linters__settings-text--hide" data-en="Linter" data-ru="Настройки">Linter</span>
+										<span class="uses-linters__settings-text uses-linters__settings-text--accent-color uses-linters__settings-subtitle--accent-color uses-linters__settings-text--hide" data-en="settings" data-ru="Линтеров">settings</span>
+										<span class="uses-linters__settings-text uses-linters__settings-text--hide" data-en="that I use" data-ru="которые я использую">that I use</span>
 									</h4>
 
-									<div class="uses-linters__settings-line line"></div>
+									<div class="uses-line uses-linters__settings-line line"></div>
 
-									<div class="uses-linters__item uses-item">
-										<button class="uses-linters__btn uses-btn" type="button" aria-label="Prettier">
-											<span class="uses-linters__text uses-text"></span>
-											<img class="uses-linters__img uses-img" src="img/svg/equipment-arrow.svg" alt="">
+									<div class="uses-item">
+										<button class="uses-btn uses-linters__btn" type="button" aria-label="Prettier">
+											<span class="uses-text uses-text--hide">Prettier</span>
+											<img class="uses-img uses-img--hide" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
-										<div class="uses-linters__hide-group  uses-hide-group">
-											<button class="uses-linters__copy-btn" type="button" aria-label="Copy Text" data-en="Copy Text" data-ru="Копировать текст">Copy Text</button>
+										<div class="uses-hide-group">
+											<div class="uses-hide-box uses-linters__hide-group">
+												<button class="uses-linters__copy-btn" type="button" aria-label="Copy Code" data-en="Copy Code" data-ru="Копировать код">Copy Code</button>
 
-											<div class="uses-linters__paste-group">
-												<img class="uses-linters__paste-img" src="img/svg/warningIcon.svg" alt="">
-												<p class="uses-linters__paste-text">
-													<span class="uses-linters__paste-text--font" data-en="Paste this code into" data-ru="Вставьте этот код в">Paste this code into</span> 
-													<span class="uses-linters__paste-text--accent">.prettierrc</span>
-												</p>
-											</div>
+												<div class="uses-linters__paste-group">
+													<img class="uses-linters__paste-img" src="img/svg/warningIcon.svg" alt="">
+													<p class="uses-linters__paste-text">
+														<span class="uses-linters__paste-text--font" data-en="Paste this code into" data-ru="Вставьте этот код в">Paste this code into</span> 
+														<span class="uses-linters__paste-text--accent">.prettierrc</span>
+													</p>
+												</div>
 
-											<div class="uses-linters__code-line"></div>
-											
-											<pre class="uses-linters__code">
+												<div class="uses-linters__code-line"></div>
+												
+												<div class="uses-linters__info">
+													<p class="uses-linters__info-paragraf">
+														<span class="uses-linters__info-text" data-en="Install Prettier if it is not already installed:" data-ru="Установите Prettier, если он еще не установлен:">Install Prettier if it is not already installed:</span>
+														<span class="uses-linters__info-text uses-linters__info-text--accent-color">npm install --save-dev prettier</span>
+														<button class="uses-linters__info-copy-btn" aria-label="copy prettier plugins" type="button">
+															<img class="uses-linters__info-copy-img" src="/img//svg/copy-img.svg" alt="">
+														</button>
+													</p>
+												</div>
+
+												<div class="uses-linters__code-line"></div>
+
+												
+												<pre class="uses-linters__code">
 {
   "semi": <span class="uses-linters__code-span">false</span>,
   "bracketSpacing": <span class="uses-linters__code-span">true</span>,
@@ -624,30 +661,51 @@
   "proseWrap": <span class="uses-linters__code-span">"never"</span>,
   "endOfLine": <span class="uses-linters__code-span">"auto"</span>
 }
-											</pre>
+												</pre>
+											</div>
 										</div>
 									</div>
 
-									<div class="uses-linters__item uses-item">
-										<button class="uses-linters__btn uses-btn" type="button" aria-label="ESLint">
-											<span class="uses-linters__text uses-text"></span>
-											<img class="uses-linters__img uses-img" src="img/svg/equipment-arrow.svg" alt="">
+									<div class="uses-item">
+										<button class="uses-btn uses-linters__btn" type="button" aria-label="ESLint">
+											<span class="uses-text uses-text--hide">ESLint</span>
+											<img class="uses-img uses-img--hide" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
-										<div class="uses-linters__hide-group  uses-hide-group">
-											<button class="uses-linters__copy-btn" type="button" aria-label="Copy Text" data-en="Copy Text" data-ru="Копировать текст">Copy Text</button>
-											
-											<div class="uses-linters__paste-group">
-												<img class="uses-linters__paste-img" src="img/svg/warningIcon.svg" alt="">
-												<p class="uses-linters__paste-text">
-													<span class="uses-linters__paste-text--font" data-en="Paste this code into" data-ru="Вставьте этот код в">Paste this code into</span> 
-													<span class="uses-linters__paste-text--accent">eslint.config.json</span>
-												</p>
-											</div>
+										<div class="uses-hide-group">
+											<div class="uses-hide-box uses-linters__hide-group">
+												<button class="uses-linters__copy-btn" type="button" aria-label="Copy Code" data-en="Copy Code" data-ru="Копировать код">Copy Code</button>
+												
+												<div class="uses-linters__paste-group">
+													<img class="uses-linters__paste-img" src="img/svg/warningIcon.svg" alt="">
+													<p class="uses-linters__paste-text">
+														<span class="uses-linters__paste-text--font" data-en="Paste this code into" data-ru="Вставьте этот код в">Paste this code into</span> 
+														<span class="uses-linters__paste-text--accent">eslint.config.json</span>
+													</p>
+												</div>
 
-											<div class="uses-linters__code-line"></div>
+												<div class="uses-linters__code-line"></div>
+												
+												<div class="uses-linters__info">
+													<p class="uses-linters__info-paragraf">
+														<span class="uses-linters__info-text" data-en="Install ESLint and Prettier if they are not already installed:" data-ru="Установите ESLint и Prettier, если они еще не установлены:">Install ESLint and Prettier if they are not already installed:</span>
+														<span class="uses-linters__info-text uses-linters__info-text--accent-color">npm install --save-dev eslint prettier</span>
+														<button class="uses-linters__info-copy-btn" aria-label="copy prettier plugins" type="button">
+															<img class="uses-linters__info-copy-img" src="/img//svg/copy-img.svg" alt="">
+														</button>
+													</p>
+													<p class="uses-linters__info-paragraf">
+														<span class="uses-linters__info-text" data-en="Add plugins:" data-ru="Добавьте плагины:">Add plugins:</span>
+														<span class="uses-linters__info-text uses-linters__info-text--accent-color">npm install --save-dev eslint-plugin-prettier eslint-plugin-html @eslint/js</span>
+														<button class="uses-linters__info-copy-btn" aria-label="copy prettier plugins" type="button">
+															<img class="uses-linters__info-copy-img" src="/img//svg/copy-img.svg" alt="">
+														</button>
+													</p>
+												</div>
 
-											<pre class="uses-linters__code">
+												<div class="uses-linters__code-line"></div>
+
+												<pre class="uses-linters__code">
 {
   "env": {
 	"browser": <span class="uses-linters__code-span">true</span>,
@@ -673,9 +731,9 @@
 	  ],
 	  "languageOptions": {
 		"globals": {
-		  "window": <span class="uses-linters__code-span">"readonly"</span>,
-		  "document": <span class="uses-linters__code-span">"readonly"</span>,
-		  "navigator": <span class="uses-linters__code-span">"readonly"</span>
+		"window": <span class="uses-linters__code-span">"readonly"</span>,
+		"document": <span class="uses-linters__code-span">"readonly"</span>,
+		"navigator": <span class="uses-linters__code-span">"readonly"</span>
 		}
 	  },
 	  "rules": {
@@ -690,34 +748,59 @@
   ],
   "rules": {}
 }
-											</pre>
-											
-											<button class="uses-linters__up-btn" type="button" aria-label="up-btn">
-												<img class="uses-linters__up-img" src="img/svg/up-settings.svg" alt="">
-											</button>
+												</pre>
+
+												<div class="uses-linters__code-line"></div>
+												
+												<button class="uses-linters__up-btn" type="button" aria-label="up-btn">
+													<img class="uses-linters__up-img" src="img/svg/up-settings.svg" alt="">
+													<img class="uses-linters__up-img" src="img/svg/up-settings.svg" alt="">
+													<img class="uses-linters__up-img" src="img/svg/up-settings.svg" alt="">
+												</button>
+											</div>
 										</div>
 									</div>
 
-									<div class="uses-linters__item uses-item">
-										<button class="uses-linters__btn uses-btn" type="button" aria-label="Stylelint">
-											<span class="uses-linters__text uses-text"></span>
-											<img class="uses-linters__img uses-img" src="img/svg/equipment-arrow.svg" alt="">
+									<div class="uses-item">
+										<button class="uses-btn uses-linters__btn" type="button" aria-label="Stylelint">
+											<span class="uses-text uses-text--hide">Stylelint</span>
+											<img class="uses-img uses-img--hide" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
-										<div class="uses-linters__hide-group  uses-hide-group">
-											<button class="uses-linters__copy-btn" type="button" aria-label="Copy Text"  data-en="Copy Text" data-ru="Копировать текст">Copy Text</button>
+										<div class="uses-hide-group">
+											<div class="uses-hide-box uses-linters__hide-group">
+												<button class="uses-linters__copy-btn" type="button" aria-label="Copy Code"  data-en="Copy Code" data-ru="Копировать код">Copy Code</button>
 
-											<div class="uses-linters__paste-group">
-												<img class="uses-linters__paste-img" src="img/svg/warningIcon.svg" alt="">
-												<p class="uses-linters__paste-text">
-													<span class="uses-linters__paste-text--font" data-en="Paste this code into" data-ru="Вставьте этот код в">Paste this code into</span> 
-													<span class="uses-linters__paste-text--accent">.stylelintrc.json</span>
-												</p>
-											</div>
+												<div class="uses-linters__paste-group">
+													<img class="uses-linters__paste-img" src="img/svg/warningIcon.svg" alt="">
+													<p class="uses-linters__paste-text">
+														<span class="uses-linters__paste-text--font" data-en="Paste this code into" data-ru="Вставьте этот код в">Paste this code into</span> 
+														<span class="uses-linters__paste-text--accent">.stylelintrc.json</span>
+													</p>
+												</div>
 
-											<div class="uses-linters__code-line"></div>
+												<div class="uses-linters__code-line"></div>
+												
+												<div class="uses-linters__info">
+													<p class="uses-linters__info-paragraf">
+														<span class="uses-linters__info-text" data-en="Install Stylelint and Prettier if they are not already installed:" data-ru="Установите Stylelint и Prettier, если они еще не установлены:">Install Stylelint and Prettier if they are not already installed:</span> 
+														<span class="uses-linters__info-text uses-linters__info-text--accent-color">npm install --save-dev stylelint prettier</span>
+														<button class="uses-linters__info-copy-btn" aria-label="copy prettier plugins" type="button">
+															<img class="uses-linters__info-copy-img" src="/img//svg/copy-img.svg" alt="">
+														</button>
+													</p>
+													<p class="uses-linters__info-paragraf">
+														<span class="uses-linters__info-text" data-en="Add plugins:" data-ru="Добавьте плагины:">Add plugins:</span> 
+														<span class="uses-linters__info-text uses-linters__info-text--accent-color">npm install --save-dev stylelint-config-standard stylelint-config-standard-scss stylelint-prettier stylelint-order stylelint-scss</span>
+														<button class="uses-linters__info-copy-btn" aria-label="copy prettier plugins" type="button">
+															<img class="uses-linters__info-copy-img" src="/img//svg/copy-img.svg" alt="">
+														</button>
+													</p>
+												</div>
 
-											<pre class="uses-linters__code">
+												<div class="uses-linters__code-line"></div>
+
+												<pre class="uses-linters__code">
 {
   "extends": [
 	<span class="uses-linters__code-span">"stylelint-config-standard"</span>,
@@ -926,34 +1009,38 @@
 	}
   ]
 }
-											</pre>
+												</pre>
 
-											<button class="uses-linters__up-btn" type="button" aria-label="up-btn">
-												<img class="uses-linters__up-img" src="img/svg/up-settings.svg" alt="">
-											</button>
+												<button class="uses-linters__up-btn" type="button" aria-label="up-btn">
+													<img class="uses-linters__up-img" src="img/svg/up-settings.svg" alt="">
+													<img class="uses-linters__up-img" src="img/svg/up-settings.svg" alt="">
+													<img class="uses-linters__up-img" src="img/svg/up-settings.svg" alt="">
+												</button>
+											</div>
 										</div>
 									</div>
 									
-									<div class="uses-linters__item uses-item">
-										<button class="uses-linters__btn uses-btn" type="button" aria-label="Settings.json">
-											<span class="uses-linters__text uses-text"></span>
-											<img class="uses-linters__img uses-img" src="img/svg/equipment-arrow.svg" alt="">
+									<div class="uses-item">
+										<button class="uses-btn uses-linters__btn" type="button" aria-label="Settings.json">
+											<span class="uses-text uses-text--hide">Settings.json</span>
+											<img class="uses-img uses-img--hide" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
-										<div class="uses-linters__hide-group  uses-hide-group">
-											<button class="uses-linters__copy-btn" type="button" aria-label="Copy Text" data-en="Copy Text" data-ru="Копировать текст">Copy Text</button>
+										<div class="uses-hide-group">
+											<div class="uses-hide-box uses-linters__hide-group">
+												<button class="uses-linters__copy-btn" type="button" aria-label="Copy Code" data-en="Copy Code" data-ru="Копировать код">Copy Code</button>
 
-											<div class="uses-linters__paste-group">
-												<img class="uses-linters__paste-img" src="img/svg/warningIcon.svg" alt="">
-												<p class="uses-linters__paste-text">
-													<span class="uses-linters__paste-text--font" data-en="Paste this code into" data-ru="Вставьте этот код в">Paste this code into</span> 
-													<span class="uses-linters__paste-text--accent">settings.json</span>
-												</p>
-											</div>
+												<div class="uses-linters__paste-group">
+													<img class="uses-linters__paste-img" src="img/svg/warningIcon.svg" alt="">
+													<p class="uses-linters__paste-text">
+														<span class="uses-linters__paste-text--font" data-en="Paste this code into" data-ru="Вставьте этот код в">Paste this code into</span> 
+														<span class="uses-linters__paste-text--accent">settings.json</span>
+													</p>
+												</div>
 
-											<div class="uses-linters__code-line"></div>
-											
-											<pre class="uses-linters__code">
+												<div class="uses-linters__code-line"></div>
+												
+												<pre class="uses-linters__code">
 {
   "editor.defaultFormatter": <span class="uses-linters__code-span">"esbenp.prettier-vscode"</span>,
   "editor.codeActionsOnSave": {
@@ -1006,14 +1093,19 @@
 	"*.scss": <span class="uses-linters__code-span">"default"</span>
   }
 }
-											</pre>
+												</pre>
 
-											<button class="uses-linters__up-btn" type="button" aria-label="up-btn">
-												<img class="uses-linters__up-img" src="img/svg/up-settings.svg" alt="">
-											</button>
+												<div class="uses-linters__code-line"></div>
+
+												<button class="uses-linters__up-btn" type="button" aria-label="up-btn">
+													<img class="uses-linters__up-img" src="img/svg/up-settings.svg" alt="">
+													<img class="uses-linters__up-img" src="img/svg/up-settings.svg" alt="">
+													<img class="uses-linters__up-img" src="img/svg/up-settings.svg" alt="">
+												</button>
+											</div>
 										</div>
 									</div>
-									
+
 								</div>
 							</div>
 						</div>
