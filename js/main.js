@@ -2,8 +2,8 @@ function main() {
 	'use strict'
 	const logo = document.getElementById('logo')
 
-	const START_PAGE_POSITION = 1
-	const START_PAGE_NAME = 'uses'
+	const START_PAGE_POSITION = 2
+	const START_PAGE_NAME = 'resume'
 
 	const pageIds = {
 		'home-page-btn': 'home',
@@ -132,109 +132,6 @@ function main() {
 		)
 
 		elements.forEach(element => observer.observe(element))
-	}
-
-	function writeAndResetText(elements, englishTexts, russianTexts, typeSpeed, elementKeys, className, delay) {
-		const configs = elements.map((element, index) => ({
-			element,
-			targetString: englishTexts[index],
-			letterIndex: 0,
-			timeout: null,
-			elementKey: elementKeys[index],
-		}))
-
-		const writeText = {}
-
-		function handleLanguageChange() {
-			configs.forEach((config, index) => {
-				if (isLanguageRussian) setRussianText(config, russianTexts[index], className)
-				if (!isLanguageRussian) setEnglishText(config, englishTexts[index], className)
-			})
-		}
-
-		function setRussianText(config, russianText, className) {
-			if (!russianText) return
-			config.targetString = russianText
-
-			config.element.classList.add('russian-font')
-			if (className) config.element.classList.add(className)
-
-			if (seenElements.has(config.elementKey)) {
-				reset(config)
-				write(config)
-			}
-		}
-
-		function setEnglishText(config, englishText, className) {
-			if (!englishText) return
-			config.targetString = englishText
-
-			config.element.classList.remove('russian-font')
-			if (className) config.element.classList.remove(className)
-
-			if (seenElements.has(config.elementKey)) {
-				reset(config)
-				write(config)
-			}
-		}
-
-		function write(config) {
-			config.element.textContent = config.targetString.substring(0, config.letterIndex)
-
-			if (config.letterIndex < config.targetString.length) {
-				config.timeout = setTimeout(() => {
-					config.letterIndex++
-					write(config)
-				}, typeSpeed)
-			}
-		}
-
-		function reset(config) {
-			config.letterIndex = 0
-			clearTimeout(config.timeout)
-			config.element.textContent = ''
-		}
-
-		updateLanguageContent(handleLanguageChange)
-
-		return {
-			writeAll() {
-				configs.forEach((config, index) => {
-					if (seenElements.has(config.elementKey)) {
-						if (!writeText[index]) {
-							writeText[index] = { isWrited: false }
-						}
-
-						if (!writeText[index].isWrited) {
-							writeText[index].isWrited = true
-
-							reset(config)
-
-							if (delay) {
-								config.timeout = setTimeout(() => {
-									write(config)
-								}, index * delay)
-							} else {
-								write(config)
-							}
-						}
-					}
-				})
-			},
-			resetAll() {
-				configs.forEach((config, index) => {
-					if (writeText[index]?.isWrited) {
-						writeText[index].isWrited = false
-					}
-
-					if (config[index]?.timeout) {
-						clearTimeout(config[index].timeout)
-					}
-
-					reset(config)
-				})
-			},
-		}
 	}
 
 	function pageUpdate() {
@@ -1781,135 +1678,110 @@ function main() {
 	}
 
 	function resumePageEvents() {
-		sameElementsAnimation('.resume-title', 'resume-title', ['resume-title--animate'], 80, null)
-		sameElementsAnimation('.resume-btn-box', 'resume-btn', ['resume-btn-box--animate'], 80, null)
-		sameElementsAnimation('.resume-feedback__input-box', 'resume-feedback-input-box', ['resume-feedback__input-box--animate'], 20, null)
-		sameElementsAnimation('.resume-subtitle', 'resume-subtitle', ['resume-subtitle--animate'], 80, null)
+		function animateResumePageElements() {
+			const lines = document.querySelectorAll('.resume-line')
 
-		function gettingAnimate() {
-			singleElementsAnimation('resume-getting-title', 80, ['resume-getting__title--animate'], null)
+			const mainTitle = document.getElementById('resume-getting-title')
+			const mainSubtitles = document.querySelectorAll('.resume-getting__subtitle-container')
+			const scrollLine = document.getElementById('')
 
-			function subtitle() {
-				const subtitles = document.querySelectorAll('.resume-getting__subtitle')
-				const setIds = addId(subtitles, 'resume-getting-subtitle', 80)
+			const elements = [...lines]
+			const hideElements = [mainTitle, ...mainSubtitles]
 
-				const isAnimation = {}
-
-				function animate() {
-					subtitles.forEach((element, index) => {
-						if (seenElements.has(setIds.elementKeys[index])) {
-							if (!isAnimation[index]) {
-								isAnimation[index] = { animated: false, timeout: null }
-							}
-
-							if (!isAnimation[index].animated) {
-								isAnimation[index].animated = true
-
-								isAnimation[index].timeout = setTimeout(() => {
-									element.classList.add('resume-getting__subtitle--animate')
-								}, 300 * index)
-							}
-						}
-					})
-				}
-
-				function reset() {
-					subtitles.forEach((element, index) => {
-						if (isAnimation[index]?.timeout) {
-							clearTimeout(isAnimation[index].timeout)
-							isAnimation[index].timeout = null
-						}
-
-						if (isAnimation[index]?.animated) {
-							isAnimation[index].animated = false
-						}
-
-						element.classList.remove('resume-getting__subtitle--animate')
-					})
-				}
-
-				createAnimation(setIds.ids, setIds.elementKeys, setIds.startingHeight, animate, reset)
-			}
-
-			subtitle()
+			animateVisibleElements(elements, addAnimateClasses)
+			animateVisibleElements(hideElements, addAnimateClassesInHideElements)
+			removeAnimateClasses(elements, hideElements, 'resume')
 		}
 
-		gettingAnimate()
+		animateResumePageElements()
 
-		function scrollText() {
-			const container = document.getElementById('resume-scroll-text')
-			const letters = document.querySelectorAll('.resume-scroll__letter')
+		function resumeAnimation() {
+			const inner = document.getElementById('resume-animation-inner')
+			const box = document.getElementById('resume-animation-box')
+			const boxElements = document.querySelectorAll('.resume-animation__element')
+			const bottomElements = document.querySelectorAll('.resume-animation__bottom-element')
 
-			const ids = [container]
-			const elementKeys = ['resume-scroll-text']
-			const startHeight = 0
+			const states = ['desktop', 'laptop', 'tablet', 'mobile']
+			let stateIndex = 0
+			let timeout = null
+			let timer = Math.floor(Math.random() * 10000) + 5000
+			let initialized = false
 
-			letters.forEach((element, index) => {
-				element.classList.add(index % 2 !== 0 ? 'resume-scroll__letter--top' : 'resume-scroll__letter--bottom')
-			})
+			function updateElements(elements, state, removeAnimate = false, addELements = true) {
+				elements.forEach(el => {
+					el.classList.forEach(className => {
+						if (className.match(/(desktop|laptop|tablet|mobile)/)) {
+							el.classList.replace(className, className.replace(/(desktop|laptop|tablet|mobile)/, state))
+						}
+					})
+
+					if (![...el.classList].some(cls => cls.includes(state))) {
+						el.classList.add(`${el.classList[0]}-${state}`)
+					}
+
+					const animateClass = `${el.classList[0]}-${state}--animate`
+
+					if (removeAnimate) el.classList.remove(animateClass)
+
+					if (addELements) setTimeout(() => el.classList.add(animateClass), 10)
+				})
+			}
 
 			function animate() {
-				letters.forEach(element => {
-					if (element.classList.contains('resume-scroll__letter--top')) {
-						element.classList.add('resume-scroll__letter--animate-top')
-					}
+				if (timeout) clearTimeout(timeout)
 
-					if (element.classList.contains('resume-scroll__letter--bottom')) {
-						element.classList.add('resume-scroll__letter--animate-bottom')
-					}
-				})
+				const state = states[stateIndex]
+
+				updateElements(bottomElements, state, true)
+
+				if (state === 'laptop') {
+					inner.style.paddingBottom = '110px'
+				} else {
+					inner.style.paddingBottom = '0'
+				}
+
+				if (initialized) {
+					boxElements.forEach(el => (el.style.transition = '0s'))
+					updateElements(boxElements, state)
+				}
+
+				const onTransitionEnd = () => {
+					updateElements(boxElements, state)
+					box.removeEventListener('transitionend', onTransitionEnd)
+				}
+
+				updateElements([box], state)
+
+				if (!initialized) {
+					box.addEventListener('transitionend', onTransitionEnd)
+					initialized = true
+				}
+
+				timeout = setTimeout(() => {
+					stateIndex = (stateIndex + 1) % states.length
+					animate()
+				}, timer)
 			}
 
 			function reset() {
-				letters.forEach(element => {
-					element.classList.remove('resume-scroll__letter--animate-top', 'resume-scroll__letter--animate-bottom')
-				})
+				const elements = [inner, box, ...bottomElements, ...boxElements]
+
+				inner.style.paddingBottom = 0
+
+				initialized = false
+
+				boxElements.forEach(el => el.removeAttribute('style'))
+
+				stateIndex = (stateIndex + 1) % states.length
+				updateElements(elements, states[stateIndex], true, false)
+				clearTimeout(timeout)
 			}
 
-			createAnimation(ids, elementKeys, startHeight, animate, reset)
+			resetAnimations(reset, 'resume')
+			animateVisibleElements([inner], animate)
 		}
 
-		scrollText()
-
-		function feedbackAnimate() {
-			function textWrite() {
-				const texts = document.querySelectorAll('.resume-feedback__text')
-				const form = document.getElementById('resume-feedback-form')
-
-				const setId = addId(texts, 'resume-feedback-text', 80)
-
-				const en = ['Name', 'Email', 'Message']
-				const ru = ['Имя', 'Email', 'Сообщение']
-
-				const handleTextWrite = writeAndResetText(setId.ids, en, ru, 70, setId.elementKeys, null, null)
-
-				function animate() {
-					form.classList.add('resume-feedback__form--animate')
-					handleTextWrite.writeAll()
-				}
-
-				function reset() {
-					handleTextWrite.resetAll()
-
-					form.classList.remove('resume-feedback__form--animate')
-				}
-
-				createAnimation(setId.ids, setId.elementKeys, setId.startingHeight, animate, reset)
-			}
-
-			textWrite()
-
-			function autoResizeTextarea() {
-				const textarea = document.getElementById('resume-feedback-message')
-
-				textarea.style.height = 'auto'
-				textarea.style.height = textarea.scrollHeight + 'px'
-			}
-
-			document.addEventListener('input', autoResizeTextarea)
-		}
-
-		feedbackAnimate()
+		resumeAnimation()
 
 		function sendMail() {
 			const form = document.getElementById('resume-feedback-form')
@@ -2236,7 +2108,7 @@ function main() {
 		headerEvents()
 		homePageEvents()
 		usesPageEvents()
-		// resumePageEvents()
+		resumePageEvents()
 		// aboutMePageEvents()
 		// footerEvents()
 
