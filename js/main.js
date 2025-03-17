@@ -16,6 +16,7 @@ function main() {
 	let isAnimationStopped = false
 
 	const languageCallbacks = []
+	const animatedElements = new Set()
 	let isLanguageRussian = false
 
 	function updateLanguageContent(callback) {
@@ -66,6 +67,8 @@ function main() {
 			const targetPage = pageIds[target.id]
 
 			if (!targetPage) return
+
+			animatedElements.clear()
 
 			if (pageName === currentPage) {
 				if (elementsArray) {
@@ -121,7 +124,10 @@ function main() {
 				if (!isAnyPageActive()) return
 
 				entries.forEach(entry => {
-					if (entry.isIntersecting) callbackAnimate(entry.target)
+					if (entry.isIntersecting && !animatedElements.has(entry.target)) {
+						callbackAnimate(entry.target)
+						setTimeout(() => animatedElements.add(entry.target), 50)
+					}
 				})
 			},
 			{
@@ -1680,35 +1686,45 @@ function main() {
 	function resumePageEvents() {
 		function animateResumePageElements() {
 			const lines = document.querySelectorAll('.resume-line')
+			const title = document.querySelectorAll('.resume-hide-title')
+			const subtitle = document.querySelectorAll('.resume-hide-subtitle')
+			const btn = document.querySelectorAll('.resume-btn-box')
 
 			const mainTitle = document.getElementById('resume-getting-title')
 			const mainSubtitles = document.querySelectorAll('.resume-getting__subtitle-container')
-			const scrollLine = document.getElementById('')
+			const scrollLine = document.getElementById('resume-scroll-line')
+			const scrollText = document.getElementById('resume-scroll-text')
+			const form = document.getElementById('resume-feedback-form')
+			const inputBox = document.querySelectorAll('.resume-feedback__input-box')
 
-			const elements = [...lines]
-			const hideElements = [mainTitle, ...mainSubtitles]
+			const elements = [scrollLine, ...lines, ...btn, ...inputBox]
+			const hideElements = [mainTitle, scrollText, ...mainSubtitles, ...title, ...subtitle]
 
 			animateVisibleElements(elements, addAnimateClasses)
+			animateVisibleElements([form], addAnimateClasses, 0.1)
 			animateVisibleElements(hideElements, addAnimateClassesInHideElements)
 			removeAnimateClasses(elements, hideElements, 'resume')
 		}
-
-		animateResumePageElements()
 
 		function resumeAnimation() {
 			const inner = document.getElementById('resume-animation-inner')
 			const box = document.getElementById('resume-animation-box')
 			const boxElements = document.querySelectorAll('.resume-animation__element')
+			const bottom = document.getElementById('resume-animate-bottom')
 			const bottomElements = document.querySelectorAll('.resume-animation__bottom-element')
 
-			const states = ['desktop', 'laptop', 'tablet', 'mobile']
-			let stateIndex = 0
 			let timeout = null
-			let timer = Math.floor(Math.random() * 10000) + 5000
-			let initialized = false
+			let state = 'laptop'
 
-			function updateElements(elements, state, removeAnimate = false, addELements = true) {
-				elements.forEach(el => {
+			const TIMERS = {
+				NEXT_ANIMATION: 5000,
+				START_ANIMATION: 1500,
+			}
+
+			function updateElements(elements, state, elementsLength = elements.length) {
+				elements.forEach((el, index) => {
+					if (index >= elementsLength) return
+
 					el.classList.forEach(className => {
 						if (className.match(/(desktop|laptop|tablet|mobile)/)) {
 							el.classList.replace(className, className.replace(/(desktop|laptop|tablet|mobile)/, state))
@@ -1716,72 +1732,144 @@ function main() {
 					})
 
 					if (![...el.classList].some(cls => cls.includes(state))) {
-						el.classList.add(`${el.classList[0]}-${state}`)
+						el.classList.add(`${el.classList[0]}--${state}`)
 					}
-
-					const animateClass = `${el.classList[0]}-${state}--animate`
-
-					if (removeAnimate) el.classList.remove(animateClass)
-
-					if (addELements) setTimeout(() => el.classList.add(animateClass), 10)
 				})
 			}
 
 			function animate() {
-				if (timeout) clearTimeout(timeout)
+				box.classList.add(`${box.classList[0]}--animate`)
+				bottom.classList.add(`${bottom.classList[0]}--animate`)
 
-				const state = states[stateIndex]
+				function nextAnimtaion() {
+					clearTimeout(timeout)
 
-				updateElements(bottomElements, state, true)
+					switch (state) {
+						case 'laptop':
+							box.classList.add(`${box.classList[0]}--${state}`)
 
-				if (state === 'laptop') {
-					inner.style.paddingBottom = '110px'
-				} else {
-					inner.style.paddingBottom = '0'
+							updateElements(boxElements, state, 3)
+							updateElements(bottomElements, state)
+
+							timeout = setTimeout(() => {
+								state = 'tablet'
+								nextAnimtaion()
+							}, TIMERS.NEXT_ANIMATION)
+							break
+						case 'tablet':
+							box.classList.replace(`${box.classList[0]}--laptop`, `${box.classList[0]}--${state}`)
+							updateElements(bottomElements, state)
+							updateElements(boxElements, state, 3)
+
+							timeout = setTimeout(() => {
+								state = 'mobile'
+								nextAnimtaion()
+							}, TIMERS.NEXT_ANIMATION)
+							break
+						case 'mobile':
+							box.classList.replace(`${box.classList[0]}--tablet`, `${box.classList[0]}--${state}`)
+							updateElements(boxElements, state)
+
+							timeout = setTimeout(() => {
+								state = 'desktop'
+								nextAnimtaion()
+							}, TIMERS.NEXT_ANIMATION)
+							break
+						case 'desktop':
+							box.classList.replace(`${box.classList[0]}--mobile`, `${box.classList[0]}--${state}`)
+							updateElements(boxElements, state)
+							updateElements(bottomElements, state)
+
+							timeout = setTimeout(() => {
+								state = 'laptop'
+								boxElements.forEach(el => el.classList.remove(`${el.classList[0]}--desktop`))
+								bottomElements.forEach(el => el.classList.remove(`${el.classList[0]}--desktop`))
+								box.classList.remove(`${box.classList[0]}--desktop`)
+
+								timeout = setTimeout(() => nextAnimtaion(), 10)
+							}, TIMERS.NEXT_ANIMATION)
+							break
+
+						default:
+							break
+					}
 				}
 
-				if (initialized) {
-					boxElements.forEach(el => (el.style.transition = '0s'))
-					updateElements(boxElements, state)
-				}
-
-				const onTransitionEnd = () => {
-					updateElements(boxElements, state)
-					box.removeEventListener('transitionend', onTransitionEnd)
-				}
-
-				updateElements([box], state)
-
-				if (!initialized) {
-					box.addEventListener('transitionend', onTransitionEnd)
-					initialized = true
-				}
-
-				timeout = setTimeout(() => {
-					stateIndex = (stateIndex + 1) % states.length
-					animate()
-				}, timer)
+				timeout = setTimeout(() => nextAnimtaion(), TIMERS.START_ANIMATION)
 			}
 
 			function reset() {
-				const elements = [inner, box, ...bottomElements, ...boxElements]
+				const elements = [...boxElements, ...bottomElements, box, bottom]
 
-				inner.style.paddingBottom = 0
-
-				initialized = false
-
-				boxElements.forEach(el => el.removeAttribute('style'))
-
-				stateIndex = (stateIndex + 1) % states.length
-				updateElements(elements, states[stateIndex], true, false)
 				clearTimeout(timeout)
+				state = 'laptop'
+
+				elements.forEach(el => (el.className = el.classList.item(0) || ''))
 			}
 
 			resetAnimations(reset, 'resume')
-			animateVisibleElements([inner], animate)
+			animateVisibleElements([inner], animate, 0.5)
 		}
 
-		resumeAnimation()
+		function writeFormTexts() {
+			const texts = document.querySelectorAll('.resume-feedback__text')
+			const ruTexts = ['Имя', 'Email', 'Сообщение']
+			const enTexts = ['Name', 'Email', 'Message']
+			const typeSpeed = 70
+
+			let observer = null
+
+			const letterIndices = new Array(texts.length).fill(0)
+			const wasVisible = new Array(texts.length).fill(false)
+
+			observer = new IntersectionObserver((entries, observer) => {
+				entries.forEach(entry => {
+					if (entry.isIntersecting) {
+						const index = [...texts].indexOf(entry.target)
+						if (index !== -1 && !wasVisible[index]) {
+							wasVisible[index] = true
+							write(index)
+						}
+					}
+				})
+			})
+
+			texts.forEach(text => observer.observe(text))
+
+			function write(index) {
+				const element = texts[index]
+				const currentText = isLanguageRussian ? ruTexts[index] : enTexts[index]
+
+				if (letterIndices[index] > currentText.length) return
+
+				element.textContent = currentText.substring(0, letterIndices[index])
+				letterIndices[index]++
+				setTimeout(() => write(index), typeSpeed)
+			}
+
+			function restartWriting() {
+				texts.forEach((text, index) => {
+					if (wasVisible[index]) {
+						letterIndices[index] = 0
+						text.textContent = ''
+						write(index)
+					}
+				})
+			}
+
+			function reset() {
+				texts.forEach((text, index) => {
+					if (wasVisible[index]) {
+						text.textContent = ''
+						letterIndices[index] = 0
+						wasVisible[index] = false
+					}
+				})
+			}
+
+			resetAnimations(reset, 'resume')
+			updateLanguageContent(restartWriting)
+		}
 
 		function sendMail() {
 			const form = document.getElementById('resume-feedback-form')
@@ -1789,35 +1877,42 @@ function main() {
 			const emailInput = document.getElementById('resume-feedback-email')
 			const messageInput = document.getElementById('resume-feedback-message')
 			const btn = document.getElementById('resume-feedback-btn')
-			const page = document.getElementById('page')
+			const page = document.getElementById('main-page')
 			const hmpName = document.getElementById('hmp-getting-name')
+
+			const showModalTimer = 3000
 
 			function sanitizeInput(value) {
 				const htmlTagRegex = /<[^>]*>?/gm
 				if (htmlTagRegex.test(value)) {
-					showModal('Get away', 'Убирайся прочь')
+					const message = isLanguageRussian ? 'Убирайся прочь' : 'Get away'
+					showModal(message, 'bad-request')
 					setTimeout(() => {
 						window.location.href = 'about:blank'
 						nameInput.value = ''
 						emailInput.value = ''
 						messageInput.value = ''
-					}, 2950)
+					}, showModalTimer)
 					return null
 				}
 
 				return value.replace(/<[^>]*>/g, '').trim()
 			}
 
-			function showModal(ruMessage, enMessage) {
+			function showModal(message, type) {
 				const modalWindow = document.createElement('div')
 				modalWindow.classList.add('feedback-modal-window')
 				modalWindow.style.cssText = hmpName.style.cssText
 				if (isLanguageRussian) modalWindow.classList.add('russian-font', 'feedback-modal-window--rus-lang')
 
-				modalWindow.textContent = !isLanguageRussian ? ruMessage : enMessage
+				modalWindow.textContent = message
+				modalWindow.dataset.message = type
 				page.appendChild(modalWindow)
+
+				updateLanguageContent(updateModalText)
+
 				setTimeout(() => {
-					btn.innerHTML = !isLanguageRussian ? '<span class="resume-feedback__form-btn-text">Send</span>' : '<span class="resume-feedback__form-btn-text russian-font">Отправить</span>'
+					btn.innerHTML = !isLanguageRussian ? '<span class="resume-feedback__form-btn-text">Send</span>' : '<span class="resume-feedback__form-btn-text">Отправить</span>'
 
 					const element = document.querySelector('.resume-feedback__form-btn-text')
 					element.dataset.en = 'Send'
@@ -1832,7 +1927,55 @@ function main() {
 					})
 
 					modalWindow.remove()
-				}, 3000)
+				}, showModalTimer)
+			}
+
+			function updateModalText() {
+				const modalWindow = document.querySelector('.feedback-modal-window')
+				if (!modalWindow) return
+
+				const messageType = modalWindow.dataset.message
+
+				let newMessage = ''
+				switch (messageType) {
+					case 'success':
+						newMessage = isLanguageRussian ? 'Сообщение отправлено' : 'Message sent'
+						break
+					case 'error':
+						newMessage = isLanguageRussian ? 'Ошибка: Попробуйте снова позже' : 'Error: Please try again later'
+						break
+					case 'bad-request':
+						newMessage = isLanguageRussian ? 'Убирайся прочь' : 'Get away'
+						break
+					default:
+						newMessage = modalWindow.textContent
+				}
+
+				modalWindow.textContent = newMessage
+			}
+
+			updateLanguageContent(updateModalText)
+
+			async function sendEmail(name, email, message) {
+				btn.innerHTML = '<span class="resume-feedback__sending"></span> <span class="resume-feedback__sending"></span> <span class="resume-feedback__sending"></span>'
+
+				const elements = document.querySelectorAll('.resume-feedback__sending')
+				elements.forEach(element => {
+					element.style.cssText = hmpName.style.cssText
+				})
+
+				const response = await fetch('http://127.0.0.1:3000/', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({ name, email, message }),
+				})
+
+				if (!response.ok) {
+					const errorText = await response.text()
+					throw new Error(errorText || 'Ошибка отправки сообщения.')
+				}
 			}
 
 			form.addEventListener('submit', async event => {
@@ -1850,10 +1993,12 @@ function main() {
 
 				try {
 					await sendEmail(name, email, message)
-					showModal('Message sent', 'Сообщение отправлено')
+					const modalMessage = isLanguageRussian ? 'Сообщение отрпавлено' : 'Message sent'
+					showModal(modalMessage, 'success')
 					form.reset()
 				} catch (error) {
-					showModal(`Error: Please try again later`, `Ошибка: Попробуйте снова позже`)
+					const modalMessage = isLanguageRussian ? 'Ошибка: Попробуйте снова позже' : 'Error: Please try again later'
+					showModal(modalMessage, 'error')
 					console.error('Error details:', error)
 					if (error.response) {
 						console.error('Server response:', await error.response.text())
@@ -1861,33 +2006,14 @@ function main() {
 				} finally {
 					setTimeout(() => {
 						btn.disabled = false
-					}, 4000)
+					}, showModalTimer)
 				}
 			})
-
-			async function sendEmail(name, email, message) {
-				btn.innerHTML = '<span class="resume-feedback__sending"></span> <span class="resume-feedback__sending"></span> <span class="resume-feedback__sending"></span>'
-
-				const elements = document.querySelectorAll('.resume-feedback__sending')
-				elements.forEach(element => {
-					element.style.cssText = hmpName.style.cssText
-				})
-
-				const response = await fetch('http://127.0.0.1:3000/api/send-email', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify({ name, email, message }),
-				})
-
-				if (!response.ok) {
-					const errorText = await response.text()
-					throw new Error(errorText || 'Ошибка отправки сообщения.')
-				}
-			}
 		}
 
+		animateResumePageElements()
+		resumeAnimation()
+		writeFormTexts()
 		sendMail()
 	}
 

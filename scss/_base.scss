@@ -68,7 +68,7 @@
 	--uses-modal-window: var(--white);
 
 	// resume-progress
-	--resume-progress-html: 0;
+	--resume-animation-color: var(--white);
 
 	// size
 	--gradient-transition-point: 30%;
@@ -105,6 +105,10 @@
 	--uses-linters-code-font-size-1440: 1.1em;
 	--resume-main-title-font-size-1440: 4.2em;
 	--resume-main-subtitle-font-siez-1440: 2.5em;
+	--resume-subtitle-font-size-1440: 2.1em;
+	--resume-btn-font-size-1440: 2.5em;
+	--resume-form-text-font-size-1440: 1.5em;
+	--resume-form-btn-font-size-1440: 2em;
 
 	// 1024px
 	--title-font-size-1024: 2.8em;
@@ -195,6 +199,7 @@
 	// z-indexes content 1-10, nav 11-20, modal 100, overlay 1000
 	--z-index-header-btn-line: 1;
 	--z-index-cloud-top: 1;
+	--z-index-resume-element: 1;
 	--z-index-header-btn: 2;
 	--z-index-social-container: 2;
 	--z-index-cloud-center: 2;
