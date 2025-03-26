@@ -42,8 +42,8 @@ function main() {
 		})
 	}
 
-	function resetAnimations(resetCallback, pageName = START_PAGE_NAME) {
-		let currentPage = pageName
+	function resetAnimations(resetCallback, pageName) {
+		let currentPage = START_PAGE_NAME
 
 		function handleClick(event) {
 			const target = event.target
@@ -59,8 +59,8 @@ function main() {
 		document.addEventListener('click', handleClick)
 	}
 
-	function removeAnimateClasses(elementsArray, hideElementsArray, pageName = START_PAGE_NAME) {
-		let currentPage = pageName
+	function removeAnimateClasses(elementsArray, hideElementsArray, pageName) {
+		let currentPage = START_PAGE_NAME
 
 		function handleClick(event) {
 			const target = event.target
@@ -247,14 +247,7 @@ function main() {
 		const root = document.querySelector('.main-page')
 		const buttons = document.querySelectorAll('.aside-menu__colors')
 		const classes = ['bg-color--1', 'bg-color--2', 'bg-color--3', 'bg-color--4']
-		const colors = ['#6dac2f', '#d1b200', '#d35400', '#5dade2']
-
-		const headerLogo = document.getElementById('logo')
-		const headerBtns = document.querySelectorAll('.header__btn')
-		const hmpMyName = document.getElementById('hmp-getting-name')
-		const asideMenuElements = ['.aside-menu__inner', '.aside-menu__inner-btn', '.aside-menu__active']
-
-		const elements = [headerLogo, hmpMyName, headerBtns, asideMenuElements]
+		const colors = ['#12a34e', '#26aaa4', '#d65a21', '#5dade2']
 
 		buttons.forEach((element, index) => {
 			element.classList.add(`aside-menu__colors--${index}`)
@@ -281,28 +274,7 @@ function main() {
 					root.classList.remove(...classes)
 					root.classList.add(className)
 
-					elements.forEach(item => {
-						if (NodeList.prototype.isPrototypeOf(item)) {
-							item.forEach(el => {
-								el.style.setProperty('--change-color', color)
-							})
-						}
-
-						if (Array.isArray(item)) {
-							item.forEach(selector => {
-								const el = document.querySelector(selector)
-								if (!el) return
-
-								el.style.setProperty('--change-color', color)
-							})
-						}
-
-						if (item instanceof Element) {
-							item.style.setProperty('--change-color', color)
-						} else {
-							return
-						}
-					})
+					document.documentElement.style.setProperty('--change-color', color)
 
 					let returnPoint = 100
 
@@ -670,7 +642,7 @@ function main() {
 				startWrite: 1400,
 				delayDeleteString: 2200,
 				delayWriteNextString: 1500,
-				startDelayIsHidden: 500,
+				startDelayIsHidden: 100,
 			}
 
 			function stopAnimationIsOutVisability() {
@@ -682,7 +654,6 @@ function main() {
 
 						if (entry.isIntersecting) {
 							if (isHidden && state === 'nextString') {
-								state = 'writing'
 								timeout = setTimeout(() => {
 									startTyping()
 								}, cfg.startDelayIsHidden)
@@ -1692,13 +1663,15 @@ function main() {
 
 			const mainTitle = document.getElementById('resume-getting-title')
 			const mainSubtitles = document.querySelectorAll('.resume-getting__subtitle-container')
+			const animationMonitor = document.getElementById('resume-animation-monitor')
+			const animateKeyboard = document.getElementById('resume-animation-inner-keyboard')
 			const scrollLine = document.getElementById('resume-scroll-line')
 			const scrollText = document.getElementById('resume-scroll-text')
 			const form = document.getElementById('resume-feedback-form')
 			const inputBox = document.querySelectorAll('.resume-feedback__input-box')
 
-			const elements = [scrollLine, ...lines, ...btn, ...inputBox]
-			const hideElements = [mainTitle, scrollText, ...mainSubtitles, ...title, ...subtitle]
+			const elements = [scrollLine, animationMonitor, animateKeyboard, ...lines, ...btn, ...inputBox]
+			const hideElements = [mainTitle, scrollText, animationMonitor, ...mainSubtitles, ...title, ...subtitle]
 
 			animateVisibleElements(elements, addAnimateClasses)
 			animateVisibleElements([form], addAnimateClasses, 0.1)
@@ -1707,108 +1680,257 @@ function main() {
 		}
 
 		function resumeAnimation() {
-			const inner = document.getElementById('resume-animation-inner')
-			const box = document.getElementById('resume-animation-box')
-			const boxElements = document.querySelectorAll('.resume-animation__element')
-			const bottom = document.getElementById('resume-animate-bottom')
-			const bottomElements = document.querySelectorAll('.resume-animation__bottom-element')
+			const monitor = document.getElementById('resume-animation-monitor')
+			const keyRows = document.querySelectorAll('.resume-animation__keyboard-row')
+			const keyboard = document.getElementById('resume-animation-inner-keyboard')
+			const rocket = document.getElementById('resume-animation-rocket')
+			const rocketContainer = document.getElementById('resume-animation-rocket-container')
 
-			let timeout = null
-			let state = 'laptop'
+			const keyIntervals = []
+			let lightInterval = null
+			let rocketInterval = null
+			let monitorObserver = null
+			let keyboardObserver = null
+			let isKeyStarted = false
+			let isRocketStarted = false
+			let isHidden = false
+			let isVisabilty = false
 
-			const TIMERS = {
-				NEXT_ANIMATION: 5000,
-				START_ANIMATION: 1500,
-			}
+			const KEY_ANIMATION_DELAY = 1500
+			const ROCKET_CHANGE_DIRECTION = 1500
 
-			function updateElements(elements, state, elementsLength = elements.length) {
-				elements.forEach((el, index) => {
-					if (index >= elementsLength) return
+			function stopAnimationIsMonitorOutVisability() {
+				if (monitorObserver) monitorObserver.disconnect()
 
-					el.classList.forEach(className => {
-						if (className.match(/(desktop|laptop|tablet|mobile)/)) {
-							el.classList.replace(className, className.replace(/(desktop|laptop|tablet|mobile)/, state))
+				monitorObserver = new IntersectionObserver(
+					entries => {
+						const entry = entries[0]
+
+						if (entry.isIntersecting) {
+							if (!rocketInterval) {
+								rocketInterval = setInterval(changeDirection, ROCKET_CHANGE_DIRECTION)
+							}
+
+							if (!lightInterval) lightAnimate()
+						} else {
+							if (rocketInterval) {
+								clearInterval(rocketInterval)
+								rocketInterval = null
+							}
+
+							rocket.style.transform = 'translate(0, 0)'
+
+							if (lightInterval) {
+								clearInterval(lightInterval)
+								lightInterval = null
+							}
 						}
-					})
-
-					if (![...el.classList].some(cls => cls.includes(state))) {
-						el.classList.add(`${el.classList[0]}--${state}`)
+					},
+					{
+						root: null,
+						rootMargin: '0px',
+						threshold: 0,
 					}
-				})
+				)
+
+				monitorObserver.observe(monitor)
 			}
 
-			function animate() {
-				box.classList.add(`${box.classList[0]}--animate`)
-				bottom.classList.add(`${bottom.classList[0]}--animate`)
+			function stopAnimationIsKeyboardOutVisability() {
+				if (keyboardObserver) keyboardObserver.disconnect()
 
-				function nextAnimtaion() {
-					clearTimeout(timeout)
+				keyboardObserver = new IntersectionObserver(
+					entries => {
+						const entry = entries[0]
 
-					switch (state) {
-						case 'laptop':
-							box.classList.add(`${box.classList[0]}--${state}`)
+						if (entry.isIntersecting) {
+							if (isHidden) {
+								isHidden = false
 
-							updateElements(boxElements, state, 3)
-							updateElements(bottomElements, state)
+								keyRows.forEach(row => {
+									const interval = setInterval(() => createKey(row), KEY_ANIMATION_DELAY)
+									keyIntervals.push(interval)
+								})
+							}
+						} else {
+							if (!isHidden) {
+								isHidden = true
+								if (keyIntervals.length > 0) keyIntervals.forEach(clearInterval)
+								keyIntervals.length = 0
+							}
+						}
+					},
+					{
+						root: null,
+						rootMargin: '0px',
+						threshold: 0,
+					}
+				)
 
-							timeout = setTimeout(() => {
-								state = 'tablet'
-								nextAnimtaion()
-							}, TIMERS.NEXT_ANIMATION)
-							break
-						case 'tablet':
-							box.classList.replace(`${box.classList[0]}--laptop`, `${box.classList[0]}--${state}`)
-							updateElements(bottomElements, state)
-							updateElements(boxElements, state, 3)
+				keyboardObserver.observe(keyboard)
+			}
 
-							timeout = setTimeout(() => {
-								state = 'mobile'
-								nextAnimtaion()
-							}, TIMERS.NEXT_ANIMATION)
-							break
-						case 'mobile':
-							box.classList.replace(`${box.classList[0]}--tablet`, `${box.classList[0]}--${state}`)
-							updateElements(boxElements, state)
+			function handleVisibilityChange() {
+				if (document.hidden) {
+					if (!isVisabilty) {
+						isVisabilty = true
+						console.log('Пользователь ушел с вкладки')
 
-							timeout = setTimeout(() => {
-								state = 'desktop'
-								nextAnimtaion()
-							}, TIMERS.NEXT_ANIMATION)
-							break
-						case 'desktop':
-							box.classList.replace(`${box.classList[0]}--mobile`, `${box.classList[0]}--${state}`)
-							updateElements(boxElements, state)
-							updateElements(bottomElements, state)
+						if (rocketInterval) {
+							clearInterval(rocketInterval)
+							rocketInterval = null
+						}
 
-							timeout = setTimeout(() => {
-								state = 'laptop'
-								boxElements.forEach(el => el.classList.remove(`${el.classList[0]}--desktop`))
-								bottomElements.forEach(el => el.classList.remove(`${el.classList[0]}--desktop`))
-								box.classList.remove(`${box.classList[0]}--desktop`)
+						if (lightInterval) {
+							clearInterval(lightInterval)
+							lightInterval = null
+						}
 
-								timeout = setTimeout(() => nextAnimtaion(), 10)
-							}, TIMERS.NEXT_ANIMATION)
-							break
+						if (keyIntervals.length > 0) {
+							keyIntervals.forEach(clearInterval)
+							keyIntervals.length = 0
+						}
+					}
+				} else {
+					if (isVisabilty) {
+						isVisabilty = false
 
-						default:
-							break
+						if (monitor.getBoundingClientRect().top >= 0 && monitor.getBoundingClientRect().bottom <= window.innerHeight) {
+							console.log('Пользователь вернулся на вкладку и элемент в видимой области')
+
+							if (!rocketInterval) {
+								rocketInterval = setInterval(changeDirection, ROCKET_CHANGE_DIRECTION)
+							}
+
+							if (!lightInterval) {
+								lightAnimate()
+							}
+
+							if (keyIntervals.length === 0) {
+								keyRows.forEach(row => {
+									const interval = setInterval(() => createKey(row), KEY_ANIMATION_DELAY)
+									keyIntervals.push(interval)
+								})
+							}
+						}
 					}
 				}
+			}
 
-				timeout = setTimeout(() => nextAnimtaion(), TIMERS.START_ANIMATION)
+			function changeDirection() {
+				const offsetX = Math.random() * 50 - 25
+				const offsetY = Math.random() * 50 - 25
+
+				rocket.style.transform = `translate(${offsetX}%, ${offsetY}%)`
+
+				stopAnimationIsMonitorOutVisability()
+				document.addEventListener('visibilitychange', handleVisibilityChange)
+			}
+
+			const handleRocketAnimationEnd = () => {
+				rocket.style.animation = 'none'
+				rocket.style.transform = 'translate(0, 0)'
+
+				clearInterval(rocketInterval)
+				rocketInterval = setInterval(changeDirection, ROCKET_CHANGE_DIRECTION)
+
+				rocket.removeEventListener('animationend', handleRocketAnimationEnd)
+			}
+
+			function lightAnimate() {
+				if (lightInterval) return
+
+				function createLight() {
+					const light = document.createElement('span')
+					light.classList.add('resume-animation__light')
+					rocketContainer.append(light)
+					light.style.top = `${Math.ceil(Math.max(2, Math.random() * 98))}%`
+					light.style.width = `${Math.ceil(Math.max(2, Math.random() * 7))}%`
+
+					light.addEventListener('animationend', event => {
+						if (event.animationName === 'light') light.remove()
+					})
+				}
+
+				lightInterval = setInterval(createLight, 200)
+			}
+
+			const handleRocketTransitionEnd = event => {
+				if (event.propertyName === 'transform' && !isRocketStarted) {
+					isRocketStarted = true
+					rocket.classList.add(`${rocket.classList[0]}--animate`)
+					lightAnimate()
+					rocket.addEventListener('animationend', handleRocketAnimationEnd)
+				}
+			}
+
+			function createKey(row) {
+				const offsetX = Math.ceil(Math.max(5, Math.random() * 85))
+				const key = document.createElement('span')
+				key.classList.add('resume-animation__key')
+				row.appendChild(key)
+				key.style.left = `${offsetX}%`
+				key.style.animationDelay = `${Math.random() * 1.5}s`
+
+				key.addEventListener('animationend', () => key.remove())
+			}
+
+			function handleKeyboardTransitionend(event) {
+				if (event.propertyName === 'transform' && !isKeyStarted) {
+					isKeyStarted = true
+
+					keyRows.forEach(row => {
+						const interval = setInterval(() => createKey(row), KEY_ANIMATION_DELAY)
+						keyIntervals.push(interval)
+					})
+
+					stopAnimationIsKeyboardOutVisability()
+				}
 			}
 
 			function reset() {
-				const elements = [...boxElements, ...bottomElements, box, bottom]
+				const keys = document.querySelectorAll('.resume-animation__key')
+				const lights = document.querySelectorAll('.resume-animation__light')
 
-				clearTimeout(timeout)
-				state = 'laptop'
+				rocket.removeAttribute('style')
+				clearInterval(rocketInterval)
 
-				elements.forEach(el => (el.className = el.classList.item(0) || ''))
+				keyIntervals.forEach(clearInterval)
+				keyIntervals.length = 0
+
+				if (lightInterval) {
+					clearInterval(lightInterval)
+					lightInterval = null
+				}
+
+				lights.forEach(light => light.remove())
+				keys.forEach(key => key.remove())
+
+				keyboard.removeEventListener('transitionend', handleKeyboardTransitionend)
+				monitor.removeEventListener('transitionrun', handleRocketTransitionEnd)
+				document.removeEventListener('visibilitychange', handleVisibilityChange)
+
+				if (monitorObserver) {
+					monitorObserver.unobserve(monitor)
+					monitorObserver = null
+				}
+
+				if (keyboardObserver) {
+					keyboardObserver.unobserve(keyboard)
+					keyboardObserver = null
+				}
+
+				isKeyStarted = false
+				isRocketStarted = false
+				isHidden = false
+				isVisabilty = false
 			}
 
 			resetAnimations(reset, 'resume')
-			animateVisibleElements([inner], animate, 0.5)
+			animateVisibleElements([monitor, keyboard], () => {
+				monitor.addEventListener('transitionrun', handleRocketTransitionEnd)
+				keyboard.addEventListener('transitionend', handleKeyboardTransitionend)
+			})
 		}
 
 		function writeFormTexts() {

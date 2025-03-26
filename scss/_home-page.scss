@@ -46,7 +46,8 @@ $react-color: var(--react);
 	opacity: 1;
 	transition:
 		transform 0.8s ease-out,
-		opacity 0.8s ease-out;
+		opacity 0.8s ease-out,
+		color 0.4s ease-out;
 }
 
 .hmp-line--animate {
