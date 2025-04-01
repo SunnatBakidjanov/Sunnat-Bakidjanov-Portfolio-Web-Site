@@ -101,6 +101,7 @@ button {
   --resume-btn-font-size-1440: 2.5em;
   --resume-form-text-font-size-1440: 1.5em;
   --resume-form-btn-font-size-1440: 2em;
+  --resume-label-font-size-1440: 0.9em;
   --title-font-size-1024: 2.8em;
   --header-btn-font-size-1024: 2.2em;
   --hmp-getting-logo-font-size-1024: 3.8em;
@@ -118,6 +119,9 @@ button {
   --resume-main-title-font-size-1024: 3.8em;
   --resume-main-subtitle-font-siez-1024: 2.2em;
   --resume-subtitle-font-size-1024: 1.9em;
+  --resume-btn-font-size-1024: 2.2em;
+  --resume-form-text-font-size-1024: 1.4em;
+  --resume-form-btn-font-size-1024: 1.8em;
   --title-font-size-768: 2.4em;
   --header-logo-font-size-768: 1.6em;
   --header-btn-font-size-768: 2em;
@@ -144,6 +148,9 @@ button {
   --resume-main-title-font-size-768: 3.5em;
   --resume-main-subtitle-font-siez-768: 2em;
   --resume-subtitle-font-size-768: 1.7em;
+  --resume-btn-font-size-768: 1.8em;
+  --resume-form-text-font-size-768: 1.2em;
+  --resume-form-btn-font-size-768: 1.6em;
   --title-font-size-425: 2em;
   --scroll-text-font-size-425: 2em;
   --header-logo-font-size-425: 1.4em;
@@ -173,6 +180,10 @@ button {
   --resume-main-title-font-size-425: 2.8em;
   --resume-main-subtitle-font-siez-425: 1.6em;
   --resume-subtitle-font-size-425: 1.5em;
+  --resume-btn-font-size-425: 1.5em;
+  --resume-form-text-font-size-425: 1em;
+  --resume-form-btn-font-size-425: 1.4em;
+  --resume-label-font-size-425: 0.7em;
   --title-font-size-375: 1.8em;
   --hmp-getting-logo-font-size-375: 2.2em;
   --hmp-getting-text-font-size-375: 1.5em;
@@ -3112,7 +3123,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 50%;
+  width: 60%;
   border-radius: 2px;
   opacity: 0;
   transform: translateY(10px);
@@ -3121,6 +3132,26 @@ button {
 }
 .resume-btn-box:hover {
   box-shadow: 0 0 4px var(--box-shadow-secondary-color);
+}
+@media (width <= 1024px) {
+  .resume-btn-box {
+    width: 70%;
+  }
+}
+@media (width <= 768px) {
+  .resume-btn-box {
+    width: 85%;
+  }
+}
+@media (width <= 425px) {
+  .resume-btn-box {
+    width: 100%;
+  }
+}
+@media (hover: none) and (pointer: coarse) {
+  .resume-btn-box:hover {
+    box-shadow: 0 0 4px var(--box-shadow-main-color);
+  }
 }
 
 .resume-btn-box--animate {
@@ -3177,6 +3208,27 @@ button {
 .resume-btn:hover {
   color: var(--accent-text-color);
   letter-spacing: 1px;
+}
+@media (width <= 1024px) {
+  .resume-btn {
+    font-size: var(--resume-btn-font-size-1024);
+  }
+}
+@media (width <= 768px) {
+  .resume-btn {
+    font-size: var(--resume-btn-font-size-768);
+  }
+}
+@media (width <= 425px) {
+  .resume-btn {
+    font-size: var(--resume-btn-font-size-425);
+  }
+}
+@media (hover: none) and (pointer: coarse) {
+  .resume-btn:hover {
+    color: var(--text-color);
+    letter-spacing: 0;
+  }
 }
 
 .feedback-modal-window {
@@ -3481,7 +3533,7 @@ button {
 .resume-animation__inner-keyboard {
   position: relative;
   transform-style: preserve-3d;
-  width: 60%;
+  width: 70%;
   height: 160px;
   perspective: 1000px;
   opacity: 0;
@@ -3506,52 +3558,75 @@ button {
   border-radius: 15px;
   transition: box-shadow 0.4s ease-out;
 }
-.resume-animation__keyboard-side {
-  position: absolute;
-  top: 0;
-  width: 50%;
-  height: 100%;
-}
-.resume-animation__keyboard-side:nth-of-type(1) {
-  left: 0;
-}
-.resume-animation__keyboard-side:nth-of-type(2) {
-  right: 0;
-}
-.resume-animation__keyboard-row {
-  position: absolute;
-  padding: 0 10px;
-  width: 100%;
-  height: 40px;
-}
-.resume-animation__keyboard-row:nth-of-type(1) {
-  top: 10px;
-}
-.resume-animation__keyboard-row:nth-of-type(2) {
-  top: 60px;
-}
-.resume-animation__keyboard-row:nth-of-type(3) {
-  top: 110px;
-}
-.resume-animation__key {
-  position: absolute;
-  width: 50px;
-  height: 40px;
-  background-color: var(--change-color);
-  opacity: 0;
-  filter: drop-shadow(0 0 10px var(--change-color));
-  animation: key-animate 1s linear forwards;
-  transition: background-color, filter 0.4s ease-out;
-}
-@keyframes key-animate {
-  0% {
-    opacity: 0;
+@media (width <= 1024px) {
+  .resume-animation__wrapper {
+    height: 500px;
   }
-  50% {
-    opacity: 1;
+  .resume-animation__monitor {
+    height: 230px;
   }
-  100% {
-    opacity: 0;
+  .resume-animation__rocket {
+    width: 120px;
+    height: 30px;
+  }
+  .resume-animation__inner-keyboard {
+    height: 150px;
+  }
+}
+@media (width <= 768px) {
+  .resume-animation__wrapper {
+    height: 430px;
+  }
+  .resume-animation__monitor {
+    height: 200px;
+  }
+  .resume-animation__inner-keyboard {
+    width: 80%;
+    height: 110px;
+  }
+}
+@media (width <= 425px) {
+  .resume-animation__wrapper {
+    height: 310px;
+  }
+  .resume-animation__rocket {
+    width: 70px;
+    height: 20px;
+  }
+  .resume-animation__rocket-wings {
+    width: 40px;
+    height: 20px;
+  }
+  .resume-animation__rocket-fire {
+    right: 115%;
+    width: 40px;
+    height: 15px;
+  }
+  .resume-animation__monitor {
+    height: 150px;
+  }
+  .resume-animation__inner-keyboard {
+    width: 90%;
+    height: 70px;
+  }
+}
+@media (width <= 375px) {
+  .resume-animation__wrapper {
+    height: 260px;
+  }
+  .resume-animation__monitor {
+    height: 130px;
+  }
+  .resume-animation__monitor-element:nth-child(1) {
+    width: 10px;
+  }
+  .resume-animation__monitor-element:nth-child(2) {
+    bottom: -44px;
+    height: 8px;
+  }
+  .resume-animation__inner-keyboard {
+    width: 90%;
+    height: 70px;
   }
 }
 
@@ -3694,7 +3769,7 @@ button {
   position: absolute;
   padding: 0 10px;
   font-weight: 500;
-  font-size: 14px;
+  font-size: var(--resume-label-font-size-1440);
   color: var(--text-color);
   opacity: 0.6;
   cursor: text;
@@ -3796,19 +3871,80 @@ button {
   left: -9999px;
   width: 0;
   height: 0;
+  visibility: hidden;
   pointer-events: none;
-  overflow: hidden;
+}
+@media (width <= 1024px) {
+  .resume-feedback__wrapper {
+    margin: 70px 0 40px;
+  }
+  .resume-feedback__text {
+    font-size: var(--resume-form-text-font-size-1024);
+  }
+  .resume-feedback__form-btn-box {
+    height: auto;
+  }
+  .resume-feedback__form-btn-box::after {
+    width: 10%;
+  }
+  .resume-feedback__form-btn {
+    font-size: var(--resume-form-btn-font-size-1024);
+  }
+}
+@media (width <= 768px) {
+  .resume-feedback__wrapper {
+    margin: 50px 0 35px;
+  }
+  .resume-feedback__form {
+    padding: 20px 30px;
+    width: 100%;
+  }
+  .resume-feedback__text {
+    font-size: var(--resume-form-text-font-size-768);
+  }
+  .resume-feedback__form-btn-box {
+    height: auto;
+  }
+  .resume-feedback__form-btn-box::after {
+    width: 10%;
+  }
+  .resume-feedback__form-btn {
+    font-size: var(--resume-form-btn-font-size-768);
+  }
+}
+@media (width <= 425px) {
+  .resume-feedback__wrapper {
+    margin: 40px 0 30px;
+  }
+  .resume-feedback__form {
+    padding: 10px 20px;
+    row-gap: 15px;
+  }
+  .resume-feedback__form-group {
+    row-gap: 5px;
+  }
+  .resume-feedback__text {
+    font-size: var(--resume-form-text-font-size-425);
+  }
+  .resume-feedback__form-btn-box {
+    margin-top: 5px;
+  }
+  .resume-feedback__form-btn-box::after {
+    width: 15%;
+  }
+  .resume-feedback__form-btn {
+    font-size: var(--resume-form-btn-font-size-425);
+  }
+  .resume-feedback__label {
+    font-size: var(--resume-label-font-size-425);
+  }
+}
+@media (width <= 375px) {
+  .resume-feedback__wrapper {
+    margin: 30px 0 20px;
+  }
 }
 
-@media (hover: none) and (pointer: coarse) {
-  .resume-btn-box:hover {
-    box-shadow: 0 0 4px var(--box-shadow-main-color);
-  }
-  .resume-btn:hover {
-    color: var(--text-color);
-    letter-spacing: 0;
-  }
-}
 .about-me-page {
   display: none;
 }

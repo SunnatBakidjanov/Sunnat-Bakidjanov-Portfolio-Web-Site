@@ -1683,22 +1683,18 @@ function main() {
 
 		function resumeAnimation() {
 			const monitor = document.getElementById('resume-animation-monitor')
-			const keyRows = document.querySelectorAll('.resume-animation__keyboard-row')
-			const keyboard = document.getElementById('resume-animation-inner-keyboard')
 			const rocket = document.getElementById('resume-animation-rocket')
 			const rocketContainer = document.getElementById('resume-animation-rocket-container')
 
-			const keyIntervals = []
 			let lightInterval = null
 			let rocketInterval = null
 			let monitorObserver = null
-			let keyboardObserver = null
-			let isKeyStarted = false
 			let isRocketStarted = false
-			let isHidden = false
 
-			const KEY_ANIMATION_DELAY = 2000
-			const ROCKET_CHANGE_DIRECTION = 1500
+			const timers = {
+				rocketChangeDircetion: 1000,
+				lightCreateTimer: 300,
+			}
 
 			function stopAnimationIsMonitorOutVisability() {
 				if (monitorObserver) monitorObserver.disconnect()
@@ -1708,9 +1704,7 @@ function main() {
 						const entry = entries[0]
 
 						if (entry.isIntersecting) {
-							if (!rocketInterval) {
-								rocketInterval = setInterval(changeDirection, ROCKET_CHANGE_DIRECTION)
-							}
+							if (!rocketInterval) rocketInterval = setInterval(changeDirection, timers.rocketChangeDircetion)
 
 							if (!lightInterval) lightAnimate()
 						} else {
@@ -1733,61 +1727,6 @@ function main() {
 				monitorObserver.observe(monitor)
 			}
 
-			function stopAnimationIsKeyboardOutVisability() {
-				if (keyboardObserver) keyboardObserver.disconnect()
-
-				keyboardObserver = new IntersectionObserver(
-					entries => {
-						const entry = entries[0]
-
-						if (entry.isIntersecting) {
-							if (isHidden) {
-								isHidden = false
-
-								if (keyIntervals.length === 0) {
-									keyRows.forEach(row => {
-										const interval = setInterval(() => createKey(row), KEY_ANIMATION_DELAY)
-										keyIntervals.push(interval)
-									})
-								}
-							}
-						} else {
-							if (!isHidden) {
-								isHidden = true
-								if (keyIntervals.length > 0) keyIntervals.forEach(clearInterval)
-								keyIntervals.length = 0
-							}
-						}
-					},
-					{ root: null, rootMargin: '0px', threshold: 0 }
-				)
-
-				keyboardObserver.observe(keyboard)
-			}
-
-			function handleVisabilityChange() {
-				if (document.hidden) {
-					isHidden = true
-
-					if (keyIntervals.length > 0) {
-						keyIntervals.forEach(clearInterval)
-						keyIntervals.length = 0
-					}
-
-					if (rocketInterval) {
-						clearInterval(rocketInterval)
-						rocketInterval = null
-					}
-
-					rocket.style.transform = 'translate(0, 0)'
-
-					if (lightInterval) {
-						clearInterval(lightInterval)
-						lightInterval = null
-					}
-				}
-			}
-
 			function changeDirection() {
 				const offsetX = Math.random() * 50 - 25
 				const offsetY = Math.random() * 50 - 25
@@ -1798,11 +1737,13 @@ function main() {
 			}
 
 			const handleRocketAnimationEnd = () => {
+				if (rocketInterval) return
+
 				rocket.style.animation = 'none'
 				rocket.style.transform = 'translate(0, 0)'
 
 				clearInterval(rocketInterval)
-				rocketInterval = setInterval(changeDirection, ROCKET_CHANGE_DIRECTION)
+				rocketInterval = setInterval(changeDirection, timers.rocketChangeDircetion)
 
 				rocket.removeEventListener('animationend', handleRocketAnimationEnd)
 			}
@@ -1822,52 +1763,45 @@ function main() {
 					})
 				}
 
-				lightInterval = setInterval(createLight, 200)
+				lightInterval = setInterval(createLight, timers.lightCreateTimer)
 			}
 
 			const handleRocketTransitionEnd = event => {
 				if (event.propertyName === 'transform' && !isRocketStarted) {
 					isRocketStarted = true
 					rocket.classList.add(`${rocket.classList[0]}--animate`)
+
 					lightAnimate()
+
 					rocket.addEventListener('animationend', handleRocketAnimationEnd)
-					document.addEventListener('visibilitychange', handleVisabilityChange)
 				}
 			}
 
-			function createKey(row) {
-				const offsetX = Math.ceil(Math.max(5, Math.random() * 85))
-				const key = document.createElement('span')
-				key.classList.add('resume-animation__key')
-				row.appendChild(key)
-				key.style.left = `${offsetX}%`
-				key.style.animationDelay = `${Math.random() * 1.5}s`
+			function handleVisabilityHidden() {
+				if (document.hidden) {
+					clearInterval(lightInterval)
+					clearInterval(rocketInterval)
 
-				key.addEventListener('animationend', () => key.remove())
-			}
+					rocketInterval = null
+					lightInterval = null
 
-			function handleKeyboardTransitionend(event) {
-				if (event.propertyName === 'transform' && !isKeyStarted) {
-					isKeyStarted = true
+					rocket.style.animation = 'none'
+					rocket.style.transform = 'translate(0, 0)'
+				} else {
+					if (!rocketInterval) rocketInterval = setInterval(changeDirection, timers.rocketChangeDircetion)
 
-					keyRows.forEach(row => {
-						const interval = setInterval(() => createKey(row), KEY_ANIMATION_DELAY)
-						keyIntervals.push(interval)
-					})
-
-					stopAnimationIsKeyboardOutVisability()
+					if (!lightInterval) lightAnimate()
 				}
 			}
 
 			function reset() {
-				const keys = document.querySelectorAll('.resume-animation__key')
 				const lights = document.querySelectorAll('.resume-animation__light')
 
-				rocket.removeAttribute('style')
-				clearInterval(rocketInterval)
-
-				keyIntervals.forEach(clearInterval)
-				keyIntervals.length = 0
+				if (rocketInterval) {
+					rocket.removeAttribute('style')
+					clearInterval(rocketInterval)
+					rocketInterval = null
+				}
 
 				if (lightInterval) {
 					clearInterval(lightInterval)
@@ -1875,30 +1809,22 @@ function main() {
 				}
 
 				lights.forEach(light => light.remove())
-				keys.forEach(key => key.remove())
 
-				keyboard.removeEventListener('transitionend', handleKeyboardTransitionend)
 				monitor.removeEventListener('transitionrun', handleRocketTransitionEnd)
+				document.removeEventListener('visibilitychange', handleVisabilityHidden)
 
 				if (monitorObserver) {
 					monitorObserver.unobserve(monitor)
 					monitorObserver = null
 				}
 
-				if (keyboardObserver) {
-					keyboardObserver.unobserve(keyboard)
-					keyboardObserver = null
-				}
-
-				isKeyStarted = false
 				isRocketStarted = false
-				isHidden = false
 			}
 
 			resetAnimations(reset, 'resume')
-			animateVisibleElements([monitor, keyboard], () => {
+			animateVisibleElements([monitor], () => {
 				monitor.addEventListener('transitionrun', handleRocketTransitionEnd)
-				keyboard.addEventListener('transitionend', handleKeyboardTransitionend)
+				document.addEventListener('visibilitychange', handleVisabilityHidden)
 			})
 		}
 
