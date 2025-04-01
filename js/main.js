@@ -68,14 +68,14 @@ function main() {
 
 			if (!targetPage) return
 
-			animatedElements.clear()
+			if (currentPage === pageName) {
+				animatedElements.clear()
 
-			if (pageName === currentPage) {
 				if (elementsArray) {
 					elementsArray.forEach(element => {
-						const classNames = element.classList
-
-						classNames.forEach(className => (className.includes('--animate') ? classNames.remove(className) : null))
+						;[...element.classList].forEach(className => {
+							if (className.includes('--animate')) element.classList.remove(className)
+						})
 					})
 				}
 
@@ -91,6 +91,8 @@ function main() {
 					})
 				}
 			}
+
+			currentPage = targetPage
 		}
 
 		document.addEventListener('click', handleClick)
@@ -1694,9 +1696,8 @@ function main() {
 			let isKeyStarted = false
 			let isRocketStarted = false
 			let isHidden = false
-			let isVisabilty = false
 
-			const KEY_ANIMATION_DELAY = 1500
+			const KEY_ANIMATION_DELAY = 2000
 			const ROCKET_CHANGE_DIRECTION = 1500
 
 			function stopAnimationIsMonitorOutVisability() {
@@ -1726,11 +1727,7 @@ function main() {
 							}
 						}
 					},
-					{
-						root: null,
-						rootMargin: '0px',
-						threshold: 0,
-					}
+					{ root: null, rootMargin: '0px', threshold: 0 }
 				)
 
 				monitorObserver.observe(monitor)
@@ -1747,10 +1744,12 @@ function main() {
 							if (isHidden) {
 								isHidden = false
 
-								keyRows.forEach(row => {
-									const interval = setInterval(() => createKey(row), KEY_ANIMATION_DELAY)
-									keyIntervals.push(interval)
-								})
+								if (keyIntervals.length === 0) {
+									keyRows.forEach(row => {
+										const interval = setInterval(() => createKey(row), KEY_ANIMATION_DELAY)
+										keyIntervals.push(interval)
+									})
+								}
 							}
 						} else {
 							if (!isHidden) {
@@ -1760,59 +1759,31 @@ function main() {
 							}
 						}
 					},
-					{
-						root: null,
-						rootMargin: '0px',
-						threshold: 0,
-					}
+					{ root: null, rootMargin: '0px', threshold: 0 }
 				)
 
 				keyboardObserver.observe(keyboard)
 			}
 
-			function handleVisibilityChange() {
+			function handleVisabilityChange() {
 				if (document.hidden) {
-					if (!isVisabilty) {
-						isVisabilty = true
-						console.log('Пользователь ушел с вкладки')
+					isHidden = true
 
-						if (rocketInterval) {
-							clearInterval(rocketInterval)
-							rocketInterval = null
-						}
-
-						if (lightInterval) {
-							clearInterval(lightInterval)
-							lightInterval = null
-						}
-
-						if (keyIntervals.length > 0) {
-							keyIntervals.forEach(clearInterval)
-							keyIntervals.length = 0
-						}
+					if (keyIntervals.length > 0) {
+						keyIntervals.forEach(clearInterval)
+						keyIntervals.length = 0
 					}
-				} else {
-					if (isVisabilty) {
-						isVisabilty = false
 
-						if (monitor.getBoundingClientRect().top >= 0 && monitor.getBoundingClientRect().bottom <= window.innerHeight) {
-							console.log('Пользователь вернулся на вкладку и элемент в видимой области')
+					if (rocketInterval) {
+						clearInterval(rocketInterval)
+						rocketInterval = null
+					}
 
-							if (!rocketInterval) {
-								rocketInterval = setInterval(changeDirection, ROCKET_CHANGE_DIRECTION)
-							}
+					rocket.style.transform = 'translate(0, 0)'
 
-							if (!lightInterval) {
-								lightAnimate()
-							}
-
-							if (keyIntervals.length === 0) {
-								keyRows.forEach(row => {
-									const interval = setInterval(() => createKey(row), KEY_ANIMATION_DELAY)
-									keyIntervals.push(interval)
-								})
-							}
-						}
+					if (lightInterval) {
+						clearInterval(lightInterval)
+						lightInterval = null
 					}
 				}
 			}
@@ -1824,7 +1795,6 @@ function main() {
 				rocket.style.transform = `translate(${offsetX}%, ${offsetY}%)`
 
 				stopAnimationIsMonitorOutVisability()
-				document.addEventListener('visibilitychange', handleVisibilityChange)
 			}
 
 			const handleRocketAnimationEnd = () => {
@@ -1861,6 +1831,7 @@ function main() {
 					rocket.classList.add(`${rocket.classList[0]}--animate`)
 					lightAnimate()
 					rocket.addEventListener('animationend', handleRocketAnimationEnd)
+					document.addEventListener('visibilitychange', handleVisabilityChange)
 				}
 			}
 
@@ -1908,7 +1879,6 @@ function main() {
 
 				keyboard.removeEventListener('transitionend', handleKeyboardTransitionend)
 				monitor.removeEventListener('transitionrun', handleRocketTransitionEnd)
-				document.removeEventListener('visibilitychange', handleVisibilityChange)
 
 				if (monitorObserver) {
 					monitorObserver.unobserve(monitor)
@@ -1923,7 +1893,6 @@ function main() {
 				isKeyStarted = false
 				isRocketStarted = false
 				isHidden = false
-				isVisabilty = false
 			}
 
 			resetAnimations(reset, 'resume')
