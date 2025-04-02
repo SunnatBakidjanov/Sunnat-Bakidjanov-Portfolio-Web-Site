@@ -103,6 +103,7 @@ button {
   --resume-form-text-font-size-1440: 1.5em;
   --resume-form-btn-font-size-1440: 2em;
   --resume-label-font-size-1440: 0.9em;
+  --resume-feddback-modal-font-size-1440: 1.7em;
   --title-font-size-1024: 2.8em;
   --scroll-text-font-size-1024: 2em;
   --header-btn-font-size-1024: 2.2em;
@@ -126,8 +127,9 @@ button {
   --resume-form-text-font-size-1024: 1.2em;
   --resume-form-btn-font-size-1024: 1.8em;
   --resume-label-font-size-1024: 0.8em;
+  --resume-feddback-modal-font-size-1024: 1.5em;
   --title-font-size-768: 2.4em;
-  --scroll-text-font-size-768: 1.9em;
+  --scroll-text-font-size-768: 1.8em;
   --header-logo-font-size-768: 1.6em;
   --header-btn-font-size-768: 2em;
   --hmp-getting-logo-font-size-768: 3.2em;
@@ -150,15 +152,17 @@ button {
   --uses-linters-copy-btn-font-size-768: 1.2em;
   --uses-linters-info-font-size-768: 0.9em;
   --uses-linters-code-font-size-768: 1em;
-  --resume-main-title-font-size-768: 3em;
+  --resume-main-title-font-size-768: 2.7em;
   --resume-main-subtitle-font-siez-768: 1.5em;
-  --resume-title-font-size-768: 1.8em;
-  --resume-subtitle-font-size-768: 1.1em;
-  --resume-btn-font-size-768: 1.8em;
-  --resume-form-text-font-size-768: 1.2em;
-  --resume-form-btn-font-size-768: 1.6em;
+  --resume-title-font-size-768: 1.7em;
+  --resume-subtitle-font-size-768: 1.4em;
+  --resume-btn-font-size-768: 1.5em;
+  --resume-form-text-font-size-768: 1em;
+  --resume-form-btn-font-size-768: 1.4em;
+  --resume-label-font-size-768: 0.73em;
+  --resume-feddback-modal-font-size-768: 1.3em;
   --title-font-size-425: 2em;
-  --scroll-text-font-size-425: 2em;
+  --scroll-text-font-size-425: 1.5em;
   --header-logo-font-size-425: 1.4em;
   --header-btn-font-size-425: 1.6em;
   --header-height-425: 75px;
@@ -183,13 +187,15 @@ button {
   --uses-linters-copy-btn-font-size-425: 1em;
   --uses-linters-past-font-size-425: 0.8em;
   --uses-linters-code-font-size-425: 0.9em;
-  --resume-main-title-font-size-425: 2.8em;
-  --resume-main-subtitle-font-siez-425: 1.6em;
-  --resume-subtitle-font-size-425: 1.5em;
-  --resume-btn-font-size-425: 1.5em;
-  --resume-form-text-font-size-425: 1em;
-  --resume-form-btn-font-size-425: 1.4em;
-  --resume-label-font-size-425: 0.7em;
+  --resume-main-title-font-size-425: 2em;
+  --resume-main-subtitle-font-siez-425: 1.1em;
+  --resume-title-font-size-425: 1.4em;
+  --resume-subtitle-font-size-425: 1.1em;
+  --resume-btn-font-size-425: 1.2em;
+  --resume-form-text-font-size-425: 0.9em;
+  --resume-form-btn-font-size-425: 1.2em;
+  --resume-label-font-size-425: 0.65em;
+  --resume-feddback-modal-font-size-425: 1.1em;
   --title-font-size-375: 1.8em;
   --hmp-getting-logo-font-size-375: 2.2em;
   --hmp-getting-text-font-size-375: 1.5em;
@@ -199,8 +205,6 @@ button {
   --uses-main-subtitle-font-size-375: 1.6em;
   --uses-linters-tasks-font-size-375: 1.1em;
   --uses-linters-setting-subtitle-font-size-375: 1em;
-  --resume-main-title-font-size-375: 2.6em;
-  --resume-main-subtitle-font-siez-375: 1.4em;
   --header-btn-font-size-heigth-667: 1.8em;
   --header-btn-font-size-heigth-430: 1.6em;
   --z-index-header-btn-line: 1;
@@ -276,14 +280,16 @@ button {
 }
 @media (width <= 768px) {
   .scroll-section__text {
-    width: 135px;
+    width: 130px;
     font-size: var(--scroll-text-font-size-768);
+    letter-spacing: -5px;
   }
 }
 @media (width <= 425px) {
   .scroll-section__text {
-    width: 140px;
+    width: 115px;
     font-size: var(--scroll-text-font-size-425);
+    letter-spacing: -4px;
   }
 }
 
@@ -3088,13 +3094,13 @@ button {
 }
 @media (width <= 768px) {
   .resume-title {
-    font-size: var(--title-font-size-768);
+    font-size: var(--resume-title-font-size-768);
   }
 }
 @media (width <= 425px) {
   .resume-title {
     transform: translateY(-140px);
-    font-size: var(--title-font-size-425);
+    font-size: var(--resume-title-font-size-425);
   }
 }
 
@@ -3182,7 +3188,7 @@ button {
   content: "";
   position: absolute;
   bottom: -250px;
-  left: -20%;
+  left: -30%;
   transform: rotate(30deg);
   pointer-events: none;
   height: 500px;
@@ -3193,7 +3199,7 @@ button {
 }
 @keyframes link-box-blink-animate {
   0% {
-    left: -20%;
+    left: -30%;
     opacity: 0.3;
   }
   50% {
@@ -3205,7 +3211,7 @@ button {
     opacity: 0;
   }
   100% {
-    left: -20%;
+    left: -30%;
     opacity: 0;
   }
 }
@@ -3256,16 +3262,15 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 5px 0;
   width: 100%;
-  height: 35px;
-  font-weight: 500;
-  font-size: 24px;
+  font-size: var(--resume-feddback-modal-font-size-1440);
   color: var(--change-color);
   letter-spacing: 0.5px;
   text-align: center;
   background-color: var(--box-shadow-main-color);
   opacity: 0;
-  animation: fedback-modal-window 3s linear;
+  animation: fedback-modal-window 4s linear;
   transition: color 0.4s ease-out;
 }
 @keyframes fedback-modal-window {
@@ -3280,6 +3285,26 @@ button {
   }
   100% {
     opacity: 0;
+  }
+}
+@media (width <= 1024px) {
+  .feedback-modal-window {
+    padding: 4px 0;
+    font-size: var(--resume-feddback-modal-font-size-1024);
+  }
+}
+@media (width <= 768px) {
+  .feedback-modal-window {
+    padding: 3px 0;
+    height: 30px;
+    font-size: var(--resume-feddback-modal-font-size-768);
+  }
+}
+@media (width <= 425px) {
+  .feedback-modal-window {
+    padding: 2px 0;
+    height: auto;
+    font-size: var(--resume-feddback-modal-font-size-425);
   }
 }
 
@@ -3355,22 +3380,14 @@ button {
   }
 }
 @media (width <= 425px) {
+  .resume-getting__wrapper {
+    margin-top: 20px;
+  }
   .resume-getting__title {
     font-size: var(--resume-main-title-font-size-425);
   }
   .resume-getting__subtitle-container {
     font-size: var(--resume-main-subtitle-font-siez-425);
-  }
-}
-@media (width <= 375px) {
-  .resume-getting__wrapper {
-    margin-top: 20px;
-  }
-  .resume-getting__title {
-    font-size: var(--resume-main-title-font-size-375);
-  }
-  .resume-getting__subtitle-container {
-    font-size: var(--resume-main-subtitle-font-siez-375);
   }
 }
 
@@ -3595,19 +3612,11 @@ button {
 }
 @media (width <= 768px) {
   .resume-animation__wrapper {
-    height: 430px;
+    height: 330px;
   }
   .resume-animation__monitor {
-    height: 200px;
-  }
-  .resume-animation__inner-keyboard {
-    width: 80%;
-    height: 110px;
-  }
-}
-@media (width <= 425px) {
-  .resume-animation__wrapper {
-    height: 310px;
+    width: 100%;
+    height: 160px;
   }
   .resume-animation__rocket {
     width: 70px;
@@ -3622,12 +3631,28 @@ button {
     width: 40px;
     height: 15px;
   }
-  .resume-animation__monitor {
-    height: 150px;
+  .resume-animation__monitor-element:nth-child(1) {
+    width: 10px;
+  }
+  .resume-animation__monitor-element:nth-child(2) {
+    bottom: -44px;
+    height: 8px;
   }
   .resume-animation__inner-keyboard {
     width: 90%;
-    height: 70px;
+    height: 90px;
+  }
+}
+@media (width <= 425px) {
+  .resume-animation__wrapper {
+    height: 270px;
+  }
+  .resume-animation__monitor {
+    height: 140px;
+  }
+  .resume-animation__inner-keyboard {
+    width: 95%;
+    height: 65px;
   }
 }
 @media (width <= 375px) {
@@ -3734,6 +3759,12 @@ button {
 @media (width <= 425px) {
   .resume-download__wrapper {
     margin-top: 40px;
+  }
+  .resume-download__btn {
+    margin: 20px 0;
+  }
+  .resume-download__btn::after {
+    width: 15%;
   }
   .resume-download__hide-subtitle {
     margin-bottom: 0;
@@ -3914,7 +3945,7 @@ button {
     row-gap: 20px;
   }
   .resume-feedback__form-btn-box {
-    height: auto;
+    height: 40px;
   }
   .resume-feedback__form-btn-box::after {
     width: 10%;
@@ -3931,17 +3962,26 @@ button {
 }
 @media (width <= 768px) {
   .resume-feedback__wrapper {
-    margin: 50px 0 35px;
+    margin: 40px 0 35px;
   }
   .resume-feedback__form {
+    margin-top: 40px;
     padding: 20px 30px;
+    row-gap: 12px;
     width: 100%;
   }
   .resume-feedback__text {
     font-size: var(--resume-form-text-font-size-768);
   }
+  .resume-feedback__form-group {
+    row-gap: 6px;
+  }
+  .resume-feedback__label {
+    font-size: var(--resume-label-font-size-768);
+  }
   .resume-feedback__form-btn-box {
-    height: auto;
+    margin-top: 10px;
+    height: 35px;
   }
   .resume-feedback__form-btn-box::after {
     width: 10%;
@@ -3952,11 +3992,12 @@ button {
 }
 @media (width <= 425px) {
   .resume-feedback__wrapper {
-    margin: 40px 0 30px;
+    margin: 30px 0;
   }
   .resume-feedback__form {
-    padding: 10px 10px 20px;
-    row-gap: 15px;
+    margin-top: 30px;
+    padding: 10px 10px 25px;
+    row-gap: 8px;
   }
   .resume-feedback__form-group {
     row-gap: 5px;
@@ -3966,20 +4007,28 @@ button {
   }
   .resume-feedback__form-btn-box {
     margin-top: 5px;
+    height: 30px;
   }
   .resume-feedback__form-btn-box::after {
     width: 15%;
   }
-  .resume-feedback__form-btn {
-    font-size: var(--resume-form-btn-font-size-425);
-  }
   .resume-feedback__label {
     font-size: var(--resume-label-font-size-425);
   }
-}
-@media (width <= 375px) {
-  .resume-feedback__wrapper {
-    margin: 30px 0 20px;
+  .resume-feedback__input {
+    padding: 8px;
+  }
+  .resume-feedback__input:not(:-moz-placeholder-shown) + .resume-feedback__label {
+    transform: scale(0.9) translateY(-20px) translateX(4px);
+  }
+  .resume-feedback__input:focus + .resume-feedback__label, .resume-feedback__input:not(:placeholder-shown) + .resume-feedback__label {
+    transform: scale(0.9) translateY(-20px) translateX(4px);
+  }
+  .resume-feedback__input--textarea:focus + .resume-feedback__label--textarea, .resume-feedback__input--textarea:valid + .resume-feedback__label--textarea {
+    transform: scale(0.9) translateY(-17px) translateX(4px);
+  }
+  .resume-feedback__form-btn {
+    font-size: var(--resume-form-btn-font-size-425);
   }
 }
 
