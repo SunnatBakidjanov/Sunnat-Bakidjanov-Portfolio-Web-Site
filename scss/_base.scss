@@ -105,8 +105,9 @@
 	--uses-linters-copy-btn-font-size-1440: 1.5em;
 	--uses-modal-window-font-size-1440: 1.5em;
 	--uses-linters-code-font-size-1440: 1.1em;
-	--resume-main-title-font-size-1440: 4.2em;
-	--resume-main-subtitle-font-siez-1440: 2.5em;
+	--resume-main-title-font-size-1440: 3.6em;
+	--resume-main-subtitle-font-siez-1440: 2.2em;
+	--resume-title-font-size-1440: 2.8em;
 	--resume-subtitle-font-size-1440: 2.1em;
 	--resume-btn-font-size-1440: 2.5em;
 	--resume-form-text-font-size-1440: 1.5em;
@@ -115,6 +116,7 @@
 
 	// 1024px
 	--title-font-size-1024: 2.8em;
+	--scroll-text-font-size-1024: 2em;
 	--header-btn-font-size-1024: 2.2em;
 	--hmp-getting-logo-font-size-1024: 3.8em;
 	--hmp-projects-text-font-size-1024: 1.9em;
@@ -128,15 +130,18 @@
 	--uses-linters-past-font-size-1024: 1.1em;
 	--uses-linters-copy-btn-font-size-1024: 1.4em;
 	--uses-modal-window-font-size-1024: 1.4em;
-	--resume-main-title-font-size-1024: 3.8em;
-	--resume-main-subtitle-font-siez-1024: 2.2em;
-	--resume-subtitle-font-size-1024: 1.9em;
-	--resume-btn-font-size-1024: 2.2em;
-	--resume-form-text-font-size-1024: 1.4em;
+	--resume-main-title-font-size-1024: 3em;
+	--resume-main-subtitle-font-siez-1024: 1.7em;
+	--resume-title-font-size-1024: 2.2em;
+	--resume-subtitle-font-size-1024: 1.7em;
+	--resume-btn-font-size-1024: 2em;
+	--resume-form-text-font-size-1024: 1.2em;
 	--resume-form-btn-font-size-1024: 1.8em;
+	--resume-label-font-size-1024: 0.8em;
 
 	// 768px
 	--title-font-size-768: 2.4em;
+	--scroll-text-font-size-768: 1.9em;
 	--header-logo-font-size-768: 1.6em;
 	--header-btn-font-size-768: 2em;
 	--hmp-getting-logo-font-size-768: 3.2em;
@@ -159,9 +164,10 @@
 	--uses-linters-copy-btn-font-size-768: 1.2em;
 	--uses-linters-info-font-size-768: 0.9em;
 	--uses-linters-code-font-size-768: 1em;
-	--resume-main-title-font-size-768: 3.5em;
-	--resume-main-subtitle-font-siez-768: 2em;
-	--resume-subtitle-font-size-768: 1.7em;
+	--resume-main-title-font-size-768: 3em;
+	--resume-main-subtitle-font-siez-768: 1.5em;
+	--resume-title-font-size-768: 1.8em;
+	--resume-subtitle-font-size-768: 1.1em;
 	--resume-btn-font-size-768: 1.8em;
 	--resume-form-text-font-size-768: 1.2em;
 	--resume-form-btn-font-size-768: 1.6em;
@@ -291,15 +297,30 @@ $blue: var(--blue);
 	}
 
 	&__text {
+		width: 165px;
 		font-size: var(--scroll-text-font-size-1440);
 		color: var(--text-color);
 		letter-spacing: -6px;
 		overflow: hidden;
 	}
 
+	@media (width <= 1024px) {
+		&__text {
+			width: 140px;
+			font-size: var(--scroll-text-font-size-1024);
+		}
+	}
+
+	@media (width <= 768px) {
+		&__text {
+			width: 135px;
+			font-size: var(--scroll-text-font-size-768);
+		}
+	}
+
 	@media (width <= 425px) {
 		&__text {
-			width: 140px !important;
+			width: 140px;
 			font-size: var(--scroll-text-font-size-425);
 		}
 	}

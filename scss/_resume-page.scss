@@ -46,12 +46,12 @@
 	transform: translateY(-100px);
 	display: flex;
 	align-items: center;
-	font-size: var(--title-font-size-1440);
+	font-size: var(--resume-title-font-size-1440);
 	color: var(--change-color);
 	text-align: center;
 
 	@media (width <= 1024px) {
-		font-size: var(--title-font-size-1024);
+		font-size: var(--resume-title-font-size-1024);
 	}
 
 	@media (width <= 768px) {
@@ -119,7 +119,7 @@
 	}
 
 	@media (width <= 1024px) {
-		width: 70%;
+		width: 80%;
 	}
 
 	@media (width <= 768px) {
@@ -240,7 +240,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		margin-top: 50px;
+		margin-top: 40px;
 	}
 
 	&__hide-title {
@@ -292,7 +292,7 @@
 
 	@media (width <= 1024px) {
 		&__wrapper {
-			margin-top: 40px;
+			margin-top: 35px;
 		}
 
 		&__title {
@@ -354,7 +354,7 @@
 		align-items: center;
 		justify-content: space-between;
 		margin-top: 50px;
-		height: 600px;
+		height: 550px;
 	}
 
 	&__monitor {
@@ -362,8 +362,8 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 85%;
-		height: 300px;
+		width: 90%;
+		height: 280px;
 		background: linear-gradient(rgb(0 0 0 / 100%) var(--gradient-transition-point), var(--gradient-color) 130%);
 		background-color: var(--change-color);
 		border: 5px solid var(--resume-animation-color);
@@ -557,8 +557,8 @@
 	&__inner-keyboard {
 		position: relative;
 		transform-style: preserve-3d;
-		width: 70%;
-		height: 160px;
+		width: 80%;
+		height: 150px;
 		perspective: 1000px;
 		opacity: 0;
 		transform: perspective(500px) rotateX(0deg) translateY(50px);
@@ -589,11 +589,11 @@
 
 	@media (width <= 1024px) {
 		&__wrapper {
-			height: 500px;
+			height: 480px;
 		}
 
 		&__monitor {
-			height: 230px;
+			height: 250px;
 		}
 
 		&__rocket {
@@ -602,7 +602,8 @@
 		}
 
 		&__inner-keyboard {
-			height: 150px;
+			width: 85%;
+			height: 130px;
 		}
 	}
 
@@ -689,7 +690,6 @@
 
 	&__text {
 		margin-top: 20px;
-		width: 170px;
 
 		& span {
 			display: inline-block;
@@ -754,6 +754,10 @@
 		&__wrapper {
 			margin-top: 60px;
 		}
+
+		&__btn {
+			margin: 30px 0;
+		}
 	}
 
 	@media (width <= 768px) {
@@ -785,6 +789,14 @@
 		margin: 80px 0 50px;
 	}
 
+	&__title {
+		margin-bottom: 5px;
+	}
+
+	&__subtitle {
+		margin-bottom: 25px;
+	}
+
 	&__form {
 		display: flex;
 		flex-direction: column;
@@ -792,7 +804,7 @@
 		row-gap: 25px;
 		margin-top: 50px;
 		padding: 30px 50px;
-		width: 80%;
+		width: 90%;
 		letter-spacing: 1px;
 		border-radius: 10px;
 		box-shadow: 0 0 10px transparent;
@@ -965,11 +977,16 @@
 
 	@media (width <= 1024px) {
 		&__wrapper {
-			margin: 70px 0 40px;
+			margin: 60px 0 40px;
 		}
 
 		&__text {
 			font-size: var(--resume-form-text-font-size-1024);
+		}
+
+		&__form {
+			padding: 30px;
+			row-gap: 20px;
 		}
 
 		&__form-btn-box {
@@ -982,6 +999,14 @@
 
 		&__form-btn {
 			font-size: var(--resume-form-btn-font-size-1024);
+		}
+
+		&__form-group {
+			row-gap: 8px;
+		}
+
+		&__label {
+			font-size: var(--resume-label-font-size-1024);
 		}
 	}
 
@@ -1018,7 +1043,7 @@
 		}
 
 		&__form {
-			padding: 10px 20px;
+			padding: 10px 10px 20px;
 			row-gap: 15px;
 		}
 
