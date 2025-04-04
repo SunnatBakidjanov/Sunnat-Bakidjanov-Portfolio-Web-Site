@@ -150,6 +150,7 @@ function main() {
 		const button = document.getElementById('climb-up')
 		const img = document.getElementById('climb-img')
 		const circle = document.getElementById('climb-circle')
+		const footer = document.querySelector('footer')
 
 		let animationFrameTop = null
 		let animationFrameScroll = null
@@ -187,6 +188,11 @@ function main() {
 
 		function handleScroll() {
 			const scrollY = window.scrollY
+			const footerRect = footer.getBoundingClientRect()
+			const windowHeight = window.innerHeight
+			const overlap = windowHeight - footerRect.top
+
+			overlap > 0 ? (button.style.transform = `translateY(-${overlap + 5}%)`) : (button.style.transform = 'translateY(0)')
 
 			const set = new Set()
 			const animations = ['climb-up-img-hide', 'climb-up-circle-hide']
@@ -2175,76 +2181,65 @@ function main() {
 		yearDate.textContent = years
 	}
 
-	function setCurrentDate() {
-		const date = document.getElementById('footer-current-date')
-		const setCurrentDate = new Date()
-		const langState = !isLanguageRussian ? 'en-US' : 'ru-RU'
-
-		date.classList[isLanguageRussian ? 'add' : 'remove']('russian-font', 'footer__date--rus-lang')
-
-		const options = { year: 'numeric', month: 'long' }
-		date.textContent = setCurrentDate.toLocaleString(langState, options)
-	}
-
 	function footerEvents() {
+		const container = document.getElementById('footer')
+		const versionValue = document.getElementById('footer-varsion-value')
+		const versionContainer = document.getElementById('footer-version')
 		const date = document.getElementById('footer-current-date')
-		const name = document.getElementById('footer-name')
-		const version = document.getElementById('footer-version')
-		const wrapper = document.getElementById('footer-wrapper')
-		const symbol = document.getElementById('footer-symbol')
-		const line = document.getElementById('footer-line')
 
-		const ids = [wrapper, name, version]
-		const elementKeys = ['footer-wrapper', 'footer-name', 'footer-version']
-		const startHeight = 0
+		let isAnimated = false
 
-		const timeouts = []
+		function setCurrentDate() {
+			const setCurrentDate = new Date()
+			const langState = !isLanguageRussian ? 'en-US' : 'ru-RU'
 
-		const handleTextWrite = [
-			writeAndResetText([name], ['Bakidjanov Sunnat'], ['Бакиджанов Суннат'], 50, ['footer-name'], ['footer__name--rus-lang'], null),
-			writeAndResetText([version], ['Version 1.0.0'], ['Версия 1.0.0'], 50, ['footer-version'], ['footer__version--rus-lang'], null),
-		]
-
-		function animate() {
-			wrapper.classList.add('footer__wrapper--animate')
-			symbol.classList.add('footer__symbol--animate')
-
-			const textTimeout = setTimeout(() => {
-				handleTextWrite[0].writeAll()
-			}, 300)
-
-			const dateTimeout = setTimeout(() => {
-				date.classList.add('footer__date--animate')
-				line.classList.add('footer__line--animate')
-			}, 600)
-
-			const versionTimeout = setTimeout(() => {
-				handleTextWrite[1].writeAll()
-			}, 1200)
-
-			timeouts.push(textTimeout, dateTimeout, versionTimeout)
+			const options = { year: 'numeric', month: 'long' }
+			date.textContent = setCurrentDate.toLocaleString(langState, options)
 		}
 
-		function reset() {
-			wrapper.classList.remove('footer__wrapper--animate')
-			symbol.classList.remove('footer__symbol--animate')
-			date.classList.remove('footer__date--animate')
-			line.classList.remove('footer__line--animate')
+		function animateVersionValue() {
+			if (isAnimated) return
+			isAnimated = true
 
-			handleTextWrite.forEach(text => {
-				text.resetAll()
-			})
+			let value = parseInt(versionValue.innerHTML)
 
-			timeouts.forEach(timeout => {
-				clearTimeout(timeout)
-			})
+			container.classList.add(`${container.classList[0]}--animate`)
+
+			versionValue.style.transition = 'transform 0.6s ease-out'
+			versionValue.style.transform = 'translateY(-100%)'
+
+			const handleTransitionEnd = event => {
+				if (event.propertyName === 'transform') {
+					value++
+
+					versionValue.style.transition = 'none'
+					const oldWidth = versionValue.offsetWidth
+
+					versionValue.innerHTML = value
+					const newWidth = versionValue.offsetWidth
+
+					versionValue.style.width = oldWidth + 'px'
+					versionValue.style.transform = 'translateY(100%)'
+
+					setTimeout(() => {
+						versionValue.style.width = newWidth + 'px'
+						versionValue.style.transition = 'transform 0.6s ease-out 0.2s, width 0.3s linear'
+						versionValue.style.transform = 'translateY(0)'
+					}, 0)
+
+					versionValue.removeEventListener('transitionend', handleTransitionEnd)
+				}
+			}
+
+			versionValue.addEventListener('transitionend', handleTransitionEnd)
 		}
 
-		createAnimation(ids, elementKeys, startHeight, animate, reset)
+		setCurrentDate()
+		updateLanguageContent(setCurrentDate)
+		animateVisibleElements([versionContainer], animateVersionValue)
 	}
 
 	window.addEventListener('load', () => {
-		setCurrentDate()
 		calculateExp()
 		backgroundColorChange()
 
@@ -2253,7 +2248,7 @@ function main() {
 		usesPageEvents()
 		resumePageEvents()
 		// aboutMePageEvents()
-		// footerEvents()
+		footerEvents()
 
 		climbUp()
 		asideMenu()
