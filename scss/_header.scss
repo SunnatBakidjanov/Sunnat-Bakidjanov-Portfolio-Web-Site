@@ -1,41 +1,10 @@
 @use 'sass:list';
 
-$gradient-color_1: #b0e57c;
-$gradient-color_2: #ff6f61;
-$gradient-color_3: #d35400;
-$gradient-color_4: #5dade2;
-$orange: #f8aa01;
-$white: #fff;
-$black: #000;
-$gray: #a9a9a9;
-
-// nav
-$nav-btn-hover-color: $black;
-$nav-btn-span-bg-color: $white;
-$nav-box-shadow-color: $gradient-color_2;
-
 // icons
-$google-icon-bg: #ea4335;
-$telegram-icon-bg: #08c;
-$github-icon-bg: #181717;
-$facebook-icon-bg: #3b5998;
-$social-media-box-shadow-color: $white;
-
-// header
-
-$header-border-color: $white;
-$header-filter-color: $orange;
-$header-logo-text-color: $white;
-$header-logo-text-hover-color: $orange;
-$header-nav-btn-color: $white;
-$header-text-color: $white;
-$header-hover-text-color: $black;
-$header-social-box-shadow: $white;
-
-// burger-menu
-$burger-menu-line-color: $orange;
-$burger-menu-accent-line-color: $white;
-$burger-menu-sadow-color: $white;
+$google-icon-bg: var(--google);
+$telegram-icon-bg: var(--telegram);
+$github-icon-bg: var(--github);
+$facebook-icon-bg: var(--facebook);
 
 // var
 
@@ -49,24 +18,26 @@ $colors: (
 .header {
 	&__wrapper {
 		position: relative;
-		top: -150px;
+		top: calc(-1 * var(--header-heigth-1440) - 20px);
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		height: 100px;
+		height: var(--header-heigth-1440);
 		border-bottom: 2px solid transparent;
 	}
 
 	&__wrapper--animate {
-		top: 0;
-		border-color: $header-border-color;
+		top: 0 !important;
+		border-color: var(--line-color);
 		transition:
-			top 1.1s ease-out,
-			border-color 0.6s ease-out 0.6s;
+			top 1s ease-out,
+			border-color 0.6s ease-out 0.8s;
 	}
 
 	&__logo-img {
 		margin-top: 5px;
+		width: 85px;
+		height: 85px;
 		transition:
 			filter 0.4s ease-out,
 			transform 0.3s ease-out;
@@ -77,9 +48,10 @@ $colors: (
 	&__logo-text {
 		display: flex;
 		flex-direction: column;
-		font-weight: 600;
-		font-size: 26px;
-		color: $header-logo-text-color;
+		line-height: 100%;
+		font-size: var(--header-logo-font-size-1440);
+		color: var(--text-color);
+		letter-spacing: 0.5px;
 		text-align: left;
 		transition: color 0.5s ease;
 		pointer-events: none;
@@ -88,10 +60,7 @@ $colors: (
 	&__logo {
 		display: flex;
 		align-items: center;
-		height: 100%;
-		background-color: transparent;
-		border: none;
-		cursor: pointer;
+		column-gap: 15px;
 
 		&:hover .header__logo-img {
 			filter: drop-shadow(0 0 15px var(--change-color));
@@ -106,13 +75,14 @@ $colors: (
 	&__nav-container {
 		display: flex;
 		align-items: center;
-		column-gap: 20px;
+		column-gap: 10px;
+		height: 42px;
 	}
 
 	&__nav {
 		display: flex;
 		align-items: center;
-		column-gap: 10px;
+		column-gap: 5px;
 	}
 
 	&__item {
@@ -121,79 +91,68 @@ $colors: (
 	}
 
 	&__btn-text {
+		position: relative;
+		z-index: var(--z-index-header-btn);
 		pointer-events: none;
+	}
+
+	@mixin button-acitve-line($width) {
+		width: $width;
+
+		&:nth-of-type(odd) {
+			left: 0;
+		}
+
+		&:nth-of-type(even) {
+			right: 0;
+		}
+
+		@for $i from 1 through 3 {
+			&:nth-child(#{$i}) {
+				top: #{($i - 1) * 33.4%};
+			}
+		}
 	}
 
 	&__line {
 		position: absolute;
-		z-index: -2;
-		width: 0%;
+		z-index: var(--z-index-header-btn-line);
 		height: 33.4%;
-		background-color: $nav-btn-span-bg-color;
+		background-color: var(--header-btn-lines-bg-color);
 		transition: all 0.5s ease-out;
 		pointer-events: none;
-	}
 
-	&__line--right {
-		right: 0;
-	}
-
-	&__line--left {
-		left: 0;
+		@include button-acitve-line(0);
 	}
 
 	&__line--active {
-		width: 100%;
-	}
-
-	$header-lines: (
-		0: 0,
-		1: 33.3%,
-		2: 66.6%,
-	);
-
-	@mixin nav-hover-line($modifier, $position) {
-		&__line--#{$modifier} {
-			top: $position;
-		}
-
-		&__item:hover .header-nav__line--#{$modifier} {
-			top: $position;
-			width: 100%;
-		}
-	}
-
-	@each $modifier, $position in $header-lines {
-		@include nav-hover-line($modifier, $position);
+		@include button-acitve-line(100%);
 	}
 
 	&__btn {
 		position: relative;
-		z-index: 5;
-		padding: 5px 30px;
-		font-weight: 600;
-		font-size: 18px;
-		color: $header-nav-btn-color;
+		padding: 5px 25px;
+		font-size: var(--header-btn-font-size-1440);
+		color: var(--text-color);
 		letter-spacing: 0.5px;
-		background-color: transparent;
-		border: none;
 		border-radius: 50px 0;
 		overflow: hidden;
-		cursor: pointer;
-		transition: all 0.4s ease-out;
+		transition:
+			width 0.4s ease-out,
+			box-shadow 0.4s ease-out;
 
 		&:hover .header__line {
-			width: 100%;
+			@include button-acitve-line(100%);
 		}
 
 		&:hover {
-			color: $header-hover-text-color;
+			color: var(--text-hover-color);
 			box-shadow: -5px 3px 5px var(--change-color);
 		}
 	}
 
 	&__btn--active {
-		color: $header-hover-text-color;
+		color: var(--text-hover-color);
 		box-shadow: -5px 3px 5px var(--change-color);
 	}
 
@@ -205,42 +164,57 @@ $colors: (
 		width: 100%;
 		height: 0;
 		overflow: hidden;
-		transition: height 0.4s ease-out;
-	}
-
-	&__social-container {
-		position: relative;
-		z-index: 5;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: 5px;
-		transition: box-shadow 0.5s ease;
-		cursor: pointer;
-
-		&:hover {
-			box-shadow: 0 0 15px $header-social-box-shadow;
-		}
-
-		&:hover .header__social-list {
-			height: 200px;
-		}
+		transition-delay: 0.8s;
 	}
 
 	&__social-arrow-img {
 		width: 32px;
 		height: 32px;
+		transition: filter 0.2s ease-out;
+	}
+
+	&__social-container {
+		position: relative;
+		z-index: var(--z-index-social-container);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 5px;
+		cursor: pointer;
+
+		&:hover .header__social-arrow-img {
+			filter: drop-shadow(0 0 10px var(--white));
+		}
+
+		&:hover .header__social-list {
+			transition-delay: 0s;
+			height: 200px;
+		}
+
+		&:hover .header__social-item {
+			@for $i from 1 through 4 {
+				&:nth-child(#{$i}) {
+					transition: top 0.4s ease-out #{(4 - $i) * 0.1}s;
+				}
+			}
+		}
 	}
 
 	&__social-item {
 		position: relative;
 		top: -200px;
-		transition: top 0.4s ease-out;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		width: 100%;
-		height: 50px;
+		height: 45px;
+		transition: all 0s;
+
+		@for $i from 1 through 4 {
+			&:nth-child(#{$i}) {
+				transition: top 0.4s ease-out #{($i) * 0.1}s;
+			}
+		}
 	}
 
 	@mixin header-social-items($modifier, $color) {
@@ -271,30 +245,30 @@ $colors: (
 		display: none;
 	}
 
-	@media (width <= 1150px) {
+	@media (width <= 1024px) {
 		&__burger-menu {
 			position: relative;
-			z-index: 11;
+			z-index: var(--z-index-burger-menu);
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			box-sizing: content-box;
-			margin-right: 20px;
+			margin-top: 10px;
 			width: 60px;
 			height: 30px;
-			transition: height 0.4s ease-out;
 			cursor: pointer;
+			transition: height 0.4s ease-out;
 		}
 
 		&__burger-menu--open {
-			height: 60px;
+			width: 65px;
+			height: 65px;
 		}
 
 		&__burger-line {
 			position: absolute;
 			width: 100%;
 			height: 4px;
-			background-color: $burger-menu-accent-line-color;
+			background-color: var(--line-color);
 
 			&:nth-child(1) {
 				top: 0;
@@ -306,7 +280,7 @@ $colors: (
 
 			&:nth-child(2) {
 				right: 15px;
-				background-color: $burger-menu-line-color;
+				background-color: var(--line-accent-color);
 				transition: transform 0.4s ease-out 0.4s;
 			}
 
@@ -346,44 +320,58 @@ $colors: (
 			}
 		}
 
+		&__wrapper {
+			padding: 0 10px;
+		}
+
 		&__nav-container {
 			position: fixed;
-			z-index: 10;
-			left: 9999px;
+			z-index: var(--z-index-nav-container);
 			display: flex;
-			row-gap: 40px;
 			flex-direction: column;
 			justify-content: center;
+			width: 0;
+			height: 0;
 			background: linear-gradient(90deg, rgb(0 0 0 / 100%) var(--gradient-transition-point), var(--gradient-color) 130%);
-			background-color: black;
 			opacity: 0;
+			visibility: hidden;
+			row-gap: 70px;
 			transition: opacity 0.6s ease-out;
+			pointer-events: none;
 		}
 
 		&__nav-container--open {
-			opacity: 1;
+			width: 100%;
+			height: 100%;
+			visibility: visible;
+			pointer-events: auto;
 			inset: 0;
+			opacity: 1;
+		}
+
+		@keyframes burger-close {
+			0% {
+				opacity: 1;
+			}
+
+			100% {
+				opacity: 0;
+			}
 		}
 
 		&__nav-container--close {
-			@keyframes burger-close {
-				0% {
-					opacity: 1;
-				}
-
-				100% {
-					opacity: 0;
-				}
-			}
-
+			width: 100%;
+			height: 100%;
+			visibility: visible;
+			transition: opacity 0.6s ease-out;
 			animation: burger-close 0.6s ease-out forwards;
 			inset: 0;
 			pointer-events: none;
 		}
 
 		&__nav {
-			flex-direction: column;
-			row-gap: 30px;
+			flex-flow: column wrap;
+			row-gap: 35px;
 		}
 
 		&__item {
@@ -400,8 +388,8 @@ $colors: (
 
 		&__item--open {
 			transition:
-				transform 0.6s ease-out 0.4s,
-				opacity 0.6s ease-out 0.4s;
+				transform 0.6s ease-out 0.2s,
+				opacity 0.6s ease-out 0.2s;
 
 			&:nth-child(even) {
 				opacity: 1;
@@ -415,15 +403,17 @@ $colors: (
 		}
 
 		&__btn {
-			font-size: 30px;
+			font-size: var(--header-btn-font-size-1024);
 		}
 
 		&__social-list {
 			position: static;
-			flex-direction: row;
-			column-gap: 20px;
+			flex-flow: row wrap;
+			justify-content: center;
+			gap: 10px 50px;
 			height: fit-content;
 			overflow: visible;
+			transition: 0s all;
 		}
 
 		&__social-container {
@@ -444,13 +434,15 @@ $colors: (
 
 		&__social-item {
 			position: static;
-			transform: scale(0);
+			width: 65px;
+			height: 65px;
 			opacity: 0;
+			transform: scale(0);
 		}
 
 		&__social-item--open {
 			@for $i from 1 through 4 {
-				$delay: 0.2s * $i;
+				$delay: 0.15s * $i;
 
 				&:nth-child(#{$i}) {
 					transition:
@@ -463,166 +455,166 @@ $colors: (
 		}
 	}
 
-	@media (width <= 800px) {
+	@media (width <= 768px) {
 		&__logo-img {
-			transform: scale(0.95) !important;
+			width: 70px;
+			height: 70px;
 		}
 
 		&__logo-text {
-			position: relative;
-			right: 10px;
-			font-size: 24px;
+			font-size: var(--header-logo-font-size-768);
 		}
 
-		&__btn {
-			font-size: 28px;
+		&__burger-menu {
+			width: 55px;
+			height: 28px;
 		}
-	}
 
-	@media (width <= 600px) {
-		&__wrapper {
-			height: 90px;
+		&__burger-menu--open {
+			width: 60px;
+			height: 60px;
 		}
 
 		&__nav-container {
+			row-gap: 60px;
+		}
+
+		&__nav {
 			row-gap: 30px;
 		}
 
-		&__logo {
-			position: relative;
-			right: 20px;
-		}
-
-		&__logo-img {
-			transform: scale(0.85) !important;
-		}
-
-		&__logo-text {
-			right: 15px;
-			font-size: 22px;
-		}
-
-		&__burger-menu {
-			width: 50px;
-		}
-
 		&__btn {
-			font-size: 26px;
+			font-size: var(--header-btn-font-size-768);
 		}
 
-		&__social-img {
-			transform: scale(0.9);
+		&__social-list {
+			column-gap: 40px;
+		}
+
+		&__social-item {
+			width: 60px;
+			height: 60px;
 		}
 	}
 
-	@media (width <= 480px) {
+	@media (width <= 425px) {
 		&__wrapper {
-			height: 80px;
-		}
-
-		&__nav-container {
-			row-gap: 25px;
-		}
-
-		&__nav {
-			row-gap: 20px;
+			top: calc(-1 * var(--header-height-425) - 20px);
+			padding: 0;
+			height: var(--header-height-425);
 		}
 
 		&__logo {
-			position: relative;
-			right: 25px;
+			column-gap: 10px;
 		}
 
 		&__logo-img {
-			transform: scale(0.75) !important;
+			margin-top: 2px;
+			width: 65px;
+			height: 65px;
 		}
 
 		&__logo-text {
-			right: 20px;
-			font-size: 20px;
+			font-size: var(--header-logo-font-size-425);
 		}
 
 		&__burger-menu {
-			margin-right: 10px;
-			width: 40px;
+			margin-top: 5px;
+			width: 50px;
 			height: 25px;
 		}
 
-		&__burger-line--open {
-			width: 100% !important;
+		&__burger-menu--open {
+			width: 55px;
+			height: 55px;
+		}
+
+		&__nav-container {
+			row-gap: 50px;
+		}
+
+		&__nav {
+			row-gap: 25px;
 		}
 
 		&__btn {
-			font-size: 24px;
+			font-size: var(--header-btn-font-size-425);
 		}
 
-		&__social-img {
-			transform: scale(0.85);
+		&__social-list {
+			column-gap: 30px;
+		}
+
+		&__social-item {
+			width: 50px;
+			height: 50px;
 		}
 	}
 
-	@media (width <= 430px) {
-		&__logo {
-			right: 30px;
-			width: 230px;
-		}
-
-		&__logo-text {
-			right: 25px;
-			font-size: 18px;
-		}
-
+	@media (width <= 375px) {
 		&__logo-img {
-			transform: scale(0.7) !important;
+			width: 60px;
+			height: 60px;
+		}
+
+		&__burger-menu {
+			width: 45px;
+		}
+
+		&__burger-menu--open {
+			width: 50px;
+			height: 50px;
 		}
 	}
 
-	@media (height <= 450px) {
+	@media (height <= 667px) and (width <= 1024px) {
+		&__btn {
+			font-size: var(--header-btn-font-size-heigth-667);
+		}
+
+		&__nav-container {
+			padding: 0 60px;
+		}
+
 		&__nav {
 			flex-flow: row wrap;
 			justify-content: center;
-			padding: 0 40px;
-			width: 100%;
+			column-gap: 80px;
 		}
 
-		&__item {
-			&:nth-child(even) {
-				opacity: 0;
-				transform: translateY(20px);
-			}
+		&__social-list {
+			column-gap: 90px;
+		}
+	}
 
-			&:nth-child(odd) {
-				opacity: 0;
-				transform: translateY(-20px);
-			}
+	@media (height <= 430px) and (width <= 1024px) {
+		&__btn {
+			font-size: var(--header-btn-font-size-heigth-430);
 		}
 
-		&__item--open {
-			transition:
-				transform 0.6s ease-out 0.4s,
-				opacity 0.6s ease-out 0.4s;
+		&__nav-container {
+			row-gap: 50px;
+		}
 
-			&:nth-child(even) {
-				opacity: 1;
-				transform: translateY(0);
-			}
+		&__social-list {
+			column-gap: 80px;
+		}
 
-			&:nth-child(odd) {
-				opacity: 1;
-				transform: translateY(0);
-			}
+		&__social-img {
+			width: 60px;
+			height: 60px;
 		}
 	}
 
 	@media (hover: none) and (pointer: coarse) {
 		&__logo {
 			&:hover .header__logo-img {
-				filter: drop-shadow(0 0 0 transparent);
+				filter: unset;
 				transform: none;
 			}
 
 			&:hover .header__logo-text {
-				color: $header-logo-text-color;
+				color: var(--text-color);
 			}
 		}
 

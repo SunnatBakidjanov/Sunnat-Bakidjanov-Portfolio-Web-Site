@@ -1,62 +1,282 @@
-// colors
-$gradient-color_1: #6dac2f;
-$gradient-color_2: #d1b200;
-$gradient-color_3: #d35400;
-$gradient-color_4: #5dade2;
-$orange: #f8aa01;
-$white: #fff;
-$black: #000;
-$gray: #a9a9a9;
-
-// line
-$line-background-color: $white;
-
-// scroll-line
-$scroll-line-bg-color: $white;
-$scroll-text-color: $white;
-
 :root {
-	--gradient-color: #5dade2;
+	// main-colors
+	--orange: #f8aa01;
+	--milky: #f5deb3;
+	--white: #fff;
+	--black: #000;
+	--gray: #a9a9a9;
+	--green: #12a34e;
+	--aqua: #26aaa4;
+	--red: #d65a21;
+	--blue: #5dade2;
+	--drop-color: #00bfff;
+
+	// special-color
+	--google: #ea4335;
+	--telegram: #08c;
+	--github: #181717;
+	--facebook: #3b5998;
+	--html: #ff5733;
+	--css: #0071c5;
+	--js: #f7df1e;
+	--react: #61dafb;
+	--vs-code: #007acc;
+	--pixel-perfect: #ff84af;
+	--bootstrap: #7952b3;
+	--git: #f34f29;
+
+	// box-shadow
+	--box-shadow-main-color: var(--white);
+	--box-shadow-secondary-color: var(--orange);
+	--box-shadow-accent-color: var(--milky);
+
+	// text
+	--text-color: var(--white);
+	--text-hover-color: var(--black);
+	--accent-text-color: var(--orange);
+
+	// lines
+	--line-color: var(--white);
+	--line-accent-color: var(--orange);
+
+	// scroll-bar
+	--thumb-color: var(--orange);
+	--scrollbar-bg-color: var(--white);
+
+	// header-nav-btn
+	--header-btn-lines-bg-color: var(--white);
+
+	// change
+	--gradient-color: var(--blue);
+	--change-color: var(--blue);
+
+	// hmp-logo-3d
+	--hmp-logo-3d-color: var(--white);
+	--hmp-logo-lines-duration: 0.7s;
+
+	// hmp-cards
+	--hmp-cards-circle-color: var(--white);
+
+	// hmp-projects
+	--hmp-projects-cloud-color: var(--white);
+	--hmp-projects-cloud-drop-color: var(--drop-color);
+
+	// hmp-my-way
+	--hmp-my-way-blink-color: var(--white);
+
+	// uses-modal-window
+	--uses-modal-window: var(--white);
+
+	// resume-progress
+	--resume-animation-color: var(--white);
+	--resume-animate-light-color: var(--white);
+	--resume-feedback-label-focus-bg-color: var(--black);
+
+	// size
 	--gradient-transition-point: 30%;
-	--change-color: #5dade2;
+	--change-color-transition: 0.4s ease-out;
+
+	// about-me-animation
+	--about-me-animation-progress-height: 0%;
+
+	// 1440px
+	--scroll-text-font-size-1440: 2.2em;
+	--header-logo-font-size-1440: 1.8em;
+	--header-btn-font-size-1440: 1.2em;
+	--header-heigth-1440: 90px;
+	--title-font-size-1440: 3em;
+	--hmp-getting-wrapper-height: 400px;
+	--hmp-getting-logo-font-size-1440: 3.5em;
+	--hmp-getting-text-font-size-1440: 2.2em;
+	--hmp-cards-value-font-size-1440: 3em;
+	--hmp-cards-precent-font-size-1440: 1.4em;
+	--hmp-cards-progress-text-font-size-1440: 2.6em;
+	--hmp-cards-text-font-size-1440: 1.4em;
+	--hmp-projects-text-font-size-1440: 2em;
+	--hmp-my-way-text-font-size-1440: 1.1em;
+	--hmp-my-way-btn-text-font-size-1440: 1.8em;
+	--uses-main-title-font-size-1440: 4.2em;
+	--uses-main-subtitle-font-size-1440: 2.7em;
+	--uses-btn-text-font-size-1440: 2em;
+	--uses-equipment-hide-text-font-size-1440: 1.3em;
+	--uses-software-font-size-1440: 2.2em;
+	--uses-linters-tasks-font-size-1440: 2em;
+	--uses-linters-title-font-size-1440: 2.5em;
+	--uses-linters-setting-subtitle-font-size-1440: 2em;
+	--uses-linters-info-font-size-1440: 1em;
+	--uses-linters-past-font-size-1440: 1.2em;
+	--uses-linters-copy-btn-font-size-1440: 1.5em;
+	--uses-modal-window-font-size-1440: 1.5em;
+	--uses-linters-code-font-size-1440: 1.1em;
+	--resume-main-title-font-size-1440: 3.6em;
+	--resume-main-subtitle-font-siez-1440: 2.2em;
+	--resume-title-font-size-1440: 2.8em;
+	--resume-subtitle-font-size-1440: 2.1em;
+	--resume-btn-font-size-1440: 2.5em;
+	--resume-form-text-font-size-1440: 1.5em;
+	--resume-form-btn-font-size-1440: 2em;
+	--resume-label-font-size-1440: 0.9em;
+	--resume-feddback-modal-font-size-1440: 1.7em;
+	--footer-text-font-size-1440: 1.1em;
+	--footer-varsion-font-size-1440: 1.2em;
+
+	// 1024px
+	--title-font-size-1024: 2.8em;
+	--scroll-text-font-size-1024: 2em;
+	--header-btn-font-size-1024: 2.2em;
+	--hmp-getting-logo-font-size-1024: 3.8em;
+	--hmp-projects-text-font-size-1024: 1.9em;
+	--hmp-my-way-btn-text-font-size-1024: 1.7em;
+	--uses-main-title-font-size-1024: 4em;
+	--uses-main-subtitle-font-size-1024: 2.5em;
+	--uses-equipment-hide-text-font-size-1024: 1.2em;
+	--uses-linters-tasks-font-size-1024: 1.8em;
+	--uses-linters-title-font-size-1024: 2.3em;
+	--uses-linters-setting-subtitle-font-size-1024: 1.8em;
+	--uses-linters-past-font-size-1024: 1.1em;
+	--uses-linters-copy-btn-font-size-1024: 1.4em;
+	--uses-modal-window-font-size-1024: 1.4em;
+	--resume-main-title-font-size-1024: 3em;
+	--resume-main-subtitle-font-siez-1024: 1.7em;
+	--resume-title-font-size-1024: 2.2em;
+	--resume-subtitle-font-size-1024: 1.7em;
+	--resume-btn-font-size-1024: 2em;
+	--resume-form-text-font-size-1024: 1.2em;
+	--resume-form-btn-font-size-1024: 1.8em;
+	--resume-label-font-size-1024: 0.8em;
+	--resume-feddback-modal-font-size-1024: 1.5em;
+	--footer-text-font-size-1024: 1em;
+	--footer-varsion-font-size-1024: 1.1em;
+
+	// 768px
+	--title-font-size-768: 2.4em;
+	--scroll-text-font-size-768: 1.8em;
+	--header-logo-font-size-768: 1.6em;
+	--header-btn-font-size-768: 2em;
+	--hmp-getting-logo-font-size-768: 3.2em;
+	--hmp-getting-text-font-size-768: 2em;
+	--hmp-cards-value-font-size-768: 2.8em;
+	--hmp-cards-precent-font-size-768: 1.3em;
+	--hmp-cards-progress-text-font-size-768: 2.4em;
+	--hmp-projects-text-font-size-768: 1.6em;
+	--hmp-my-way-btn-text-font-size-768: 1.6em;
+	--uses-main-title-font-size-768: 3.5em;
+	--uses-main-subtitle-font-size-768: 2em;
+	--uses-btn-text-font-size-768: 1.8em;
+	--uses-equipment-hide-text-font-size-768: 1.1em;
+	--uses-software-font-size-768: 1.8em;
+	--uses-linters-tasks-font-size-768: 1.5em;
+	--uses-linters-title-font-size-768: 2.1em;
+	--uses-linters-setting-subtitle-font-size-768: 1.6em;
+	--uses-modal-window-font-size-768: 1.3em;
+	--uses-linters-past-font-size-768: 1em;
+	--uses-linters-copy-btn-font-size-768: 1.2em;
+	--uses-linters-info-font-size-768: 0.9em;
+	--uses-linters-code-font-size-768: 1em;
+	--resume-main-title-font-size-768: 2.7em;
+	--resume-main-subtitle-font-siez-768: 1.5em;
+	--resume-title-font-size-768: 1.7em;
+	--resume-subtitle-font-size-768: 1.4em;
+	--resume-btn-font-size-768: 1.5em;
+	--resume-form-text-font-size-768: 1em;
+	--resume-form-btn-font-size-768: 1.4em;
+	--resume-label-font-size-768: 0.73em;
+	--resume-feddback-modal-font-size-768: 1.3em;
+	--footer-varsion-font-size-768: 1em;
+
+	// 425px
+	--title-font-size-425: 2em;
+	--scroll-text-font-size-425: 1.5em;
+	--header-logo-font-size-425: 1.4em;
+	--header-btn-font-size-425: 1.6em;
+	--header-height-425: 75px;
+	--hmp-getting-logo-font-size-425: 2.7em;
+	--hmp-getting-text-font-size-425: 1.7em;
+	--hmp-cards-value-font-size-425: 2.5em;
+	--hmp-cards-precent-font-size-425: 1.2em;
+	--hmp-cards-progress-text-font-size-425: 2.4em;
+	--hmp-cards-text-font-size-425: 1.2em;
+	--hmp-projects-text-font-size-425: 1.2em;
+	--hmp-my-way-btn-text-font-size-425: 1.2em;
+	--hmp-my-way-text-font-size-425: 1em;
+	--uses-main-title-font-size-425: 3.1em;
+	--uses-main-subtitle-font-size-425: 1.8em;
+	--uses-btn-text-font-size-425: 1.5em;
+	--uses-equipment-hide-text-font-size-425: 0.9em;
+	--uses-software-font-size-425: 1.6em;
+	--uses-linters-tasks-font-size-425: 1.2em;
+	--uses-linters-title-font-size-425: 1.6em;
+	--uses-linters-setting-subtitle-font-size-425: 1.2em;
+	--uses-modal-window-font-size-425: 1.1em;
+	--uses-linters-copy-btn-font-size-425: 1em;
+	--uses-linters-past-font-size-425: 0.8em;
+	--uses-linters-code-font-size-425: 0.9em;
+	--resume-main-title-font-size-425: 2em;
+	--resume-main-subtitle-font-siez-425: 1.1em;
+	--resume-title-font-size-425: 1.4em;
+	--resume-subtitle-font-size-425: 1.1em;
+	--resume-btn-font-size-425: 1.2em;
+	--resume-form-text-font-size-425: 0.9em;
+	--resume-form-btn-font-size-425: 1.2em;
+	--resume-label-font-size-425: 0.65em;
+	--resume-feddback-modal-font-size-425: 1.1em;
+	--footer-text-font-size-425: 0.85em;
+	--footer-varsion-font-size-425: 0.95em;
+
+	// 375px
+	--title-font-size-375: 1.8em;
+	--hmp-getting-logo-font-size-375: 2.2em;
+	--hmp-getting-text-font-size-375: 1.5em;
+	--hmp-scroll-text-font-size-375: 1.8em;
+	--hmp-projects-text-font-size-375: 1.1em;
+	--uses-main-title-font-size-375: 2.6em;
+	--uses-main-subtitle-font-size-375: 1.6em;
+	--uses-linters-tasks-font-size-375: 1.1em;
+	--uses-linters-setting-subtitle-font-size-375: 1em;
+
+	// height 667px
+	--header-btn-font-size-heigth-667: 1.8em;
+
+	// height 430px
+	--header-btn-font-size-heigth-430: 1.6em;
+
+	// z-indexes content 1-10, nav 11-20, modal 100, overlay 1000
+	--z-index-header-btn-line: 1;
+	--z-index-cloud-top: 1;
+	--z-index-resume-element: 1;
+	--z-index-header-btn: 2;
+	--z-index-social-container: 2;
+	--z-index-cloud-center: 2;
+	--z-index-nav-container: 3;
+	--z-index-burger-menu: 4;
+	--z-index-moda-widnow-copy: 10;
 }
+
+// colors
+$green: var(--green);
+$aqua: var(--aqua);
+$red: var(--red);
+$blue: var(--blue);
 
 @font-face {
 	font-family: Furore;
+	src: url('../fonts/Furore/Furore.otf');
 	font-style: normal;
-	font-weight: normal;
-	src: url('../fonts/Furore/Furore.otf') format('opentype');
+	font-weight: 600;
 }
 
-@font-face {
-	font-family: Orbitron;
-	font-style: normal;
-	font-weight: normal;
-	src: url('/fonts/Orbitron/Orbitron-VariableFont_wght.ttf') format('opentype');
+.main-title {
+	visibility: hidden;
+	width: 0;
+	height: 0;
+	opacity: 0;
 }
 
-.russian-font {
-	font-family: Furore, sans-serif;
-	font-weight: 100 !important;
-	letter-spacing: 0 !important;
-}
-
-* {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
-	font-family: Orbitron, sans-serif;
-	text-decoration: none;
-	list-style: none;
-	scrollbar-color: $orange $white;
-	scrollbar-width: thin;
-}
-
-.page {
+.main-page {
 	background: linear-gradient(90deg, rgb(0 0 0 / 100%) var(--gradient-transition-point), var(--gradient-color) 130%);
 }
 
-.page--open {
+.main-page--open {
 	overflow: hidden;
 	height: 100vh;
 }
@@ -64,18 +284,13 @@ $scroll-text-color: $white;
 .container {
 	margin: 0 auto;
 	padding: 0 15px;
-	max-width: 1400px;
+	max-width: 1440px;
 }
 
 .line {
 	width: 0;
 	height: 4px;
-	background-color: $line-background-color;
-}
-
-.line--animate {
-	width: 100%;
-	transition: all 1.2s ease-out;
+	background-color: var(--line-color);
 }
 
 .scroll-section {
@@ -91,32 +306,47 @@ $scroll-text-color: $white;
 	&__line {
 		width: 4px;
 		height: 0;
+		background-color: var(--line-color);
 		opacity: 0;
 	}
 
-	&__line--animate {
-		height: 80%;
-		background-color: $scroll-line-bg-color;
-		opacity: 1;
-		transition:
-			height 1s ease-out,
-			width 0s,
-			opacity 1s ease-out;
+	&__text {
+		width: 165px;
+		font-size: var(--scroll-text-font-size-1440);
+		color: var(--text-color);
+		letter-spacing: -6px;
+		overflow: hidden;
 	}
 
-	&__text {
-		overflow: hidden;
-		font-weight: 600;
-		font-size: 36px;
-		color: $scroll-text-color;
+	@media (width <= 1024px) {
+		&__text {
+			width: 140px;
+			font-size: var(--scroll-text-font-size-1024);
+		}
+	}
+
+	@media (width <= 768px) {
+		&__text {
+			width: 130px;
+			font-size: var(--scroll-text-font-size-768);
+			letter-spacing: -5px;
+		}
+	}
+
+	@media (width <= 425px) {
+		&__text {
+			width: 115px;
+			font-size: var(--scroll-text-font-size-425);
+			letter-spacing: -4px;
+		}
 	}
 }
 
 $page-background-colors: (
-	1: $gradient-color_1,
-	2: $gradient-color_2,
-	3: $gradient-color_3,
-	4: $gradient-color_4,
+	1: $green,
+	2: $aqua,
+	3: $red,
+	4: $blue,
 );
 
 @mixin change-bg-color($modifier, $color) {
