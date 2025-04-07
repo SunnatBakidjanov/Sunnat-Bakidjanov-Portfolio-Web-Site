@@ -76,6 +76,9 @@
 	--gradient-transition-point: 30%;
 	--change-color-transition: 0.4s ease-out;
 
+	// about-me-animation
+	--about-me-animation-progress-height: 0%;
+
 	// 1440px
 	--scroll-text-font-size-1440: 2.2em;
 	--header-logo-font-size-1440: 1.8em;
@@ -114,8 +117,8 @@
 	--resume-form-btn-font-size-1440: 2em;
 	--resume-label-font-size-1440: 0.9em;
 	--resume-feddback-modal-font-size-1440: 1.7em;
-	--footer-text-font-size-1440: 1em;
-	--footer-varsion-font-size-1440: 1.1em;
+	--footer-text-font-size-1440: 1.1em;
+	--footer-varsion-font-size-1440: 1.2em;
 
 	// 1024px
 	--title-font-size-1024: 2.8em;
@@ -142,6 +145,8 @@
 	--resume-form-btn-font-size-1024: 1.8em;
 	--resume-label-font-size-1024: 0.8em;
 	--resume-feddback-modal-font-size-1024: 1.5em;
+	--footer-text-font-size-1024: 1em;
+	--footer-varsion-font-size-1024: 1.1em;
 
 	// 768px
 	--title-font-size-768: 2.4em;
@@ -177,8 +182,7 @@
 	--resume-form-btn-font-size-768: 1.4em;
 	--resume-label-font-size-768: 0.73em;
 	--resume-feddback-modal-font-size-768: 1.3em;
-	--footer-text-font-size-768: 0.85em;
-	--footer-varsion-font-size-768: 0.95em;
+	--footer-varsion-font-size-768: 1em;
 
 	// 425px
 	--title-font-size-425: 2em;
@@ -216,6 +220,8 @@
 	--resume-form-btn-font-size-425: 1.2em;
 	--resume-label-font-size-425: 0.65em;
 	--resume-feddback-modal-font-size-425: 1.1em;
+	--footer-text-font-size-425: 0.85em;
+	--footer-varsion-font-size-425: 0.95em;
 
 	// 375px
 	--title-font-size-375: 1.8em;

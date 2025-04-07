@@ -2,8 +2,8 @@ function main() {
 	'use strict'
 	const logo = document.getElementById('logo')
 
-	const START_PAGE_POSITION = 2
-	const START_PAGE_NAME = 'resume'
+	const START_PAGE_POSITION = 3
+	const START_PAGE_NAME = 'about-me'
 
 	const pageIds = {
 		'home-page-btn': 'home',
@@ -2041,100 +2041,177 @@ function main() {
 	}
 
 	function aboutMePageEvents() {
-		const myselfItem = document.querySelectorAll('.about-me-self__links-item')
+		function animateAboutMePageElements() {
+			const mainTitle = document.getElementById('about-me-getting-hide-box')
+			const mainSubtitle = document.getElementById('about-me-getting-subtitle')
+			const animationElement = document.getElementById('about-me-animation')
+			const lines = document.querySelectorAll('.about-me-line')
 
-		myselfItem.forEach((element, index) => element.classList.add(index % 2 === 0 ? 'about-me-self__links-item--left' : 'about-me-self__links-item--right'))
-		sameElementsAnimation('.about-me-exp__text', 'about-me-exp-text', ['about-me-exp__text--animate'], 50, null)
-		sameElementsAnimation('.about-me-exp__box-line', 'about-me-exp-box-line', ['about-me-exp__box-line--animate'], 50, null)
-		sameElementsAnimation('.about-me-title', 'about-me-title', ['about-me-title--animate'], 50, null)
-		sameElementsAnimation('.about-me-section-line', 'about-me-section-line', ['about-me-section-line--animate'], 50, null)
-		sameElementsAnimation('.about-me-self__links-item', 'about-me-self-links-item', ['about-me-self__links-item--animate'], 50, null)
+			const hideElements = [mainTitle, mainSubtitle]
+			const elements = [animationElement, ...lines]
 
-		singleElementsAnimation('about-me-getting-title', 50, ['about-me-getting__title--animate'], 'about-me-getting-hide-box')
-		singleElementsAnimation('about-me-exp-total-exp', 50, ['about-me-exp__total-exp--animate'], null)
-		singleElementsAnimation('about-me-self-img-box', 50, ['about-me-self__img-box--animate'], null)
-		singleElementsAnimation('about-me-self-accent-text', 50, ['about-me-self__accent-text--animate'], 'about-me-self-inner-text')
-		singleElementsAnimation('about-me-self-text', 50, ['about-me-self__text--animate'], 'about-me-self-inner-text')
+			removeAnimateClasses(elements, hideElements, 'about-me')
+			animateVisibleElements(hideElements, addAnimateClassesInHideElements)
+			animateVisibleElements(elements, addAnimateClasses)
+		}
 
-		function gettingSubtitleAnimate() {
-			const container = document.getElementById('about-me-getting-subtitle')
-			const elements = document.querySelectorAll('.about-me-getting__span')
+		function aboutMeAnimation() {
+			const centralEl = document.getElementById('about-me-animation')
+			const lines = document.querySelectorAll('.about-me-animation__line')
+			const progressAnimation = document.getElementById('about-me-progress-animation')
+			const pupilLeft = document.getElementById('pupil-left')
+			const pupilRight = document.getElementById('pupil-right')
+			const eyes = document.querySelectorAll('.about-me-animation__eye')
+			const mouth = document.getElementById('about-me-animation-mouth')
+			const waves = document.querySelectorAll('.about-me-animation__wave')
+
 			const timeouts = []
 
-			function animate() {
-				elements.forEach((element, index) => {
-					const timeout = setTimeout(() => element.classList.add('about-me-getting__span--animate'), 100 * index)
+			let heightValue = 0
+			let mouseX = 0
+			let mouseY = 0
 
-					timeouts.push(timeout)
+			let isIntcrement = true
+			let isEyesVisible = false
+			let isHeadVisible = false
+
+			let headObserver = null
+			let eyesObserver = null
+
+			function updateEyes() {
+				if (!isEyesVisible) return
+
+				eyes.forEach((eye, index) => {
+					const rect = eye.getBoundingClientRect()
+					const centerX = rect.left + rect.width / 2
+					const centerY = rect.top + rect.height / 2
+
+					const dx = mouseX - centerX
+					const dy = mouseY - centerY
+
+					const angle = Math.atan2(dy, dx)
+					const radius = 12
+
+					const pupil = index === 0 ? pupilLeft : pupilRight
+					const x = Math.cos(angle) * radius
+					const y = Math.sin(angle) * radius
+
+					pupil.style.transform = `translate(${x}px, ${y}px)`
 				})
+
+				requestAnimationFrame(updateEyes)
 			}
 
-			function reset() {
-				elements.forEach(element => element.classList.remove('about-me-getting__span--animate'))
-				timeouts.forEach(timeout => clearTimeout(timeout))
-				timeouts.length = 0
+			function eyesObserve() {
+				eyesObserver = new IntersectionObserver(
+					entryes => {
+						const entry = entryes[0]
+
+						if (entry.isIntersecting) {
+							isEyesVisible = true
+							updateEyes()
+						} else {
+							isEyesVisible = false
+						}
+					},
+					{
+						threshold: 0.5,
+						rootMargin: '0px',
+						root: null,
+					}
+				)
+
+				eyesObserver.observe(eyes[0])
 			}
 
-			createAnimation([container], ['about-me-getting-subtitle'], 0, animate, reset)
+			function headObserve() {
+				headObserver = new IntersectionObserver(
+					entries => {
+						const entry = entries[0]
+
+						if (entry.isIntersecting && centralEl.classList.contains(`${centralEl.classList[0]}--animate`)) {
+							isHeadVisible = false
+							heightChange()
+						} else {
+							isHeadVisible = false
+						}
+					},
+					{
+						root: null,
+						rootMargin: '0px',
+						threshold: 1,
+					}
+				)
+
+				headObserver.observe(centralEl)
+			}
+
+			function handleTransitionEnd(event) {
+				if (event.propertyName === 'opacity') {
+					lines.forEach((line, index) => {
+						const timeout = setTimeout(() => {
+							line.classList.add(`${line.classList[0]}--animate`)
+						}, index * 100)
+
+						timeouts.push(timeout)
+					})
+				}
+
+				headObserve()
+				eyesObserve()
+			}
+
+			function heightChange() {
+				if (isHeadVisible) return
+
+				switch (heightValue) {
+					case 0:
+						isIntcrement = true
+						waves.forEach((wave, index) => (index < waves.length / 2 ? (wave.style.animationName = 'wave-left-in') : (wave.style.animationName = 'wave-right-in')))
+						break
+
+					case 25:
+						mouth.style.borderRadius = `0px`
+						break
+
+					case 50:
+						mouth.style.borderRadius = `0 0 10px 10px`
+						break
+
+					case 75:
+						mouth.style.borderRadius = `0 0 15px 15px`
+						break
+
+					case 100:
+						isIntcrement = false
+						mouth.style.borderRadius = `0 0 30px 30px`
+						waves.forEach((wave, index) => (index < waves.length / 2 ? (wave.style.animation = 'wave-left-out 0.6s ease-out infinite') : (wave.style.animation = 'wave-right-out 0.6s ease-out infinite')))
+						break
+
+					default:
+						isIntcrement = true
+						mouth.style.borderRadius = `0px`
+						waves.forEach((wave, index) => (index < waves.length / 2 ? (wave.style.animationName = 'wave-left-in') : (wave.style.animationName = 'wave-right-in')))
+						break
+				}
+
+				isIntcrement ? (heightValue += 1) : (heightValue -= 1)
+				progressAnimation.style.setProperty('--about-me-animation-progress-height', `${heightValue}%`)
+
+				setTimeout(() => heightChange(), 1000)
+			}
+
+			setTimeout(() => heightChange(), 2500)
+
+			document.addEventListener('mousemove', event => {
+				mouseX = event.clientX
+				mouseY = event.clientY
+			})
+			centralEl.addEventListener('transitionend', handleTransitionEnd)
 		}
 
-		gettingSubtitleAnimate()
-
-		function scrollLettersAnimate() {
-			const container = document.getElementById('about-me-scroll-text')
-			const letters = document.querySelectorAll('.about-me-scroll__letters')
-			const timeouts = []
-
-			function animate() {
-				letters.forEach((letter, index) => {
-					const timeout = setTimeout(() => letter.classList.add('about-me-scroll__letters--animate'), index * 60)
-
-					timeouts.push(timeout)
-				})
-			}
-
-			function reset() {
-				letters.forEach(letter => letter.classList.remove('about-me-scroll__letters--animate'))
-				timeouts.forEach(timeout => clearTimeout(timeout))
-				timeouts.length = 0
-			}
-
-			createAnimation([container], ['about-me-scroll-text'], 0, animate, reset)
-		}
-
-		scrollLettersAnimate()
-
-		function writeText() {
-			const proffeson = document.querySelectorAll('.about-me-exp__profession')
-			const date = document.querySelectorAll('.about-me-exp__date')
-			const company = document.querySelectorAll('.about-me-exp__company')
-			const email = document.getElementById('about-me-self-img-text')
-
-			const setProfId = addId(proffeson, 'about-me-exp-profession', 50)
-			const setDateId = addId(date, 'about-me-exp-date', 50)
-			const setCompanyId = addId(company, 'about-me-exp__company', 50)
-
-			const enProf = ['Freelance projects (independent practice)']
-			const ruProf = ['Фриланс проекты (самостоятельная практика)']
-
-			const enDate = ['July 2023 - present time']
-			const ruDate = ['Июль 2023 - настоящее время']
-
-			const enCompany = ['Education']
-			const ruCompany = ['Обучение']
-
-			const handleTextProfWrite = writeAndResetText(setProfId.ids, enProf, ruProf, 40, setProfId.elementKeys, ['about-me-exp__profession--rus-lang'], null)
-			const handleTextDateWrite = writeAndResetText(setDateId.ids, enDate, ruDate, 50, setDateId.elementKeys, ['about-me-exp__date--rus-lang'], null)
-			const handleTextCompanyWrite = writeAndResetText(setCompanyId.ids, enCompany, ruCompany, 60, setCompanyId.elementKeys, ['about-me-exp__company--rus-lang'], null)
-			const handleEmailTextWrite = writeAndResetText([email], ['sunnatbackidjanov@gmail.com'], ['sunnatbackidjanov@gmail.com'], 40, ['about-me-self-img-text'], ['about-me-self__img-text--rus-lang'])
-
-			createAnimation(setProfId.ids, setProfId.elementKeys, setProfId.startingHeight, handleTextProfWrite.writeAll, handleTextProfWrite.resetAll)
-			createAnimation(setDateId.ids, setDateId.elementKeys, setDateId.startingHeight, handleTextDateWrite.writeAll, handleTextDateWrite.resetAll)
-			createAnimation(setCompanyId.ids, setCompanyId.elementKeys, setCompanyId.startingHeight, handleTextCompanyWrite.writeAll, handleTextCompanyWrite.resetAll)
-			createAnimation([email], ['about-me-self-img-text'], 50, handleEmailTextWrite.writeAll, handleEmailTextWrite.resetAll)
-		}
-
-		writeText()
+		aboutMeAnimation()
+		animateAboutMePageElements()
 	}
 
 	function calculateExp() {
@@ -2182,12 +2259,18 @@ function main() {
 	}
 
 	function footerEvents() {
-		const container = document.getElementById('footer')
 		const versionValue = document.getElementById('footer-varsion-value')
 		const versionContainer = document.getElementById('footer-version')
 		const date = document.getElementById('footer-current-date')
 
+		let value = parseInt(versionValue.innerHTML)
+
 		let isAnimated = false
+
+		const timers = {
+			start: 1000,
+			nextFrameWait: 10,
+		}
 
 		function setCurrentDate() {
 			const setCurrentDate = new Date()
@@ -2197,41 +2280,64 @@ function main() {
 			date.textContent = setCurrentDate.toLocaleString(langState, options)
 		}
 
-		function animateVersionValue() {
+		function delay(ms) {
+			return new Promise(resolve => setTimeout(resolve, ms))
+		}
+
+		function waitForTransition(element, propertyName) {
+			return new Promise(resolve => {
+				const handler = event => {
+					if (event.propertyName === propertyName) {
+						element.removeEventListener('transitionend', handler)
+						resolve()
+					}
+				}
+				element.addEventListener('transitionend', handler)
+			})
+		}
+
+		function getTextWidth(text, referenceElement) {
+			const span = document.createElement('span')
+			const style = window.getComputedStyle(referenceElement)
+
+			span.innerText = text
+			span.style.font = style.font
+			span.style.fontSize = style.fontSize
+			span.style.fontFamily = style.fontFamily
+
+			document.body.appendChild(span)
+			const width = span.offsetWidth
+			document.body.removeChild(span)
+
+			return width
+		}
+
+		async function animateVersionValue() {
 			if (isAnimated) return
 			isAnimated = true
 
-			let value = parseInt(versionValue.innerHTML)
-
-			container.classList.add(`${container.classList[0]}--animate`)
+			await delay(timers.start)
 
 			versionValue.style.transition = 'transform 0.6s ease-out'
 			versionValue.style.transform = 'translateY(-100%)'
 
-			const handleTransitionEnd = event => {
-				if (event.propertyName === 'transform') {
-					value++
+			await waitForTransition(versionValue, 'transform')
 
-					versionValue.style.transition = 'none'
-					const oldWidth = versionValue.offsetWidth
+			value++
 
-					versionValue.innerHTML = value
-					const newWidth = versionValue.offsetWidth
+			versionValue.style.transition = 'none'
+			const oldWidth = versionValue.offsetWidth
+			const newWidth = getTextWidth(value.toString(), versionValue)
 
-					versionValue.style.width = oldWidth + 'px'
-					versionValue.style.transform = 'translateY(100%)'
+			versionValue.style.width = oldWidth + 'px'
+			versionValue.innerText = value
+			versionValue.style.transform = 'translateY(100%)'
 
-					setTimeout(() => {
-						versionValue.style.width = newWidth + 'px'
-						versionValue.style.transition = 'transform 0.6s ease-out 0.2s, width 0.3s linear'
-						versionValue.style.transform = 'translateY(0)'
-					}, 0)
+			await delay(timers.nextFrameWait)
 
-					versionValue.removeEventListener('transitionend', handleTransitionEnd)
-				}
-			}
-
-			versionValue.addEventListener('transitionend', handleTransitionEnd)
+			versionValue.style.width = newWidth + 'px'
+			versionValue.style.transition = 'transform 0.6s ease-out 0.2s, width 0.3s linear'
+			versionValue.style.transform = 'translateY(0)'
 		}
 
 		setCurrentDate()
@@ -2247,7 +2353,7 @@ function main() {
 		homePageEvents()
 		usesPageEvents()
 		resumePageEvents()
-		// aboutMePageEvents()
+		aboutMePageEvents()
 		footerEvents()
 
 		climbUp()
