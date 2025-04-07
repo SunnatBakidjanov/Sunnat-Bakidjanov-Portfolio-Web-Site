@@ -2071,6 +2071,8 @@ function main() {
 			let mouseX = 0
 			let mouseY = 0
 
+			let heightChangeTimeout = null
+
 			let isIntcrement = true
 			let isEyesVisible = false
 			let isHeadVisible = false
@@ -2133,6 +2135,7 @@ function main() {
 							isHeadVisible = false
 							heightChange()
 						} else {
+							clearTimeout(heightChangeTimeout)
 							isHeadVisible = false
 						}
 					},
@@ -2155,14 +2158,16 @@ function main() {
 
 						timeouts.push(timeout)
 					})
-				}
 
-				headObserve()
-				eyesObserve()
+					headObserve()
+					eyesObserve()
+				}
 			}
 
 			function heightChange() {
 				if (isHeadVisible) return
+
+				clearTimeout(heightChangeTimeout)
 
 				switch (heightValue) {
 					case 0:
@@ -2189,16 +2194,13 @@ function main() {
 						break
 
 					default:
-						isIntcrement = true
-						mouth.style.borderRadius = `0px`
-						waves.forEach((wave, index) => (index < waves.length / 2 ? (wave.style.animationName = 'wave-left-in') : (wave.style.animationName = 'wave-right-in')))
 						break
 				}
 
 				isIntcrement ? (heightValue += 1) : (heightValue -= 1)
 				progressAnimation.style.setProperty('--about-me-animation-progress-height', `${heightValue}%`)
 
-				setTimeout(() => heightChange(), 1000)
+				heightChangeTimeout = setTimeout(() => heightChange(), 200)
 			}
 
 			setTimeout(() => heightChange(), 2500)
