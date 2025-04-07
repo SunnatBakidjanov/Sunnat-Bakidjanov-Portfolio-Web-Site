@@ -2,8 +2,8 @@ function main() {
 	'use strict'
 	const logo = document.getElementById('logo')
 
-	const START_PAGE_POSITION = 1
-	const START_PAGE_NAME = 'uses'
+	const START_PAGE_POSITION = 3
+	const START_PAGE_NAME = 'about-me'
 
 	const pageIds = {
 		'home-page-btn': 'home',
@@ -16,6 +16,7 @@ function main() {
 	let isAnimationStopped = false
 
 	const languageCallbacks = []
+	const animatedElements = new Set()
 	let isLanguageRussian = false
 
 	function updateLanguageContent(callback) {
@@ -41,8 +42,8 @@ function main() {
 		})
 	}
 
-	function resetAnimations(resetCallback, pageName = START_PAGE_NAME) {
-		let currentPage = pageName
+	function resetAnimations(resetCallback, pageName) {
+		let currentPage = START_PAGE_NAME
 
 		function handleClick(event) {
 			const target = event.target
@@ -58,8 +59,8 @@ function main() {
 		document.addEventListener('click', handleClick)
 	}
 
-	function removeAnimateClasses(elementsArray, hideElementsArray, pageName = START_PAGE_NAME) {
-		let currentPage = pageName
+	function removeAnimateClasses(elementsArray, hideElementsArray, pageName) {
+		let currentPage = START_PAGE_NAME
 
 		function handleClick(event) {
 			const target = event.target
@@ -67,12 +68,14 @@ function main() {
 
 			if (!targetPage) return
 
-			if (pageName === currentPage) {
+			if (currentPage === pageName) {
+				animatedElements.clear()
+
 				if (elementsArray) {
 					elementsArray.forEach(element => {
-						const classNames = element.classList
-
-						classNames.forEach(className => (className.includes('--animate') ? classNames.remove(className) : null))
+						;[...element.classList].forEach(className => {
+							if (className.includes('--animate')) element.classList.remove(className)
+						})
 					})
 				}
 
@@ -88,6 +91,8 @@ function main() {
 					})
 				}
 			}
+
+			currentPage = targetPage
 		}
 
 		document.addEventListener('click', handleClick)
@@ -121,7 +126,10 @@ function main() {
 				if (!isAnyPageActive()) return
 
 				entries.forEach(entry => {
-					if (entry.isIntersecting) callbackAnimate(entry.target)
+					if (entry.isIntersecting && !animatedElements.has(entry.target)) {
+						callbackAnimate(entry.target)
+						setTimeout(() => animatedElements.add(entry.target), 50)
+					}
 				})
 			},
 			{
@@ -134,109 +142,6 @@ function main() {
 		elements.forEach(element => observer.observe(element))
 	}
 
-	function writeAndResetText(elements, englishTexts, russianTexts, typeSpeed, elementKeys, className, delay) {
-		const configs = elements.map((element, index) => ({
-			element,
-			targetString: englishTexts[index],
-			letterIndex: 0,
-			timeout: null,
-			elementKey: elementKeys[index],
-		}))
-
-		const writeText = {}
-
-		function handleLanguageChange() {
-			configs.forEach((config, index) => {
-				if (isLanguageRussian) setRussianText(config, russianTexts[index], className)
-				if (!isLanguageRussian) setEnglishText(config, englishTexts[index], className)
-			})
-		}
-
-		function setRussianText(config, russianText, className) {
-			if (!russianText) return
-			config.targetString = russianText
-
-			config.element.classList.add('russian-font')
-			if (className) config.element.classList.add(className)
-
-			if (seenElements.has(config.elementKey)) {
-				reset(config)
-				write(config)
-			}
-		}
-
-		function setEnglishText(config, englishText, className) {
-			if (!englishText) return
-			config.targetString = englishText
-
-			config.element.classList.remove('russian-font')
-			if (className) config.element.classList.remove(className)
-
-			if (seenElements.has(config.elementKey)) {
-				reset(config)
-				write(config)
-			}
-		}
-
-		function write(config) {
-			config.element.textContent = config.targetString.substring(0, config.letterIndex)
-
-			if (config.letterIndex < config.targetString.length) {
-				config.timeout = setTimeout(() => {
-					config.letterIndex++
-					write(config)
-				}, typeSpeed)
-			}
-		}
-
-		function reset(config) {
-			config.letterIndex = 0
-			clearTimeout(config.timeout)
-			config.element.textContent = ''
-		}
-
-		updateLanguageContent(handleLanguageChange)
-
-		return {
-			writeAll() {
-				configs.forEach((config, index) => {
-					if (seenElements.has(config.elementKey)) {
-						if (!writeText[index]) {
-							writeText[index] = { isWrited: false }
-						}
-
-						if (!writeText[index].isWrited) {
-							writeText[index].isWrited = true
-
-							reset(config)
-
-							if (delay) {
-								config.timeout = setTimeout(() => {
-									write(config)
-								}, index * delay)
-							} else {
-								write(config)
-							}
-						}
-					}
-				})
-			},
-			resetAll() {
-				configs.forEach((config, index) => {
-					if (writeText[index]?.isWrited) {
-						writeText[index].isWrited = false
-					}
-
-					if (config[index]?.timeout) {
-						clearTimeout(config[index].timeout)
-					}
-
-					reset(config)
-				})
-			},
-		}
-	}
-
 	function pageUpdate() {
 		window.scrollTo(0, 0)
 	}
@@ -245,6 +150,7 @@ function main() {
 		const button = document.getElementById('climb-up')
 		const img = document.getElementById('climb-img')
 		const circle = document.getElementById('climb-circle')
+		const footer = document.querySelector('footer')
 
 		let animationFrameTop = null
 		let animationFrameScroll = null
@@ -282,6 +188,11 @@ function main() {
 
 		function handleScroll() {
 			const scrollY = window.scrollY
+			const footerRect = footer.getBoundingClientRect()
+			const windowHeight = window.innerHeight
+			const overlap = windowHeight - footerRect.top
+
+			overlap > 0 ? (button.style.transform = `translateY(-${overlap + 5}%)`) : (button.style.transform = 'translateY(0)')
 
 			const set = new Set()
 			const animations = ['climb-up-img-hide', 'climb-up-circle-hide']
@@ -344,14 +255,7 @@ function main() {
 		const root = document.querySelector('.main-page')
 		const buttons = document.querySelectorAll('.aside-menu__colors')
 		const classes = ['bg-color--1', 'bg-color--2', 'bg-color--3', 'bg-color--4']
-		const colors = ['#6dac2f', '#d1b200', '#d35400', '#5dade2']
-
-		const headerLogo = document.getElementById('logo')
-		const headerBtns = document.querySelectorAll('.header__btn')
-		const hmpMyName = document.getElementById('hmp-getting-name')
-		const asideMenuElements = ['.aside-menu__inner', '.aside-menu__inner-btn', '.aside-menu__active']
-
-		const elements = [headerLogo, hmpMyName, headerBtns, asideMenuElements]
+		const colors = ['#12a34e', '#26aaa4', '#d65a21', '#5dade2']
 
 		buttons.forEach((element, index) => {
 			element.classList.add(`aside-menu__colors--${index}`)
@@ -378,28 +282,7 @@ function main() {
 					root.classList.remove(...classes)
 					root.classList.add(className)
 
-					elements.forEach(item => {
-						if (NodeList.prototype.isPrototypeOf(item)) {
-							item.forEach(el => {
-								el.style.setProperty('--change-color', color)
-							})
-						}
-
-						if (Array.isArray(item)) {
-							item.forEach(selector => {
-								const el = document.querySelector(selector)
-								if (!el) return
-
-								el.style.setProperty('--change-color', color)
-							})
-						}
-
-						if (item instanceof Element) {
-							item.style.setProperty('--change-color', color)
-						} else {
-							return
-						}
-					})
+					document.documentElement.style.setProperty('--change-color', color)
 
 					let returnPoint = 100
 
@@ -767,7 +650,7 @@ function main() {
 				startWrite: 1400,
 				delayDeleteString: 2200,
 				delayWriteNextString: 1500,
-				startDelayIsHidden: 500,
+				startDelayIsHidden: 100,
 			}
 
 			function stopAnimationIsOutVisability() {
@@ -779,7 +662,6 @@ function main() {
 
 						if (entry.isIntersecting) {
 							if (isHidden && state === 'nextString') {
-								state = 'writing'
 								timeout = setTimeout(() => {
 									startTyping()
 								}, cfg.startDelayIsHidden)
@@ -1781,135 +1663,236 @@ function main() {
 	}
 
 	function resumePageEvents() {
-		sameElementsAnimation('.resume-title', 'resume-title', ['resume-title--animate'], 80, null)
-		sameElementsAnimation('.resume-btn-box', 'resume-btn', ['resume-btn-box--animate'], 80, null)
-		sameElementsAnimation('.resume-feedback__input-box', 'resume-feedback-input-box', ['resume-feedback__input-box--animate'], 20, null)
-		sameElementsAnimation('.resume-subtitle', 'resume-subtitle', ['resume-subtitle--animate'], 80, null)
+		function animateResumePageElements() {
+			const lines = document.querySelectorAll('.resume-line')
+			const title = document.querySelectorAll('.resume-hide-title')
+			const subtitle = document.querySelectorAll('.resume-hide-subtitle')
+			const btn = document.querySelectorAll('.resume-btn-box')
 
-		function gettingAnimate() {
-			singleElementsAnimation('resume-getting-title', 80, ['resume-getting__title--animate'], null)
+			const mainTitle = document.getElementById('resume-getting-title')
+			const mainSubtitles = document.querySelectorAll('.resume-getting__subtitle-container')
+			const animationMonitor = document.getElementById('resume-animation-monitor')
+			const animateKeyboard = document.getElementById('resume-animation-inner-keyboard')
+			const scrollLine = document.getElementById('resume-scroll-line')
+			const scrollText = document.getElementById('resume-scroll-text')
+			const form = document.getElementById('resume-feedback-form')
+			const inputBox = document.querySelectorAll('.resume-feedback__input-box')
 
-			function subtitle() {
-				const subtitles = document.querySelectorAll('.resume-getting__subtitle')
-				const setIds = addId(subtitles, 'resume-getting-subtitle', 80)
+			const elements = [scrollLine, animationMonitor, animateKeyboard, ...lines, ...btn, ...inputBox]
+			const hideElements = [mainTitle, scrollText, animationMonitor, ...mainSubtitles, ...title, ...subtitle]
 
-				const isAnimation = {}
-
-				function animate() {
-					subtitles.forEach((element, index) => {
-						if (seenElements.has(setIds.elementKeys[index])) {
-							if (!isAnimation[index]) {
-								isAnimation[index] = { animated: false, timeout: null }
-							}
-
-							if (!isAnimation[index].animated) {
-								isAnimation[index].animated = true
-
-								isAnimation[index].timeout = setTimeout(() => {
-									element.classList.add('resume-getting__subtitle--animate')
-								}, 300 * index)
-							}
-						}
-					})
-				}
-
-				function reset() {
-					subtitles.forEach((element, index) => {
-						if (isAnimation[index]?.timeout) {
-							clearTimeout(isAnimation[index].timeout)
-							isAnimation[index].timeout = null
-						}
-
-						if (isAnimation[index]?.animated) {
-							isAnimation[index].animated = false
-						}
-
-						element.classList.remove('resume-getting__subtitle--animate')
-					})
-				}
-
-				createAnimation(setIds.ids, setIds.elementKeys, setIds.startingHeight, animate, reset)
-			}
-
-			subtitle()
+			animateVisibleElements(elements, addAnimateClasses)
+			animateVisibleElements([form], addAnimateClasses, 0.1)
+			animateVisibleElements(hideElements, addAnimateClassesInHideElements)
+			removeAnimateClasses(elements, hideElements, 'resume')
 		}
 
-		gettingAnimate()
+		function resumeAnimation() {
+			const monitor = document.getElementById('resume-animation-monitor')
+			const rocket = document.getElementById('resume-animation-rocket')
+			const rocketContainer = document.getElementById('resume-animation-rocket-container')
 
-		function scrollText() {
-			const container = document.getElementById('resume-scroll-text')
-			const letters = document.querySelectorAll('.resume-scroll__letter')
+			let lightInterval = null
+			let rocketInterval = null
+			let monitorObserver = null
+			let isRocketStarted = false
 
-			const ids = [container]
-			const elementKeys = ['resume-scroll-text']
-			const startHeight = 0
+			const timers = {
+				rocketChangeDircetion: 1000,
+				lightCreateTimer: 300,
+			}
 
-			letters.forEach((element, index) => {
-				element.classList.add(index % 2 !== 0 ? 'resume-scroll__letter--top' : 'resume-scroll__letter--bottom')
+			function stopAnimationIsMonitorOutVisability() {
+				if (monitorObserver) monitorObserver.disconnect()
+
+				monitorObserver = new IntersectionObserver(
+					entries => {
+						const entry = entries[0]
+
+						if (entry.isIntersecting) {
+							if (!rocketInterval) rocketInterval = setInterval(changeDirection, timers.rocketChangeDircetion)
+
+							if (!lightInterval) lightAnimate()
+						} else {
+							if (rocketInterval) {
+								clearInterval(rocketInterval)
+								rocketInterval = null
+							}
+
+							rocket.style.transform = 'translate(0, 0)'
+
+							if (lightInterval) {
+								clearInterval(lightInterval)
+								lightInterval = null
+							}
+						}
+					},
+					{ root: null, rootMargin: '0px', threshold: 0 }
+				)
+
+				monitorObserver.observe(monitor)
+			}
+
+			function changeDirection() {
+				const offsetX = Math.random() * 50 - 25
+				const offsetY = Math.random() * 50 - 25
+
+				rocket.style.transform = `translate(${offsetX}%, ${offsetY}%)`
+
+				stopAnimationIsMonitorOutVisability()
+			}
+
+			const handleRocketAnimationEnd = () => {
+				if (rocketInterval) return
+
+				rocket.style.animation = 'none'
+				rocket.style.transform = 'translate(0, 0)'
+
+				clearInterval(rocketInterval)
+				rocketInterval = setInterval(changeDirection, timers.rocketChangeDircetion)
+
+				rocket.removeEventListener('animationend', handleRocketAnimationEnd)
+			}
+
+			function lightAnimate() {
+				if (lightInterval) return
+
+				function createLight() {
+					const light = document.createElement('span')
+					light.classList.add('resume-animation__light')
+					rocketContainer.append(light)
+					light.style.top = `${Math.ceil(Math.max(2, Math.random() * 98))}%`
+					light.style.width = `${Math.ceil(Math.max(2, Math.random() * 7))}%`
+
+					light.addEventListener('animationend', event => {
+						if (event.animationName === 'light') light.remove()
+					})
+				}
+
+				lightInterval = setInterval(createLight, timers.lightCreateTimer)
+			}
+
+			const handleRocketTransitionEnd = event => {
+				if (event.propertyName === 'transform' && !isRocketStarted) {
+					isRocketStarted = true
+					rocket.classList.add(`${rocket.classList[0]}--animate`)
+
+					lightAnimate()
+
+					rocket.addEventListener('animationend', handleRocketAnimationEnd)
+				}
+			}
+
+			function handleVisabilityHidden() {
+				if (document.hidden) {
+					clearInterval(lightInterval)
+					clearInterval(rocketInterval)
+
+					rocketInterval = null
+					lightInterval = null
+
+					rocket.style.animation = 'none'
+					rocket.style.transform = 'translate(0, 0)'
+				} else {
+					if (!rocketInterval) rocketInterval = setInterval(changeDirection, timers.rocketChangeDircetion)
+
+					if (!lightInterval) lightAnimate()
+				}
+			}
+
+			function reset() {
+				const lights = document.querySelectorAll('.resume-animation__light')
+
+				if (rocketInterval) {
+					rocket.removeAttribute('style')
+					clearInterval(rocketInterval)
+					rocketInterval = null
+				}
+
+				if (lightInterval) {
+					clearInterval(lightInterval)
+					lightInterval = null
+				}
+
+				lights.forEach(light => light.remove())
+
+				monitor.removeEventListener('transitionrun', handleRocketTransitionEnd)
+				document.removeEventListener('visibilitychange', handleVisabilityHidden)
+
+				if (monitorObserver) {
+					monitorObserver.unobserve(monitor)
+					monitorObserver = null
+				}
+
+				isRocketStarted = false
+			}
+
+			resetAnimations(reset, 'resume')
+			animateVisibleElements([monitor], () => {
+				monitor.addEventListener('transitionrun', handleRocketTransitionEnd)
+				document.addEventListener('visibilitychange', handleVisabilityHidden)
+			})
+		}
+
+		function writeFormTexts() {
+			const texts = document.querySelectorAll('.resume-feedback__text')
+			const ruTexts = ['Имя', 'Email', 'Сообщение']
+			const enTexts = ['Name', 'Email', 'Message']
+			const typeSpeed = 70
+
+			let observer = null
+
+			const letterIndices = new Array(texts.length).fill(0)
+			const wasVisible = new Array(texts.length).fill(false)
+
+			observer = new IntersectionObserver((entries, observer) => {
+				entries.forEach(entry => {
+					if (entry.isIntersecting) {
+						const index = [...texts].indexOf(entry.target)
+						if (index !== -1 && !wasVisible[index]) {
+							wasVisible[index] = true
+							write(index)
+						}
+					}
+				})
 			})
 
-			function animate() {
-				letters.forEach(element => {
-					if (element.classList.contains('resume-scroll__letter--top')) {
-						element.classList.add('resume-scroll__letter--animate-top')
-					}
+			texts.forEach(text => observer.observe(text))
 
-					if (element.classList.contains('resume-scroll__letter--bottom')) {
-						element.classList.add('resume-scroll__letter--animate-bottom')
+			function write(index) {
+				const element = texts[index]
+				const currentText = isLanguageRussian ? ruTexts[index] : enTexts[index]
+
+				if (letterIndices[index] > currentText.length) return
+
+				element.textContent = currentText.substring(0, letterIndices[index])
+				letterIndices[index]++
+				setTimeout(() => write(index), typeSpeed)
+			}
+
+			function restartWriting() {
+				texts.forEach((text, index) => {
+					if (wasVisible[index]) {
+						letterIndices[index] = 0
+						text.textContent = ''
+						write(index)
 					}
 				})
 			}
 
 			function reset() {
-				letters.forEach(element => {
-					element.classList.remove('resume-scroll__letter--animate-top', 'resume-scroll__letter--animate-bottom')
+				texts.forEach((text, index) => {
+					if (wasVisible[index]) {
+						text.textContent = ''
+						letterIndices[index] = 0
+						wasVisible[index] = false
+					}
 				})
 			}
 
-			createAnimation(ids, elementKeys, startHeight, animate, reset)
+			resetAnimations(reset, 'resume')
+			updateLanguageContent(restartWriting)
 		}
-
-		scrollText()
-
-		function feedbackAnimate() {
-			function textWrite() {
-				const texts = document.querySelectorAll('.resume-feedback__text')
-				const form = document.getElementById('resume-feedback-form')
-
-				const setId = addId(texts, 'resume-feedback-text', 80)
-
-				const en = ['Name', 'Email', 'Message']
-				const ru = ['Имя', 'Email', 'Сообщение']
-
-				const handleTextWrite = writeAndResetText(setId.ids, en, ru, 70, setId.elementKeys, null, null)
-
-				function animate() {
-					form.classList.add('resume-feedback__form--animate')
-					handleTextWrite.writeAll()
-				}
-
-				function reset() {
-					handleTextWrite.resetAll()
-
-					form.classList.remove('resume-feedback__form--animate')
-				}
-
-				createAnimation(setId.ids, setId.elementKeys, setId.startingHeight, animate, reset)
-			}
-
-			textWrite()
-
-			function autoResizeTextarea() {
-				const textarea = document.getElementById('resume-feedback-message')
-
-				textarea.style.height = 'auto'
-				textarea.style.height = textarea.scrollHeight + 'px'
-			}
-
-			document.addEventListener('input', autoResizeTextarea)
-		}
-
-		feedbackAnimate()
 
 		function sendMail() {
 			const form = document.getElementById('resume-feedback-form')
@@ -1917,35 +1900,42 @@ function main() {
 			const emailInput = document.getElementById('resume-feedback-email')
 			const messageInput = document.getElementById('resume-feedback-message')
 			const btn = document.getElementById('resume-feedback-btn')
-			const page = document.getElementById('page')
+			const page = document.getElementById('main-page')
 			const hmpName = document.getElementById('hmp-getting-name')
+
+			const showModalTimer = 3000
 
 			function sanitizeInput(value) {
 				const htmlTagRegex = /<[^>]*>?/gm
 				if (htmlTagRegex.test(value)) {
-					showModal('Get away', 'Убирайся прочь')
+					const message = isLanguageRussian ? 'Убирайся прочь' : 'Get away'
+					showModal(message, 'bad-request')
 					setTimeout(() => {
 						window.location.href = 'about:blank'
 						nameInput.value = ''
 						emailInput.value = ''
 						messageInput.value = ''
-					}, 2950)
+					}, showModalTimer)
 					return null
 				}
 
 				return value.replace(/<[^>]*>/g, '').trim()
 			}
 
-			function showModal(ruMessage, enMessage) {
+			function showModal(message, type) {
 				const modalWindow = document.createElement('div')
 				modalWindow.classList.add('feedback-modal-window')
 				modalWindow.style.cssText = hmpName.style.cssText
 				if (isLanguageRussian) modalWindow.classList.add('russian-font', 'feedback-modal-window--rus-lang')
 
-				modalWindow.textContent = !isLanguageRussian ? ruMessage : enMessage
+				modalWindow.textContent = message
+				modalWindow.dataset.message = type
 				page.appendChild(modalWindow)
+
+				updateLanguageContent(updateModalText)
+
 				setTimeout(() => {
-					btn.innerHTML = !isLanguageRussian ? '<span class="resume-feedback__form-btn-text">Send</span>' : '<span class="resume-feedback__form-btn-text russian-font">Отправить</span>'
+					btn.innerHTML = !isLanguageRussian ? '<span class="resume-feedback__form-btn-text">Send</span>' : '<span class="resume-feedback__form-btn-text">Отправить</span>'
 
 					const element = document.querySelector('.resume-feedback__form-btn-text')
 					element.dataset.en = 'Send'
@@ -1960,7 +1950,55 @@ function main() {
 					})
 
 					modalWindow.remove()
-				}, 3000)
+				}, showModalTimer)
+			}
+
+			function updateModalText() {
+				const modalWindow = document.querySelector('.feedback-modal-window')
+				if (!modalWindow) return
+
+				const messageType = modalWindow.dataset.message
+
+				let newMessage = ''
+				switch (messageType) {
+					case 'success':
+						newMessage = isLanguageRussian ? 'Сообщение отправлено' : 'Message sent'
+						break
+					case 'error':
+						newMessage = isLanguageRussian ? 'Ошибка: Попробуйте снова позже' : 'Error: Please try again later'
+						break
+					case 'bad-request':
+						newMessage = isLanguageRussian ? 'Убирайся прочь' : 'Get away'
+						break
+					default:
+						newMessage = modalWindow.textContent
+				}
+
+				modalWindow.textContent = newMessage
+			}
+
+			updateLanguageContent(updateModalText)
+
+			async function sendEmail(name, email, message) {
+				btn.innerHTML = '<span class="resume-feedback__sending"></span> <span class="resume-feedback__sending"></span> <span class="resume-feedback__sending"></span>'
+
+				const elements = document.querySelectorAll('.resume-feedback__sending')
+				elements.forEach(element => {
+					element.style.cssText = hmpName.style.cssText
+				})
+
+				const response = await fetch('http://127.0.0.1:3000/', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({ name, email, message }),
+				})
+
+				if (!response.ok) {
+					const errorText = await response.text()
+					throw new Error(errorText || 'Ошибка отправки сообщения.')
+				}
 			}
 
 			form.addEventListener('submit', async event => {
@@ -1978,10 +2016,12 @@ function main() {
 
 				try {
 					await sendEmail(name, email, message)
-					showModal('Message sent', 'Сообщение отправлено')
+					const modalMessage = isLanguageRussian ? 'Сообщение отрпавлено' : 'Message sent'
+					showModal(modalMessage, 'success')
 					form.reset()
 				} catch (error) {
-					showModal(`Error: Please try again later`, `Ошибка: Попробуйте снова позже`)
+					const modalMessage = isLanguageRussian ? 'Ошибка: Попробуйте снова позже' : 'Error: Please try again later'
+					showModal(modalMessage, 'error')
 					console.error('Error details:', error)
 					if (error.response) {
 						console.error('Server response:', await error.response.text())
@@ -1989,131 +2029,191 @@ function main() {
 				} finally {
 					setTimeout(() => {
 						btn.disabled = false
-					}, 4000)
+					}, showModalTimer)
 				}
 			})
-
-			async function sendEmail(name, email, message) {
-				btn.innerHTML = '<span class="resume-feedback__sending"></span> <span class="resume-feedback__sending"></span> <span class="resume-feedback__sending"></span>'
-
-				const elements = document.querySelectorAll('.resume-feedback__sending')
-				elements.forEach(element => {
-					element.style.cssText = hmpName.style.cssText
-				})
-
-				const response = await fetch('http://127.0.0.1:3000/api/send-email', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify({ name, email, message }),
-				})
-
-				if (!response.ok) {
-					const errorText = await response.text()
-					throw new Error(errorText || 'Ошибка отправки сообщения.')
-				}
-			}
 		}
 
+		animateResumePageElements()
+		resumeAnimation()
+		writeFormTexts()
 		sendMail()
 	}
 
 	function aboutMePageEvents() {
-		const myselfItem = document.querySelectorAll('.about-me-self__links-item')
+		function animateAboutMePageElements() {
+			const mainTitle = document.getElementById('about-me-getting-hide-box')
+			const mainSubtitle = document.getElementById('about-me-getting-subtitle')
+			const animationElement = document.getElementById('about-me-animation')
+			const lines = document.querySelectorAll('.about-me-line')
 
-		myselfItem.forEach((element, index) => element.classList.add(index % 2 === 0 ? 'about-me-self__links-item--left' : 'about-me-self__links-item--right'))
-		sameElementsAnimation('.about-me-exp__text', 'about-me-exp-text', ['about-me-exp__text--animate'], 50, null)
-		sameElementsAnimation('.about-me-exp__box-line', 'about-me-exp-box-line', ['about-me-exp__box-line--animate'], 50, null)
-		sameElementsAnimation('.about-me-title', 'about-me-title', ['about-me-title--animate'], 50, null)
-		sameElementsAnimation('.about-me-section-line', 'about-me-section-line', ['about-me-section-line--animate'], 50, null)
-		sameElementsAnimation('.about-me-self__links-item', 'about-me-self-links-item', ['about-me-self__links-item--animate'], 50, null)
+			const hideElements = [mainTitle, mainSubtitle]
+			const elements = [animationElement, ...lines]
 
-		singleElementsAnimation('about-me-getting-title', 50, ['about-me-getting__title--animate'], 'about-me-getting-hide-box')
-		singleElementsAnimation('about-me-exp-total-exp', 50, ['about-me-exp__total-exp--animate'], null)
-		singleElementsAnimation('about-me-self-img-box', 50, ['about-me-self__img-box--animate'], null)
-		singleElementsAnimation('about-me-self-accent-text', 50, ['about-me-self__accent-text--animate'], 'about-me-self-inner-text')
-		singleElementsAnimation('about-me-self-text', 50, ['about-me-self__text--animate'], 'about-me-self-inner-text')
+			removeAnimateClasses(elements, hideElements, 'about-me')
+			animateVisibleElements(hideElements, addAnimateClassesInHideElements)
+			animateVisibleElements(elements, addAnimateClasses)
+		}
 
-		function gettingSubtitleAnimate() {
-			const container = document.getElementById('about-me-getting-subtitle')
-			const elements = document.querySelectorAll('.about-me-getting__span')
+		function aboutMeAnimation() {
+			const centralEl = document.getElementById('about-me-animation')
+			const lines = document.querySelectorAll('.about-me-animation__line')
+			const progressAnimation = document.getElementById('about-me-progress-animation')
+			const pupilLeft = document.getElementById('pupil-left')
+			const pupilRight = document.getElementById('pupil-right')
+			const eyes = document.querySelectorAll('.about-me-animation__eye')
+			const mouth = document.getElementById('about-me-animation-mouth')
+			const waves = document.querySelectorAll('.about-me-animation__wave')
+
 			const timeouts = []
 
-			function animate() {
-				elements.forEach((element, index) => {
-					const timeout = setTimeout(() => element.classList.add('about-me-getting__span--animate'), 100 * index)
+			let heightValue = 0
+			let mouseX = 0
+			let mouseY = 0
 
-					timeouts.push(timeout)
+			let heightChangeTimeout = null
+
+			let isIntcrement = true
+			let isEyesVisible = false
+			let isHeadVisible = false
+
+			let headObserver = null
+			let eyesObserver = null
+
+			function updateEyes() {
+				if (!isEyesVisible) return
+
+				eyes.forEach((eye, index) => {
+					const rect = eye.getBoundingClientRect()
+					const centerX = rect.left + rect.width / 2
+					const centerY = rect.top + rect.height / 2
+
+					const dx = mouseX - centerX
+					const dy = mouseY - centerY
+
+					const angle = Math.atan2(dy, dx)
+					const radius = 12
+
+					const pupil = index === 0 ? pupilLeft : pupilRight
+					const x = Math.cos(angle) * radius
+					const y = Math.sin(angle) * radius
+
+					pupil.style.transform = `translate(${x}px, ${y}px)`
 				})
+
+				requestAnimationFrame(updateEyes)
 			}
 
-			function reset() {
-				elements.forEach(element => element.classList.remove('about-me-getting__span--animate'))
-				timeouts.forEach(timeout => clearTimeout(timeout))
-				timeouts.length = 0
+			function eyesObserve() {
+				eyesObserver = new IntersectionObserver(
+					entryes => {
+						const entry = entryes[0]
+
+						if (entry.isIntersecting) {
+							isEyesVisible = true
+							updateEyes()
+						} else {
+							isEyesVisible = false
+						}
+					},
+					{
+						threshold: 0.5,
+						rootMargin: '0px',
+						root: null,
+					}
+				)
+
+				eyesObserver.observe(eyes[0])
 			}
 
-			createAnimation([container], ['about-me-getting-subtitle'], 0, animate, reset)
+			function headObserve() {
+				headObserver = new IntersectionObserver(
+					entries => {
+						const entry = entries[0]
+
+						if (entry.isIntersecting && centralEl.classList.contains(`${centralEl.classList[0]}--animate`)) {
+							isHeadVisible = false
+							heightChange()
+						} else {
+							clearTimeout(heightChangeTimeout)
+							isHeadVisible = false
+						}
+					},
+					{
+						root: null,
+						rootMargin: '0px',
+						threshold: 1,
+					}
+				)
+
+				headObserver.observe(centralEl)
+			}
+
+			function handleTransitionEnd(event) {
+				if (event.propertyName === 'opacity') {
+					lines.forEach((line, index) => {
+						const timeout = setTimeout(() => {
+							line.classList.add(`${line.classList[0]}--animate`)
+						}, index * 100)
+
+						timeouts.push(timeout)
+					})
+
+					headObserve()
+					eyesObserve()
+				}
+			}
+
+			function heightChange() {
+				if (isHeadVisible) return
+
+				clearTimeout(heightChangeTimeout)
+
+				switch (heightValue) {
+					case 0:
+						isIntcrement = true
+						waves.forEach((wave, index) => (index < waves.length / 2 ? (wave.style.animationName = 'wave-left-in') : (wave.style.animationName = 'wave-right-in')))
+						break
+
+					case 25:
+						mouth.style.borderRadius = `0px`
+						break
+
+					case 50:
+						mouth.style.borderRadius = `0 0 10px 10px`
+						break
+
+					case 75:
+						mouth.style.borderRadius = `0 0 15px 15px`
+						break
+
+					case 100:
+						isIntcrement = false
+						mouth.style.borderRadius = `0 0 30px 30px`
+						waves.forEach((wave, index) => (index < waves.length / 2 ? (wave.style.animation = 'wave-left-out 0.6s ease-out infinite') : (wave.style.animation = 'wave-right-out 0.6s ease-out infinite')))
+						break
+
+					default:
+						break
+				}
+
+				isIntcrement ? (heightValue += 1) : (heightValue -= 1)
+				progressAnimation.style.setProperty('--about-me-animation-progress-height', `${heightValue}%`)
+
+				heightChangeTimeout = setTimeout(() => heightChange(), 200)
+			}
+
+			setTimeout(() => heightChange(), 2500)
+
+			document.addEventListener('mousemove', event => {
+				mouseX = event.clientX
+				mouseY = event.clientY
+			})
+			centralEl.addEventListener('transitionend', handleTransitionEnd)
 		}
 
-		gettingSubtitleAnimate()
-
-		function scrollLettersAnimate() {
-			const container = document.getElementById('about-me-scroll-text')
-			const letters = document.querySelectorAll('.about-me-scroll__letters')
-			const timeouts = []
-
-			function animate() {
-				letters.forEach((letter, index) => {
-					const timeout = setTimeout(() => letter.classList.add('about-me-scroll__letters--animate'), index * 60)
-
-					timeouts.push(timeout)
-				})
-			}
-
-			function reset() {
-				letters.forEach(letter => letter.classList.remove('about-me-scroll__letters--animate'))
-				timeouts.forEach(timeout => clearTimeout(timeout))
-				timeouts.length = 0
-			}
-
-			createAnimation([container], ['about-me-scroll-text'], 0, animate, reset)
-		}
-
-		scrollLettersAnimate()
-
-		function writeText() {
-			const proffeson = document.querySelectorAll('.about-me-exp__profession')
-			const date = document.querySelectorAll('.about-me-exp__date')
-			const company = document.querySelectorAll('.about-me-exp__company')
-			const email = document.getElementById('about-me-self-img-text')
-
-			const setProfId = addId(proffeson, 'about-me-exp-profession', 50)
-			const setDateId = addId(date, 'about-me-exp-date', 50)
-			const setCompanyId = addId(company, 'about-me-exp__company', 50)
-
-			const enProf = ['Freelance projects (independent practice)']
-			const ruProf = ['Фриланс проекты (самостоятельная практика)']
-
-			const enDate = ['July 2023 - present time']
-			const ruDate = ['Июль 2023 - настоящее время']
-
-			const enCompany = ['Education']
-			const ruCompany = ['Обучение']
-
-			const handleTextProfWrite = writeAndResetText(setProfId.ids, enProf, ruProf, 40, setProfId.elementKeys, ['about-me-exp__profession--rus-lang'], null)
-			const handleTextDateWrite = writeAndResetText(setDateId.ids, enDate, ruDate, 50, setDateId.elementKeys, ['about-me-exp__date--rus-lang'], null)
-			const handleTextCompanyWrite = writeAndResetText(setCompanyId.ids, enCompany, ruCompany, 60, setCompanyId.elementKeys, ['about-me-exp__company--rus-lang'], null)
-			const handleEmailTextWrite = writeAndResetText([email], ['sunnatbackidjanov@gmail.com'], ['sunnatbackidjanov@gmail.com'], 40, ['about-me-self-img-text'], ['about-me-self__img-text--rus-lang'])
-
-			createAnimation(setProfId.ids, setProfId.elementKeys, setProfId.startingHeight, handleTextProfWrite.writeAll, handleTextProfWrite.resetAll)
-			createAnimation(setDateId.ids, setDateId.elementKeys, setDateId.startingHeight, handleTextDateWrite.writeAll, handleTextDateWrite.resetAll)
-			createAnimation(setCompanyId.ids, setCompanyId.elementKeys, setCompanyId.startingHeight, handleTextCompanyWrite.writeAll, handleTextCompanyWrite.resetAll)
-			createAnimation([email], ['about-me-self-img-text'], 50, handleEmailTextWrite.writeAll, handleEmailTextWrite.resetAll)
-		}
-
-		writeText()
+		aboutMeAnimation()
+		animateAboutMePageElements()
 	}
 
 	function calculateExp() {
@@ -2160,85 +2260,103 @@ function main() {
 		yearDate.textContent = years
 	}
 
-	function setCurrentDate() {
-		const date = document.getElementById('footer-current-date')
-		const setCurrentDate = new Date()
-		const langState = !isLanguageRussian ? 'en-US' : 'ru-RU'
-
-		date.classList[isLanguageRussian ? 'add' : 'remove']('russian-font', 'footer__date--rus-lang')
-
-		const options = { year: 'numeric', month: 'long' }
-		date.textContent = setCurrentDate.toLocaleString(langState, options)
-	}
-
 	function footerEvents() {
+		const versionValue = document.getElementById('footer-varsion-value')
+		const versionContainer = document.getElementById('footer-version')
 		const date = document.getElementById('footer-current-date')
-		const name = document.getElementById('footer-name')
-		const version = document.getElementById('footer-version')
-		const wrapper = document.getElementById('footer-wrapper')
-		const symbol = document.getElementById('footer-symbol')
-		const line = document.getElementById('footer-line')
 
-		const ids = [wrapper, name, version]
-		const elementKeys = ['footer-wrapper', 'footer-name', 'footer-version']
-		const startHeight = 0
+		let value = parseInt(versionValue.innerHTML)
 
-		const timeouts = []
+		let isAnimated = false
 
-		const handleTextWrite = [
-			writeAndResetText([name], ['Bakidjanov Sunnat'], ['Бакиджанов Суннат'], 50, ['footer-name'], ['footer__name--rus-lang'], null),
-			writeAndResetText([version], ['Version 1.0.0'], ['Версия 1.0.0'], 50, ['footer-version'], ['footer__version--rus-lang'], null),
-		]
-
-		function animate() {
-			wrapper.classList.add('footer__wrapper--animate')
-			symbol.classList.add('footer__symbol--animate')
-
-			const textTimeout = setTimeout(() => {
-				handleTextWrite[0].writeAll()
-			}, 300)
-
-			const dateTimeout = setTimeout(() => {
-				date.classList.add('footer__date--animate')
-				line.classList.add('footer__line--animate')
-			}, 600)
-
-			const versionTimeout = setTimeout(() => {
-				handleTextWrite[1].writeAll()
-			}, 1200)
-
-			timeouts.push(textTimeout, dateTimeout, versionTimeout)
+		const timers = {
+			start: 1000,
+			nextFrameWait: 10,
 		}
 
-		function reset() {
-			wrapper.classList.remove('footer__wrapper--animate')
-			symbol.classList.remove('footer__symbol--animate')
-			date.classList.remove('footer__date--animate')
-			line.classList.remove('footer__line--animate')
+		function setCurrentDate() {
+			const setCurrentDate = new Date()
+			const langState = !isLanguageRussian ? 'en-US' : 'ru-RU'
 
-			handleTextWrite.forEach(text => {
-				text.resetAll()
-			})
+			const options = { year: 'numeric', month: 'long' }
+			date.textContent = setCurrentDate.toLocaleString(langState, options)
+		}
 
-			timeouts.forEach(timeout => {
-				clearTimeout(timeout)
+		function delay(ms) {
+			return new Promise(resolve => setTimeout(resolve, ms))
+		}
+
+		function waitForTransition(element, propertyName) {
+			return new Promise(resolve => {
+				const handler = event => {
+					if (event.propertyName === propertyName) {
+						element.removeEventListener('transitionend', handler)
+						resolve()
+					}
+				}
+				element.addEventListener('transitionend', handler)
 			})
 		}
 
-		createAnimation(ids, elementKeys, startHeight, animate, reset)
+		function getTextWidth(text, referenceElement) {
+			const span = document.createElement('span')
+			const style = window.getComputedStyle(referenceElement)
+
+			span.innerText = text
+			span.style.font = style.font
+			span.style.fontSize = style.fontSize
+			span.style.fontFamily = style.fontFamily
+
+			document.body.appendChild(span)
+			const width = span.offsetWidth
+			document.body.removeChild(span)
+
+			return width
+		}
+
+		async function animateVersionValue() {
+			if (isAnimated) return
+			isAnimated = true
+
+			await delay(timers.start)
+
+			versionValue.style.transition = 'transform 0.6s ease-out'
+			versionValue.style.transform = 'translateY(-100%)'
+
+			await waitForTransition(versionValue, 'transform')
+
+			value++
+
+			versionValue.style.transition = 'none'
+			const oldWidth = versionValue.offsetWidth
+			const newWidth = getTextWidth(value.toString(), versionValue)
+
+			versionValue.style.width = oldWidth + 'px'
+			versionValue.innerText = value
+			versionValue.style.transform = 'translateY(100%)'
+
+			await delay(timers.nextFrameWait)
+
+			versionValue.style.width = newWidth + 'px'
+			versionValue.style.transition = 'transform 0.6s ease-out 0.2s, width 0.3s linear'
+			versionValue.style.transform = 'translateY(0)'
+		}
+
+		setCurrentDate()
+		updateLanguageContent(setCurrentDate)
+		animateVisibleElements([versionContainer], animateVersionValue)
 	}
 
 	window.addEventListener('load', () => {
-		setCurrentDate()
 		calculateExp()
 		backgroundColorChange()
 
 		headerEvents()
 		homePageEvents()
 		usesPageEvents()
-		// resumePageEvents()
-		// aboutMePageEvents()
-		// footerEvents()
+		resumePageEvents()
+		aboutMePageEvents()
+		footerEvents()
 
 		climbUp()
 		asideMenu()

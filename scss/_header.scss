@@ -139,7 +139,7 @@ $colors: (
 		overflow: hidden;
 		transition:
 			width 0.4s ease-out,
-			color 0.4s ease-out;
+			box-shadow 0.4s ease-out;
 
 		&:hover .header__line {
 			@include button-acitve-line(100%);

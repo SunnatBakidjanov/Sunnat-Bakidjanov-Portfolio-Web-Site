@@ -384,6 +384,7 @@
 						<div class="container">
 							<div class="uses-getting__wrapper">
 								<h2 class="uses-getting__title" id="uses-getting-title" data-en="Uses" data-ru="Мой набор">Uses</h2>
+								
 								<div class="uses-getting__subtitle" id="uses-getting-subtitle">
 									<span class="uses-getting__text uses-getting__text--hide uses-getting__text--accent-color" data-en="Equipment" data-ru="Оборудование">Equipment</span> 
 									<span class="uses-getting__text uses-getting__text--hide" data-en="and" data-ru="и">and</span>
@@ -391,6 +392,8 @@
 									<span class="uses-getting__text uses-getting__text--hide" data-en="I Use for" data-ru="которое я использую для">I Use for</span>
 									<span class="uses-getting__text uses-getting__text--hide uses-getting__text--accent-color" data-en="Development" data-ru="Разработки">Development</span>
 								</div>
+
+								<div class="uses-line uses-equipment__line line"></div>
 							</div>
 						</div>
 					</section>
@@ -398,6 +401,8 @@
 					<section class="uses-gear">
 						<div class="container">
 							<div class="uses-gear__wrapper">
+
+
 								<div class="uses-gear__inner" id="uses-gear">
 									<img class="uses-gear__img uses-gear__img--hide" src="img/svg/gear.svg" alt="">
 									<img class="uses-gear__img uses-gear__img--hide" src="img/svg/gear.svg" alt="">
@@ -1116,26 +1121,48 @@
 					<section class="resume-getting">
 						<div class="container">
 							<div class="resume-getting__wrapper">
-								<div class="resume-getting__hide-title">
-									<h2 class="resume-getting__title" id="resume-getting-title" data-en="Resume" data-ru="Резюме">Resume</h2>
+								<div class="resume-getting__hide-title" id="resume-getting-title">
+									<h2 class="resume-getting__title resume-getting__title--hide" data-en="Resume" data-ru="Резюме">Resume</h2>
 								</div>
 								
-								<div class="resume-getting__hide-subtitle">
-									<h3 class="resume-getting__subtitle">
-										<span data-en="Download" data-ru="Скачайте" class="resume-getting__subtitle--accent-color">Download</span> 
-										<span data-en="my Resume or" data-ru="мое Резюме или">my Resume or</span> 
-										<span data-en="Send" data-ru="Отправьте" class="resume-getting__subtitle--accent-color">Send</span>
-										<span data-en="me a Message" data-ru="мне Сообщение">me a Message</span>
-									</h3>
+								<h3 class="resume-getting__subtitle-container">
+									<span data-en="Download" data-ru="Скачайте" class="resume-getting__subtitle resume-getting__subtitle--accent-color resume-getting__subtitle--hide">Download</span> 
+									<span class="resume-getting__subtitle resume-getting__subtitle--hide" data-en="my Resume or" data-ru="мое Резюме или">my Resume or</span> 
+									<span data-en="Send" data-ru="Отправьте" class="resume-getting__subtitle resume-getting__subtitle--accent-color resume-getting__subtitle--hide">Send</span>
+									<span class="resume-getting__subtitle resume-getting__subtitle--hide" data-en="me a Message" data-ru="мне Сообщение">me a Message</span>
+								</h3>
+
+								<h3 class="resume-getting__subtitle-container">
+									<span class="resume-getting__subtitle resume-getting__subtitle--hide" data-en="Let’s" data-ru="Давайте">Let’s</span>
+									<span class="resume-getting__subtitle resume-getting__subtitle--accent-color resume-getting__subtitle--hide" data-en="Make" data-ru="Воплощать">Make</span>
+									<span class="resume-getting__subtitle resume-getting__subtitle--hide" data-en="Great Ideas" data-ru="Великие Идеи">Great Ideas</span>
+									<span class="resume-getting__subtitle resume-getting__subtitle--accent-color resume-getting__subtitle--hide" data-en="Happen" data-ru="в Жизнь">Happen</span>
+								</h3>
+
+								<div class="resume-line resume-getting__line line"></div>
+							</div>
+						</div>
+					</section>
+
+					<section class="resume-animation">
+						<div class="container">
+							<div class="resume-animation__wrapper">
+								<div class="resume-animation__monitor" id="resume-animation-monitor">
+									<span class="resume-animation__monitor-element resume-animation__monitor-element--hide"></span>
+									<span class="resume-animation__monitor-element resume-animation__monitor-element--hide"></span>
+
+									<div class="resume-animation__rocket-container" id="resume-animation-rocket-container">
+										<div class="resume-animation__rocket" id="resume-animation-rocket">
+											<span class="resume-animation__rocket-front"></span>
+											<span class="resume-animation__rocket-wings resume-animation__rocket-wings--right"></span>
+											<span class="resume-animation__rocket-wings resume-animation__rocket-wings--left"></span>
+											<span class="resume-animation__rocket-fire"></span>
+										</div>
+									</div>
 								</div>
 
-								<div class="resume-getting__hide-subtitle">
-									<h3 class="resume-getting__subtitle">
-										<span data-en="Let’s" data-ru="Давайте">Let’s</span>
-										<span class="resume-getting__subtitle--accent-color" data-en="Make" data-ru="Воплощать">Make</span>
-										<span data-en="Great Ideas" data-ru="Великие Идеи">Great Ideas</span>
-										<span class="resume-getting__subtitle--accent-color" data-en="Happen" data-ru="в Жизнь">Happen</span>
-									</h3>
+								<div class="resume-animation__inner-keyboard" id="resume-animation-inner-keyboard">
+									<span class="resume-animation__keyboard resume-animation__keyboard--hide"></span>
 								</div>
 							</div>
 						</div>
@@ -1146,15 +1173,15 @@
 							<div class="resume-scroll__wrapper scroll-section__wrapper">
 								<h2 class="resume-scroll__title scroll-section__title">Scroll title</h2>
 
-								<div class="scroll-section__line resume-scroll__line"></div>
+								<div class="resume-scroll__line" id="resume-scroll-line"></div>
 
 								<div class="resume-scroll__text scroll-section__text" id="resume-scroll-text">
-									<span class="resume-scroll__letter">S</span>
-									<span class="resume-scroll__letter">C</span>
-									<span class="resume-scroll__letter">R</span>
-									<span class="resume-scroll__letter">O</span>
-									<span class="resume-scroll__letter">L</span>
-									<span class="resume-scroll__letter">L</span>
+									<span class="resume-scroll__letter resume-scroll__letter--hide">S</span>
+									<span class="resume-scroll__letter resume-scroll__letter--hide">C</span>
+									<span class="resume-scroll__letter resume-scroll__letter--hide">R</span>
+									<span class="resume-scroll__letter resume-scroll__letter--hide">O</span>
+									<span class="resume-scroll__letter resume-scroll__letter--hide">L</span>
+									<span class="resume-scroll__letter resume-scroll__letter--hide">L</span>
 								</div>
 							</div>
 						</div>
@@ -1164,17 +1191,17 @@
 						<div class="container">
 							<div class="resume-download__wrapper">
 								<div class="resume-hide-title resume-download__hide-title">
-									<h2 class="resume-title resume-download__title" data-ru="Резюме Сунната Бакиджанова" data-en="Sunnat Bakidjanov's Resume">Sunnat Bakidjanov's Resume</h2>
+									<h2 class="resume-title resume-title--hide resume-download__title" data-ru="Резюме Сунната Бакиджанова" data-en="Sunnat Bakidjanov's Resume">Sunnat Bakidjanov's Resume</h2>
 								</div>
 
 								<div class="resume-hide-subtitle resume-download__hide-subtitle">
-									<h3 class="resume-subtitle resume-download__subtitle" data-ru="Нажмите, чтобы скачать полное резюме в формате PDF" data-en="Click to download full resume in PDF format">Click to download full resume in PDF format</h3>
+									<h3 class="resume-subtitle resume-subtitle--hide resume-download__subtitle" data-ru="Нажмите, чтобы скачать полное резюме в формате PDF" data-en="Click to download full resume in PDF format">Click to download full resume in PDF format</h3>
 								</div>
 
-								<div class="line resume-download__line"></div>
+								<div class="resume-line line resume-download__line"></div>
 
-								<div class="resume-download__link-box resume-btn-box">
-									<a href="download/Sunnat-Bakidjanov-resume.pdf" download="Sunnat-Bakidjanov-Resume.pdf" class="resume-download__link resume-btn" id="resume-download-link" rel="noopener noreferrer" data-ru="Скачать" data-en="Download">Download</a>
+								<div class="resume-btn-box resume-download__btn">
+									<a href="download/Sunnat-Bakidjanov-resume.pdf" download="Sunnat-Bakidjanov-Resume.pdf" class="resume-btn" id="resume-download-link" rel="noopener noreferrer" data-ru="Скачать" data-en="Download">Download</a>
 								</div>
 							</div>
 						</div>
@@ -1184,14 +1211,14 @@
 						<div class="container">
 							<div class="resume-feedback__wrapper">
 								<div class="resume-hide-title resume-feedback__hide-title">
-									<h2 class="resume-title resume-feedback__title" data-ru="Напишите мне" data-en="Email me">Email me</h2>
+									<h2 class="resume-title resume-title--hide resume-feedback__title" data-ru="Напишите мне" data-en="Email me">Email me</h2>
 								</div>
 
 								<div class="resume-hide-subtitle resume-feedback__hide-subtitle">
-									<h3 class="resume-subtitle resume-feedback__subtitle" data-en="If you have any questions, email me!" data-ru="Если есть вопросы, пишите!">If you have any questions, email me!</h3>
+									<h3 class="resume-subtitle resume-subtitle--hide resume-feedback__subtitle" data-en="If you have any questions, email me!" data-ru="Если есть вопросы, пишите!">If you have any questions, email me!</h3>
 								</div>
 
-								<div class="line resume-feedback__line"></div>
+								<div class="resume-line line resume-feedback__line"></div>
 
 								<form class="resume-feedback__form" id="resume-feedback-form" method="post">
 									<div class="resume-feedback__form-group">
@@ -1221,7 +1248,7 @@
 										</div>
 									</div>
 
-									<div class="resume-feedback__form-btn-box resume-btn-box">
+									<div class="resume-btn-box resume-feedback__form-btn-box">
 										<button class="resume-feedback__form-btn resume-btn" id="resume-feedback-btn" type="submit" aria-label="Send" data-ru="Отправить" data-en="Send">Send</button>
 									</div>
 
@@ -1237,19 +1264,60 @@
 						<div class="container">
 							<div class="about-me-getting__wrapper">
 								<div class="about-me-getting__hide-box" id="about-me-getting-hide-box">
-									<h2 class="about-me-getting__title" id="about-me-getting-title" data-en="About me" data-ru="Обо мне">About me</h2>
+									<h2 class="about-me-getting__title about-me-getting__title--hide" data-en="About me" data-ru="Обо мне">About me</h2>
 								</div>
+
 								<h3 class="about-me-getting__subtitle" id="about-me-getting-subtitle">
-									<span data-en="I am passionate about application development, striving for" data-ru="Увлечён разработкой приложений, стремлюсь к" class="about-me-getting__span">I am passionate about application development, striving for</span>
-									<span data-en="constant development" data-ru="постоянному развитию" class="about-me-getting__subtitle-accent-color about-me-getting__span">constant development</span>
-									<span data-en="and" data-ru="и" class="about-me-getting__span">and</span>
-									<span data-en="solving" data-ru="решению" class="about-me-getting__subtitle-accent-color about-me-getting__span">solving</span>
-									<span data-en="interesting problems" data-ru="интересных задач" class="about-me-getting__span">interesting problems</span>
+									<span class="about-me-getting__text about-me-getting__text--hide" data-en="I am passionate about application development, striving for" data-ru="Увлечён разработкой приложений, стремлюсь к">I am passionate about application development, striving for</span>
+									<span class="about-me-getting__text about-me-getting__text--hide" data-en="constant development" data-ru="постоянному развитию">constant development</span>
+									<span class="about-me-getting__text about-me-getting__text--hide" data-en="and" data-ru="и">and</span>
+									<span class="about-me-getting__text about-me-getting__text--hide" data-en="solving" data-ru="решению">solving</span>
+									<span class="about-me-getting__text about-me-getting__text--hide" data-en="interesting problems" data-ru="интересных задач">interesting problems</span>
 								</h3>
+
+								<div class="about-me-line about-me-getting__line line"></div>
 							</div>
 						</div>
 					</section>
 
+					<section class="about-me-animation">
+						<div class="container">
+							<div class="about-me-animation__wrapper">
+								<span class="about-me-animation__line about-me-animation__line--left">
+									<span class="about-me-animation__wave about-me-animation__wave--left"></span>
+								</span>
+								<span class="about-me-animation__line about-me-animation__line--left-top">
+									<span class="about-me-animation__wave about-me-animation__wave--left"></span>
+								</span>
+								<span class="about-me-animation__line about-me-animation__line--left-bottom">
+									<span class="about-me-animation__wave about-me-animation__wave--left"></span>
+								</span>
+								<span class="about-me-animation__line about-me-animation__line--right">
+									<span class="about-me-animation__wave about-me-animation__wave--right"></span>
+								</span>
+								<span class="about-me-animation__line about-me-animation__line--right-top">
+									<span class="about-me-animation__wave about-me-animation__wave--right"></span>
+								</span>
+								<span class="about-me-animation__line about-me-animation__line--right-bottom">
+									<span class="about-me-animation__wave about-me-animation__wave--right"></span>
+								</span>
+								<div class="about-me-animation__block" id="about-me-animation">
+									<span class="about-me-animation__progress" id="about-me-progress-animation"></span>
+									<div class="about-me-animation__eyes">
+										<div class="about-me-animation__eye">
+											<span class="about-me-animation__pupil" id="pupil-left"></span>
+										</div>
+										<div class="about-me-animation__eye">
+											<span class="about-me-animation__pupil" id="pupil-right"></span>
+										</div>
+									  </div>
+									<div class="about-me-animation__mouth about-me-animation__mouth--smile" id="about-me-animation-mouth"></div>
+								</div>
+							</div>
+						</div>
+					</section>
+					
+					  
 					<section class="about-me-scroll">
 						<div class="container">
 							<div class="about-me-scroll__wrapper scroll-section__wrapper">
@@ -1358,19 +1426,19 @@
 				</div>
 			</main>
 	
-			<footer class="footer" id="footer">
+			<footer class="footer">
 				<div class="container">
-					<div class="footer__wrapper" id="footer-wrapper">
+					<div class="footer__wrapper" id="footer">
 						<div class="footer__inner-copyright">
 							<div class="footer__name-box">
-								<span class="footer__symbol" id="footer-symbol">©</span>
-								<span class="footer__name" id="footer-name"></span>
-								<span class="footer__line" id="footer-line"></span>
+								<span class="footer__text">©</span>
+								<span class="footer__text" data-en="Sunnat Bakidjanov" data-ru="Суннат Бакиджанов">Sunnat Bakidjanov</span>
+								<span class="footer__text">|</span>
 							</div>
 							<span class="footer__date" id="footer-current-date"></span>
 						</div>
 						
-						<div class="footer__version" id="footer-version"></div>
+						<div class="footer__version" id="footer-version">Version 1.<span class="footer__varison-value" id="footer-varsion-value">0</span>.0</div>
 					</div>
 				</div>
 			</footer>
