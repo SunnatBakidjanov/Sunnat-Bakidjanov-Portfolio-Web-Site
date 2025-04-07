@@ -2072,13 +2072,20 @@ function main() {
 			let mouseY = 0
 
 			let heightChangeTimeout = null
+			let startTimeout = null
 
 			let isIntcrement = true
 			let isEyesVisible = false
 			let isHeadVisible = false
+			let isAnimated = false
 
 			let headObserver = null
 			let eyesObserver = null
+
+			const timers = {
+				startTimer: 2500,
+				heightChangeTimer: 800,
+			}
 
 			function updateEyes() {
 				if (!isEyesVisible) return
@@ -2106,10 +2113,10 @@ function main() {
 
 			function eyesObserve() {
 				eyesObserver = new IntersectionObserver(
-					entryes => {
-						const entry = entryes[0]
+					entries => {
+						const entry = entries[0]
 
-						if (entry.isIntersecting) {
+						if (entry.isIntersecting && centralEl.classList.contains(`${centralEl.classList[0]}--animate`)) {
 							isEyesVisible = true
 							updateEyes()
 						} else {
@@ -2150,7 +2157,9 @@ function main() {
 			}
 
 			function handleTransitionEnd(event) {
-				if (event.propertyName === 'opacity') {
+				if (event.propertyName === 'opacity' && !isAnimated) {
+					isAnimated = true
+
 					lines.forEach((line, index) => {
 						const timeout = setTimeout(() => {
 							line.classList.add(`${line.classList[0]}--animate`)
@@ -2158,6 +2167,8 @@ function main() {
 
 						timeouts.push(timeout)
 					})
+
+					progressAnimation.classList.add(`${progressAnimation.classList[0]}--animate`)
 
 					headObserve()
 					eyesObserve()
@@ -2167,7 +2178,7 @@ function main() {
 			function heightChange() {
 				if (isHeadVisible) return
 
-				clearTimeout(heightChangeTimeout)
+				if (heightChangeTimeout) clearTimeout(heightChangeTimeout)
 
 				switch (heightValue) {
 					case 0:
@@ -2200,16 +2211,55 @@ function main() {
 				isIntcrement ? (heightValue += 1) : (heightValue -= 1)
 				progressAnimation.style.setProperty('--about-me-animation-progress-height', `${heightValue}%`)
 
-				heightChangeTimeout = setTimeout(() => heightChange(), 200)
+				heightChangeTimeout = setTimeout(() => heightChange(), timers.heightChangeTimer)
 			}
 
-			setTimeout(() => heightChange(), 2500)
+			function reset() {
+				isIntcrement = true
+				isEyesVisible = false
+				isHeadVisible = false
+				isAnimated = false
 
-			document.addEventListener('mousemove', event => {
-				mouseX = event.clientX
-				mouseY = event.clientY
+				heightValue = 0
+
+				if (startTimeout) clearTimeout(startTimeout)
+
+				if (heightChangeTimeout) clearTimeout(heightChangeTimeout)
+
+				if (lines.length > 0) lines.forEach(line => line.classList.remove(`${line.classList[0]}--animate`))
+
+				setTimeout(() => {
+					progressAnimation.classList.remove(`${progressAnimation.classList[0]}--animate`)
+					progressAnimation.style.setProperty('--about-me-animation-progress-height', `${heightValue}%`)
+				}, 0)
+
+				mouth.style.borderRadius = `0px`
+
+				timeouts.forEach(timeout => clearTimeout(timeout))
+
+				centralEl.removeEventListener('transitionend', handleTransitionEnd)
+				document.removeEventListener('mousemove', updateEyes)
+
+				if (headObserver) {
+					headObserver.unobserve(centralEl)
+					headObserver = null
+				}
+				if (eyesObserver) {
+					eyesObserver.unobserve(eyes[0])
+					eyesObserver = null
+				}
+			}
+
+			resetAnimations(reset, 'about-me')
+
+			animateVisibleElements([centralEl], () => {
+				centralEl.addEventListener('transitionend', handleTransitionEnd)
+				document.addEventListener('mousemove', event => {
+					mouseX = event.clientX
+					mouseY = event.clientY
+				})
+				startTimeout = setTimeout(() => heightChange(), timers.startTimer)
 			})
-			centralEl.addEventListener('transitionend', handleTransitionEnd)
 		}
 
 		aboutMeAnimation()

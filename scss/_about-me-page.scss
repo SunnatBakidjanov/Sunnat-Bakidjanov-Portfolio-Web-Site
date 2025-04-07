@@ -167,10 +167,13 @@ $colors: (
 		width: 100%;
 		height: var(--about-me-animation-progress-height);
 		background-color: var(--change-color);
-		transition:
-			height 1s ease-out,
-			background-color 0.4s ease-out;
 		will-change: height;
+
+		&--animate {
+			transition:
+				height 1s ease-out,
+				background-color 0.4s ease-out;
+		}
 	}
 
 	&__eyes {

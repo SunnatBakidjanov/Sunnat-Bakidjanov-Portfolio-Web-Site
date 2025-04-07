@@ -4139,8 +4139,10 @@ button {
   width: 100%;
   height: var(--about-me-animation-progress-height);
   background-color: var(--change-color);
-  transition: height 1s ease-out, background-color 0.4s ease-out;
   will-change: height;
+}
+.about-me-animation__progress--animate {
+  transition: height 1s ease-out, background-color 0.4s ease-out;
 }
 .about-me-animation__eyes {
   position: absolute;
