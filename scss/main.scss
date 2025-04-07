@@ -1,4 +1,3 @@
-@use 'reset.scss';
 @use 'base.scss';
 @use 'header.scss';
 @use 'home-page.scss';
@@ -10,6 +9,8 @@
 @use 'footer.scss';
 
 .page--active {
+	position: static;
 	display: block;
-	min-height: 100vh;
+	width: auto;
+	height: auto;
 }
