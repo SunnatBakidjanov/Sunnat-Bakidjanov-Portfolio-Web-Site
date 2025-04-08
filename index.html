@@ -8,8 +8,15 @@
 		<link rel="icon" href="img/svg/favicon-icon.svg">
 		<link rel="stylesheet" href="scss/main.css">
 	</head>
+	
 	<body translate="no">
 		<h1 class="main-title">Портфолио Sunnat Bakidjanov — Frontend-разработчик</h1>
+
+		<div id="preloader">
+			<div id="preloader-message">Загружаем ресурсы...</div>
+			<div id="progress-bar"></div>
+		</div>
+
 		<div class="main-page" id="main-page">
 			<header class="header">
 				<div class="container">
@@ -1389,30 +1396,29 @@
 										<div class="about-me-exp__period" data-start="2023-06-01" data-end="present"></div>
 
 										<div class="about-me-exp__item">
-											<div class="about-me-exp__profession"></div>
-											<div class="about-me-exp__date"></div>
-											<div class="about-me-exp__company"></div>
+											<div class="about-me-exp__profession" data-en="Freelance projects (independent practice)" data-ru="Фриланс проекты (Самостоятельная практика)">Freelance projects (independent practice)</div>
+											<div class="about-me-exp__date">
+												<span class="about-me-exp__date-start"></span> — <span class="about-me-exp__date-end"></span>
+											</div>
+											<div class="about-me-exp__company" data-en="Education" data-ru="Образование">Education</div>
 										</div>
 										
-										<p class="about-me-exp__text">
-											<span class="about-me-exp__text-span" data-en="Intensive study of HTML, CSS, JavaScript, as well as modern development tools such as SASS/SCSS, Git and React." data-ru="Интенсивное изучение HTML, CSS, JavaScript, а также современных инструментов разработки, таких как SASS/SCSS, Git и React.">Intensive study of HTML, CSS, JavaScript, as well as modern development tools such as SASS/SCSS, Git and React.</span>
-											<span class="about-me-exp__text-span" data-en="Creation of several projects: adaptive sites, web pages with interactive elements, first applications on React." data-ru="Создание нескольких проектов: адаптивных сайтов, веб-страниц с интерактивными элементами, первых приложений на React. ">Creation of several projects: adaptive sites, web pages with interactive elements, first applications on React.</span>
-											<span class="about-me-exp__text-span" data-en="Work with version control systems (Git). Constant improvement of skills and learning new technologies." data-ru="Работа с системами контроля версий (Git). Постоянное совершенствование навыков и изучение новых технологий.">Work with version control systems (Git). Constant improvement of skills and learning new technologies.</span>
-										</p>
-
-										<div class="about-me-line about-me-exp__line line"></div>
-
-										<p class="about-me-exp__total-exp" id="about-me-exp-total-exp">
-											<span data-en="Total experience: " data-ru="Общий опыт: ">Total experience:</span>
-											<span class="about-me-exp__total-text about-me-exp__total-date" id="about-me-exp-total-exp-year-date"></span>
-											<span class="about-me-exp__total-text" id="about-me-exp-total-exp-year-text"></span>
-											<span class="about-me-exp__total-text about-me-exp__total-date" id="about-me-exp-total-exp-month-date"></span>
-											<span class="about-me-exp__total-text" id="about-me-exp-total-exp-month-text"></span>
+										<p class="about-me-exp__text" data-en="Intensive study of HTML, CSS, JavaScript, as well as modern development tools such as SASS/SCSS, Git and React. Creation of several projects: adaptive sites, web pages with interactive elements, first applications on React. Work with version control systems (Git). Constant improvement of skills and learning new technologies." data-ru="
+										Интенсивное изучение HTML, CSS, JavaScript, а также современных инструментов разработки, таких как SASS/SCSS, Git и React. Создание нескольких проектов: адаптивные сайты, веб-страницы с интерактивными элементами, первые приложения на React. Работа с системами контроля версий (Git). Постоянное совершенствование навыков и изучение новых технологий.">
+											Intensive study of HTML, CSS, JavaScript, as well as modern development tools such as SASS/SCSS, Git and React. Creation of several projects: adaptive sites, web pages with interactive elements, first applications on React. Work with version control systems (Git). Constant improvement of skills and learning new technologies.
 										</p>
 									</div>
-
-									<p></p>
 								</div>
+
+								<div class="about-me-line about-me-exp__line line"></div>
+
+								<p class="about-me-exp__total-exp" id="about-me-exp-total-exp">
+									<span data-en="Total experience: " data-ru="Общий опыт: ">Total experience:</span>
+									<span class="about-me-exp__total-text about-me-exp__total--date" id="about-me-exp-total-exp-year-date"></span>
+									<span class="about-me-exp__total-text" id="about-me-exp-total-exp-year-text"></span>
+									<span class="about-me-exp__total-text about-me-exp__total--date" id="about-me-exp-total-exp-month-date"></span>
+									<span class="about-me-exp__total-text" id="about-me-exp-total-exp-month-text"></span>
+								</p>
 							</div>
 						</div>
 					</section>
@@ -1437,6 +1443,7 @@
 			</footer>
 		</div>
 
-		<script src="js/main.js" defer=""></script>
+		<script src="js/preloader.js"></script>
+		<script src="js/main.js" defer></script>
 	</body>
 </html>

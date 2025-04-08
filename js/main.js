@@ -2047,13 +2047,16 @@ function main() {
 			const titles = document.querySelectorAll('.about-me-title')
 			const text = document.getElementById('about-me-self-inner-text')
 			const links = document.querySelectorAll('.about-me-self__links-item')
+			const expBox = document.querySelectorAll('.about-me-exp__box')
+			const totalExp = document.getElementById('about-me-exp-total-exp')
 
 			const hideElements = [mainTitle, mainSubtitle, scrollText, text]
-			const elements = [animationElement, scrollLine, ...lines, ...titles, ...links]
+			const elements = [animationElement, scrollLine, totalExp, ...lines, ...titles, ...links]
 
-			removeAnimateClasses(elements, hideElements, 'about-me')
+			removeAnimateClasses([...elements, ...expBox], hideElements, 'about-me')
 			animateVisibleElements(hideElements, addAnimateClassesInHideElements)
 			animateVisibleElements(elements, addAnimateClasses)
+			animateVisibleElements([...expBox], addAnimateClasses, 0.5)
 		}
 
 		function aboutMeAnimation() {
@@ -2263,6 +2266,40 @@ function main() {
 			})
 		}
 
+		function setExp() {
+			const startDate = document.querySelectorAll('.about-me-exp__date-start')
+			const endDate = document.querySelectorAll('.about-me-exp__date-end')
+			const period = document.querySelectorAll('.about-me-exp__period')
+
+			const currentLanguage = !isLanguageRussian ? 'en-EN' : 'ru-RU'
+
+			startDate.forEach((date, index) => {
+				const rawDate = new Date(period[index].dataset.start)
+
+				const formattedDate = rawDate.toLocaleDateString(currentLanguage, {
+					day: '2-digit',
+					month: 'long',
+					year: 'numeric',
+				})
+
+				date.textContent = formattedDate
+			})
+
+			endDate.forEach((date, index) => {
+				if (period[index].dataset.end === 'present') return (date.textContent = !isLanguageRussian ? 'present' : 'по настоящее время')
+
+				const rawDate = new Date(period[index].dataset.end)
+
+				const formattedDate = rawDate.toLocaleDateString(currentLanguage, {
+					day: '2-digit',
+					month: 'long',
+					year: 'numeric',
+				})
+
+				date.textContent = formattedDate
+			})
+		}
+
 		function calculateExp() {
 			const expList = document.querySelectorAll('.about-me-exp__period')
 			const monthText = document.getElementById('about-me-exp-total-exp-month-text')
@@ -2307,7 +2344,10 @@ function main() {
 			yearDate.textContent = years
 		}
 
+		setExp()
 		calculateExp()
+		updateLanguageContent(setExp)
+		updateLanguageContent(calculateExp)
 		aboutMeAnimation()
 		animateAboutMePageElements()
 	}
