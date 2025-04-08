@@ -142,10 +142,6 @@ function main() {
 		elements.forEach(element => observer.observe(element))
 	}
 
-	function pageUpdate() {
-		window.scrollTo(0, 0)
-	}
-
 	function climbUp() {
 		const button = document.getElementById('climb-up')
 		const img = document.getElementById('climb-img')
@@ -2045,10 +2041,15 @@ function main() {
 			const mainTitle = document.getElementById('about-me-getting-hide-box')
 			const mainSubtitle = document.getElementById('about-me-getting-subtitle')
 			const animationElement = document.getElementById('about-me-animation')
+			const scrollLine = document.getElementById('about-me-scoll-line')
+			const scrollText = document.getElementById('about-me-scroll-text')
 			const lines = document.querySelectorAll('.about-me-line')
+			const titles = document.querySelectorAll('.about-me-title')
+			const text = document.getElementById('about-me-self-inner-text')
+			const links = document.querySelectorAll('.about-me-self__links-item')
 
-			const hideElements = [mainTitle, mainSubtitle]
-			const elements = [animationElement, ...lines]
+			const hideElements = [mainTitle, mainSubtitle, scrollText, text]
+			const elements = [animationElement, scrollLine, ...lines, ...titles, ...links]
 
 			removeAnimateClasses(elements, hideElements, 'about-me')
 			animateVisibleElements(hideElements, addAnimateClassesInHideElements)
@@ -2262,52 +2263,53 @@ function main() {
 			})
 		}
 
+		function calculateExp() {
+			const expList = document.querySelectorAll('.about-me-exp__period')
+			const monthText = document.getElementById('about-me-exp-total-exp-month-text')
+			const yearText = document.getElementById('about-me-exp-total-exp-year-text')
+			const monthDate = document.getElementById('about-me-exp-total-exp-month-date')
+			const yearDate = document.getElementById('about-me-exp-total-exp-year-date')
+
+			let totalMonths = 0
+
+			expList.forEach(element => {
+				const startDate = new Date(element.dataset.start)
+				const endDate = element.dataset.end === 'present' ? new Date() : new Date(element.dataset.end)
+
+				const months = (endDate.getFullYear() - startDate.getFullYear()) * 12 + (endDate.getMonth() - startDate.getMonth())
+				totalMonths += months
+			})
+
+			const years = Math.floor(totalMonths / 12)
+			const months = totalMonths % 12
+
+			function declension(number, one, few, many) {
+				const mod10 = number % 10
+				const mod100 = number % 100
+
+				if (mod100 >= 11 && mod100 <= 19) return many
+				if (mod10 === 1) return one
+				if (mod10 >= 2 && mod10 <= 4) return few
+				return many
+			}
+
+			if (!isLanguageRussian) {
+				yearText.textContent = years === 1 ? 'year' : 'years'
+				monthText.textContent = months === 1 ? 'month' : 'months'
+			}
+
+			if (isLanguageRussian) {
+				yearText.textContent = declension(years, 'год', 'года', 'лет')
+				monthText.textContent = declension(months, 'месяц', 'месяца', 'месяцев')
+			}
+
+			monthDate.textContent = months
+			yearDate.textContent = years
+		}
+
+		calculateExp()
 		aboutMeAnimation()
 		animateAboutMePageElements()
-	}
-
-	function calculateExp() {
-		const expList = document.querySelectorAll('.about-me-exp__period')
-		const monthText = document.getElementById('about-me-exp-total-exp-month-text')
-		const yearText = document.getElementById('about-me-exp-total-exp-year-text')
-		const monthDate = document.getElementById('about-me-exp-total-exp-month-date')
-		const yearDate = document.getElementById('about-me-exp-total-exp-year-date')
-
-		let totalMonths = 0
-
-		expList.forEach(element => {
-			const startDate = new Date(element.dataset.start)
-			const endDate = element.dataset.end === 'present' ? new Date() : new Date(element.dataset.end)
-
-			const months = (endDate.getFullYear() - startDate.getFullYear()) * 12 + (endDate.getMonth() - startDate.getMonth())
-			totalMonths += months
-		})
-
-		const years = Math.floor(totalMonths / 12)
-		const months = totalMonths % 12
-
-		function declension(number, one, few, many) {
-			const mod10 = number % 10
-			const mod100 = number % 100
-
-			if (mod100 >= 11 && mod100 <= 19) return many
-			if (mod10 === 1) return one
-			if (mod10 >= 2 && mod10 <= 4) return few
-			return many
-		}
-
-		if (!isLanguageRussian) {
-			yearText.textContent = years === 1 ? 'year' : 'years'
-			monthText.textContent = months === 1 ? 'month' : 'months'
-		}
-
-		if (isLanguageRussian) {
-			yearText.textContent = declension(years, 'год', 'года', 'лет')
-			monthText.textContent = declension(months, 'месяц', 'месяца', 'месяцев')
-		}
-
-		monthDate.textContent = months
-		yearDate.textContent = years
 	}
 
 	function footerEvents() {
@@ -2398,7 +2400,6 @@ function main() {
 	}
 
 	window.addEventListener('load', () => {
-		calculateExp()
 		backgroundColorChange()
 
 		headerEvents()
@@ -2411,10 +2412,6 @@ function main() {
 		climbUp()
 		asideMenu()
 	})
-
-	// window.addEventListener('beforeunload', () => {
-	// 	pageUpdate()
-	// })
 }
 
 main()
