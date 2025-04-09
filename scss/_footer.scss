@@ -5,6 +5,11 @@
 		justify-content: space-between;
 		height: 45px;
 		border-top: 2px solid var(--box-shadow-main-color);
+		opacity: 0;
+
+		&--animate {
+			opacity: 1;
+		}
 	}
 
 	&__inner-copyright {

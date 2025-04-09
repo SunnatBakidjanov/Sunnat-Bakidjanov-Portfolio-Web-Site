@@ -1,9 +1,12 @@
 function main() {
 	'use strict'
 	const logo = document.getElementById('logo')
+	const preloaderChangeLangBtn = document.getElementById('preloader-change-language-btn')
 
-	const START_PAGE_POSITION = 3
-	const START_PAGE_NAME = 'about-me'
+	const START_PAGE_POSITION = 0
+	const START_PAGE_NAME = 'home'
+
+	const isLanguageRussian = preloaderChangeLangBtn.dataset.lang === 'true'
 
 	const pageIds = {
 		'home-page-btn': 'home',
@@ -17,7 +20,6 @@ function main() {
 
 	const languageCallbacks = []
 	const animatedElements = new Set()
-	let isLanguageRussian = false
 
 	function updateLanguageContent(callback) {
 		const changeLanguageButton = document.getElementById('translator')
@@ -2353,6 +2355,7 @@ function main() {
 	}
 
 	function footerEvents() {
+		const footer = document.getElementById('footer')
 		const versionValue = document.getElementById('footer-varsion-value')
 		const versionContainer = document.getElementById('footer-version')
 		const date = document.getElementById('footer-current-date')
@@ -2365,6 +2368,8 @@ function main() {
 			start: 1000,
 			nextFrameWait: 10,
 		}
+
+		footer.classList.add(`${footer.classList[0]}--animate`)
 
 		function setCurrentDate() {
 			const setCurrentDate = new Date()
@@ -2440,17 +2445,20 @@ function main() {
 	}
 
 	window.addEventListener('load', () => {
+		const PAGE_START_TIMER = 1200 // ВАЖНО! Зависит от анимации прелоадера
+
 		backgroundColorChange()
-
-		headerEvents()
-		homePageEvents()
-		usesPageEvents()
-		resumePageEvents()
-		aboutMePageEvents()
-		footerEvents()
-
 		climbUp()
-		asideMenu()
+
+		setTimeout(() => {
+			headerEvents()
+			homePageEvents()
+			usesPageEvents()
+			resumePageEvents()
+			aboutMePageEvents()
+			footerEvents()
+			asideMenu()
+		}, PAGE_START_TIMER)
 	})
 }
 

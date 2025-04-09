@@ -5,19 +5,36 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Sunnat Bakidjanov</title>
 
-		<link rel="icon" href="img/svg/favicon-icon.svg">
+		<link rel="preload" href="/fonts/Furore/Furore.otf" as="font" type="font/otf" crossorigin="anonymous">
+
+		<link rel="stylesheet" href="/scss/preloader/preloader.css">		
 		<link rel="stylesheet" href="scss/main.css">
+
+		<link rel="icon" href="img/svg/favicon-icon.svg">
 	</head>
 	
 	<body translate="no">
 		<h1 class="main-title">Портфолио Sunnat Bakidjanov — Frontend-разработчик</h1>
 
-		<div id="preloader">
-			<div id="preloader-message">Загружаем ресурсы...</div>
-			<div id="progress-bar"></div>
+		<div class="preloader" id="preloader">
+			<div class="preloader__message" id="preloader-message" data-en="Loading resources..." data-ru="Загружаем ресурсы...">Loading resources...</div>
+
+			<div class="preloader__progress-br-container">
+				<div class="preloader__progress-br" id="preloader-progress-bar"></div>
+			</div>
+
+			<div class="preloader__value-container">
+				<span class="preloader__value" id="preloader-value">0</span>
+				<span class="preloader__value-precent">%</span>
+			</div>
+
+			<button type="button" class="preloader__change-language-btn" id="preloader-change-language-btn" data-lang="" aria-label="praloader-change-language-btn">
+				<span class="preloader__change-language-text">EN</span> |
+				<span class="preloader__change-language-text preloader__change-language-text--active">RU</span>
+			</button>
 		</div>
 
-		<div class="main-page" id="main-page">
+		<div class="main-page main-page--open" id="main-page">
 			<header class="header">
 				<div class="container">
 					<div class="header__wrapper" id="header">
@@ -1444,6 +1461,6 @@
 		</div>
 
 		<script src="js/preloader.js"></script>
-		<script src="js/main.js" defer></script>
+		<script src="js/main.js" defer=""></script>
 	</body>
 </html>

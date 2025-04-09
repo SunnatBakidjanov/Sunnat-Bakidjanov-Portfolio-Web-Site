@@ -1,0 +1,87 @@
+:root {
+  --preloader-progress: 0;
+  --preloader-change-color: #5dade2;
+  --preloader-transition-point: 30%;
+}
+
+.preloader {
+  position: fixed;
+  z-index: 12;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(90deg, rgb(0, 0, 0) var(--preloader-transition-point), var(--preloader-change-color) 130%);
+  inset: 0;
+}
+.preloader--animate {
+  animation: load-done 1s ease-out forwards;
+}
+@keyframes load-done {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.preloader__message {
+  font-family: Furore, sans-serif;
+  font-size: 2.5em;
+  color: white;
+}
+.preloader__progress-br-container {
+  position: relative;
+  width: 60%;
+  height: 50px;
+  background-color: white;
+  border: 2px solid white;
+  box-shadow: 0 0 10px #5dade2;
+}
+.preloader__progress-br {
+  will-change: width;
+  transition: width 0.2s linear;
+  position: absolute;
+  left: 0;
+  width: var(--preloader-progress);
+  height: 100%;
+  background-color: #5dade2;
+}
+.preloader__value-container {
+  color: white;
+}
+.preloader__value-container span {
+  display: inline-block;
+}
+.preloader__value {
+  font-size: 5em;
+}
+.preloader__value-precent {
+  position: relative;
+  bottom: 1px;
+  font-size: 3em;
+}
+.preloader__change-language-btn {
+  position: fixed;
+  top: 5%;
+  left: 2%;
+  font-size: 2em;
+  color: white;
+}
+.preloader__change-language-btn span {
+  display: inline-block;
+}
+.preloader__change-language-text {
+  position: relative;
+  bottom: 0;
+  transform: scale(1);
+  transition: bottom 0.2s ease-out, transform 0.2s ease-out, color 0.4s ease-out;
+}
+.preloader__change-language-text--active {
+  bottom: 1px;
+  transform: scale(1.2);
+  color: var(--preloader-change-color);
+}/*# sourceMappingURL=preloader.css.map */
