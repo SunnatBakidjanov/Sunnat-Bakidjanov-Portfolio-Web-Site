@@ -253,7 +253,7 @@ function main() {
 		const root = document.querySelector('.main-page')
 		const buttons = document.querySelectorAll('.aside-menu__colors')
 		const classes = ['bg-color--1', 'bg-color--2', 'bg-color--3', 'bg-color--4']
-		const colors = ['#2f9d5f', '#26aaa4', '#d65a21', '#5dade2']
+		const colors = ['#bd7bc7', '#26aaa4', '#d65a21', '#5dade2']
 
 		let isTransitioning = false
 		let currentClass = 'bg-color--4'
@@ -372,6 +372,46 @@ function main() {
 		})
 	}
 
+	function generateSeasonParticles() {
+		const page = document.getElementById('main-page')
+		let currentImgSrc = null
+
+		function getCurrentMonth() {
+			const month = new Date().getMonth() + 1
+
+			if (month === 12 || month === 1 || month === 2) return (currentImgSrc = '/img/svg/snowflake.svg')
+			if (month >= 3 && month <= 5) return (currentImgSrc = '/img/png/sacura-spring.png')
+			if (month >= 6 && month <= 8) return (currentImgSrc = '/img/svg/summer-leaf.svg')
+			if (month >= 9 && month <= 11) return (currentImgSrc = '/img/svg/autumn-leaf.svg')
+		}
+
+		getCurrentMonth()
+
+		function createSeasonElement() {
+			const img = document.createElement('img')
+			const offsetX = Math.random() * 100
+			const duration = Math.random() * 10 + 15
+
+			img.setAttribute('src', currentImgSrc)
+			img.classList.add('season-img')
+			img.style.left = `${offsetX}%`
+			img.style.animationDuration = `${duration}s`
+
+			page.appendChild(img)
+
+			const removeImg = () => {
+				img.remove()
+				img.removeEventListener('animationend', removeImg)
+			}
+
+			img.addEventListener('animationend', removeImg)
+		}
+
+		setInterval(createSeasonElement, 2500)
+	}
+
+	generateSeasonParticles()
+
 	function asideMenu() {
 		const menuElement = document.getElementById('aside-menu')
 		const openBtn = document.getElementById('aside-menu-btn')
@@ -481,6 +521,7 @@ function main() {
 			const lines = document.querySelectorAll('.header__burger-line')
 			const items = document.querySelectorAll('.header__item')
 			const socialItems = document.querySelectorAll('.header__social-item')
+			const btnsChangePage = document.querySelectorAll('.header__btn')
 
 			const elements = [container, burgerMenu, page, ...lines, ...items, ...socialItems]
 
@@ -491,6 +532,7 @@ function main() {
 
 			let isOpen = false
 			let isWindowResized = false
+			let isEvented = false
 
 			function openCloseBurgerMenu() {
 				if (!isOpen) {
@@ -550,11 +592,22 @@ function main() {
 				if (window.innerWidth <= INNER_WIDTH && !isWindowResized) {
 					isWindowResized = true
 
-					burgerMenu.addEventListener('click', openCloseBurgerMenu)
+					if (!isEvented) {
+						isEvented = true
+
+						burgerMenu.addEventListener('click', openCloseBurgerMenu)
+
+						btnsChangePage.forEach(btn => {
+							if (!btn.classList.contains('header__btn--active')) {
+								btn.addEventListener('click', openCloseBurgerMenu)
+							}
+						})
+					}
 				}
 
 				if (window.innerWidth > INNER_WIDTH && isWindowResized) {
 					isWindowResized = false
+					isEvented = false
 
 					elements.forEach(element => {
 						const classNames = element.classList
@@ -570,10 +623,25 @@ function main() {
 					})
 
 					burgerMenu.removeEventListener('click', openCloseBurgerMenu)
+
+					btnsChangePage.forEach(btn => btn.removeEventListener('click', openCloseBurgerMenu))
 				}
 			}
 
-			if (window.innerWidth <= INNER_WIDTH) burgerMenu.addEventListener('click', openCloseBurgerMenu)
+			if (window.innerWidth <= INNER_WIDTH) {
+				isEvented = true
+
+				burgerMenu.addEventListener('click', openCloseBurgerMenu)
+
+				btnsChangePage.forEach(btn => {
+					btn.addEventListener('click', () => {
+						if (!btn.classList.contains('header__btn--active')) {
+							isOpen = true
+							openCloseBurgerMenu()
+						}
+					})
+				})
+			}
 
 			window.addEventListener('resize', handleChangeOnResize)
 		}
@@ -1839,8 +1907,6 @@ function main() {
 				if (event.propertyName !== 'transform' && !isRocketStarted && (!isAnimationStopped || !rocket.classList.contains(`${rocket.classList[0]}--animate`))) {
 					isRocketStarted = true
 					rocket.classList.add(`${rocket.classList[0]}--animate`)
-
-					console.log('1')
 
 					lightAnimate()
 

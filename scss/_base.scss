@@ -5,7 +5,7 @@
 	--white: #fff;
 	--black: #000;
 	--gray: #a9a9a9;
-	--green: #2f9d5f;
+	--green: #bd7bc7;
 	--aqua: #26aaa4;
 	--red: #d65a21;
 	--blue: #5dade2;
@@ -256,6 +256,7 @@
 	--z-index-nav-container: 3;
 	--z-index-burger-menu: 4;
 	--z-index-moda-widnow-copy: 10;
+	--z-index-season-img: 11;
 }
 
 // colors
@@ -269,6 +270,35 @@ $blue: var(--blue);
 	src: url('../fonts/Furore/Furore.otf');
 	font-style: normal;
 	font-weight: 600;
+}
+
+.season-img {
+	@keyframes fall-and-drift {
+		0% {
+			top: -10%;
+			transform: translateX(0) rotate(0deg);
+			opacity: 1;
+		}
+
+		50% {
+			transform: translateX(20px) rotate(30deg);
+		}
+
+		100% {
+			top: 100%;
+			transform: translateX(-20px) rotate(360deg);
+			opacity: 0;
+		}
+	}
+
+	position: fixed;
+	z-index: var(--z-index-season-img);
+	width: 30px;
+	height: 30px;
+	object-fit: cover;
+	animation: fall-and-drift 0s linear forwards;
+	pointer-events: none;
+	user-select: none;
 }
 
 .main-title {

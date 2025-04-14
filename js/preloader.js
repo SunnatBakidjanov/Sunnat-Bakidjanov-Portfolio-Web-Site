@@ -149,7 +149,7 @@ function main() {
 			const month = now.getMonth() + 1
 
 			if (month === 12 || month === 1 || month === 2) return '#5dade2'
-			if (month >= 3 && month <= 5) return '#2f9d5f'
+			if (month >= 3 && month <= 5) return '#bd7bc7'
 			if (month >= 6 && month <= 8) return '#26aaa4'
 			if (month >= 9 && month <= 11) return '#d65a21'
 		}
