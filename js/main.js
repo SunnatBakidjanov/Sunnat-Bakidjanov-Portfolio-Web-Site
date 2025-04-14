@@ -6,7 +6,7 @@ function main() {
 	const START_PAGE_POSITION = 0
 	const START_PAGE_NAME = 'home'
 
-	const isLanguageRussian = preloaderChangeLangBtn.dataset.lang === 'true'
+	let isLanguageRussian = preloaderChangeLangBtn.dataset.lang === 'true'
 
 	const pageIds = {
 		'home-page-btn': 'home',
@@ -53,7 +53,7 @@ function main() {
 
 			if (!targetPage) return
 
-			if (currentPage === pageName) resetCallback()
+			if (currentPage === pageName && !isAnimationStopped) resetCallback()
 
 			currentPage = targetPage
 		}
@@ -70,7 +70,7 @@ function main() {
 
 			if (!targetPage) return
 
-			if (currentPage === pageName) {
+			if (currentPage === pageName && !isAnimationStopped) {
 				animatedElements.clear()
 
 				if (elementsArray) {
@@ -253,14 +253,68 @@ function main() {
 		const root = document.querySelector('.main-page')
 		const buttons = document.querySelectorAll('.aside-menu__colors')
 		const classes = ['bg-color--1', 'bg-color--2', 'bg-color--3', 'bg-color--4']
-		const colors = ['#12a34e', '#26aaa4', '#d65a21', '#5dade2']
+		const colors = ['#2f9d5f', '#26aaa4', '#d65a21', '#5dade2']
+
+		let isTransitioning = false
+		let currentClass = 'bg-color--4'
 
 		buttons.forEach((element, index) => {
 			element.classList.add(`aside-menu__colors--${index}`)
 		})
 
-		let isTransitioning = false
-		let currentClass = 'bg-color--4'
+		function getCurrentSeason() {
+			const now = new Date()
+			const month = now.getMonth() + 1
+
+			if (month === 12 || month === 1 || month === 2) {
+				currentClass = 'bg-color--4'
+				return colors[3]
+			}
+			if (month >= 3 && month <= 5) {
+				currentClass = 'bg-color--1'
+				return colors[0]
+			}
+			if (month >= 6 && month <= 8) {
+				currentClass = 'bg-color--2'
+				return colors[1]
+			}
+			if (month >= 9 && month <= 11) {
+				currentClass = 'bg-color--3'
+				return colors[2]
+			}
+		}
+
+		let currentColor = getCurrentSeason()
+
+		function hexToRgb(hex) {
+			const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i
+			hex = hex.replace(shorthandRegex, (m, r, g, b) => {
+				return r + r + g + g + b + b
+			})
+
+			const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+			return result ? `rgb(${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)})` : null
+		}
+
+		function initializedColor() {
+			const currentRGB = hexToRgb(currentColor)
+			document.documentElement.style.setProperty('--change-color', currentColor)
+
+			root.classList.remove(...classes)
+			root.classList.add(currentClass)
+
+			buttons.forEach(button => {
+				button.classList.remove('aside-menu__colors--active')
+
+				const buttonColor = getComputedStyle(button).backgroundColor
+
+				if (buttonColor === currentRGB) {
+					button.classList.add('aside-menu__colors--active')
+				}
+			})
+		}
+
+		initializedColor()
 
 		function changeGradient(className, color) {
 			if (isTransitioning || currentClass === className) return
@@ -1133,6 +1187,7 @@ function main() {
 			let isLogged = false
 			let isHidden = false
 			let isTextShowed = false
+			let isAnimated = false
 
 			const textBoxes = []
 			const textElements = []
@@ -1153,16 +1208,19 @@ function main() {
 				const textElement = document.createElement('span')
 				textElement.classList.add('hmp-way__text')
 				box.appendChild(textElement)
-				box.appendChild(blink)
+
 				textBoxes.push(box)
 				textElements.push(textElement)
+
+				box.appendChild(blink)
 			}
 
 			function nextString() {
-				createBox()
 				blink.classList.remove('hmp-way__blink--write')
 				currentIndex++
 				letterIndex = 0
+
+				createBox()
 			}
 
 			function resetContent() {
@@ -1268,8 +1326,10 @@ function main() {
 			}
 
 			function handleAnimationEnd(event) {
-				if (event.animationName === 'my-way-container') {
+				if ((event.animationName === 'my-way-container' && !isAnimationStopped) || container.children.length > 0) {
 					timeout = setTimeout(() => {
+						if (isAnimated) return
+						isAnimated = true
 						createBox()
 						startTyping()
 						stopAnimationIsOutVisability()
@@ -1329,6 +1389,7 @@ function main() {
 
 				state = 'writing'
 				isTextShowed = false
+				isAnimated = false
 				btnAgain.classList.remove('hmp-way__btn-again--show-agian')
 				btnShow.classList.remove('hmp-way__btn-show--hide-show')
 				blink.classList.remove('hmp-way__blink--write')
@@ -1717,11 +1778,15 @@ function main() {
 								rocketInterval = null
 							}
 
+							rocket.style.animation = 'none'
 							rocket.style.transform = 'translate(0, 0)'
 
 							if (lightInterval) {
 								clearInterval(lightInterval)
 								lightInterval = null
+
+								const lights = document.querySelectorAll('.resume-animation__light')
+								lights.forEach(light => light.remove())
 							}
 						}
 					},
@@ -1736,8 +1801,6 @@ function main() {
 				const offsetY = Math.random() * 50 - 25
 
 				rocket.style.transform = `translate(${offsetX}%, ${offsetY}%)`
-
-				stopAnimationIsMonitorOutVisability()
 			}
 
 			const handleRocketAnimationEnd = () => {
@@ -1748,6 +1811,8 @@ function main() {
 
 				clearInterval(rocketInterval)
 				rocketInterval = setInterval(changeDirection, timers.rocketChangeDircetion)
+
+				stopAnimationIsMonitorOutVisability()
 
 				rocket.removeEventListener('animationend', handleRocketAnimationEnd)
 			}
@@ -1771,9 +1836,11 @@ function main() {
 			}
 
 			const handleRocketTransitionEnd = event => {
-				if (event.propertyName === 'transform' && !isRocketStarted) {
+				if (event.propertyName !== 'transform' && !isRocketStarted && (!isAnimationStopped || !rocket.classList.contains(`${rocket.classList[0]}--animate`))) {
 					isRocketStarted = true
 					rocket.classList.add(`${rocket.classList[0]}--animate`)
+
+					console.log('1')
 
 					lightAnimate()
 
@@ -2051,9 +2118,10 @@ function main() {
 			const links = document.querySelectorAll('.about-me-self__links-item')
 			const expBox = document.querySelectorAll('.about-me-exp__box')
 			const totalExp = document.getElementById('about-me-exp-total-exp')
+			const waves = document.querySelectorAll('.about-me-animation__wave')
 
 			const hideElements = [mainTitle, mainSubtitle, scrollText, text]
-			const elements = [animationElement, scrollLine, totalExp, ...lines, ...titles, ...links]
+			const elements = [animationElement, scrollLine, totalExp, ...lines, ...titles, ...links, ...waves]
 
 			removeAnimateClasses([...elements, ...expBox], hideElements, 'about-me')
 			animateVisibleElements(hideElements, addAnimateClassesInHideElements)
@@ -2449,14 +2517,14 @@ function main() {
 
 		backgroundColorChange()
 		climbUp()
+		usesPageEvents()
+		resumePageEvents()
+		aboutMePageEvents()
 
 		setTimeout(() => {
 			headerEvents()
-			homePageEvents()
-			usesPageEvents()
-			resumePageEvents()
-			aboutMePageEvents()
 			footerEvents()
+			homePageEvents()
 			asideMenu()
 		}, PAGE_START_TIMER)
 	})

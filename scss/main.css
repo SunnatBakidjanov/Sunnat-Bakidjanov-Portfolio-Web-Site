@@ -25,7 +25,7 @@ button {
   --white: #fff;
   --black: #000;
   --gray: #a9a9a9;
-  --green: #12a34e;
+  --green: #2f9d5f;
   --aqua: #26aaa4;
   --red: #d65a21;
   --blue: #5dade2;
@@ -52,8 +52,8 @@ button {
   --thumb-color: var(--orange);
   --scrollbar-bg-color: var(--white);
   --header-btn-lines-bg-color: var(--white);
-  --gradient-color: var(--blue);
-  --change-color: var(--blue);
+  --gradient-color: var(--green);
+  --change-color: var(--green);
   --hmp-logo-3d-color: var(--white);
   --hmp-logo-lines-duration: 0.7s;
   --hmp-cards-circle-color: var(--white);
@@ -83,7 +83,7 @@ button {
   --hmp-my-way-text-font-size-1440: 1.1em;
   --hmp-my-way-btn-text-font-size-1440: 1.8em;
   --uses-main-title-font-size-1440: 4.2em;
-  --uses-main-subtitle-font-size-1440: 2.7em;
+  --uses-main-subtitle-font-size-1440: 2.4em;
   --uses-btn-text-font-size-1440: 2em;
   --uses-equipment-hide-text-font-size-1440: 1.3em;
   --uses-software-font-size-1440: 2.2em;
@@ -119,8 +119,8 @@ button {
   --hmp-getting-logo-font-size-1024: 3.8em;
   --hmp-projects-text-font-size-1024: 1.9em;
   --hmp-my-way-btn-text-font-size-1024: 1.7em;
-  --uses-main-title-font-size-1024: 4em;
-  --uses-main-subtitle-font-size-1024: 2.5em;
+  --uses-main-title-font-size-1024: 3.6em;
+  --uses-main-subtitle-font-size-1024: 2.2em;
   --uses-equipment-hide-text-font-size-1024: 1.2em;
   --uses-linters-tasks-font-size-1024: 1.8em;
   --uses-linters-title-font-size-1024: 2.3em;
@@ -150,7 +150,7 @@ button {
   --hmp-cards-progress-text-font-size-768: 2.4em;
   --hmp-projects-text-font-size-768: 1.6em;
   --hmp-my-way-btn-text-font-size-768: 1.6em;
-  --uses-main-title-font-size-768: 3.5em;
+  --uses-main-title-font-size-768: 3.2em;
   --uses-main-subtitle-font-size-768: 2em;
   --uses-btn-text-font-size-768: 1.8em;
   --uses-equipment-hide-text-font-size-768: 1.1em;
@@ -187,8 +187,8 @@ button {
   --hmp-projects-text-font-size-425: 1.2em;
   --hmp-my-way-btn-text-font-size-425: 1.2em;
   --hmp-my-way-text-font-size-425: 1em;
-  --uses-main-title-font-size-425: 3.1em;
-  --uses-main-subtitle-font-size-425: 1.8em;
+  --uses-main-title-font-size-425: 2.5em;
+  --uses-main-subtitle-font-size-425: 1.6em;
   --uses-btn-text-font-size-425: 1.5em;
   --uses-equipment-hide-text-font-size-425: 0.9em;
   --uses-software-font-size-425: 1.6em;
@@ -215,8 +215,8 @@ button {
   --hmp-getting-text-font-size-375: 1.5em;
   --hmp-scroll-text-font-size-375: 1.8em;
   --hmp-projects-text-font-size-375: 1.1em;
-  --uses-main-title-font-size-375: 2.6em;
-  --uses-main-subtitle-font-size-375: 1.6em;
+  --uses-main-title-font-size-375: 2.2em;
+  --uses-main-subtitle-font-size-375: 1.2em;
   --uses-linters-tasks-font-size-375: 1.1em;
   --uses-linters-setting-subtitle-font-size-375: 1em;
   --header-btn-font-size-heigth-667: 1.8em;
@@ -238,10 +238,6 @@ button {
   font-style: normal;
   font-weight: 600;
 }
-body {
-  background: linear-gradient(90deg, rgb(0, 0, 0) 30%, var(--gradient-color) 130%);
-}
-
 .main-title {
   visibility: hidden;
   width: 0;
@@ -2301,7 +2297,7 @@ body {
 }
 @media (width <= 425px) {
   .uses-getting__wrapper {
-    margin-top: 35px;
+    margin-top: 30px;
   }
   .uses-getting__title {
     font-size: var(--uses-main-title-font-size-425);

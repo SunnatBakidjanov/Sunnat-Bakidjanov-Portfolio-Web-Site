@@ -1,7 +1,11 @@
 :root {
 	--preloader-progress: 0;
-	--preloader-change-color: #5dade2;
+	--preloader-change-color: #2f9d5f;
 	--preloader-transition-point: 30%;
+}
+
+body {
+	background: linear-gradient(90deg, rgb(0 0 0 / 100%) 30%, var(--preloader-change-color) 130%);
 }
 
 .preloader {
@@ -28,13 +32,14 @@
 			}
 		}
 
-		animation: load-done 1s ease-out forwards;
+		animation: load-done 0.9s ease-out forwards;
 	}
 
 	&__message {
 		font-family: Furore, sans-serif;
 		font-size: 2.5em;
 		color: white;
+		text-align: center;
 	}
 
 	&__progress-br-container {
@@ -53,7 +58,7 @@
 		left: 0;
 		width: var(--preloader-progress);
 		height: 100%;
-		background-color: #5dade2;
+		background-color: var(--preloader-change-color);
 	}
 
 	&__value-container {
@@ -88,7 +93,7 @@
 
 	&__change-language-text {
 		position: relative;
-		bottom: 0;
+		bottom: -1px;
 		transform: scale(1);
 		transition:
 			bottom 0.2s ease-out,
@@ -96,9 +101,95 @@
 			color 0.4s ease-out;
 
 		&--active {
-			bottom: 1px;
 			transform: scale(1.2);
 			color: var(--preloader-change-color);
 		}
+	}
+
+	@media (width <= 1024px) {
+		&__message {
+			font-size: 2.2em;
+		}
+
+		&__progress-br-container {
+			width: 85%;
+			height: 40px;
+		}
+
+		&__value {
+			font-size: 4.4em;
+		}
+
+		&__value-precent {
+			font-size: 2.5em;
+		}
+
+		&__change-language-btn {
+			font-size: 1.8em;
+		}
+
+		&__change-language-text {
+			bottom: 0;
+		}
+	}
+
+	@media (width <= 768px) {
+		&__message {
+			font-size: 1.6em;
+		}
+
+		&__progress-br-container {
+			width: 90%;
+			height: 35px;
+		}
+
+		&__value {
+			font-size: 3.2em;
+		}
+
+		&__value-precent {
+			font-size: 2em;
+		}
+
+		&__change-language-btn {
+			font-size: 1.4em;
+		}
+	}
+
+	@media (width <= 425px) {
+		&__message {
+			font-size: 1.2em;
+		}
+
+		&__progress-br-container {
+			width: 90%;
+			height: 30px;
+		}
+
+		&__value {
+			font-size: 2.8em;
+		}
+
+		&__value-precent {
+			font-size: 1.8em;
+		}
+
+		&__change-language-btn {
+			top: 3%;
+			left: 3%;
+			font-size: 1.2em;
+		}
+	}
+}
+
+@media (width <= 768px) {
+	.preloader {
+		row-gap: 15px;
+	}
+}
+
+@media (width <= 425px) {
+	.preloader {
+		row-gap: 10px;
 	}
 }

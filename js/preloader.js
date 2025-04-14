@@ -14,8 +14,8 @@ function main() {
 	const mainPage = document.getElementById('main-page')
 	const btn = document.getElementById('preloader-change-language-btn')
 
-	function updateProgress(type, onlyUpdateMessage = false) {
-		if (!onlyUpdateMessage) loadedResources++
+	function updateProgress(type, onlyUpdateMessage = false, isError = false) {
+		if (!onlyUpdateMessage && !isError) loadedResources++
 		lastResourceType = type
 
 		const progress = (loadedResources / totalResources) * 100
@@ -23,6 +23,16 @@ function main() {
 		preloaderValue.textContent = progress.toFixed(0)
 
 		let message = ''
+
+		if (isError) {
+			lastResourceType = type = 'error'
+			message = isLanguageRussian ? 'Пожалуйста, перезагрузите страницу.' : 'Please reload the page.'
+			preloaderMessage.dataset.ru = message
+			preloaderMessage.dataset.en = message
+			preloaderMessage.innerText = message
+			return
+		}
+
 		switch (type) {
 			case 'image':
 				message = isLanguageRussian ? 'Загружаем изображения...' : 'Loading images...'
@@ -33,6 +43,9 @@ function main() {
 			case 'style':
 				message = isLanguageRussian ? 'Загружаем стили...' : 'Loading styles...'
 				break
+			case 'error':
+				message = isLanguageRussian ? 'Пожалуйста, перезагрузите страницу.' : 'Please reload the page.'
+				break
 		}
 
 		preloaderMessage.dataset.ru = message
@@ -41,9 +54,11 @@ function main() {
 
 		if (loadedResources === totalResources && !onlyUpdateMessage) {
 			const doneMsg = isLanguageRussian ? 'Все ресурсы загружены' : 'All resources loaded'
-			preloaderMessage.dataset.ru = 'Все ресурсы загружены'
-			preloaderMessage.dataset.en = 'All resources loaded'
+			preloaderMessage.dataset.ru = doneMsg
+			preloaderMessage.dataset.en = doneMsg
 			preloaderMessage.innerText = doneMsg
+			btn.disabled = true
+			btn.style.cursor = 'default'
 
 			setTimeout(() => {
 				preloader.classList.add(`${preloader.classList[0]}--animate`)
@@ -68,7 +83,7 @@ function main() {
 				updateProgress('image')
 			} else {
 				img.addEventListener('load', () => updateProgress('image'))
-				img.addEventListener('error', () => updateProgress('image'))
+				img.addEventListener('error', () => updateProgress('image', false, true))
 			}
 		})
 
@@ -77,7 +92,7 @@ function main() {
 				updateProgress('script')
 			} else {
 				script.addEventListener('load', () => updateProgress('script'))
-				script.addEventListener('error', () => updateProgress('script'))
+				script.addEventListener('error', () => updateProgress('script', false, true))
 			}
 		})
 
@@ -90,7 +105,7 @@ function main() {
 				}
 			} catch (e) {
 				style.addEventListener('load', () => updateProgress('style'))
-				style.addEventListener('error', () => updateProgress('style'))
+				style.addEventListener('error', () => updateProgress('style', false, true))
 			}
 		})
 	}
@@ -109,8 +124,6 @@ function main() {
 			if (lastResourceType) {
 				updateProgress(lastResourceType, true)
 			} else {
-				preloaderMessage.dataset.en = 'Loading resources...'
-				preloaderMessage.dataset.ru = 'Загружаем ресурсы...'
 				preloaderMessage.textContent = preloaderMessage.dataset[language]
 			}
 
@@ -130,6 +143,23 @@ function main() {
 		btn.addEventListener('click', changeLanguage)
 	}
 
+	function initializateColor() {
+		function getCurrentSeason() {
+			const now = new Date()
+			const month = now.getMonth() + 1
+
+			if (month === 12 || month === 1 || month === 2) return '#5dade2'
+			if (month >= 3 && month <= 5) return '#2f9d5f'
+			if (month >= 6 && month <= 8) return '#26aaa4'
+			if (month >= 9 && month <= 11) return '#d65a21'
+		}
+
+		const currentColor = getCurrentSeason()
+
+		document.documentElement.style.setProperty('--preloader-change-color', currentColor)
+	}
+
+	initializateColor()
 	trackResources()
 	setLanguage()
 }
