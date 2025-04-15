@@ -5,11 +5,43 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Sunnat Bakidjanov</title>
 
-		<link rel="icon" href="img/svg/favicon-icon.svg">
+		<link rel="preload" href="/fonts/Furore/Furore.otf" as="font" type="font/otf" crossorigin="anonymous">
+
+		<link rel="stylesheet" href="/scss/preloader/preloader.css">		
 		<link rel="stylesheet" href="scss/main.css">
+
+		<link rel="icon" href="img/svg/favicon-icon.svg">
 	</head>
-	<body>
-		<div class="page" id="page">
+	
+	<body translate="no">
+		<h1 class="main-title">Портфолио Sunnat Bakidjanov — Frontend-разработчик</h1>
+
+		<div class="season-preload">
+			<img class="season-preload__img" src="/img/png/sacura-spring.png" alt="">
+			<img class="season-preload__img" src="/img/png/leaf-autumn.png" alt="">
+			<img class="season-preload__img" src="/img/png/snowflake-winter.png" alt="">
+			<img class="season-preload__img" src="/img/png/sun-summer.png" alt="">
+		</div>
+
+		<div class="preloader" id="preloader">
+			<div class="preloader__message" id="preloader-message">. . .</div>
+
+			<div class="preloader__progress-br-container">
+				<div class="preloader__progress-br" id="preloader-progress-bar"></div>
+			</div>
+
+			<div class="preloader__value-container">
+				<span class="preloader__value" id="preloader-value">0</span>
+				<span class="preloader__value-precent">%</span>
+			</div>
+
+			<button type="button" class="preloader__change-language-btn" id="preloader-change-language-btn" data-lang="" aria-label="praloader-change-language-btn">
+				<span class="preloader__change-language-text">EN</span> |
+				<span class="preloader__change-language-text preloader__change-language-text--active">RU</span>
+			</button>
+		</div>
+
+		<div class="main-page main-page--open" id="main-page">
 			<header class="header">
 				<div class="container">
 					<div class="header__wrapper" id="header">
@@ -24,38 +56,38 @@
 						<div class="header__nav-container" id="header-nav-container">
 							<nav class="header__nav" id="header-main-nav">
 								<div class="header__item">
-									<button data-page="1" type="button" aria-label="Home" class="header__btn header__btn--active" id="home-page-btn">
+									<button data-page="1" type="button" aria-label="Home" class="header__btn" id="home-page-btn">
+										<span class="header__line"></span>
+										<span class="header__line"></span>
+										<span class="header__line"></span>
 										<span class="header__btn-text" data-en="Home" data-ru="Главная">Home</span>
-										<span class="header__line header__line--active"></span>
-										<span class="header__line header__line--active"></span>
-										<span class="header__line header__line--active"></span>
 									</button>
 								</div>
 
 								<div class="header__item">
 									<button data-page="2" type="button" aria-label="Uses" class="header__btn" id="uses-page-btn">
+										<span class="header__line"></span>
+										<span class="header__line"></span>
+										<span class="header__line"></span>
 										<span class="header__btn-text" data-en="Uses" data-ru="Мой набор">Uses</span>
-										<span class="header__line"></span>
-										<span class="header__line"></span>
-										<span class="header__line"></span>
 									</button>
 								</div>
 
 								<div class="header__item">
 									<button data-page="3" type="button" aria-label="Resume" class="header__btn" id="resume-page-btn">
+										<span class="header__line"></span>
+										<span class="header__line"></span>
+										<span class="header__line"></span>
 										<span class="header__btn-text" data-en="Resume" data-ru="Резюме">Resume</span> 
-										<span class="header__line"></span>
-										<span class="header__line"></span>
-										<span class="header__line"></span>
 									</button>
 								</div>
 
 								<div class="header__item">
 									<button data-page="4" type="button" aria-label="About me" class="header__btn" id="about-me-page-btn">
+										<span class="header__line"></span>
+										<span class="header__line"></span>
+										<span class="header__line"></span>
 										<span class="header__btn-text" data-en="About me" data-ru="Обо мне">About me</span>
-										<span class="header__line"></span>
-										<span class="header__line"></span>
-										<span class="header__line"></span>
 									</button>
 								</div>
 							</nav>
@@ -87,11 +119,11 @@
 							</nav>
 						</div>
 
-						<div class="header__burger-menu" id="burger-menu">
+						<button type="button" aria-label="burger-button" class="header__burger-menu" id="burger-menu">
 							<span class="header__burger-line"></span>
 							<span class="header__burger-line"></span>
 							<span class="header__burger-line"></span>
-						</div>
+						</button>
 					</div>
 				</div>
 			</header>
@@ -128,8 +160,8 @@
 								<button type="button" aria-label="4th-color" class="aside-menu__colors aside-menu__colors--active" id="aside-colors-4th"></button>
 							</div>
 						</div>
-						<button class="aside-menu__inner-btn" type="button" aria-label="animation-stop" id="aside-menu-animation-btn">
-							<span data-en="RE:Animations:" data-ru="RE:Анимаций:">RE:Animations:</span>
+						<button class="aside-menu__inner-btn" type="button" aria-label="animation-stop" id="atmpsphere-animation-btn">
+							<span data-en="Atmosphere:" data-ru="Атмосфера:">Atmosphere:</span>
 							<span class="aside-menu__animation-state" id="aside-menu-animation-state">ON</span>
 						</button>
 						<button class="aside-menu__inner-btn" type="button" aria-label="translator" data-en="Change Language: RU" data-ru="Изменить язык: EN" id="translator">Change Language: RU</button>
@@ -148,22 +180,22 @@
 			</button>
 	
 			<main>
-				<div class="home-page page page--active" id="page-1">
+				<div class="home-page page" id="page-1">
 					<section class="hmp-getting">
 						<div class="container">
 							<div class="hmp-getting__wrapper">
 								<div class="hmp-getting__inner-text">
 									<div class="hmp-getting__hidden-title" id="hmp-getting-hidden-title">
-										<h1 class="hmp-getting__title" id="hmp-getting-title">
+										<h2 class="hmp-getting__title hmp-getting__title--hide">
 											<span class="hmp-getting__title--font-color" data-en="Hello," data-ru="Привет,">Hello,</span><br>
 											<span class="hmp-getting__title--font-color" data-en="I'm" data-ru="Я">I'm</span>
 											<span class="hmp-getting__title--accent-color" id="hmp-getting-name" data-en="Sunnat" data-ru="Sunnat">Sunnat</span>
-										</h1>
+										</h2>
 									</div>
 	
 									<div class="hmp-getting__text-group" id="hmp-getting-group-text">
 										<span id="hmp-getting-text"></span>
-										<span class="hmp-getting__blink" id="hmp-getting-blink"> |</span>
+										<span class="hmp-getting__blink hmp-getting__blink--hide" id="hmp-getting-blink"> |</span>
 									</div>
 								</div>
 								
@@ -172,10 +204,10 @@
 										<div class="hmp-getting__preserve-3d" id="hmp-getting-preverve">
 											<div class="hmp-getting__front hmp-getting__sides" id="hmp-getting-front">
 												<img class="hmp-getting__img" id="hmp-getting-img" src="img/svg/super-man-getting.svg" alt="">
-												<span class="hmp-getting__line-left hmp-getting__line" id="hmp-getting-line-left"></span>
-												<span class="hmp-getting__line-right hmp-getting__line" id="hmp-getting-line-right"></span>
-												<span class="hmp-getting__line-top hmp-getting__line" id="hmp-getting-line-top"></span>
-												<span class="hmp-getting__line-bottom hmp-getting__line" id="hmp-getting-line-bottom"></span>
+												<span class="hmp-getting__line-left hmp-getting__line hmp-getting__line-left--hide"></span>
+												<span class="hmp-getting__line-right hmp-getting__line hmp-getting__line-right--hide"></span>
+												<span class="hmp-getting__line-top hmp-getting__line hmp-getting__line-top--hide"></span>
+												<span class="hmp-getting__line-bottom hmp-getting__line hmp-getting__line-bottom--hide"></span>
 											</div>
 											<div class="hmp-getting__back hmp-getting__sides">
 												<img src="img/svg/super-man-getting.svg" alt="">
@@ -193,15 +225,14 @@
 					<section class="hmp-scroll">
 						<div class="container">
 							<div class="hmp-scroll__wrapper scroll-section__wrapper">
-								<div class="hmp-scroll__line scroll-section__line"></div>
+								<div class="hmp-scroll__line scroll-section__line" id="hmp-scroll-line"></div>
 								<div class="hmp-scroll__hide-text scroll-section__text" id="hmp-scroll-text">
-									<span class="hmp-scroll__letter-left">S</span>
-									<span class="hmp-scroll__letter-left">C</span>
-									<span class="hmp-scroll__letter-left">R</span>
-
-									<span class="hmp-scroll__letter-right">O</span>
-									<span class="hmp-scroll__letter-right">L</span>
-									<span class="hmp-scroll__letter-right">L</span>
+									<span class="hmp-scroll__letter hmp-scroll__letter--hide">S</span>
+									<span class="hmp-scroll__letter hmp-scroll__letter--hide">C</span>
+									<span class="hmp-scroll__letter hmp-scroll__letter--hide">R</span>
+									<span class="hmp-scroll__letter hmp-scroll__letter--hide">O</span>
+									<span class="hmp-scroll__letter hmp-scroll__letter--hide">L</span>
+									<span class="hmp-scroll__letter hmp-scroll__letter--hide">L</span>
 								</div>
 							</div>
 						</div>
@@ -212,14 +243,14 @@
 					<section class="hmp-cards">
 						<div class="container">
 							<div class="hmp-cards__wrapper">								
-								<h2 class="hmp-cards__title hmp-titles" data-en="Progress of my skills" data-ru="Прогресс моих навыков">Progress of my skills</h2>
+								<h2 class="hmp-titles hmp-cards__title" data-en="Progress of my skills" data-ru="Прогресс моих навыков">Progress of my skills</h2>
 
-								<div class="hmp-cards__line line"></div>
+								<div class="hmp-line line"></div>
 		
 								<div class="hmp-cards__inner-content">
 									<div class="hmp-cards__container">
 										<div class="hmp-cards__inner-progress">
-											<div class="hmp-cards__svg-box">
+											<div class="hmp-cards__svg-box hmp-cards__svg-box--hide">
 												<svg class="hmp-cards__svg">
 													<circle class="hmp-cards__circle" cx="70" cy="70" r="70"></circle>
 													<circle class="hmp-cards__circle" id="hmp-cards-circle-0" cx="70" cy="70" r="70"></circle>
@@ -231,7 +262,7 @@
 												</div>
 											</div>
 
-											<div class="hmp-cards__progress-text hmp-cards__progress-text--html">HTML</div>
+											<div class="hmp-cards__progress-text hmp-cards__progress-text--html hmp-cards__progress-text--hide">HTML</div>
 										</div>
 
 										<div class="hmp-cards__inner-text">
@@ -246,7 +277,7 @@
 
 									<div class="hmp-cards__container">
 										<div class="hmp-cards__inner-progress">
-											<div class="hmp-cards__svg-box">
+											<div class="hmp-cards__svg-box hmp-cards__svg-box--hide">
 												<svg class="hmp-cards__svg">
 													<circle class="hmp-cards__circle" cx="70" cy="70" r="70"></circle>
 													<circle class="hmp-cards__circle" id="hmp-cards-circle-1" cx="70" cy="70" r="70"></circle>
@@ -258,7 +289,7 @@
 												</div>
 											</div>
 
-											<div class="hmp-cards__progress-text hmp-cards__progress-text--css">CSS</div>
+											<div class="hmp-cards__progress-text hmp-cards__progress-text--css hmp-cards__progress-text--hide">CSS</div>
 										</div>
 
 										<div class="hmp-cards__inner-text">
@@ -273,7 +304,7 @@
 
 									<div class="hmp-cards__container">
 										<div class="hmp-cards__inner-progress">
-											<div class="hmp-cards__svg-box">
+											<div class="hmp-cards__svg-box hmp-cards__svg-box--hide">
 												<svg class="hmp-cards__svg">
 													<circle class="hmp-cards__circle" cx="70" cy="70" r="70"></circle>
 													<circle class="hmp-cards__circle" id="hmp-cards-circle-2" cx="70" cy="70" r="70"></circle>
@@ -285,7 +316,7 @@
 												</div>
 											</div>
 
-											<div class="hmp-cards__progress-text hmp-cards__progress-text--js">JavaScript</div>
+											<div class="hmp-cards__progress-text hmp-cards__progress-text--js hmp-cards__progress-text--hide">JavaScript</div>
 										</div>
 
 										<div class="hmp-cards__inner-text">
@@ -300,7 +331,7 @@
 
 									<div class="hmp-cards__container">
 										<div class="hmp-cards__inner-progress">
-											<div class="hmp-cards__svg-box">
+											<div class="hmp-cards__svg-box hmp-cards__svg-box--hide">
 												<svg class="hmp-cards__svg">
 													<circle class="hmp-cards__circle" cx="70" cy="70" r="70"></circle>
 													<circle class="hmp-cards__circle" id="hmp-cards-circle-3" cx="70" cy="70" r="70"></circle>
@@ -312,7 +343,7 @@
 												</div>
 											</div>
 											
-											<div class="hmp-cards__progress-text hmp-cards__progress-text--react">React</div>
+											<div class="hmp-cards__progress-text hmp-cards__progress-text--react hmp-cards__progress-text--hide">React</div>
 										</div>
 
 										<div class="hmp-cards__inner-text">
@@ -332,30 +363,29 @@
 					<section class="hmp-projects">
 						<div class="container">
 							<div class="hmp-projects__wrapper">
-								<h2 class="hmp-projects__title hmp-titles" data-en="My projects" data-ru="Мои проекты">My projects</h2>
+								<h2 class="hmp-titles hmp-projects__title" data-en="My projects" data-ru="Мои проекты">My projects</h2>
 
-								<div class="hmp-projects__line line"></div>
+								<div class="hmp-line line"></div>
 		
 								<div class="hmp-projects__inner-content">
 									<div class="hmp-projects__inner-text">
-										<div class="hmp-projects__hidden-text">
-											<div class="hmp-projects__text" id="hmp-projects-text">
-												<span data-en="I don't have any projects to share yet" data-ru="У меня пока нет проектов, которыми можно поделиться">I don't have any projects to share yet</span> 
-												<span class="hmp-projects__text-span" data-en="But they will appear soon" data-ru="Но они скоро появятся">But they will appear soon</span>
-											</div>
+										<div class="hmp-projects__text-container" id="hmp-projects-hidden-text">
+											<span class="hmp-projects__text hmp-projects__text--hide" data-en="I don't have any projects to share yet" data-ru="У меня пока нет проектов, которыми можно поделиться">I don't have any projects to share yet</span> 
+											<span class="hmp-projects__text hmp-projects__text--hide" data-en="But they will appear soon" data-ru="Но они скоро появятся">But they will appear soon</span>
 										</div>
 									</div>
 									
 									<div class="hmp-projects__inner-cloud" id="hmp-cloud-container">
-										<div class="hmp-projects__preserve-3d">
-											<div class="hmp-projects__particle-center" id="hmp-cloud-particle-center">
+										<div class="hmp-projects__preserve-3d" id="hmp-cloud-particle-center">
+											<div class="hmp-projects__particle-center hmp-projects__particle-center--hide">
 												<span class="hmp-projects__particle-top" id="hmp-cloud-partilce-top"></span>
 											</div>
 											<div class="hmp-projects__bottom" id="hmp-cloud-bottom"></div>
 										</div>
 									</div>
-		
 								</div>
+
+								<div class="hmp-line line"></div>
 							</div>
 						</div>
 					</section>
@@ -363,9 +393,9 @@
 					<section class="hmp-way">
 						<div class="container">
 							<div class="hmp-way__wrapper">		
-								<h2 class="hmp-way__title hmp-titles" data-en="My way" data-ru="Мой путь">My way</h2>
+								<h2 class="hmp-titles hmp-way__title" data-en="My way" data-ru="Мой путь">My way</h2>
 								
-								<div class="hmp-way__line line"></div>
+								<div class="hmp-line line"></div>
 
 								<div class="hmp-way__inner-content" id="hmp-way-inner-content">
 									<span class="hmp-way__blink" id="hmp-way-blink"></span>
@@ -385,12 +415,29 @@
 						<div class="container">
 							<div class="uses-getting__wrapper">
 								<h2 class="uses-getting__title" id="uses-getting-title" data-en="Uses" data-ru="Мой набор">Uses</h2>
+								
 								<div class="uses-getting__subtitle" id="uses-getting-subtitle">
-									<span class="uses-getting__subtitle--span" data-en="Equipment" data-ru="Оборудование">Equipment</span> 
-									<span data-en="and" data-ru="и">and</span>
-									<span class="uses-getting__subtitle--span" data-en="Software" data-ru="Программное обеспечение">Software</span>
-									<span data-en="I Use for" data-ru="которое я использую для">I Use for</span>
-									<span class="uses-getting__subtitle--span" data-en="Development" data-ru="Разработки">Development</span>
+									<span class="uses-getting__text uses-getting__text--hide uses-getting__text--accent-color" data-en="Equipment" data-ru="Оборудование">Equipment</span> 
+									<span class="uses-getting__text uses-getting__text--hide" data-en="and" data-ru="и">and</span>
+									<span class="uses-getting__text uses-getting__text--hide uses-getting__text--accent-color" data-en="Software" data-ru="Программное обеспечение">Software</span>
+									<span class="uses-getting__text uses-getting__text--hide" data-en="I Use for" data-ru="которое я использую для">I Use for</span>
+									<span class="uses-getting__text uses-getting__text--hide uses-getting__text--accent-color" data-en="Development" data-ru="Разработки">Development</span>
+								</div>
+
+								<div class="uses-line uses-equipment__line line"></div>
+							</div>
+						</div>
+					</section>
+
+					<section class="uses-gear">
+						<div class="container">
+							<div class="uses-gear__wrapper">
+
+
+								<div class="uses-gear__inner" id="uses-gear">
+									<img class="uses-gear__img uses-gear__img--hide" src="img/svg/gear.svg" alt="">
+									<img class="uses-gear__img uses-gear__img--hide" src="img/svg/gear.svg" alt="">
+									<img class="uses-gear__img uses-gear__img--hide" src="img/svg/gear.svg" alt="">
 								</div>
 							</div>
 						</div>
@@ -401,15 +448,15 @@
 							<div class="uses-scroll__wrapper scroll-section__wrapper">
 								<h2 class="uses-scroll__title scroll-section__title">Scroll title</h2>
 
-								<div class="uses-scroll__line scroll-section__line"></div>
+								<div class="uses-scroll__line scroll-section__line" id="uses-scroll-line"></div>
 
 								<div class="uses-scroll__text scroll-section__text" id="uses-scroll-text">
-									<span class="uses-scroll__letter">S</span>
-									<span class="uses-scroll__letter">C</span>
-									<span class="uses-scroll__letter">R</span>
-									<span class="uses-scroll__letter">O</span>
-									<span class="uses-scroll__letter">L</span>
-									<span class="uses-scroll__letter">L</span>
+									<span class="uses-scroll__letter uses-scroll__letter--hide">S</span>
+									<span class="uses-scroll__letter uses-scroll__letter--hide">C</span>
+									<span class="uses-scroll__letter uses-scroll__letter--hide">R</span>
+									<span class="uses-scroll__letter uses-scroll__letter--hide">O</span>
+									<span class="uses-scroll__letter uses-scroll__letter--hide">L</span>
+									<span class="uses-scroll__letter uses-scroll__letter--hide">L</span>
 								</div>
 							</div>
 						</div>
@@ -418,104 +465,120 @@
 					<section class="uses-equipment">
 						<div class="container">
 							<div class="uses-equipment__wrapper">
-								<h2 class="uses-equipment__title uses-title" data-en="Equipment" data-ru="Оборудование">Equipment</h2>
+								<h2 class="uses-title uses-equipment__title" data-en="Equipment" data-ru="Оборудование">Equipment</h2>
 
-								<div class="line uses-equipment__line"></div>
+								<div class="uses-line uses-equipment__line line"></div>
 
 								<div class="uses-equipment__inner-content">
-									<div class="uses-equipment__item uses-item">
-										<button type="button" aria-label="Monitor" class="uses-equipment__button uses-btn">
-											<span class="uses-equipment__text uses-text"></span>
-											<img class="uses-equipment__img uses-img" src="img/svg/equipment-arrow.svg" alt="">
+									<div class="uses-item">
+										<button type="button" aria-label="Monitor" class="uses-btn">
+											<span class="uses-text uses-text--hide" data-ru="Монитор" data-en="Monitor">Monitor</span>
+											<img class="uses-img uses-img--hide" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
-										<div class="uses-equipment__hidden-group uses-hide-group">
-											<div class="uses-equipment__hidden-text" data-en="Lenovo – 32″ G32qc-10 Curved Monitor, VA, 144Hz, 1mc, QHD(2560×1440) 2K" data-ru="Lenovo – 32″ G32qc-10 Изогнутый Монитор, VA, 144Hz, 1mc, QHD(2560×1440) 2K">Lenovo – 32″ G32qc-10 Curved Monitor, VA, 144Hz, 1mc, QHD(2560×1440) 2K</div>
-											<img class="uses-equipment__hidden-img" src="img/png/monitor.png" alt="">
+										<div class="uses-hide-group">
+											<div class="uses-hide-box uses-equipment__hide-box">
+												<div class="uses-equipment__hidden-text" data-en="Lenovo – 32″ G32qc-10 Curved Monitor, VA, 144Hz, 1mc, QHD(2560×1440) 2K" data-ru="Lenovo – 32″ G32qc-10 Изогнутый Монитор, VA, 144Hz, 1mc, QHD(2560×1440) 2K">Lenovo – 32″ G32qc-10 Curved Monitor, VA, 144Hz, 1mc, QHD(2560×1440) 2K</div>
+												<img class="uses-equipment__hidden-img" src="img/png/monitor.png" alt="">
+											</div>
 										</div>
 									</div>
 
-									<div class="uses-equipment__item uses-item">
-										<button type="button" aria-label="PC Case" class="uses-equipment__button uses-btn">
-											<span class="uses-equipment__text uses-text"></span> 
-											<img class="uses-equipment__img uses-img" src="img/svg/equipment-arrow.svg" alt="">
+									<div class="uses-item">
+										<button type="button" aria-label="PC Case" class="uses-btn">
+											<span class="uses-text uses-text--hide" data-en="PC Case" data-ru="ПК Кейс">PC Case</span> 
+											<img class="uses-img uses-img--hide" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
-										<div class="uses-equipment__hidden-group uses-hide-group">
-											<div class="uses-equipment__hidden-text" data-en="13th Gen Intel(R) Core(TM) i7-13700KF 3.40 GHz | 2x Kingston DDR5 16GB 5200Mhz RGB | 12GB GeForce RTX3060" data-ru="13th Gen Intel(R) Core(TM) i7-13700KF 3.40 GHz | 2x Kingston DDR5 16GB 5200Mhz RGB | 12GB GeForce RTX3060">13th Gen Intel(R) Core(TM) i7-13700KF 3.40 GHz | 2x Kingston DDR5 16GB 5200Mhz | RGB 12GB GeForce RTX3060</div>
-											<img class="uses-equipment__hidden-img" src="img/png/PCcase.png" alt="">
+										<div class="uses-hide-group">
+											<div class="uses-hide-box uses-equipment__hide-box">
+												<div class="uses-equipment__hidden-text" data-en="13th Gen Intel(R) Core(TM) i7-13700KF 3.40 GHz | 2x Kingston DDR5 16GB 5200Mhz RGB | 12GB GeForce RTX3060" data-ru="13th Gen Intel(R) Core(TM) i7-13700KF 3.40 GHz | 2x Kingston DDR5 16GB 5200Mhz RGB | 12GB GeForce RTX3060">13th Gen Intel(R) Core(TM) i7-13700KF 3.40 GHz | 2x Kingston DDR5 16GB 5200Mhz | RGB 12GB GeForce RTX3060</div>
+												<img class="uses-equipment__hidden-img" src="img/png/PCcase.png" alt="">
+											</div>
 										</div>
 									</div>
 
-									<div class="uses-equipment__item uses-item">
-										<button type="button" aria-label="Chair" class="uses-equipment__button uses-btn">
-											<span class="uses-equipment__text uses-text"></span> 
-											<img class="uses-equipment__img uses-img" src="img/svg/equipment-arrow.svg" alt="">
+									<div class="uses-item">
+										<button type="button" aria-label="Chair" class="uses-btn">
+											<span class="uses-text uses-text--hide" data-en="Chair" data-ru="Кресло">Chair</span> 
+											<img class="uses-img uses-img--hide" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
-										<div class="uses-equipment__hidden-group uses-hide-group">
-											<div class="uses-equipment__hidden-text" data-en="Gaming Chair Cougar ARMOR ONE Sky Blue" data-ru="Игровое кресло Cougar ARMOR ONE Sky Blue">Gaming Chair Cougar ARMOR ONE Sky Blue</div>
-											<img class="uses-equipment__hidden-img" src="img/png/chair.png" alt="">
+										<div class="uses-hide-group">
+											<div class="uses-hide-box uses-equipment__hide-box">
+												<div class="uses-equipment__hidden-text" data-en="Gaming Chair Cougar ARMOR ONE Sky Blue" data-ru="Игровое кресло Cougar ARMOR ONE Sky Blue">Gaming Chair Cougar ARMOR ONE Sky Blue</div>
+												<img class="uses-equipment__hidden-img" src="img/png/chair.png" alt="">
+											</div>
 										</div>
 									</div>
 
-									<div class="uses-equipment__item uses-item">
-										<button type="button" aria-label="Desk" class="uses-equipment__button uses-btn">
-											<span class="uses-equipment__text uses-text"></span> 
-											<img class="uses-equipment__img uses-img" src="img/svg/equipment-arrow.svg" alt="">
+									<div class="uses-item">
+										<button type="button" aria-label="Desk" class="uses-btn">
+											<span class="uses-text uses-text--hide" data-en="Desk" data-ru="Стол">Desk</span> 
+											<img class="uses-img uses-img--hide" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
-										<div class="uses-equipment__hidden-group uses-hide-group">
-											<div class="uses-equipment__hidden-text" data-en="Cougar E-Deimus 120" data-ru="Cougar E-Deimus 120">Cougar E-Deimus 120</div>
-											<img class="uses-equipment__hidden-img" src="img/png/desk.png" alt="">
+										<div class="uses-hide-group">
+											<div class="uses-hide-box uses-equipment__hide-box">
+												<div class="uses-equipment__hidden-text" data-en="Cougar E-Deimus 120" data-ru="Cougar E-Deimus 120">Cougar E-Deimus 120</div>
+												<img class="uses-equipment__hidden-img" src="img/png/desk.png" alt="">
+											</div>
 										</div>
 									</div>
 
-									<div class="uses-equipment__item uses-item">
-										<button type="button" aria-label="equipment-button" class="uses-equipment__button uses-btn">
-											<span class="uses-equipment__text uses-text"></span> 
-											<img class="uses-equipment__img uses-img" src="img/svg/equipment-arrow.svg" alt="">
+									<div class="uses-item">
+										<button type="button" aria-label="Keyboard" class="uses-btn">
+											<span class="uses-text uses-text--hide" data-en="Keyboard" data-ru="Клавиатура">Keyboard</span> 
+											<img class="uses-img uses-img--hide" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
-										<div class="uses-equipment__hidden-group uses-hide-group">
-											<div class="uses-equipment__hidden-text" data-en="Keyboard ASUS | ROG | FALCHION |" data-ru="Клавиатура ASUS | ROG | FALCHION |">Keyboard ASUS | ROG | FALCHION |</div>
-											<img class="uses-equipment__hidden-img" src="img/png/keyboard.png" alt="">
+										<div class="uses-hide-group">
+											<div class="uses-hide-box uses-equipment__hide-box">
+												<div class="uses-equipment__hidden-text" data-en="Keyboard ASUS | ROG | FALCHION |" data-ru="Клавиатура ASUS | ROG | FALCHION |">Keyboard ASUS | ROG | FALCHION |</div>
+												<img class="uses-equipment__hidden-img" src="img/png/keyboard.png" alt="">
+											</div>
 										</div>
 									</div>
 
-									<div class="uses-equipment__item uses-item">
-										<button type="button" aria-label="Mouse" class="uses-equipment__button uses-btn">
-											<span class="uses-equipment__text uses-text"></span> 
-											<img class="uses-equipment__img uses-img" src="img/svg/equipment-arrow.svg" alt="">
+									<div class="uses-item">
+										<button type="button" aria-label="Mouse" class="uses-btn">
+											<span class="uses-text uses-text--hide" data-en="Mouse" data-ru="Мышь">Mouse</span> 
+											<img class="uses-img uses-img--hide" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
-										<div class="uses-equipment__hidden-group uses-hide-group">
-											<div class="uses-equipment__hidden-text" data-en="Cougar Minos X5" data-ru="Cougar Minos X5">Cougar Minos X5</div>
-											<img class="uses-equipment__hidden-img" src="img/png/mouse.png" alt="">
+										<div class="uses-hide-group">
+											<div class="uses-hide-box uses-equipment__hide-box">
+												<div class="uses-equipment__hidden-text" data-en="Cougar Minos X5" data-ru="Cougar Minos X5">Cougar Minos X5</div>
+												<img class="uses-equipment__hidden-img" src="img/png/mouse.png" alt="">
+											</div>
 										</div>
 									</div>
 
-									<div class="uses-equipment__item uses-item">
-										<button type="button" aria-label="Webcam" class="uses-equipment__button uses-btn">
-											<span class="uses-equipment__text uses-text"></span> 
-											<img class="uses-equipment__img uses-img" src="img/svg/equipment-arrow.svg" alt="">
+									<div class="uses-item">
+										<button type="button" aria-label="Webcam" class="uses-btn">
+											<span class="uses-text uses-text--hide" data-en="Webcam" data-ru="Веб-камера">Webcam</span> 
+											<img class="uses-img uses-img--hide" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
-										<div class="uses-equipment__hidden-group uses-hide-group">
-											<div class="uses-equipment__hidden-text" data-en="Logitech 920 HD Pro Stream" data-ru="Logitech 920 HD Pro Stream">Logitech 920 HD Pro Stream</div>
-											<img class="uses-equipment__hidden-img" src="img/png/webcam.png" alt="">
+										<div class="uses-hide-group">
+											<div class="uses-hide-box uses-equipment__hide-box">
+												<div class="uses-equipment__hidden-text" data-en="Logitech 920 HD Pro Stream" data-ru="Logitech 920 HD Pro Stream">Logitech 920 HD Pro Stream</div>
+												<img class="uses-equipment__hidden-img" src="img/png/webcam.png" alt="">
+											</div>
 										</div>
 									</div>
 
-									<div class="uses-equipment__item uses-item">
-										<button type="button" aria-label="Microphone" class="uses-equipment__button uses-btn">
-											<span class="uses-equipment__text uses-text"></span> 
-											<img class="uses-equipment__img uses-img" src="img/svg/equipment-arrow.svg" alt="">
+									<div class="uses-item">
+										<button type="button" aria-label="Microphone" class="uses-btn">
+											<span class="uses-text uses-text--hide" data-en="Microphone" data-ru="Микрофон">Microphone</span> 
+											<img class="uses-img uses-img--hide" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
-										<div class="uses-equipment__hidden-group uses-hide-group">
-											<div class="uses-equipment__hidden-text" data-en="Maono DGM20S" data-ru="Maono DGM20S">Maono DGM20S</div>
-											<img class="uses-equipment__hidden-img" src="img/png/microphone.png" alt="">
+										<div class="uses-hide-group">
+											<div class="uses-hide-box uses-equipment__hide-box">
+												<div class="uses-equipment__hidden-text" data-en="Maono DGM20S" data-ru="Maono DGM20S">Maono DGM20S</div>
+												<img class="uses-equipment__hidden-img" src="img/png/microphone.png" alt="">
+											</div>
 										</div>
 									</div>
 
@@ -527,40 +590,34 @@
 					<section class="uses-software">
 						<div class="container">
 							<div class="uses-software__wrapper">
-								<h2 class="uses-software__title uses-title" data-en="Software" data-ru="Программное обеспечение">Software</h2>
+								<h2 class="uses-title uses-software__title" data-en="Software" data-ru="Программное обеспечение">Software</h2>
 
-								<div class="line uses-software__line"></div>
+								<div class="uses-line uses-software__line line"></div>
 
 								<div class="uses-software__inner-content">
 									<div class="uses-software__item">
-										<img class="uses-software__img" src="img/svg/vscode.svg" alt="">
-										<div class="uses-software__text uses-software__text--color-0">VSCode</div>
+										<img class="uses-software__img uses-software__img--hide" src="img/svg/vscode.svg" alt="">
+										<div class="uses-software__text uses-software__text--vscode uses-software__text--hide">VSCode</div>
 									</div>
 
 									<div class="uses-software__item">
-										<img class="uses-software__img" src="img/svg/figma.svg" alt="">
-										<div class="uses-software__text uses-software__text--color-1">Figma</div>
+										<img class="uses-software__img uses-software__img--hide" src="img/svg/figma.svg" alt="">
+										<div class="uses-software__text uses-software__text--figma uses-software__text--hide">Figma</div>
 									</div>
 
 									<div class="uses-software__item">
-										<img class="uses-software__img" src="img/png/pixel-perfect.png" alt="">
-										<div class="uses-software__text uses-software__text--color-2">PerfectPixel</div>
+										<img class="uses-software__img uses-software__img--hide" src="img/png/pixel-perfect.png" alt="">
+										<div class="uses-software__text uses-software__text--pixel-perfect uses-software__text--hide">PerfectPixel</div>
 									</div>
-
-									<div class="uses-software__item">
-										<img class="uses-software__img" src="img/svg/photoshop.svg" alt="">
-										<div class="uses-software__text uses-software__text--color-3">Photoshop</div>
-									</div>
-
 									
 									<div class="uses-software__item">
-										<img class="uses-software__img" src="img/svg/bootstrap.svg" alt="">
-										<div class="uses-software__text uses-software__text--color-4">Bootstrap</div>
+										<img class="uses-software__img uses-software__img--hide" src="img/svg/bootstrap.svg" alt="">
+										<div class="uses-software__text uses-software__text--bootstrap uses-software__text--hide">Bootstrap</div>
 									</div>
 
 									<div class="uses-software__item">
-										<img class="uses-software__img" src="img/svg/git.svg" alt="">
-										<div class="uses-software__text uses-software__text--color-5">Git</div>
+										<img class="uses-software__img uses-software__img--hide" src="img/svg/git.svg" alt="">
+										<div class="uses-software__text uses-software__text--git uses-software__text--hide">Git</div>
 									</div>
 								</div>
 							</div>
@@ -570,9 +627,9 @@
 					<section class="uses-linters"> 
 						<div class="container">
 							<div class="uses-linters__wrapper">
-								<h2 class="uses-linters__title uses-title" data-en="Linters" data-ru="Линтеры">Linters</h2>
+								<h2 class="uses-title uses-linters__title" data-en="Linters" data-ru="Линтеры">Linters</h2>
 
-								<div class="uses-linters__line line"></div>
+								<div class="uses-line uses-linters__line line"></div>
 
 								<div class="uses-linters__tasks-group">
 									<div class="uses-linters__task" data-en="for code cleanliness" data-ru="для чистоты кода">for code cleanliness</div>
@@ -582,36 +639,52 @@
 									<div class="uses-linters__task" data-en="for code improvement" data-ru="для улучшения кода">for code improvement</div>
 								</div>
 
+								<div class="uses-line uses-linters__line line"></div>
+
 								<div class="uses-linters__inner-settings">
 									<h3 class="uses-linters__settings-title" id="uses-linters-settings-title" data-en="Settings" data-ru="Настройки">Settings</h3>
 									<h4 class="uses-linters__settings-subtitle" id="uses-linters-settings-subtitle">
-										<span class="uses-linters__settings-subtitle--font-color" data-en="Linter" data-ru="Настройки">Linter</span>
-										<span class="uses-linters__settings-subtitle--span uses-linters__settings-subtitle--accent-color" data-en="settings" data-ru="Линтеров">settings</span>
-										<span data-en="that I use" data-ru="которые я использую">that I use</span>
+										<span class="uses-linters__settings-text uses-linters__settings-text--hide" data-en="Linter" data-ru="Настройки">Linter</span>
+										<span class="uses-linters__settings-text uses-linters__settings-text--accent-color uses-linters__settings-subtitle--accent-color uses-linters__settings-text--hide" data-en="settings" data-ru="Линтеров">settings</span>
+										<span class="uses-linters__settings-text uses-linters__settings-text--hide" data-en="that I use" data-ru="которые я использую">that I use</span>
 									</h4>
 
-									<div class="uses-linters__settings-line line"></div>
+									<div class="uses-line uses-linters__settings-line line"></div>
 
-									<div class="uses-linters__item uses-item">
-										<button class="uses-linters__btn uses-btn" type="button" aria-label="Prettier">
-											<span class="uses-linters__text uses-text"></span>
-											<img class="uses-linters__img uses-img" src="img/svg/equipment-arrow.svg" alt="">
+									<div class="uses-item">
+										<button class="uses-btn uses-linters__btn" type="button" aria-label="Prettier">
+											<span class="uses-text uses-text--hide">Prettier</span>
+											<img class="uses-img uses-img--hide" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
-										<div class="uses-linters__hide-group  uses-hide-group">
-											<button class="uses-linters__copy-btn" type="button" aria-label="Copy Text" data-en="Copy Text" data-ru="Копировать текст">Copy Text</button>
+										<div class="uses-hide-group">
+											<div class="uses-hide-box uses-linters__hide-group">
+												<button class="uses-linters__copy-btn" type="button" aria-label="Copy Code" data-en="Copy Code" data-ru="Копировать код">Copy Code</button>
 
-											<div class="uses-linters__paste-group">
-												<img class="uses-linters__paste-img" src="img/svg/warningIcon.svg" alt="">
-												<p class="uses-linters__paste-text">
-													<span class="uses-linters__paste-text--font" data-en="Paste this code into" data-ru="Вставьте этот код в">Paste this code into</span> 
-													<span class="uses-linters__paste-text--accent">.prettierrc</span>
-												</p>
-											</div>
+												<div class="uses-linters__paste-group">
+													<img class="uses-linters__paste-img" src="img/svg/warningIcon.svg" alt="">
+													<p class="uses-linters__paste-text">
+														<span class="uses-linters__paste-text--font" data-en="Paste this code into" data-ru="Вставьте этот код в">Paste this code into</span> 
+														<span class="uses-linters__paste-text--accent">.prettierrc</span>
+													</p>
+												</div>
 
-											<div class="uses-linters__code-line"></div>
-											
-											<pre class="uses-linters__code">
+												<div class="uses-linters__code-line"></div>
+												
+												<div class="uses-linters__info">
+													<p class="uses-linters__info-paragraf">
+														<span class="uses-linters__info-text" data-en="Install Prettier if it is not already installed:" data-ru="Установите Prettier, если он еще не установлен:">Install Prettier if it is not already installed:</span>
+														<span class="uses-linters__info-text uses-linters__info-text--accent-color">npm install --save-dev prettier</span>
+														<button class="uses-linters__info-copy-btn" aria-label="copy prettier plugins" type="button">
+															<img class="uses-linters__info-copy-img" src="/img//svg/copy-img.svg" alt="">
+														</button>
+													</p>
+												</div>
+
+												<div class="uses-linters__code-line"></div>
+
+												
+												<pre class="uses-linters__code">
 {
   "semi": <span class="uses-linters__code-span">false</span>,
   "bracketSpacing": <span class="uses-linters__code-span">true</span>,
@@ -624,30 +697,51 @@
   "proseWrap": <span class="uses-linters__code-span">"never"</span>,
   "endOfLine": <span class="uses-linters__code-span">"auto"</span>
 }
-											</pre>
+												</pre>
+											</div>
 										</div>
 									</div>
 
-									<div class="uses-linters__item uses-item">
-										<button class="uses-linters__btn uses-btn" type="button" aria-label="ESLint">
-											<span class="uses-linters__text uses-text"></span>
-											<img class="uses-linters__img uses-img" src="img/svg/equipment-arrow.svg" alt="">
+									<div class="uses-item">
+										<button class="uses-btn uses-linters__btn" type="button" aria-label="ESLint">
+											<span class="uses-text uses-text--hide">ESLint</span>
+											<img class="uses-img uses-img--hide" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
-										<div class="uses-linters__hide-group  uses-hide-group">
-											<button class="uses-linters__copy-btn" type="button" aria-label="Copy Text" data-en="Copy Text" data-ru="Копировать текст">Copy Text</button>
-											
-											<div class="uses-linters__paste-group">
-												<img class="uses-linters__paste-img" src="img/svg/warningIcon.svg" alt="">
-												<p class="uses-linters__paste-text">
-													<span class="uses-linters__paste-text--font" data-en="Paste this code into" data-ru="Вставьте этот код в">Paste this code into</span> 
-													<span class="uses-linters__paste-text--accent">eslint.config.json</span>
-												</p>
-											</div>
+										<div class="uses-hide-group">
+											<div class="uses-hide-box uses-linters__hide-group">
+												<button class="uses-linters__copy-btn" type="button" aria-label="Copy Code" data-en="Copy Code" data-ru="Копировать код">Copy Code</button>
+												
+												<div class="uses-linters__paste-group">
+													<img class="uses-linters__paste-img" src="img/svg/warningIcon.svg" alt="">
+													<p class="uses-linters__paste-text">
+														<span class="uses-linters__paste-text--font" data-en="Paste this code into" data-ru="Вставьте этот код в">Paste this code into</span> 
+														<span class="uses-linters__paste-text--accent">eslint.config.json</span>
+													</p>
+												</div>
 
-											<div class="uses-linters__code-line"></div>
+												<div class="uses-linters__code-line"></div>
+												
+												<div class="uses-linters__info">
+													<p class="uses-linters__info-paragraf">
+														<span class="uses-linters__info-text" data-en="Install ESLint and Prettier if they are not already installed:" data-ru="Установите ESLint и Prettier, если они еще не установлены:">Install ESLint and Prettier if they are not already installed:</span>
+														<span class="uses-linters__info-text uses-linters__info-text--accent-color">npm install --save-dev eslint prettier</span>
+														<button class="uses-linters__info-copy-btn" aria-label="copy prettier plugins" type="button">
+															<img class="uses-linters__info-copy-img" src="/img//svg/copy-img.svg" alt="">
+														</button>
+													</p>
+													<p class="uses-linters__info-paragraf">
+														<span class="uses-linters__info-text" data-en="Add plugins:" data-ru="Добавьте плагины:">Add plugins:</span>
+														<span class="uses-linters__info-text uses-linters__info-text--accent-color">npm install --save-dev eslint-plugin-prettier eslint-plugin-html @eslint/js</span>
+														<button class="uses-linters__info-copy-btn" aria-label="copy prettier plugins" type="button">
+															<img class="uses-linters__info-copy-img" src="/img//svg/copy-img.svg" alt="">
+														</button>
+													</p>
+												</div>
 
-											<pre class="uses-linters__code">
+												<div class="uses-linters__code-line"></div>
+
+												<pre class="uses-linters__code">
 {
   "env": {
 	"browser": <span class="uses-linters__code-span">true</span>,
@@ -673,9 +767,9 @@
 	  ],
 	  "languageOptions": {
 		"globals": {
-		  "window": <span class="uses-linters__code-span">"readonly"</span>,
-		  "document": <span class="uses-linters__code-span">"readonly"</span>,
-		  "navigator": <span class="uses-linters__code-span">"readonly"</span>
+		"window": <span class="uses-linters__code-span">"readonly"</span>,
+		"document": <span class="uses-linters__code-span">"readonly"</span>,
+		"navigator": <span class="uses-linters__code-span">"readonly"</span>
 		}
 	  },
 	  "rules": {
@@ -690,34 +784,59 @@
   ],
   "rules": {}
 }
-											</pre>
-											
-											<button class="uses-linters__up-btn" type="button" aria-label="up-btn">
-												<img class="uses-linters__up-img" src="img/svg/up-settings.svg" alt="">
-											</button>
+												</pre>
+
+												<div class="uses-linters__code-line"></div>
+												
+												<button class="uses-linters__up-btn" type="button" aria-label="up-btn">
+													<img class="uses-linters__up-img" src="img/svg/up-settings.svg" alt="">
+													<img class="uses-linters__up-img" src="img/svg/up-settings.svg" alt="">
+													<img class="uses-linters__up-img" src="img/svg/up-settings.svg" alt="">
+												</button>
+											</div>
 										</div>
 									</div>
 
-									<div class="uses-linters__item uses-item">
-										<button class="uses-linters__btn uses-btn" type="button" aria-label="Stylelint">
-											<span class="uses-linters__text uses-text"></span>
-											<img class="uses-linters__img uses-img" src="img/svg/equipment-arrow.svg" alt="">
+									<div class="uses-item">
+										<button class="uses-btn uses-linters__btn" type="button" aria-label="Stylelint">
+											<span class="uses-text uses-text--hide">Stylelint</span>
+											<img class="uses-img uses-img--hide" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
-										<div class="uses-linters__hide-group  uses-hide-group">
-											<button class="uses-linters__copy-btn" type="button" aria-label="Copy Text"  data-en="Copy Text" data-ru="Копировать текст">Copy Text</button>
+										<div class="uses-hide-group">
+											<div class="uses-hide-box uses-linters__hide-group">
+												<button class="uses-linters__copy-btn" type="button" aria-label="Copy Code"  data-en="Copy Code" data-ru="Копировать код">Copy Code</button>
 
-											<div class="uses-linters__paste-group">
-												<img class="uses-linters__paste-img" src="img/svg/warningIcon.svg" alt="">
-												<p class="uses-linters__paste-text">
-													<span class="uses-linters__paste-text--font" data-en="Paste this code into" data-ru="Вставьте этот код в">Paste this code into</span> 
-													<span class="uses-linters__paste-text--accent">.stylelintrc.json</span>
-												</p>
-											</div>
+												<div class="uses-linters__paste-group">
+													<img class="uses-linters__paste-img" src="img/svg/warningIcon.svg" alt="">
+													<p class="uses-linters__paste-text">
+														<span class="uses-linters__paste-text--font" data-en="Paste this code into" data-ru="Вставьте этот код в">Paste this code into</span> 
+														<span class="uses-linters__paste-text--accent">.stylelintrc.json</span>
+													</p>
+												</div>
 
-											<div class="uses-linters__code-line"></div>
+												<div class="uses-linters__code-line"></div>
+												
+												<div class="uses-linters__info">
+													<p class="uses-linters__info-paragraf">
+														<span class="uses-linters__info-text" data-en="Install Stylelint and Prettier if they are not already installed:" data-ru="Установите Stylelint и Prettier, если они еще не установлены:">Install Stylelint and Prettier if they are not already installed:</span> 
+														<span class="uses-linters__info-text uses-linters__info-text--accent-color">npm install --save-dev stylelint prettier</span>
+														<button class="uses-linters__info-copy-btn" aria-label="copy prettier plugins" type="button">
+															<img class="uses-linters__info-copy-img" src="/img//svg/copy-img.svg" alt="">
+														</button>
+													</p>
+													<p class="uses-linters__info-paragraf">
+														<span class="uses-linters__info-text" data-en="Add plugins:" data-ru="Добавьте плагины:">Add plugins:</span> 
+														<span class="uses-linters__info-text uses-linters__info-text--accent-color">npm install --save-dev stylelint-config-standard stylelint-config-standard-scss stylelint-prettier stylelint-order stylelint-scss</span>
+														<button class="uses-linters__info-copy-btn" aria-label="copy prettier plugins" type="button">
+															<img class="uses-linters__info-copy-img" src="/img//svg/copy-img.svg" alt="">
+														</button>
+													</p>
+												</div>
 
-											<pre class="uses-linters__code">
+												<div class="uses-linters__code-line"></div>
+
+												<pre class="uses-linters__code">
 {
   "extends": [
 	<span class="uses-linters__code-span">"stylelint-config-standard"</span>,
@@ -926,34 +1045,38 @@
 	}
   ]
 }
-											</pre>
+												</pre>
 
-											<button class="uses-linters__up-btn" type="button" aria-label="up-btn">
-												<img class="uses-linters__up-img" src="img/svg/up-settings.svg" alt="">
-											</button>
+												<button class="uses-linters__up-btn" type="button" aria-label="up-btn">
+													<img class="uses-linters__up-img" src="img/svg/up-settings.svg" alt="">
+													<img class="uses-linters__up-img" src="img/svg/up-settings.svg" alt="">
+													<img class="uses-linters__up-img" src="img/svg/up-settings.svg" alt="">
+												</button>
+											</div>
 										</div>
 									</div>
 									
-									<div class="uses-linters__item uses-item">
-										<button class="uses-linters__btn uses-btn" type="button" aria-label="Settings.json">
-											<span class="uses-linters__text uses-text"></span>
-											<img class="uses-linters__img uses-img" src="img/svg/equipment-arrow.svg" alt="">
+									<div class="uses-item">
+										<button class="uses-btn uses-linters__btn" type="button" aria-label="Settings.json">
+											<span class="uses-text uses-text--hide">Settings.json</span>
+											<img class="uses-img uses-img--hide" src="img/svg/equipment-arrow.svg" alt="">
 										</button>
 
-										<div class="uses-linters__hide-group  uses-hide-group">
-											<button class="uses-linters__copy-btn" type="button" aria-label="Copy Text" data-en="Copy Text" data-ru="Копировать текст">Copy Text</button>
+										<div class="uses-hide-group">
+											<div class="uses-hide-box uses-linters__hide-group">
+												<button class="uses-linters__copy-btn" type="button" aria-label="Copy Code" data-en="Copy Code" data-ru="Копировать код">Copy Code</button>
 
-											<div class="uses-linters__paste-group">
-												<img class="uses-linters__paste-img" src="img/svg/warningIcon.svg" alt="">
-												<p class="uses-linters__paste-text">
-													<span class="uses-linters__paste-text--font" data-en="Paste this code into" data-ru="Вставьте этот код в">Paste this code into</span> 
-													<span class="uses-linters__paste-text--accent">settings.json</span>
-												</p>
-											</div>
+												<div class="uses-linters__paste-group">
+													<img class="uses-linters__paste-img" src="img/svg/warningIcon.svg" alt="">
+													<p class="uses-linters__paste-text">
+														<span class="uses-linters__paste-text--font" data-en="Paste this code into" data-ru="Вставьте этот код в">Paste this code into</span> 
+														<span class="uses-linters__paste-text--accent">settings.json</span>
+													</p>
+												</div>
 
-											<div class="uses-linters__code-line"></div>
-											
-											<pre class="uses-linters__code">
+												<div class="uses-linters__code-line"></div>
+												
+												<pre class="uses-linters__code">
 {
   "editor.defaultFormatter": <span class="uses-linters__code-span">"esbenp.prettier-vscode"</span>,
   "editor.codeActionsOnSave": {
@@ -1006,14 +1129,19 @@
 	"*.scss": <span class="uses-linters__code-span">"default"</span>
   }
 }
-											</pre>
+												</pre>
 
-											<button class="uses-linters__up-btn" type="button" aria-label="up-btn">
-												<img class="uses-linters__up-img" src="img/svg/up-settings.svg" alt="">
-											</button>
+												<div class="uses-linters__code-line"></div>
+
+												<button class="uses-linters__up-btn" type="button" aria-label="up-btn">
+													<img class="uses-linters__up-img" src="img/svg/up-settings.svg" alt="">
+													<img class="uses-linters__up-img" src="img/svg/up-settings.svg" alt="">
+													<img class="uses-linters__up-img" src="img/svg/up-settings.svg" alt="">
+												</button>
+											</div>
 										</div>
 									</div>
-									
+
 								</div>
 							</div>
 						</div>
@@ -1024,26 +1152,48 @@
 					<section class="resume-getting">
 						<div class="container">
 							<div class="resume-getting__wrapper">
-								<div class="resume-getting__hide-title">
-									<h2 class="resume-getting__title" id="resume-getting-title" data-en="Resume" data-ru="Резюме">Resume</h2>
+								<div class="resume-getting__hide-title" id="resume-getting-title">
+									<h2 class="resume-getting__title resume-getting__title--hide" data-en="Resume" data-ru="Резюме">Resume</h2>
 								</div>
 								
-								<div class="resume-getting__hide-subtitle">
-									<h3 class="resume-getting__subtitle">
-										<span data-en="Download" data-ru="Скачайте" class="resume-getting__subtitle--accent-color">Download</span> 
-										<span data-en="my Resume or" data-ru="мое Резюме или">my Resume or</span> 
-										<span data-en="Send" data-ru="Отправьте" class="resume-getting__subtitle--accent-color">Send</span>
-										<span data-en="me a Message" data-ru="мне Сообщение">me a Message</span>
-									</h3>
+								<h3 class="resume-getting__subtitle-container">
+									<span data-en="Download" data-ru="Скачайте" class="resume-getting__subtitle resume-getting__subtitle--accent-color resume-getting__subtitle--hide">Download</span> 
+									<span class="resume-getting__subtitle resume-getting__subtitle--hide" data-en="my Resume or" data-ru="мое Резюме или">my Resume or</span> 
+									<span data-en="Send" data-ru="Отправьте" class="resume-getting__subtitle resume-getting__subtitle--accent-color resume-getting__subtitle--hide">Send</span>
+									<span class="resume-getting__subtitle resume-getting__subtitle--hide" data-en="me a Message" data-ru="мне Сообщение">me a Message</span>
+								</h3>
+
+								<h3 class="resume-getting__subtitle-container">
+									<span class="resume-getting__subtitle resume-getting__subtitle--hide" data-en="Let’s" data-ru="Давайте">Let’s</span>
+									<span class="resume-getting__subtitle resume-getting__subtitle--accent-color resume-getting__subtitle--hide" data-en="Make" data-ru="Воплощать">Make</span>
+									<span class="resume-getting__subtitle resume-getting__subtitle--hide" data-en="Great Ideas" data-ru="Великие Идеи">Great Ideas</span>
+									<span class="resume-getting__subtitle resume-getting__subtitle--accent-color resume-getting__subtitle--hide" data-en="Happen" data-ru="в Жизнь">Happen</span>
+								</h3>
+
+								<div class="resume-line resume-getting__line line"></div>
+							</div>
+						</div>
+					</section>
+
+					<section class="resume-animation">
+						<div class="container">
+							<div class="resume-animation__wrapper">
+								<div class="resume-animation__monitor" id="resume-animation-monitor">
+									<span class="resume-animation__monitor-element resume-animation__monitor-element--hide"></span>
+									<span class="resume-animation__monitor-element resume-animation__monitor-element--hide"></span>
+
+									<div class="resume-animation__rocket-container" id="resume-animation-rocket-container">
+										<div class="resume-animation__rocket" id="resume-animation-rocket">
+											<span class="resume-animation__rocket-front"></span>
+											<span class="resume-animation__rocket-wings resume-animation__rocket-wings--right"></span>
+											<span class="resume-animation__rocket-wings resume-animation__rocket-wings--left"></span>
+											<span class="resume-animation__rocket-fire"></span>
+										</div>
+									</div>
 								</div>
 
-								<div class="resume-getting__hide-subtitle">
-									<h3 class="resume-getting__subtitle">
-										<span data-en="Let’s" data-ru="Давайте">Let’s</span>
-										<span class="resume-getting__subtitle--accent-color" data-en="Make" data-ru="Воплощать">Make</span>
-										<span data-en="Great Ideas" data-ru="Великие Идеи">Great Ideas</span>
-										<span class="resume-getting__subtitle--accent-color" data-en="Happen" data-ru="в Жизнь">Happen</span>
-									</h3>
+								<div class="resume-animation__inner-keyboard" id="resume-animation-inner-keyboard">
+									<span class="resume-animation__keyboard resume-animation__keyboard--hide"></span>
 								</div>
 							</div>
 						</div>
@@ -1054,15 +1204,15 @@
 							<div class="resume-scroll__wrapper scroll-section__wrapper">
 								<h2 class="resume-scroll__title scroll-section__title">Scroll title</h2>
 
-								<div class="resume-scroll__line scroll-section__line"></div>
+								<div class="resume-scroll__line" id="resume-scroll-line"></div>
 
 								<div class="resume-scroll__text scroll-section__text" id="resume-scroll-text">
-									<span class="resume-scroll__letter">S</span>
-									<span class="resume-scroll__letter">C</span>
-									<span class="resume-scroll__letter">R</span>
-									<span class="resume-scroll__letter">O</span>
-									<span class="resume-scroll__letter">L</span>
-									<span class="resume-scroll__letter">L</span>
+									<span class="resume-scroll__letter resume-scroll__letter--hide">S</span>
+									<span class="resume-scroll__letter resume-scroll__letter--hide">C</span>
+									<span class="resume-scroll__letter resume-scroll__letter--hide">R</span>
+									<span class="resume-scroll__letter resume-scroll__letter--hide">O</span>
+									<span class="resume-scroll__letter resume-scroll__letter--hide">L</span>
+									<span class="resume-scroll__letter resume-scroll__letter--hide">L</span>
 								</div>
 							</div>
 						</div>
@@ -1072,17 +1222,17 @@
 						<div class="container">
 							<div class="resume-download__wrapper">
 								<div class="resume-hide-title resume-download__hide-title">
-									<h2 class="resume-title resume-download__title" data-ru="Резюме Сунната Бакиджанова" data-en="Sunnat Bakidjanov's Resume">Sunnat Bakidjanov's Resume</h2>
+									<h2 class="resume-title resume-title--hide resume-download__title" data-ru="Резюме Сунната Бакиджанова" data-en="Sunnat Bakidjanov's Resume">Sunnat Bakidjanov's Resume</h2>
 								</div>
 
 								<div class="resume-hide-subtitle resume-download__hide-subtitle">
-									<h3 class="resume-subtitle resume-download__subtitle" data-ru="Нажмите, чтобы скачать полное резюме в формате PDF" data-en="Click to download full resume in PDF format">Click to download full resume in PDF format</h3>
+									<h3 class="resume-subtitle resume-subtitle--hide resume-download__subtitle" data-ru="Нажмите, чтобы скачать полное резюме в формате PDF" data-en="Click to download full resume in PDF format">Click to download full resume in PDF format</h3>
 								</div>
 
-								<div class="line resume-download__line"></div>
+								<div class="resume-line line resume-download__line"></div>
 
-								<div class="resume-download__link-box resume-btn-box">
-									<a href="download/Sunnat-Bakidjanov-resume.pdf" download="Sunnat-Bakidjanov-Resume.pdf" class="resume-download__link resume-btn" id="resume-download-link" rel="noopener noreferrer" data-ru="Скачать" data-en="Download">Download</a>
+								<div class="resume-btn-box resume-download__btn">
+									<a href="download/Sunnat-Bakidjanov-resume.pdf" download="Sunnat-Bakidjanov-Resume.pdf" class="resume-btn" id="resume-download-link" rel="noopener noreferrer" data-ru="Скачать" data-en="Download">Download</a>
 								</div>
 							</div>
 						</div>
@@ -1092,14 +1242,14 @@
 						<div class="container">
 							<div class="resume-feedback__wrapper">
 								<div class="resume-hide-title resume-feedback__hide-title">
-									<h2 class="resume-title resume-feedback__title" data-ru="Напишите мне" data-en="Email me">Email me</h2>
+									<h2 class="resume-title resume-title--hide resume-feedback__title" data-ru="Напишите мне" data-en="Email me">Email me</h2>
 								</div>
 
 								<div class="resume-hide-subtitle resume-feedback__hide-subtitle">
-									<h3 class="resume-subtitle resume-feedback__subtitle" data-en="If you have any questions, email me!" data-ru="Если есть вопросы, пишите!">If you have any questions, email me!</h3>
+									<h3 class="resume-subtitle resume-subtitle--hide resume-feedback__subtitle" data-en="If you have any questions, email me!" data-ru="Если есть вопросы, пишите!">If you have any questions, email me!</h3>
 								</div>
 
-								<div class="line resume-feedback__line"></div>
+								<div class="resume-line line resume-feedback__line"></div>
 
 								<form class="resume-feedback__form" id="resume-feedback-form" method="post">
 									<div class="resume-feedback__form-group">
@@ -1129,7 +1279,7 @@
 										</div>
 									</div>
 
-									<div class="resume-feedback__form-btn-box resume-btn-box">
+									<div class="resume-btn-box resume-feedback__form-btn-box">
 										<button class="resume-feedback__form-btn resume-btn" id="resume-feedback-btn" type="submit" aria-label="Send" data-ru="Отправить" data-en="Send">Send</button>
 									</div>
 
@@ -1145,33 +1295,76 @@
 						<div class="container">
 							<div class="about-me-getting__wrapper">
 								<div class="about-me-getting__hide-box" id="about-me-getting-hide-box">
-									<h2 class="about-me-getting__title" id="about-me-getting-title" data-en="About me" data-ru="Обо мне">About me</h2>
+									<h2 class="about-me-getting__title about-me-getting__title--hide" data-en="About me" data-ru="Обо мне">About me</h2>
 								</div>
+
 								<h3 class="about-me-getting__subtitle" id="about-me-getting-subtitle">
-									<span data-en="I am passionate about application development, striving for" data-ru="Увлечён разработкой приложений, стремлюсь к" class="about-me-getting__span">I am passionate about application development, striving for</span>
-									<span data-en="constant development" data-ru="постоянному развитию" class="about-me-getting__subtitle-accent-color about-me-getting__span">constant development</span>
-									<span data-en="and" data-ru="и" class="about-me-getting__span">and</span>
-									<span data-en="solving" data-ru="решению" class="about-me-getting__subtitle-accent-color about-me-getting__span">solving</span>
-									<span data-en="interesting problems" data-ru="интересных задач" class="about-me-getting__span">interesting problems</span>
+									<span class="about-me-getting__text about-me-getting__text--hide" data-en="I am passionate about application development, striving for" data-ru="Увлечён разработкой приложений, стремлюсь к">I am passionate about application development, striving for</span>
+									<span class="about-me-getting__text about-me-getting__text--hide" data-en="constant development" data-ru="постоянному развитию">constant development</span>
+									<span class="about-me-getting__text about-me-getting__text--hide" data-en="and" data-ru="и">and</span>
+									<span class="about-me-getting__text about-me-getting__text--hide" data-en="solving" data-ru="решению">solving</span>
+									<span class="about-me-getting__text about-me-getting__text--hide" data-en="interesting problems" data-ru="интересных задач">interesting problems</span>
 								</h3>
+
+								<div class="about-me-line about-me-getting__line line"></div>
 							</div>
 						</div>
 					</section>
 
+					<section class="about-me-animation">
+						<div class="container">
+							<div class="about-me-animation__wrapper">
+								<span class="about-me-animation__line about-me-animation__line--left">
+									<span class="about-me-animation__wave about-me-animation__wave--left"></span>
+								</span>
+								<span class="about-me-animation__line about-me-animation__line--left-top">
+									<span class="about-me-animation__wave about-me-animation__wave--left"></span>
+								</span>
+								<span class="about-me-animation__line about-me-animation__line--left-bottom">
+									<span class="about-me-animation__wave about-me-animation__wave--left"></span>
+								</span>
+								<span class="about-me-animation__line about-me-animation__line--right">
+									<span class="about-me-animation__wave about-me-animation__wave--right"></span>
+								</span>
+								<span class="about-me-animation__line about-me-animation__line--right-top">
+									<span class="about-me-animation__wave about-me-animation__wave--right"></span>
+								</span>
+								<span class="about-me-animation__line about-me-animation__line--right-bottom">
+									<span class="about-me-animation__wave about-me-animation__wave--right"></span>
+								</span>
+
+								<div class="about-me-animation__block" id="about-me-animation">
+									<span class="about-me-animation__progress" id="about-me-progress-animation"></span>
+
+									<div class="about-me-animation__eyes">
+										<div class="about-me-animation__eye">
+											<span class="about-me-animation__pupil" id="pupil-left"></span>
+										</div>
+										<div class="about-me-animation__eye">
+											<span class="about-me-animation__pupil" id="pupil-right"></span>
+										</div>
+									</div>
+									
+									<div class="about-me-animation__mouth about-me-animation__mouth--smile" id="about-me-animation-mouth"></div>
+								</div>
+							</div>
+						</div>
+					</section>
+					
 					<section class="about-me-scroll">
 						<div class="container">
 							<div class="about-me-scroll__wrapper scroll-section__wrapper">
 								<h2 class="about-me-scroll__title scroll-section__title">Scroll Title</h2>
 								
-								<div class="about-me-scroll__line scroll-section__line"></div>
+								<div class="about-me-scroll__line scroll-section__line" id="about-me-scoll-line"></div>
 
 								<div class="about-me-scroll__text scroll-section__text" id="about-me-scroll-text">
-									<span class="about-me-scroll__letters">S</span>
-									<span class="about-me-scroll__letters">C</span>
-									<span class="about-me-scroll__letters">R</span>
-									<span class="about-me-scroll__letters">O</span>
-									<span class="about-me-scroll__letters">L</span>
-									<span class="about-me-scroll__letters">L</span>
+									<span class="about-me-scroll__letters about-me-scroll__letters--hide">S</span>
+									<span class="about-me-scroll__letters about-me-scroll__letters--hide">C</span>
+									<span class="about-me-scroll__letters about-me-scroll__letters--hide">R</span>
+									<span class="about-me-scroll__letters about-me-scroll__letters--hide">O</span>
+									<span class="about-me-scroll__letters about-me-scroll__letters--hide">L</span>
+									<span class="about-me-scroll__letters about-me-scroll__letters--hide">L</span>
 								</div>
 							</div>
 						</div>
@@ -1180,46 +1373,37 @@
 					<section class="about-me-self">
 						<div class="container">
 							<div class="about-me-self__wrapper">
-								<h2 class="about-me-self__title about-me-title" data-en="A little about myself" data-ru="Немного о себе">A little about myself</h2>
+								<h2 class="about-me-title about-me-self__title" data-en="A little about myself" data-ru="Немного о себе">A little about myself</h2>
 
-								<div class="about-me-self__line line"></div>
+								<div class="about-me-line about-me-self__line line"></div>
 
-								<div class="about-me-self__inner-links">
-									<div class="about-me-self__img-container">
-										<div class="about-me-self__img-box" id="about-me-self-img-box">
-											<img class="about-me-self__img" src="img/png/my-photo.png" alt="">
-										</div>
-										<p class="about-me-self__img-text" id="about-me-self-img-text"></p>
-									</div>
-
-									<div class="about-me-self__links-box">
-										<a class="about-me-self__links-item about-me-self__links-item--google" aria-label="google" href="mailto:sunnatbackidjanov@gmail.com" target="_self">
-											<img class="about-me-self__links-img" src="img/svg/icon-google.svg" alt="">
-											<p class="about-me-self__links-text">sunnatbackidjanov@gmail.com</p>
-										</a>
-										<a class="about-me-self__links-item about-me-self__links-item--telegram" aria-label="telegram" rel="noopener" href="https://t.me/Sunnat_Bakidjanov" target="_blank">
-											<img class="about-me-self__links-img" src="img/svg/icon-telegram.svg" alt="">
-											<p class="about-me-self__links-text">t.me/Sunnat_Bakidjanov</p>
-										</a>
-										<a class="about-me-self__links-item about-me-self__links-item--facebook" aria-label="facebook" rel="noopener" href="https://m.me/100072060384106" target="_blank">
-											<img class="about-me-self__links-img" src="img/svg/icon-facebook.svg" alt="">
-											<p class="about-me-self__links-text">m.me/100072060384106</p>
-										</a>
-										<a class="about-me-self__links-item about-me-self__links-item--github" aria-label="github" rel="noopener" href="https://github.com/SunnatBakidjanov" target="_blank">
-											<img class="about-me-self__links-img" src="img/svg/icon-github.svg" alt="">
-											<p class="about-me-self__links-text">github.com/SunnatBakidjanov</p>
-										</a>
-									</div>
+								<div class="about-me-self__inner-text" id="about-me-self-inner-text">
+									<h3 class="about-me-self__text-subtitle about-me-self__text-subtitle--hide" data-en="Hi, I’m Sunnat!" data-ru="Привет, я Суннат!">Hi, I’m Sunnat!</h3>
+									<span class="about-me-self__text about-me-self__text--hide" data-en="27 year old passionate front-end developer creating intuitive and engaging web apps. I'm a tech enthusiast who enjoys turning ideas into beautiful digital experiences. Problem solving is my forte, I'm a lifelong learner and always on the hunt for new knowledge. When I'm not writing code, you can find me exploring new design trends, the latest frameworks, or enjoying some good games." data-ru="27 летний страстный разработчик интерфейсов, создающий интуитивно понятные и привлекательные веб-приложения. Я энтузиаст технологий, которому нравится превращать идеи в прекрасные цифровые впечатления. Решение проблем — моя сильная сторона, я учусь всю жизнь и всегда стремлюсь к новым знаниям. Когда я не пишу код, вы можете найти меня изучающим новые тенденции дизайна, новейшие фреймворки или наслаждающимся хорошими играми.">27 year old passionate front-end developer creating intuitive and engaging web apps. I'm a tech enthusiast who enjoys turning ideas into beautiful digital experiences. Problem solving is my forte, I'm a lifelong learner and always on the hunt for new knowledge. When I'm not writing code, you can find me exploring new design trends, the latest frameworks, or enjoying some good games.</span>
 								</div>
 
-								<div class="about-me-self__section-line about-me-section-line"></div>
+								<div class="about-me-line about-me-self__line line"></div>
 
-								<p class="about-me-self__inner-text" id="about-me-self-inner-text">
-									<span class="about-me-self__accent-text" id="about-me-self-accent-text" data-en="Hi, I’m Sunnat!" data-ru="Привет, я Суннат!">Hi, I’m Sunnat!</span>
-									<span class="about-me-self__text" id="about-me-self-text" data-en="27 year old passionate front-end developer creating intuitive and engaging web apps. I'm a tech enthusiast who enjoys turning ideas into beautiful digital experiences. Problem solving is my forte, I'm a lifelong learner and always on the hunt for new knowledge. When I'm not writing code, you can find me exploring new design trends, the latest frameworks, or enjoying some good games." data-ru="27 летний страстный разработчик интерфейсов, создающий интуитивно понятные и привлекательные веб-приложения. Я энтузиаст технологий, которому нравится превращать идеи в прекрасные цифровые впечатления. Решение проблем — моя сильная сторона, я учусь всю жизнь и всегда стремлюсь к новым знаниям. Когда я не пишу код, вы можете найти меня изучающим новые тенденции дизайна, новейшие фреймворки или наслаждающимся хорошими играми.">27 year old passionate front-end developer creating intuitive and engaging web apps. I'm a tech enthusiast who enjoys turning ideas into beautiful digital experiences. Problem solving is my forte, I'm a lifelong learner and always on the hunt for new knowledge. When I'm not writing code, you can find me exploring new design trends, the latest frameworks, or enjoying some good games.</span>
-								</p>
+								<div class="about-me-self__inner-links">
+									<a class="about-me-self__links-item about-me-self__links-item--google" aria-label="google" href="mailto:sunnatbackidjanov@gmail.com" target="_self">
+										<img class="about-me-self__links-img" src="img/svg/icon-google.svg" alt="">
+										<p class="about-me-self__links-text">G-mail</p>
+									</a>
+									<a class="about-me-self__links-item about-me-self__links-item--telegram" aria-label="telegram" rel="noopener" href="https://t.me/Sunnat_Bakidjanov" target="_blank">
+										<img class="about-me-self__links-img" src="img/svg/icon-telegram.svg" alt="">
+										<p class="about-me-self__links-text">Telegram</p>
+									</a>
+									<a class="about-me-self__links-item about-me-self__links-item--facebook" aria-label="facebook" rel="noopener" href="https://m.me/100072060384106" target="_blank">
+										<img class="about-me-self__links-img" src="img/svg/icon-facebook.svg" alt="">
+										<p class="about-me-self__links-text">Facebook</p>
+									</a>
+									<a class="about-me-self__links-item about-me-self__links-item--github" aria-label="github" rel="noopener" href="https://github.com/SunnatBakidjanov" target="_blank">
+										<img class="about-me-self__links-img" src="img/svg/icon-github.svg" alt="">
+										<p class="about-me-self__links-text">Github</p>
+									</a>
+								</div>
 
-								<div class="about-me-self__section-line about-me-section-line"></div>
+								<div class="about-me-line about-me-self__line line"></div>
 							</div>
 						</div>
 					</section>
@@ -1227,63 +1411,63 @@
 					<section class="about-me-exp">
 						<div class="container">
 							<div class="about-me-exp__wrapper">
-								<h2 class="about-me-exp__title about-me-title" data-en="Experience" data-ru="Опыт">Experience</h2>
+								<h2 class="about-me-title about-me-exp__title" data-en="My Experience" data-ru="Мой Опыт">My Experience</h2>
 
-								<div class="about-me-exp__line line"></div>
+								<div class="about-me-line about-me-exp__line line"></div>
 
 								<div class="about-me-exp__inner-content">
 									<div class="about-me-exp__box">
 										<div class="about-me-exp__period" data-start="2023-06-01" data-end="present"></div>
 
 										<div class="about-me-exp__item">
-											<div class="about-me-exp__profession"></div>
-											<div class="about-me-exp__date"></div>
-											<div class="about-me-exp__company"></div>
+											<div class="about-me-exp__profession" data-en="Freelance projects (independent practice)" data-ru="Фриланс проекты (Самостоятельная практика)">Freelance projects (independent practice)</div>
+											<div class="about-me-exp__date">
+												<span class="about-me-exp__date-start"></span> — <span class="about-me-exp__date-end"></span>
+											</div>
+											<div class="about-me-exp__company" data-en="Education" data-ru="Образование">Education</div>
 										</div>
 										
-										<p class="about-me-exp__text">
-											<span class="about-me-exp__text-span" data-en="Intensive study of HTML, CSS, JavaScript, as well as modern development tools such as SASS/SCSS, Git and React." data-ru="Интенсивное изучение HTML, CSS, JavaScript, а также современных инструментов разработки, таких как SASS/SCSS, Git и React.">Intensive study of HTML, CSS, JavaScript, as well as modern development tools such as SASS/SCSS, Git and React.</span>
-											<span class="about-me-exp__text-span" data-en="Creation of several projects: adaptive sites, web pages with interactive elements, first applications on React." data-ru="Создание нескольких проектов: адаптивных сайтов, веб-страниц с интерактивными элементами, первых приложений на React. ">Creation of several projects: adaptive sites, web pages with interactive elements, first applications on React.</span>
-											<span class="about-me-exp__text-span" data-en="Work with version control systems (Git). Constant improvement of skills and learning new technologies." data-ru="Работа с системами контроля версий (Git). Постоянное совершенствование навыков и изучение новых технологий.">Work with version control systems (Git). Constant improvement of skills and learning new technologies.</span>
-										</p>
-
-										<div class="about-me-exp__box-line about-me-section-line"></div>
-
-										<p class="about-me-exp__total-exp" id="about-me-exp-total-exp">
-											<span data-en="Total experience: " data-ru="Общий опыт: ">Total experience:</span>
-											<span class="about-me-exp__total-text about-me-exp__total-date" id="about-me-exp-total-exp-year-date"></span>
-											<span class="about-me-exp__total-text" id="about-me-exp-total-exp-year-text"></span>
-											<span class="about-me-exp__total-text about-me-exp__total-date" id="about-me-exp-total-exp-month-date"></span>
-											<span class="about-me-exp__total-text" id="about-me-exp-total-exp-month-text"></span>
+										<p class="about-me-exp__text" data-en="Intensive study of HTML, CSS, JavaScript, as well as modern development tools such as SASS/SCSS, Git and React. Creation of several projects: adaptive sites, web pages with interactive elements, first applications on React. Work with version control systems (Git). Constant improvement of skills and learning new technologies." data-ru="
+										Интенсивное изучение HTML, CSS, JavaScript, а также современных инструментов разработки, таких как SASS/SCSS, Git и React. Создание нескольких проектов: адаптивные сайты, веб-страницы с интерактивными элементами, первые приложения на React. Работа с системами контроля версий (Git). Постоянное совершенствование навыков и изучение новых технологий.">
+											Intensive study of HTML, CSS, JavaScript, as well as modern development tools such as SASS/SCSS, Git and React. Creation of several projects: adaptive sites, web pages with interactive elements, first applications on React. Work with version control systems (Git). Constant improvement of skills and learning new technologies.
 										</p>
 									</div>
-
-									<p></p>
 								</div>
+
+								<div class="about-me-line about-me-exp__line line"></div>
+
+								<p class="about-me-exp__total-exp" id="about-me-exp-total-exp">
+									<span data-en="Total experience: " data-ru="Общий опыт: ">Total experience:</span>
+									<span class="about-me-exp__total-text about-me-exp__total--date" id="about-me-exp-total-exp-year-date"></span>
+									<span class="about-me-exp__total-text" id="about-me-exp-total-exp-year-text"></span>
+									<span class="about-me-exp__total-text about-me-exp__total--date" id="about-me-exp-total-exp-month-date"></span>
+									<span class="about-me-exp__total-text" id="about-me-exp-total-exp-month-text"></span>
+								</p>
 							</div>
 						</div>
 					</section>
 				</div>
 			</main>
 	
-			<footer class="footer" id="footer">
+			<footer class="footer">
 				<div class="container">
-					<div class="footer__wrapper" id="footer-wrapper">
+					<div class="footer__wrapper" id="footer">
 						<div class="footer__inner-copyright">
 							<div class="footer__name-box">
-								<span class="footer__symbol" id="footer-symbol">©</span>
-								<span class="footer__name" id="footer-name"></span>
-								<span class="footer__line" id="footer-line"></span>
+								<span class="footer__text">©</span>
+								<span class="footer__text" data-en="Sunnat Bakidjanov" data-ru="Суннат Бакиджанов">Sunnat Bakidjanov</span>
+								<span class="footer__text">|</span>
 							</div>
 							<span class="footer__date" id="footer-current-date"></span>
 						</div>
 						
-						<div class="footer__version" id="footer-version"></div>
+						<div class="footer__version" id="footer-version"><span class="footer__version-text" data-en="Version" data-ru="Версия">Version</span> 1.<span class="footer__varison-value" id="footer-varsion-value">0</span>.0</div>
 					</div>
 				</div>
 			</footer>
 		</div>
 
-		<script src="js/main.js"></script>
+		<script src="js/preloader.js"></script>
+		<script src="js/main.js" defer=""></script>
 	</body>
 </html>
