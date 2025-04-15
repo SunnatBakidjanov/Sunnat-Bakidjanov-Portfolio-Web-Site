@@ -15,7 +15,7 @@ $colors: (
 
 .about-me-title {
 	margin-bottom: 20px;
-	font-size: var(--title-font-size-1440);
+	font-size: var(--about-me-title-font-size-1440);
 	color: var(--change-color);
 	opacity: 0;
 	transform: translateY(-50%);
@@ -27,6 +27,20 @@ $colors: (
 			transform 1s ease-out,
 			opacity 1s ease-out,
 			color 0.4s ease-out;
+	}
+
+	@media (width <= 1024px) {
+		font-size: var(--about-me-title-font-size-1024);
+	}
+
+	@media (width <= 768px) {
+		margin-bottom: 15px;
+		font-size: var(--about-me-title-font-size-768);
+	}
+
+	@media (width <= 425px) {
+		margin-bottom: 10px;
+		font-size: var(--about-me-title-font-size-425);
 	}
 }
 
@@ -49,10 +63,10 @@ $colors: (
 	}
 
 	&__title {
-		font-size: 3.5em;
+		font-size: var(--about-me-main-title-1440);
 		color: var(--change-color);
 		letter-spacing: 0.5px;
-		transform: translateY(-80px);
+		transform: translateY(-200%);
 
 		&--animate {
 			transform: translateY(0);
@@ -64,7 +78,7 @@ $colors: (
 
 	&__subtitle {
 		margin-bottom: 5px;
-		font-size: 2.2em;
+		font-size: var(--about-me-subtitle-1440);
 		color: var(--text-color);
 		letter-spacing: 0.5px;
 		text-align: center;
@@ -86,6 +100,44 @@ $colors: (
 			transition:
 				transform 1.2s ease-out,
 				color 0.4s ease-out;
+		}
+	}
+
+	@media (width <= 1024px) {
+		&__title {
+			font-size: var(--about-me-main-title-1024);
+		}
+
+		&__subtitle {
+			font-size: var(--about-me-subtitle-1024);
+		}
+	}
+
+	@media (width <= 768px) {
+		&__wrapper {
+			margin-top: 30px;
+		}
+
+		&__title {
+			font-size: var(--about-me-main-title-768);
+		}
+
+		&__subtitle {
+			font-size: var(--about-me-subtitle-768);
+		}
+	}
+
+	@media (width <= 425px) {
+		&__wrapper {
+			row-gap: 10px;
+		}
+
+		&__title {
+			font-size: var(--about-me-main-title-425);
+		}
+
+		&__subtitle {
+			font-size: var(--about-me-subtitle-425);
 		}
 	}
 }
@@ -278,6 +330,115 @@ $colors: (
 			animation: wave-right-in 0.6s ease-out infinite 2.5s;
 		}
 	}
+
+	@media (width <= 1024px) {
+		&__wrapper {
+			height: 300px;
+		}
+
+		&__block {
+			width: 180px;
+			height: 180px;
+		}
+
+		&__line {
+			&--animate {
+				width: calc(50% - 90px);
+			}
+
+			&--left-top {
+				top: 30%;
+			}
+
+			&--left-bottom {
+				top: 70%;
+			}
+
+			&--right-top {
+				top: 30%;
+			}
+
+			&--right-bottom {
+				top: 70%;
+			}
+		}
+
+		&__wave {
+			width: 15%;
+		}
+	}
+
+	@media (width <= 768px) {
+		&__wrapper {
+			height: 250px;
+		}
+
+		&__block {
+			width: 150px;
+			height: 150px;
+		}
+
+		&__line {
+			&--animate {
+				width: calc(50% - 70px);
+			}
+		}
+
+		&__eyes {
+			top: 17%;
+			width: 105px;
+		}
+
+		&__eye {
+			width: 35px;
+			height: 35px;
+		}
+
+		&__pupil {
+			width: 12px;
+			height: 12px;
+		}
+
+		&__wave {
+			width: 20%;
+		}
+	}
+
+	@media (width <= 425px) {
+		&__wrapper {
+			height: 200px;
+		}
+
+		&__block {
+			width: 120px;
+			height: 120px;
+		}
+
+		&__line {
+			&--animate {
+				width: calc(50% - 60px);
+			}
+		}
+
+		&__eyes {
+			top: 15%;
+			width: 85px;
+		}
+
+		&__eye {
+			width: 30px;
+			height: 30px;
+		}
+
+		&__pupil {
+			width: 10px;
+			height: 10px;
+		}
+
+		&__wave {
+			width: 25%;
+		}
+	}
 }
 
 .about-me-scroll {
@@ -320,6 +481,32 @@ $colors: (
 			left: 0;
 		}
 	}
+
+	@media (width <= 1024px) {
+		&__line--animate {
+			margin-top: 80px;
+		}
+	}
+
+	@media (width <= 768px) {
+		&__line--animate {
+			margin-top: 60px;
+		}
+
+		&__text {
+			margin-top: 15px;
+		}
+	}
+
+	@media (width <= 425px) {
+		&__line--animate {
+			margin-top: 40px;
+		}
+
+		&__text {
+			margin-top: 10px;
+		}
+	}
 }
 
 .about-me-self {
@@ -333,8 +520,7 @@ $colors: (
 	&__inner-links {
 		display: flex;
 		flex-direction: column;
-		margin-top: 40px;
-		margin-bottom: 40px;
+		margin: 40px 0;
 		padding: 0 20px;
 		row-gap: 10px;
 		width: 100%;
@@ -427,6 +613,97 @@ $colors: (
 				color 0.4s ease-out;
 		}
 	}
+
+	@media (width <= 1024px) {
+		&__inner-text {
+			margin: 35px 0;
+		}
+
+		&__text-subtitle {
+			font-size: var(--about-me-text-subtitle-font-size-1024);
+		}
+
+		&__text {
+			font-size: var(--about-me-text-font-size-1024);
+		}
+
+		&__inner-links {
+			padding: 0;
+		}
+	}
+
+	@media (width <= 768px) {
+		&__inner-text {
+			margin: 30px 0;
+		}
+
+		&__text-subtitle {
+			font-size: var(--about-me-text-subtitle-font-size-768);
+		}
+
+		&__text {
+			font-size: var(--about-me-text-font-size-768);
+		}
+
+		&__inner-links {
+			margin: 35px 0;
+		}
+
+		&__links-text {
+			font-size: var(--about-me-links-text-768);
+		}
+
+		&__links-img {
+			width: 40px;
+			height: 40px;
+		}
+	}
+
+	@media (width <= 425px) {
+		&__inner-text {
+			align-items: center;
+			margin: 25px 0;
+		}
+
+		&__text-subtitle {
+			font-size: var(--about-me-text-subtitle-font-size-425);
+			text-align: center;
+		}
+
+		&__text {
+			font-size: var(--about-me-text-font-size-425);
+			text-align: center;
+		}
+
+		&__inner-links {
+			margin: 30px 0;
+		}
+
+		&__links-text {
+			font-size: var(--about-me-links-text-425);
+		}
+
+		&__links-item {
+			padding: 2px 0;
+		}
+
+		&__links-img {
+			width: 36px;
+			height: 36px;
+		}
+	}
+
+	@media (hover: none) and (pointer: coarse) {
+		&__links-item {
+			&:hover .about-me-self__links-img {
+				transform: scale(1);
+			}
+
+			&:hover {
+				background-color: transparent !important;
+			}
+		}
+	}
 }
 
 .about-me-exp {
@@ -435,7 +712,7 @@ $colors: (
 		flex-direction: column;
 		align-items: center;
 		margin: 60px 0 30px;
-		color: white;
+		color: var(--text-color);
 	}
 
 	&__inner-content {
@@ -519,6 +796,75 @@ $colors: (
 		&--date {
 			color: var(--change-color);
 			transition: color 0.4s ease-out;
+		}
+	}
+
+	@media (width <= 1024px) {
+		&__profession {
+			font-size: var(--about-me-exp-proffession-font-size-1024);
+		}
+
+		&__date {
+			font-size: var(--about-me-exp-date-font-size-1024);
+		}
+
+		&__company {
+			font-size: var(--about-me-exp-company-font-size-1024);
+		}
+
+		&__text {
+			font-size: var(--about-me-text-font-size-1024);
+		}
+
+		&__total-exp {
+			font-size: var(--about-me-total-exp-font-size-1024);
+		}
+	}
+
+	@media (width <= 768px) {
+		&__profession {
+			font-size: var(--about-me-exp-proffession-font-size-768);
+		}
+
+		&__company {
+			font-size: var(--about-me-exp-company-font-size-768);
+		}
+
+		&__text {
+			font-size: var(--about-me-text-font-size-768);
+		}
+
+		&__total-exp {
+			font-size: var(--about-me-total-exp-font-size-768);
+		}
+	}
+
+	@media (width <= 425px) {
+		&__item {
+			row-gap: 5px;
+		}
+
+		&__profession {
+			font-size: var(--about-me-exp-proffession-font-size-425);
+			text-align: center;
+		}
+
+		&__date {
+			text-align: center;
+		}
+
+		&__company {
+			font-size: var(--about-me-exp-company-font-size-425);
+			text-align: center;
+		}
+
+		&__text {
+			font-size: var(--about-me-text-font-size-425);
+			text-align: center;
+		}
+
+		&__total-exp {
+			font-size: var(--about-me-total-exp-font-size-425);
 		}
 	}
 }

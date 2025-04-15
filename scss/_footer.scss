@@ -78,4 +78,10 @@
 			font-size: var(--footer-varsion-font-size-425);
 		}
 	}
+
+	@media (width <= 375px) {
+		&__inner-copyright {
+			flex-direction: column;
+		}
+	}
 }

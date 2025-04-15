@@ -16,7 +16,7 @@ function main() {
 		[logo.id]: 'home',
 	}
 
-	let isAnimationStopped = false
+	let isAtmosphareAnimationStoped = false
 
 	const languageCallbacks = []
 	const animatedElements = new Set()
@@ -53,7 +53,7 @@ function main() {
 
 			if (!targetPage) return
 
-			if (currentPage === pageName && !isAnimationStopped) resetCallback()
+			if (currentPage === pageName) resetCallback()
 
 			currentPage = targetPage
 		}
@@ -70,7 +70,7 @@ function main() {
 
 			if (!targetPage) return
 
-			if (currentPage === pageName && !isAnimationStopped) {
+			if (currentPage === pageName) {
 				animatedElements.clear()
 
 				if (elementsArray) {
@@ -252,34 +252,94 @@ function main() {
 	function backgroundColorChange() {
 		const root = document.querySelector('.main-page')
 		const buttons = document.querySelectorAll('.aside-menu__colors')
+		const atmpsphereBtn = document.getElementById('atmpsphere-animation-btn')
 		const classes = ['bg-color--1', 'bg-color--2', 'bg-color--3', 'bg-color--4']
-		const colors = ['#bd7bc7', '#26aaa4', '#d65a21', '#5dade2']
+		const colors = ['#bd7bc7', '#26aaa4', '#e1510f', '#5dade2']
+		const imgScrs = ['/img/png/sacura-spring.png', '/img/png/sun-summer.png', '/img/png/leaf-autumn.png', '/img/png/snowflake-winter.png']
+
+		let interval = null
+		let currentImgSrc = null
+		let previousOffsetX = Math.ceil(Math.random() * 90 + 5)
+		const animations = ['fall-and-drift-1', 'fall-and-drift-2', 'fall-and-drift-3', 'fall-and-drift-4']
+
+		const CREATE_ELEMENT_DELAY = 2500
 
 		let isTransitioning = false
 		let currentClass = 'bg-color--4'
 
-		buttons.forEach((element, index) => {
-			element.classList.add(`aside-menu__colors--${index}`)
-		})
+		buttons.forEach((element, index) => element.classList.add(`aside-menu__colors--${index}`))
+
+		function updateAnimationText() {
+			const element = document.getElementById('aside-menu-animation-state')
+			const state = isLanguageRussian ? (isAtmosphareAnimationStoped ? 'ВЫКЛ' : 'ВКЛ') : isAtmosphareAnimationStoped ? 'OFF' : 'ON'
+			element.textContent = state
+		}
+
+		function createSeasonElement() {
+			const page = document.getElementById('main-page')
+			const img = document.createElement('img')
+			const duration = Math.random() * 10 + 15
+			const randomIndex = Math.floor(Math.random() * animations.length)
+			const animationName = animations[randomIndex]
+
+			let offsetX = Math.ceil(Math.random() * 90 + 5)
+			if (Math.abs(offsetX - previousOffsetX) < 10) {
+				offsetX = previousOffsetX + (previousOffsetX < 90 ? 10 : -10)
+			}
+
+			previousOffsetX = offsetX
+
+			img.setAttribute('src', currentImgSrc)
+			img.classList.add('season-img')
+			img.style.left = `${offsetX}%`
+			img.style.animationDuration = `${duration}s`
+			img.style.animationName = animationName
+
+			page.appendChild(img)
+			img.addEventListener('animationend', () => img.remove())
+		}
+
+		function startParticles() {
+			stopParticles()
+			interval = setInterval(createSeasonElement, CREATE_ELEMENT_DELAY)
+		}
+
+		function stopParticles() {
+			clearInterval(interval)
+			interval = null
+		}
+
+		function handleClearElementOnLeavePage() {
+			if (document.hidden) {
+				stopParticles()
+			} else {
+				if (!isAtmosphareAnimationStoped) startParticles()
+			}
+		}
+
+		document.addEventListener('visibilitychange', handleClearElementOnLeavePage)
 
 		function getCurrentSeason() {
-			const now = new Date()
-			const month = now.getMonth() + 1
+			const month = new Date().getMonth() + 1
 
 			if (month === 12 || month === 1 || month === 2) {
 				currentClass = 'bg-color--4'
+				currentImgSrc = imgScrs[3]
 				return colors[3]
 			}
 			if (month >= 3 && month <= 5) {
 				currentClass = 'bg-color--1'
+				currentImgSrc = imgScrs[0]
 				return colors[0]
 			}
 			if (month >= 6 && month <= 8) {
 				currentClass = 'bg-color--2'
+				currentImgSrc = imgScrs[1]
 				return colors[1]
 			}
 			if (month >= 9 && month <= 11) {
 				currentClass = 'bg-color--3'
+				currentImgSrc = imgScrs[2]
 				return colors[2]
 			}
 		}
@@ -288,9 +348,7 @@ function main() {
 
 		function hexToRgb(hex) {
 			const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i
-			hex = hex.replace(shorthandRegex, (m, r, g, b) => {
-				return r + r + g + g + b + b
-			})
+			hex = hex.replace(shorthandRegex, (m, r, g, b) => r + r + g + g + b + b)
 
 			const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
 			return result ? `rgb(${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)})` : null
@@ -305,9 +363,7 @@ function main() {
 
 			buttons.forEach(button => {
 				button.classList.remove('aside-menu__colors--active')
-
 				const buttonColor = getComputedStyle(button).backgroundColor
-
 				if (buttonColor === currentRGB) {
 					button.classList.add('aside-menu__colors--active')
 				}
@@ -315,6 +371,18 @@ function main() {
 		}
 
 		initializedColor()
+		if (!isAtmosphareAnimationStoped) startParticles()
+
+		updateAnimationText()
+		updateLanguageContent(updateAnimationText)
+
+		atmpsphereBtn.addEventListener('click', () => {
+			isAtmosphareAnimationStoped = !isAtmosphareAnimationStoped
+
+			!isAtmosphareAnimationStoped ? startParticles() : stopParticles()
+
+			updateAnimationText()
+		})
 
 		function changeGradient(className, color) {
 			if (isTransitioning || currentClass === className) return
@@ -333,22 +401,18 @@ function main() {
 				} else {
 					root.classList.remove(...classes)
 					root.classList.add(className)
-
 					document.documentElement.style.setProperty('--change-color', color)
 
 					let returnPoint = 100
-
 					function returnTransitionPoint() {
 						returnPoint--
 						root.style.setProperty('--gradient-transition-point', `${returnPoint}%`)
-
 						if (returnPoint > 30) {
 							requestAnimationFrame(returnTransitionPoint)
 						} else {
 							isTransitioning = false
 						}
 					}
-
 					requestAnimationFrame(returnTransitionPoint)
 				}
 			}
@@ -360,83 +424,34 @@ function main() {
 			button.addEventListener('click', event => {
 				const target = event.target
 
+				if (target.classList.contains('aside-menu__colors--active')) return
+
 				if (!isTransitioning) {
 					buttons.forEach(element => element.classList.remove('aside-menu__colors--active'))
 					target.classList.add('aside-menu__colors--active')
 				}
 
+				stopParticles()
+
+				currentImgSrc = imgScrs[index]
 				const className = classes[index]
 				const color = colors[index]
 				changeGradient(className, color)
+				if (!isAtmosphareAnimationStoped) startParticles()
 			})
 		})
 	}
-
-	function generateSeasonParticles() {
-		const page = document.getElementById('main-page')
-		let currentImgSrc = null
-
-		function getCurrentMonth() {
-			const month = new Date().getMonth() + 1
-
-			if (month === 12 || month === 1 || month === 2) return (currentImgSrc = '/img/svg/snowflake.svg')
-			if (month >= 3 && month <= 5) return (currentImgSrc = '/img/png/sacura-spring.png')
-			if (month >= 6 && month <= 8) return (currentImgSrc = '/img/svg/summer-leaf.svg')
-			if (month >= 9 && month <= 11) return (currentImgSrc = '/img/svg/autumn-leaf.svg')
-		}
-
-		getCurrentMonth()
-
-		function createSeasonElement() {
-			const img = document.createElement('img')
-			const offsetX = Math.random() * 100
-			const duration = Math.random() * 10 + 15
-
-			img.setAttribute('src', currentImgSrc)
-			img.classList.add('season-img')
-			img.style.left = `${offsetX}%`
-			img.style.animationDuration = `${duration}s`
-
-			page.appendChild(img)
-
-			const removeImg = () => {
-				img.remove()
-				img.removeEventListener('animationend', removeImg)
-			}
-
-			img.addEventListener('animationend', removeImg)
-		}
-
-		setInterval(createSeasonElement, 2500)
-	}
-
-	generateSeasonParticles()
 
 	function asideMenu() {
 		const menuElement = document.getElementById('aside-menu')
 		const openBtn = document.getElementById('aside-menu-btn')
 		const closeBtn = document.getElementById('aside-menu-close')
-		const animationBtn = document.getElementById('aside-menu-animation-btn')
 		const items = document.querySelectorAll('.aside-menu__item')
 		const btns = document.querySelectorAll('.aside-menu__inner-btn')
 
 		items.forEach((element, index) => {
 			element.classList.add(`aside-menu__item--${index}`)
 			btns[index].classList.add(`aside-menu__inner-btn--${index}`)
-		})
-
-		function updateAnimationText() {
-			const element = document.getElementById('aside-menu-animation-state')
-			const state = isLanguageRussian ? (isAnimationStopped ? 'ВЫКЛ' : 'ВКЛ') : isAnimationStopped ? 'OFF' : 'ON'
-			element.textContent = state
-		}
-
-		updateLanguageContent(updateAnimationText)
-
-		animationBtn.addEventListener('click', () => {
-			isAnimationStopped = !isAnimationStopped
-
-			updateAnimationText()
 		})
 
 		function manageMenuAnimations() {
@@ -1209,7 +1224,7 @@ function main() {
 				})
 			}
 
-			animateVisibleElements([cloud], animate)
+			animateVisibleElements([container], animate, 0.1)
 			resetAnimations(reset, 'home')
 		}
 
@@ -1394,7 +1409,7 @@ function main() {
 			}
 
 			function handleAnimationEnd(event) {
-				if ((event.animationName === 'my-way-container' && !isAnimationStopped) || container.children.length > 0) {
+				if (event.animationName === 'my-way-container' || container.children.length > 0) {
 					timeout = setTimeout(() => {
 						if (isAnimated) return
 						isAnimated = true
@@ -1904,7 +1919,7 @@ function main() {
 			}
 
 			const handleRocketTransitionEnd = event => {
-				if (event.propertyName !== 'transform' && !isRocketStarted && (!isAnimationStopped || !rocket.classList.contains(`${rocket.classList[0]}--animate`))) {
+				if (event.propertyName !== 'transform' && !isRocketStarted) {
 					isRocketStarted = true
 					rocket.classList.add(`${rocket.classList[0]}--animate`)
 
@@ -2239,7 +2254,7 @@ function main() {
 					const dy = mouseY - centerY
 
 					const angle = Math.atan2(dy, dx)
-					const radius = 12
+					const radius = 7
 
 					const pupil = index === 0 ? pupilLeft : pupilRight
 					const x = Math.cos(angle) * radius
