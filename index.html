@@ -5,12 +5,43 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Sunnat Bakidjanov</title>
 
-		<link rel="icon" href="img/svg/favicon-icon.svg">
+		<link rel="preload" href="/fonts/Furore/Furore.otf" as="font" type="font/otf" crossorigin="anonymous">
+
+		<link rel="stylesheet" href="/scss/preloader/preloader.css">		
 		<link rel="stylesheet" href="scss/main.css">
+
+		<link rel="icon" href="img/svg/favicon-icon.svg">
 	</head>
+	
 	<body translate="no">
 		<h1 class="main-title">Портфолио Sunnat Bakidjanov — Frontend-разработчик</h1>
-		<div class="main-page" id="main-page">
+
+		<div class="season-preload">
+			<img class="season-preload__img" src="/img/png/sacura-spring.png" alt="">
+			<img class="season-preload__img" src="/img/png/leaf-autumn.png" alt="">
+			<img class="season-preload__img" src="/img/png/snowflake-winter.png" alt="">
+			<img class="season-preload__img" src="/img/png/sun-summer.png" alt="">
+		</div>
+
+		<div class="preloader" id="preloader">
+			<div class="preloader__message" id="preloader-message">. . .</div>
+
+			<div class="preloader__progress-br-container">
+				<div class="preloader__progress-br" id="preloader-progress-bar"></div>
+			</div>
+
+			<div class="preloader__value-container">
+				<span class="preloader__value" id="preloader-value">0</span>
+				<span class="preloader__value-precent">%</span>
+			</div>
+
+			<button type="button" class="preloader__change-language-btn" id="preloader-change-language-btn" data-lang="" aria-label="praloader-change-language-btn">
+				<span class="preloader__change-language-text">EN</span> |
+				<span class="preloader__change-language-text preloader__change-language-text--active">RU</span>
+			</button>
+		</div>
+
+		<div class="main-page main-page--open" id="main-page">
 			<header class="header">
 				<div class="container">
 					<div class="header__wrapper" id="header">
@@ -129,8 +160,8 @@
 								<button type="button" aria-label="4th-color" class="aside-menu__colors aside-menu__colors--active" id="aside-colors-4th"></button>
 							</div>
 						</div>
-						<button class="aside-menu__inner-btn" type="button" aria-label="animation-stop" id="aside-menu-animation-btn">
-							<span data-en="RE:Animations:" data-ru="RE:Анимаций:">RE:Animations:</span>
+						<button class="aside-menu__inner-btn" type="button" aria-label="animation-stop" id="atmpsphere-animation-btn">
+							<span data-en="Atmosphere:" data-ru="Атмосфера:">Atmosphere:</span>
 							<span class="aside-menu__animation-state" id="aside-menu-animation-state">ON</span>
 						</button>
 						<button class="aside-menu__inner-btn" type="button" aria-label="translator" data-en="Change Language: RU" data-ru="Изменить язык: EN" id="translator">Change Language: RU</button>
@@ -1301,8 +1332,10 @@
 								<span class="about-me-animation__line about-me-animation__line--right-bottom">
 									<span class="about-me-animation__wave about-me-animation__wave--right"></span>
 								</span>
+
 								<div class="about-me-animation__block" id="about-me-animation">
 									<span class="about-me-animation__progress" id="about-me-progress-animation"></span>
+
 									<div class="about-me-animation__eyes">
 										<div class="about-me-animation__eye">
 											<span class="about-me-animation__pupil" id="pupil-left"></span>
@@ -1310,28 +1343,28 @@
 										<div class="about-me-animation__eye">
 											<span class="about-me-animation__pupil" id="pupil-right"></span>
 										</div>
-									  </div>
+									</div>
+									
 									<div class="about-me-animation__mouth about-me-animation__mouth--smile" id="about-me-animation-mouth"></div>
 								</div>
 							</div>
 						</div>
 					</section>
 					
-					  
 					<section class="about-me-scroll">
 						<div class="container">
 							<div class="about-me-scroll__wrapper scroll-section__wrapper">
 								<h2 class="about-me-scroll__title scroll-section__title">Scroll Title</h2>
 								
-								<div class="scroll-section__line about-me-scroll__line"></div>
+								<div class="about-me-scroll__line scroll-section__line" id="about-me-scoll-line"></div>
 
 								<div class="about-me-scroll__text scroll-section__text" id="about-me-scroll-text">
-									<span class="about-me-scroll__letters">S</span>
-									<span class="about-me-scroll__letters">C</span>
-									<span class="about-me-scroll__letters">R</span>
-									<span class="about-me-scroll__letters">O</span>
-									<span class="about-me-scroll__letters">L</span>
-									<span class="about-me-scroll__letters">L</span>
+									<span class="about-me-scroll__letters about-me-scroll__letters--hide">S</span>
+									<span class="about-me-scroll__letters about-me-scroll__letters--hide">C</span>
+									<span class="about-me-scroll__letters about-me-scroll__letters--hide">R</span>
+									<span class="about-me-scroll__letters about-me-scroll__letters--hide">O</span>
+									<span class="about-me-scroll__letters about-me-scroll__letters--hide">L</span>
+									<span class="about-me-scroll__letters about-me-scroll__letters--hide">L</span>
 								</div>
 							</div>
 						</div>
@@ -1340,46 +1373,37 @@
 					<section class="about-me-self">
 						<div class="container">
 							<div class="about-me-self__wrapper">
-								<h2 class="about-me-self__title about-me-title" data-en="A little about myself" data-ru="Немного о себе">A little about myself</h2>
+								<h2 class="about-me-title about-me-self__title" data-en="A little about myself" data-ru="Немного о себе">A little about myself</h2>
 
-								<div class="about-me-self__line line"></div>
+								<div class="about-me-line about-me-self__line line"></div>
 
-								<div class="about-me-self__inner-links">
-									<div class="about-me-self__img-container">
-										<div class="about-me-self__img-box" id="about-me-self-img-box">
-											<img class="about-me-self__img" src="img/png/my-photo.png" alt="">
-										</div>
-										<p class="about-me-self__img-text" id="about-me-self-img-text"></p>
-									</div>
-
-									<div class="about-me-self__links-box">
-										<a class="about-me-self__links-item about-me-self__links-item--google" aria-label="google" href="mailto:sunnatbackidjanov@gmail.com" target="_self">
-											<img class="about-me-self__links-img" src="img/svg/icon-google.svg" alt="">
-											<p class="about-me-self__links-text">sunnatbackidjanov@gmail.com</p>
-										</a>
-										<a class="about-me-self__links-item about-me-self__links-item--telegram" aria-label="telegram" rel="noopener" href="https://t.me/Sunnat_Bakidjanov" target="_blank">
-											<img class="about-me-self__links-img" src="img/svg/icon-telegram.svg" alt="">
-											<p class="about-me-self__links-text">t.me/Sunnat_Bakidjanov</p>
-										</a>
-										<a class="about-me-self__links-item about-me-self__links-item--facebook" aria-label="facebook" rel="noopener" href="https://m.me/100072060384106" target="_blank">
-											<img class="about-me-self__links-img" src="img/svg/icon-facebook.svg" alt="">
-											<p class="about-me-self__links-text">m.me/100072060384106</p>
-										</a>
-										<a class="about-me-self__links-item about-me-self__links-item--github" aria-label="github" rel="noopener" href="https://github.com/SunnatBakidjanov" target="_blank">
-											<img class="about-me-self__links-img" src="img/svg/icon-github.svg" alt="">
-											<p class="about-me-self__links-text">github.com/SunnatBakidjanov</p>
-										</a>
-									</div>
+								<div class="about-me-self__inner-text" id="about-me-self-inner-text">
+									<h3 class="about-me-self__text-subtitle about-me-self__text-subtitle--hide" data-en="Hi, I’m Sunnat!" data-ru="Привет, я Суннат!">Hi, I’m Sunnat!</h3>
+									<span class="about-me-self__text about-me-self__text--hide" data-en="27 year old passionate front-end developer creating intuitive and engaging web apps. I'm a tech enthusiast who enjoys turning ideas into beautiful digital experiences. Problem solving is my forte, I'm a lifelong learner and always on the hunt for new knowledge. When I'm not writing code, you can find me exploring new design trends, the latest frameworks, or enjoying some good games." data-ru="27 летний страстный разработчик интерфейсов, создающий интуитивно понятные и привлекательные веб-приложения. Я энтузиаст технологий, которому нравится превращать идеи в прекрасные цифровые впечатления. Решение проблем — моя сильная сторона, я учусь всю жизнь и всегда стремлюсь к новым знаниям. Когда я не пишу код, вы можете найти меня изучающим новые тенденции дизайна, новейшие фреймворки или наслаждающимся хорошими играми.">27 year old passionate front-end developer creating intuitive and engaging web apps. I'm a tech enthusiast who enjoys turning ideas into beautiful digital experiences. Problem solving is my forte, I'm a lifelong learner and always on the hunt for new knowledge. When I'm not writing code, you can find me exploring new design trends, the latest frameworks, or enjoying some good games.</span>
 								</div>
 
-								<div class="about-me-self__section-line about-me-section-line"></div>
+								<div class="about-me-line about-me-self__line line"></div>
 
-								<p class="about-me-self__inner-text" id="about-me-self-inner-text">
-									<span class="about-me-self__accent-text" id="about-me-self-accent-text" data-en="Hi, I’m Sunnat!" data-ru="Привет, я Суннат!">Hi, I’m Sunnat!</span>
-									<span class="about-me-self__text" id="about-me-self-text" data-en="27 year old passionate front-end developer creating intuitive and engaging web apps. I'm a tech enthusiast who enjoys turning ideas into beautiful digital experiences. Problem solving is my forte, I'm a lifelong learner and always on the hunt for new knowledge. When I'm not writing code, you can find me exploring new design trends, the latest frameworks, or enjoying some good games." data-ru="27 летний страстный разработчик интерфейсов, создающий интуитивно понятные и привлекательные веб-приложения. Я энтузиаст технологий, которому нравится превращать идеи в прекрасные цифровые впечатления. Решение проблем — моя сильная сторона, я учусь всю жизнь и всегда стремлюсь к новым знаниям. Когда я не пишу код, вы можете найти меня изучающим новые тенденции дизайна, новейшие фреймворки или наслаждающимся хорошими играми.">27 year old passionate front-end developer creating intuitive and engaging web apps. I'm a tech enthusiast who enjoys turning ideas into beautiful digital experiences. Problem solving is my forte, I'm a lifelong learner and always on the hunt for new knowledge. When I'm not writing code, you can find me exploring new design trends, the latest frameworks, or enjoying some good games.</span>
-								</p>
+								<div class="about-me-self__inner-links">
+									<a class="about-me-self__links-item about-me-self__links-item--google" aria-label="google" href="mailto:sunnatbackidjanov@gmail.com" target="_self">
+										<img class="about-me-self__links-img" src="img/svg/icon-google.svg" alt="">
+										<p class="about-me-self__links-text">G-mail</p>
+									</a>
+									<a class="about-me-self__links-item about-me-self__links-item--telegram" aria-label="telegram" rel="noopener" href="https://t.me/Sunnat_Bakidjanov" target="_blank">
+										<img class="about-me-self__links-img" src="img/svg/icon-telegram.svg" alt="">
+										<p class="about-me-self__links-text">Telegram</p>
+									</a>
+									<a class="about-me-self__links-item about-me-self__links-item--facebook" aria-label="facebook" rel="noopener" href="https://m.me/100072060384106" target="_blank">
+										<img class="about-me-self__links-img" src="img/svg/icon-facebook.svg" alt="">
+										<p class="about-me-self__links-text">Facebook</p>
+									</a>
+									<a class="about-me-self__links-item about-me-self__links-item--github" aria-label="github" rel="noopener" href="https://github.com/SunnatBakidjanov" target="_blank">
+										<img class="about-me-self__links-img" src="img/svg/icon-github.svg" alt="">
+										<p class="about-me-self__links-text">Github</p>
+									</a>
+								</div>
 
-								<div class="about-me-self__section-line about-me-section-line"></div>
+								<div class="about-me-line about-me-self__line line"></div>
 							</div>
 						</div>
 					</section>
@@ -1387,39 +1411,38 @@
 					<section class="about-me-exp">
 						<div class="container">
 							<div class="about-me-exp__wrapper">
-								<h2 class="about-me-exp__title about-me-title" data-en="Experience" data-ru="Опыт">Experience</h2>
+								<h2 class="about-me-title about-me-exp__title" data-en="My Experience" data-ru="Мой Опыт">My Experience</h2>
 
-								<div class="about-me-exp__line line"></div>
+								<div class="about-me-line about-me-exp__line line"></div>
 
 								<div class="about-me-exp__inner-content">
 									<div class="about-me-exp__box">
 										<div class="about-me-exp__period" data-start="2023-06-01" data-end="present"></div>
 
 										<div class="about-me-exp__item">
-											<div class="about-me-exp__profession"></div>
-											<div class="about-me-exp__date"></div>
-											<div class="about-me-exp__company"></div>
+											<div class="about-me-exp__profession" data-en="Freelance projects (independent practice)" data-ru="Фриланс проекты (Самостоятельная практика)">Freelance projects (independent practice)</div>
+											<div class="about-me-exp__date">
+												<span class="about-me-exp__date-start"></span> — <span class="about-me-exp__date-end"></span>
+											</div>
+											<div class="about-me-exp__company" data-en="Education" data-ru="Образование">Education</div>
 										</div>
 										
-										<p class="about-me-exp__text">
-											<span class="about-me-exp__text-span" data-en="Intensive study of HTML, CSS, JavaScript, as well as modern development tools such as SASS/SCSS, Git and React." data-ru="Интенсивное изучение HTML, CSS, JavaScript, а также современных инструментов разработки, таких как SASS/SCSS, Git и React.">Intensive study of HTML, CSS, JavaScript, as well as modern development tools such as SASS/SCSS, Git and React.</span>
-											<span class="about-me-exp__text-span" data-en="Creation of several projects: adaptive sites, web pages with interactive elements, first applications on React." data-ru="Создание нескольких проектов: адаптивных сайтов, веб-страниц с интерактивными элементами, первых приложений на React. ">Creation of several projects: adaptive sites, web pages with interactive elements, first applications on React.</span>
-											<span class="about-me-exp__text-span" data-en="Work with version control systems (Git). Constant improvement of skills and learning new technologies." data-ru="Работа с системами контроля версий (Git). Постоянное совершенствование навыков и изучение новых технологий.">Work with version control systems (Git). Constant improvement of skills and learning new technologies.</span>
-										</p>
-
-										<div class="about-me-exp__box-line about-me-section-line"></div>
-
-										<p class="about-me-exp__total-exp" id="about-me-exp-total-exp">
-											<span data-en="Total experience: " data-ru="Общий опыт: ">Total experience:</span>
-											<span class="about-me-exp__total-text about-me-exp__total-date" id="about-me-exp-total-exp-year-date"></span>
-											<span class="about-me-exp__total-text" id="about-me-exp-total-exp-year-text"></span>
-											<span class="about-me-exp__total-text about-me-exp__total-date" id="about-me-exp-total-exp-month-date"></span>
-											<span class="about-me-exp__total-text" id="about-me-exp-total-exp-month-text"></span>
+										<p class="about-me-exp__text" data-en="Intensive study of HTML, CSS, JavaScript, as well as modern development tools such as SASS/SCSS, Git and React. Creation of several projects: adaptive sites, web pages with interactive elements, first applications on React. Work with version control systems (Git). Constant improvement of skills and learning new technologies." data-ru="
+										Интенсивное изучение HTML, CSS, JavaScript, а также современных инструментов разработки, таких как SASS/SCSS, Git и React. Создание нескольких проектов: адаптивные сайты, веб-страницы с интерактивными элементами, первые приложения на React. Работа с системами контроля версий (Git). Постоянное совершенствование навыков и изучение новых технологий.">
+											Intensive study of HTML, CSS, JavaScript, as well as modern development tools such as SASS/SCSS, Git and React. Creation of several projects: adaptive sites, web pages with interactive elements, first applications on React. Work with version control systems (Git). Constant improvement of skills and learning new technologies.
 										</p>
 									</div>
-
-									<p></p>
 								</div>
+
+								<div class="about-me-line about-me-exp__line line"></div>
+
+								<p class="about-me-exp__total-exp" id="about-me-exp-total-exp">
+									<span data-en="Total experience: " data-ru="Общий опыт: ">Total experience:</span>
+									<span class="about-me-exp__total-text about-me-exp__total--date" id="about-me-exp-total-exp-year-date"></span>
+									<span class="about-me-exp__total-text" id="about-me-exp-total-exp-year-text"></span>
+									<span class="about-me-exp__total-text about-me-exp__total--date" id="about-me-exp-total-exp-month-date"></span>
+									<span class="about-me-exp__total-text" id="about-me-exp-total-exp-month-text"></span>
+								</p>
 							</div>
 						</div>
 					</section>
@@ -1438,12 +1461,13 @@
 							<span class="footer__date" id="footer-current-date"></span>
 						</div>
 						
-						<div class="footer__version" id="footer-version">Version 1.<span class="footer__varison-value" id="footer-varsion-value">0</span>.0</div>
+						<div class="footer__version" id="footer-version"><span class="footer__version-text" data-en="Version" data-ru="Версия">Version</span> 1.<span class="footer__varison-value" id="footer-varsion-value">0</span>.0</div>
 					</div>
 				</div>
 			</footer>
 		</div>
 
-		<script src="js/main.js"></script>
+		<script src="js/preloader.js"></script>
+		<script src="js/main.js" defer=""></script>
 	</body>
 </html>

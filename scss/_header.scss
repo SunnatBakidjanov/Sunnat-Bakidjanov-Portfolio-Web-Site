@@ -42,7 +42,7 @@ $colors: (
 			filter 0.4s ease-out,
 			transform 0.3s ease-out;
 		pointer-events: none;
-		object-fit: cover;
+		object-fit: contain;
 	}
 
 	&__logo-text {

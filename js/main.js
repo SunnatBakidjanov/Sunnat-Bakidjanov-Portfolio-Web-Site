@@ -1,9 +1,12 @@
 function main() {
 	'use strict'
 	const logo = document.getElementById('logo')
+	const preloaderChangeLangBtn = document.getElementById('preloader-change-language-btn')
 
-	const START_PAGE_POSITION = 3
-	const START_PAGE_NAME = 'about-me'
+	const START_PAGE_POSITION = 0
+	const START_PAGE_NAME = 'home'
+
+	let isLanguageRussian = preloaderChangeLangBtn.dataset.lang === 'true'
 
 	const pageIds = {
 		'home-page-btn': 'home',
@@ -13,11 +16,10 @@ function main() {
 		[logo.id]: 'home',
 	}
 
-	let isAnimationStopped = false
+	let isAtmosphareAnimationStoped = false
 
 	const languageCallbacks = []
 	const animatedElements = new Set()
-	let isLanguageRussian = false
 
 	function updateLanguageContent(callback) {
 		const changeLanguageButton = document.getElementById('translator')
@@ -142,10 +144,6 @@ function main() {
 		elements.forEach(element => observer.observe(element))
 	}
 
-	function pageUpdate() {
-		window.scrollTo(0, 0)
-	}
-
 	function climbUp() {
 		const button = document.getElementById('climb-up')
 		const img = document.getElementById('climb-img')
@@ -254,15 +252,137 @@ function main() {
 	function backgroundColorChange() {
 		const root = document.querySelector('.main-page')
 		const buttons = document.querySelectorAll('.aside-menu__colors')
+		const atmpsphereBtn = document.getElementById('atmpsphere-animation-btn')
 		const classes = ['bg-color--1', 'bg-color--2', 'bg-color--3', 'bg-color--4']
-		const colors = ['#12a34e', '#26aaa4', '#d65a21', '#5dade2']
+		const colors = ['#bd7bc7', '#26aaa4', '#e1510f', '#5dade2']
+		const imgScrs = ['/img/png/sacura-spring.png', '/img/png/sun-summer.png', '/img/png/leaf-autumn.png', '/img/png/snowflake-winter.png']
 
-		buttons.forEach((element, index) => {
-			element.classList.add(`aside-menu__colors--${index}`)
-		})
+		let interval = null
+		let currentImgSrc = null
+		let previousOffsetX = Math.ceil(Math.random() * 90 + 5)
+		const animations = ['fall-and-drift-1', 'fall-and-drift-2', 'fall-and-drift-3', 'fall-and-drift-4']
+
+		const CREATE_ELEMENT_DELAY = 2500
 
 		let isTransitioning = false
 		let currentClass = 'bg-color--4'
+
+		buttons.forEach((element, index) => element.classList.add(`aside-menu__colors--${index}`))
+
+		function updateAnimationText() {
+			const element = document.getElementById('aside-menu-animation-state')
+			const state = isLanguageRussian ? (isAtmosphareAnimationStoped ? 'ВЫКЛ' : 'ВКЛ') : isAtmosphareAnimationStoped ? 'OFF' : 'ON'
+			element.textContent = state
+		}
+
+		function createSeasonElement() {
+			const page = document.getElementById('main-page')
+			const img = document.createElement('img')
+			const duration = Math.random() * 10 + 15
+			const randomIndex = Math.floor(Math.random() * animations.length)
+			const animationName = animations[randomIndex]
+
+			let offsetX = Math.ceil(Math.random() * 90 + 5)
+			if (Math.abs(offsetX - previousOffsetX) < 10) {
+				offsetX = previousOffsetX + (previousOffsetX < 90 ? 10 : -10)
+			}
+
+			previousOffsetX = offsetX
+
+			img.setAttribute('src', currentImgSrc)
+			img.classList.add('season-img')
+			img.style.left = `${offsetX}%`
+			img.style.animationDuration = `${duration}s`
+			img.style.animationName = animationName
+
+			page.appendChild(img)
+			img.addEventListener('animationend', () => img.remove())
+		}
+
+		function startParticles() {
+			stopParticles()
+			interval = setInterval(createSeasonElement, CREATE_ELEMENT_DELAY)
+		}
+
+		function stopParticles() {
+			clearInterval(interval)
+			interval = null
+		}
+
+		function handleClearElementOnLeavePage() {
+			if (document.hidden) {
+				stopParticles()
+			} else {
+				if (!isAtmosphareAnimationStoped) startParticles()
+			}
+		}
+
+		document.addEventListener('visibilitychange', handleClearElementOnLeavePage)
+
+		function getCurrentSeason() {
+			const month = new Date().getMonth() + 1
+
+			if (month === 12 || month === 1 || month === 2) {
+				currentClass = 'bg-color--4'
+				currentImgSrc = imgScrs[3]
+				return colors[3]
+			}
+			if (month >= 3 && month <= 5) {
+				currentClass = 'bg-color--1'
+				currentImgSrc = imgScrs[0]
+				return colors[0]
+			}
+			if (month >= 6 && month <= 8) {
+				currentClass = 'bg-color--2'
+				currentImgSrc = imgScrs[1]
+				return colors[1]
+			}
+			if (month >= 9 && month <= 11) {
+				currentClass = 'bg-color--3'
+				currentImgSrc = imgScrs[2]
+				return colors[2]
+			}
+		}
+
+		let currentColor = getCurrentSeason()
+
+		function hexToRgb(hex) {
+			const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i
+			hex = hex.replace(shorthandRegex, (m, r, g, b) => r + r + g + g + b + b)
+
+			const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+			return result ? `rgb(${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)})` : null
+		}
+
+		function initializedColor() {
+			const currentRGB = hexToRgb(currentColor)
+			document.documentElement.style.setProperty('--change-color', currentColor)
+
+			root.classList.remove(...classes)
+			root.classList.add(currentClass)
+
+			buttons.forEach(button => {
+				button.classList.remove('aside-menu__colors--active')
+				const buttonColor = getComputedStyle(button).backgroundColor
+				if (buttonColor === currentRGB) {
+					button.classList.add('aside-menu__colors--active')
+				}
+			})
+		}
+
+		initializedColor()
+		if (!isAtmosphareAnimationStoped) startParticles()
+
+		updateAnimationText()
+		updateLanguageContent(updateAnimationText)
+
+		atmpsphereBtn.addEventListener('click', () => {
+			isAtmosphareAnimationStoped = !isAtmosphareAnimationStoped
+
+			!isAtmosphareAnimationStoped ? startParticles() : stopParticles()
+
+			updateAnimationText()
+		})
 
 		function changeGradient(className, color) {
 			if (isTransitioning || currentClass === className) return
@@ -281,22 +401,18 @@ function main() {
 				} else {
 					root.classList.remove(...classes)
 					root.classList.add(className)
-
 					document.documentElement.style.setProperty('--change-color', color)
 
 					let returnPoint = 100
-
 					function returnTransitionPoint() {
 						returnPoint--
 						root.style.setProperty('--gradient-transition-point', `${returnPoint}%`)
-
 						if (returnPoint > 30) {
 							requestAnimationFrame(returnTransitionPoint)
 						} else {
 							isTransitioning = false
 						}
 					}
-
 					requestAnimationFrame(returnTransitionPoint)
 				}
 			}
@@ -308,14 +424,20 @@ function main() {
 			button.addEventListener('click', event => {
 				const target = event.target
 
+				if (target.classList.contains('aside-menu__colors--active')) return
+
 				if (!isTransitioning) {
 					buttons.forEach(element => element.classList.remove('aside-menu__colors--active'))
 					target.classList.add('aside-menu__colors--active')
 				}
 
+				stopParticles()
+
+				currentImgSrc = imgScrs[index]
 				const className = classes[index]
 				const color = colors[index]
 				changeGradient(className, color)
+				if (!isAtmosphareAnimationStoped) startParticles()
 			})
 		})
 	}
@@ -324,27 +446,12 @@ function main() {
 		const menuElement = document.getElementById('aside-menu')
 		const openBtn = document.getElementById('aside-menu-btn')
 		const closeBtn = document.getElementById('aside-menu-close')
-		const animationBtn = document.getElementById('aside-menu-animation-btn')
 		const items = document.querySelectorAll('.aside-menu__item')
 		const btns = document.querySelectorAll('.aside-menu__inner-btn')
 
 		items.forEach((element, index) => {
 			element.classList.add(`aside-menu__item--${index}`)
 			btns[index].classList.add(`aside-menu__inner-btn--${index}`)
-		})
-
-		function updateAnimationText() {
-			const element = document.getElementById('aside-menu-animation-state')
-			const state = isLanguageRussian ? (isAnimationStopped ? 'ВЫКЛ' : 'ВКЛ') : isAnimationStopped ? 'OFF' : 'ON'
-			element.textContent = state
-		}
-
-		updateLanguageContent(updateAnimationText)
-
-		animationBtn.addEventListener('click', () => {
-			isAnimationStopped = !isAnimationStopped
-
-			updateAnimationText()
 		})
 
 		function manageMenuAnimations() {
@@ -429,6 +536,7 @@ function main() {
 			const lines = document.querySelectorAll('.header__burger-line')
 			const items = document.querySelectorAll('.header__item')
 			const socialItems = document.querySelectorAll('.header__social-item')
+			const btnsChangePage = document.querySelectorAll('.header__btn')
 
 			const elements = [container, burgerMenu, page, ...lines, ...items, ...socialItems]
 
@@ -439,6 +547,7 @@ function main() {
 
 			let isOpen = false
 			let isWindowResized = false
+			let isEvented = false
 
 			function openCloseBurgerMenu() {
 				if (!isOpen) {
@@ -498,11 +607,22 @@ function main() {
 				if (window.innerWidth <= INNER_WIDTH && !isWindowResized) {
 					isWindowResized = true
 
-					burgerMenu.addEventListener('click', openCloseBurgerMenu)
+					if (!isEvented) {
+						isEvented = true
+
+						burgerMenu.addEventListener('click', openCloseBurgerMenu)
+
+						btnsChangePage.forEach(btn => {
+							if (!btn.classList.contains('header__btn--active')) {
+								btn.addEventListener('click', openCloseBurgerMenu)
+							}
+						})
+					}
 				}
 
 				if (window.innerWidth > INNER_WIDTH && isWindowResized) {
 					isWindowResized = false
+					isEvented = false
 
 					elements.forEach(element => {
 						const classNames = element.classList
@@ -518,10 +638,25 @@ function main() {
 					})
 
 					burgerMenu.removeEventListener('click', openCloseBurgerMenu)
+
+					btnsChangePage.forEach(btn => btn.removeEventListener('click', openCloseBurgerMenu))
 				}
 			}
 
-			if (window.innerWidth <= INNER_WIDTH) burgerMenu.addEventListener('click', openCloseBurgerMenu)
+			if (window.innerWidth <= INNER_WIDTH) {
+				isEvented = true
+
+				burgerMenu.addEventListener('click', openCloseBurgerMenu)
+
+				btnsChangePage.forEach(btn => {
+					btn.addEventListener('click', () => {
+						if (!btn.classList.contains('header__btn--active')) {
+							isOpen = true
+							openCloseBurgerMenu()
+						}
+					})
+				})
+			}
 
 			window.addEventListener('resize', handleChangeOnResize)
 		}
@@ -1089,7 +1224,7 @@ function main() {
 				})
 			}
 
-			animateVisibleElements([cloud], animate)
+			animateVisibleElements([container], animate, 0.1)
 			resetAnimations(reset, 'home')
 		}
 
@@ -1135,6 +1270,7 @@ function main() {
 			let isLogged = false
 			let isHidden = false
 			let isTextShowed = false
+			let isAnimated = false
 
 			const textBoxes = []
 			const textElements = []
@@ -1155,16 +1291,19 @@ function main() {
 				const textElement = document.createElement('span')
 				textElement.classList.add('hmp-way__text')
 				box.appendChild(textElement)
-				box.appendChild(blink)
+
 				textBoxes.push(box)
 				textElements.push(textElement)
+
+				box.appendChild(blink)
 			}
 
 			function nextString() {
-				createBox()
 				blink.classList.remove('hmp-way__blink--write')
 				currentIndex++
 				letterIndex = 0
+
+				createBox()
 			}
 
 			function resetContent() {
@@ -1270,8 +1409,10 @@ function main() {
 			}
 
 			function handleAnimationEnd(event) {
-				if (event.animationName === 'my-way-container') {
+				if (event.animationName === 'my-way-container' || container.children.length > 0) {
 					timeout = setTimeout(() => {
+						if (isAnimated) return
+						isAnimated = true
 						createBox()
 						startTyping()
 						stopAnimationIsOutVisability()
@@ -1331,6 +1472,7 @@ function main() {
 
 				state = 'writing'
 				isTextShowed = false
+				isAnimated = false
 				btnAgain.classList.remove('hmp-way__btn-again--show-agian')
 				btnShow.classList.remove('hmp-way__btn-show--hide-show')
 				blink.classList.remove('hmp-way__blink--write')
@@ -1719,11 +1861,15 @@ function main() {
 								rocketInterval = null
 							}
 
+							rocket.style.animation = 'none'
 							rocket.style.transform = 'translate(0, 0)'
 
 							if (lightInterval) {
 								clearInterval(lightInterval)
 								lightInterval = null
+
+								const lights = document.querySelectorAll('.resume-animation__light')
+								lights.forEach(light => light.remove())
 							}
 						}
 					},
@@ -1738,8 +1884,6 @@ function main() {
 				const offsetY = Math.random() * 50 - 25
 
 				rocket.style.transform = `translate(${offsetX}%, ${offsetY}%)`
-
-				stopAnimationIsMonitorOutVisability()
 			}
 
 			const handleRocketAnimationEnd = () => {
@@ -1750,6 +1894,8 @@ function main() {
 
 				clearInterval(rocketInterval)
 				rocketInterval = setInterval(changeDirection, timers.rocketChangeDircetion)
+
+				stopAnimationIsMonitorOutVisability()
 
 				rocket.removeEventListener('animationend', handleRocketAnimationEnd)
 			}
@@ -1773,7 +1919,7 @@ function main() {
 			}
 
 			const handleRocketTransitionEnd = event => {
-				if (event.propertyName === 'transform' && !isRocketStarted) {
+				if (event.propertyName !== 'transform' && !isRocketStarted) {
 					isRocketStarted = true
 					rocket.classList.add(`${rocket.classList[0]}--animate`)
 
@@ -2045,14 +2191,23 @@ function main() {
 			const mainTitle = document.getElementById('about-me-getting-hide-box')
 			const mainSubtitle = document.getElementById('about-me-getting-subtitle')
 			const animationElement = document.getElementById('about-me-animation')
+			const scrollLine = document.getElementById('about-me-scoll-line')
+			const scrollText = document.getElementById('about-me-scroll-text')
 			const lines = document.querySelectorAll('.about-me-line')
+			const titles = document.querySelectorAll('.about-me-title')
+			const text = document.getElementById('about-me-self-inner-text')
+			const links = document.querySelectorAll('.about-me-self__links-item')
+			const expBox = document.querySelectorAll('.about-me-exp__box')
+			const totalExp = document.getElementById('about-me-exp-total-exp')
+			const waves = document.querySelectorAll('.about-me-animation__wave')
 
-			const hideElements = [mainTitle, mainSubtitle]
-			const elements = [animationElement, ...lines]
+			const hideElements = [mainTitle, mainSubtitle, scrollText, text]
+			const elements = [animationElement, scrollLine, totalExp, ...lines, ...titles, ...links, ...waves]
 
-			removeAnimateClasses(elements, hideElements, 'about-me')
+			removeAnimateClasses([...elements, ...expBox], hideElements, 'about-me')
 			animateVisibleElements(hideElements, addAnimateClassesInHideElements)
 			animateVisibleElements(elements, addAnimateClasses)
+			animateVisibleElements([...expBox], addAnimateClasses, 0.5)
 		}
 
 		function aboutMeAnimation() {
@@ -2072,13 +2227,20 @@ function main() {
 			let mouseY = 0
 
 			let heightChangeTimeout = null
+			let startTimeout = null
 
 			let isIntcrement = true
 			let isEyesVisible = false
 			let isHeadVisible = false
+			let isAnimated = false
 
 			let headObserver = null
 			let eyesObserver = null
+
+			const timers = {
+				startTimer: 2500,
+				heightChangeTimer: 800,
+			}
 
 			function updateEyes() {
 				if (!isEyesVisible) return
@@ -2092,7 +2254,7 @@ function main() {
 					const dy = mouseY - centerY
 
 					const angle = Math.atan2(dy, dx)
-					const radius = 12
+					const radius = 7
 
 					const pupil = index === 0 ? pupilLeft : pupilRight
 					const x = Math.cos(angle) * radius
@@ -2106,10 +2268,10 @@ function main() {
 
 			function eyesObserve() {
 				eyesObserver = new IntersectionObserver(
-					entryes => {
-						const entry = entryes[0]
+					entries => {
+						const entry = entries[0]
 
-						if (entry.isIntersecting) {
+						if (entry.isIntersecting && centralEl.classList.contains(`${centralEl.classList[0]}--animate`)) {
 							isEyesVisible = true
 							updateEyes()
 						} else {
@@ -2150,7 +2312,9 @@ function main() {
 			}
 
 			function handleTransitionEnd(event) {
-				if (event.propertyName === 'opacity') {
+				if (event.propertyName === 'opacity' && !isAnimated) {
+					isAnimated = true
+
 					lines.forEach((line, index) => {
 						const timeout = setTimeout(() => {
 							line.classList.add(`${line.classList[0]}--animate`)
@@ -2158,6 +2322,8 @@ function main() {
 
 						timeouts.push(timeout)
 					})
+
+					progressAnimation.classList.add(`${progressAnimation.classList[0]}--animate`)
 
 					headObserve()
 					eyesObserve()
@@ -2167,7 +2333,7 @@ function main() {
 			function heightChange() {
 				if (isHeadVisible) return
 
-				clearTimeout(heightChangeTimeout)
+				if (heightChangeTimeout) clearTimeout(heightChangeTimeout)
 
 				switch (heightValue) {
 					case 0:
@@ -2200,67 +2366,145 @@ function main() {
 				isIntcrement ? (heightValue += 1) : (heightValue -= 1)
 				progressAnimation.style.setProperty('--about-me-animation-progress-height', `${heightValue}%`)
 
-				heightChangeTimeout = setTimeout(() => heightChange(), 200)
+				heightChangeTimeout = setTimeout(() => heightChange(), timers.heightChangeTimer)
 			}
 
-			setTimeout(() => heightChange(), 2500)
+			function reset() {
+				isIntcrement = true
+				isEyesVisible = false
+				isHeadVisible = false
+				isAnimated = false
 
-			document.addEventListener('mousemove', event => {
-				mouseX = event.clientX
-				mouseY = event.clientY
+				heightValue = 0
+
+				if (startTimeout) clearTimeout(startTimeout)
+
+				if (heightChangeTimeout) clearTimeout(heightChangeTimeout)
+
+				if (lines.length > 0) lines.forEach(line => line.classList.remove(`${line.classList[0]}--animate`))
+
+				setTimeout(() => {
+					progressAnimation.classList.remove(`${progressAnimation.classList[0]}--animate`)
+					progressAnimation.style.setProperty('--about-me-animation-progress-height', `${heightValue}%`)
+				}, 0)
+
+				mouth.style.borderRadius = `0px`
+
+				timeouts.forEach(timeout => clearTimeout(timeout))
+
+				centralEl.removeEventListener('transitionend', handleTransitionEnd)
+				document.removeEventListener('mousemove', updateEyes)
+
+				if (headObserver) {
+					headObserver.unobserve(centralEl)
+					headObserver = null
+				}
+				if (eyesObserver) {
+					eyesObserver.unobserve(eyes[0])
+					eyesObserver = null
+				}
+			}
+
+			resetAnimations(reset, 'about-me')
+
+			animateVisibleElements([centralEl], () => {
+				centralEl.addEventListener('transitionend', handleTransitionEnd)
+				document.addEventListener('mousemove', event => {
+					mouseX = event.clientX
+					mouseY = event.clientY
+				})
+				startTimeout = setTimeout(() => heightChange(), timers.startTimer)
 			})
-			centralEl.addEventListener('transitionend', handleTransitionEnd)
 		}
 
+		function setExp() {
+			const startDate = document.querySelectorAll('.about-me-exp__date-start')
+			const endDate = document.querySelectorAll('.about-me-exp__date-end')
+			const period = document.querySelectorAll('.about-me-exp__period')
+
+			const currentLanguage = !isLanguageRussian ? 'en-EN' : 'ru-RU'
+
+			startDate.forEach((date, index) => {
+				const rawDate = new Date(period[index].dataset.start)
+
+				const formattedDate = rawDate.toLocaleDateString(currentLanguage, {
+					day: '2-digit',
+					month: 'long',
+					year: 'numeric',
+				})
+
+				date.textContent = formattedDate
+			})
+
+			endDate.forEach((date, index) => {
+				if (period[index].dataset.end === 'present') return (date.textContent = !isLanguageRussian ? 'present' : 'по настоящее время')
+
+				const rawDate = new Date(period[index].dataset.end)
+
+				const formattedDate = rawDate.toLocaleDateString(currentLanguage, {
+					day: '2-digit',
+					month: 'long',
+					year: 'numeric',
+				})
+
+				date.textContent = formattedDate
+			})
+		}
+
+		function calculateExp() {
+			const expList = document.querySelectorAll('.about-me-exp__period')
+			const monthText = document.getElementById('about-me-exp-total-exp-month-text')
+			const yearText = document.getElementById('about-me-exp-total-exp-year-text')
+			const monthDate = document.getElementById('about-me-exp-total-exp-month-date')
+			const yearDate = document.getElementById('about-me-exp-total-exp-year-date')
+
+			let totalMonths = 0
+
+			expList.forEach(element => {
+				const startDate = new Date(element.dataset.start)
+				const endDate = element.dataset.end === 'present' ? new Date() : new Date(element.dataset.end)
+
+				const months = (endDate.getFullYear() - startDate.getFullYear()) * 12 + (endDate.getMonth() - startDate.getMonth())
+				totalMonths += months
+			})
+
+			const years = Math.floor(totalMonths / 12)
+			const months = totalMonths % 12
+
+			function declension(number, one, few, many) {
+				const mod10 = number % 10
+				const mod100 = number % 100
+
+				if (mod100 >= 11 && mod100 <= 19) return many
+				if (mod10 === 1) return one
+				if (mod10 >= 2 && mod10 <= 4) return few
+				return many
+			}
+
+			if (!isLanguageRussian) {
+				yearText.textContent = years === 1 ? 'year' : 'years'
+				monthText.textContent = months === 1 ? 'month' : 'months'
+			}
+
+			if (isLanguageRussian) {
+				yearText.textContent = declension(years, 'год', 'года', 'лет')
+				monthText.textContent = declension(months, 'месяц', 'месяца', 'месяцев')
+			}
+
+			monthDate.textContent = months
+			yearDate.textContent = years
+		}
+
+		setExp()
+		calculateExp()
+		updateLanguageContent(setExp)
+		updateLanguageContent(calculateExp)
 		aboutMeAnimation()
 		animateAboutMePageElements()
 	}
 
-	function calculateExp() {
-		const expList = document.querySelectorAll('.about-me-exp__period')
-		const monthText = document.getElementById('about-me-exp-total-exp-month-text')
-		const yearText = document.getElementById('about-me-exp-total-exp-year-text')
-		const monthDate = document.getElementById('about-me-exp-total-exp-month-date')
-		const yearDate = document.getElementById('about-me-exp-total-exp-year-date')
-
-		let totalMonths = 0
-
-		expList.forEach(element => {
-			const startDate = new Date(element.dataset.start)
-			const endDate = element.dataset.end === 'present' ? new Date() : new Date(element.dataset.end)
-
-			const months = (endDate.getFullYear() - startDate.getFullYear()) * 12 + (endDate.getMonth() - startDate.getMonth())
-			totalMonths += months
-		})
-
-		const years = Math.floor(totalMonths / 12)
-		const months = totalMonths % 12
-
-		function declension(number, one, few, many) {
-			const mod10 = number % 10
-			const mod100 = number % 100
-
-			if (mod100 >= 11 && mod100 <= 19) return many
-			if (mod10 === 1) return one
-			if (mod10 >= 2 && mod10 <= 4) return few
-			return many
-		}
-
-		if (!isLanguageRussian) {
-			yearText.textContent = years === 1 ? 'year' : 'years'
-			monthText.textContent = months === 1 ? 'month' : 'months'
-		}
-
-		if (isLanguageRussian) {
-			yearText.textContent = declension(years, 'год', 'года', 'лет')
-			monthText.textContent = declension(months, 'месяц', 'месяца', 'месяцев')
-		}
-
-		monthDate.textContent = months
-		yearDate.textContent = years
-	}
-
 	function footerEvents() {
+		const footer = document.getElementById('footer')
 		const versionValue = document.getElementById('footer-varsion-value')
 		const versionContainer = document.getElementById('footer-version')
 		const date = document.getElementById('footer-current-date')
@@ -2273,6 +2517,8 @@ function main() {
 			start: 1000,
 			nextFrameWait: 10,
 		}
+
+		footer.classList.add(`${footer.classList[0]}--animate`)
 
 		function setCurrentDate() {
 			const setCurrentDate = new Date()
@@ -2348,23 +2594,21 @@ function main() {
 	}
 
 	window.addEventListener('load', () => {
-		calculateExp()
-		backgroundColorChange()
+		const PAGE_START_TIMER = 1200 // ВАЖНО! Зависит от анимации прелоадера
 
-		headerEvents()
-		homePageEvents()
+		backgroundColorChange()
+		climbUp()
 		usesPageEvents()
 		resumePageEvents()
 		aboutMePageEvents()
-		footerEvents()
 
-		climbUp()
-		asideMenu()
+		setTimeout(() => {
+			headerEvents()
+			footerEvents()
+			homePageEvents()
+			asideMenu()
+		}, PAGE_START_TIMER)
 	})
-
-	// window.addEventListener('beforeunload', () => {
-	// 	pageUpdate()
-	// })
 }
 
 main()

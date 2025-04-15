@@ -1,39 +1,7 @@
-$orange: #f8aa01;
-$white: #fff;
-$black: #000;
-$gray: #a9a9a9;
-$milky: #f5deb3;
-
-// icons
-$google-icon-bg: #ea4335;
-$telegram-icon-bg: #08c;
-$facebook-icon-bg: #3b5998;
-$github-icon-bg: #181717;
-
-// same var
-
-$about-me-title-color: $orange;
-$about-me-line-bg-color: $orange;
-
-// about-me-getting-section
-
-$about-me-getiing-title-color: $orange;
-$about-me-getiing-subtitle-color: $white;
-$about-me-getiing-subtitle-accent-color: $orange;
-
-// about-me-exp-seciotn
-
-$about-me-exp-text-color: $white;
-$about-me-exp-accent-text-color: $orange;
-
-// about-me-self-section
-
-$about-me-self-text-color: $white;
-$about-me-self-accent-text-color: $orange;
-$about-me-self-border-color: $milky;
-
-// var colors
-
+$google-icon-bg: var(--google);
+$telegram-icon-bg: var(--telegram);
+$facebook-icon-bg: var(--facebook);
+$github-icon-bg: var(--github);
 $colors: (
 	'google': $google-icon-bg,
 	'telegram': $telegram-icon-bg,
@@ -41,34 +9,39 @@ $colors: (
 	'github': $github-icon-bg,
 );
 
-// mixins
-
-@mixin links-hover-color($modifier, $color) {
-	.about-me-self__links-item--#{$modifier}:hover {
-		background-color: $color;
-	}
-}
-
 .about-me-page {
 	display: none;
 }
 
 .about-me-title {
 	margin-bottom: 20px;
-	font-weight: 600;
-	font-size: 40px;
-	color: $about-me-title-color;
-	text-align: center;
+	font-size: var(--about-me-title-font-size-1440);
+	color: var(--change-color);
 	opacity: 0;
-	transform: translateY(25px);
-}
+	transform: translateY(-50%);
 
-.about-me-title--animate {
-	transform: translateY(0);
-	opacity: 1;
-	transition:
-		transform 0.6s ease-out,
-		opacity 0.6s ease-out;
+	&--animate {
+		transform: translateY(0);
+		opacity: 1;
+		transition:
+			transform 1s ease-out,
+			opacity 1s ease-out,
+			color 0.4s ease-out;
+	}
+
+	@media (width <= 1024px) {
+		font-size: var(--about-me-title-font-size-1024);
+	}
+
+	@media (width <= 768px) {
+		margin-bottom: 15px;
+		font-size: var(--about-me-title-font-size-768);
+	}
+
+	@media (width <= 425px) {
+		margin-bottom: 10px;
+		font-size: var(--about-me-title-font-size-425);
+	}
 }
 
 .about-me-line--animate {
@@ -90,10 +63,10 @@ $colors: (
 	}
 
 	&__title {
-		font-size: 3.5em;
+		font-size: var(--about-me-main-title-1440);
 		color: var(--change-color);
 		letter-spacing: 0.5px;
-		transform: translateY(-80px);
+		transform: translateY(-200%);
 
 		&--animate {
 			transform: translateY(0);
@@ -105,7 +78,7 @@ $colors: (
 
 	&__subtitle {
 		margin-bottom: 5px;
-		font-size: 2.2em;
+		font-size: var(--about-me-subtitle-1440);
 		color: var(--text-color);
 		letter-spacing: 0.5px;
 		text-align: center;
@@ -127,6 +100,44 @@ $colors: (
 			transition:
 				transform 1.2s ease-out,
 				color 0.4s ease-out;
+		}
+	}
+
+	@media (width <= 1024px) {
+		&__title {
+			font-size: var(--about-me-main-title-1024);
+		}
+
+		&__subtitle {
+			font-size: var(--about-me-subtitle-1024);
+		}
+	}
+
+	@media (width <= 768px) {
+		&__wrapper {
+			margin-top: 30px;
+		}
+
+		&__title {
+			font-size: var(--about-me-main-title-768);
+		}
+
+		&__subtitle {
+			font-size: var(--about-me-subtitle-768);
+		}
+	}
+
+	@media (width <= 425px) {
+		&__wrapper {
+			row-gap: 10px;
+		}
+
+		&__title {
+			font-size: var(--about-me-main-title-425);
+		}
+
+		&__subtitle {
+			font-size: var(--about-me-subtitle-425);
 		}
 	}
 }
@@ -167,10 +178,13 @@ $colors: (
 		width: 100%;
 		height: var(--about-me-animation-progress-height);
 		background-color: var(--change-color);
-		transition:
-			height 1s ease-out,
-			background-color 0.4s ease-out;
 		will-change: height;
+
+		&--animate {
+			transition:
+				height 1s ease-out,
+				background-color 0.4s ease-out;
+		}
 	}
 
 	&__eyes {
@@ -316,88 +330,181 @@ $colors: (
 			animation: wave-right-in 0.6s ease-out infinite 2.5s;
 		}
 	}
+
+	@media (width <= 1024px) {
+		&__wrapper {
+			height: 300px;
+		}
+
+		&__block {
+			width: 180px;
+			height: 180px;
+		}
+
+		&__line {
+			&--animate {
+				width: calc(50% - 90px);
+			}
+
+			&--left-top {
+				top: 30%;
+			}
+
+			&--left-bottom {
+				top: 70%;
+			}
+
+			&--right-top {
+				top: 30%;
+			}
+
+			&--right-bottom {
+				top: 70%;
+			}
+		}
+
+		&__wave {
+			width: 15%;
+		}
+	}
+
+	@media (width <= 768px) {
+		&__wrapper {
+			height: 250px;
+		}
+
+		&__block {
+			width: 150px;
+			height: 150px;
+		}
+
+		&__line {
+			&--animate {
+				width: calc(50% - 70px);
+			}
+		}
+
+		&__eyes {
+			top: 17%;
+			width: 105px;
+		}
+
+		&__eye {
+			width: 35px;
+			height: 35px;
+		}
+
+		&__pupil {
+			width: 12px;
+			height: 12px;
+		}
+
+		&__wave {
+			width: 20%;
+		}
+	}
+
+	@media (width <= 425px) {
+		&__wrapper {
+			height: 200px;
+		}
+
+		&__block {
+			width: 120px;
+			height: 120px;
+		}
+
+		&__line {
+			&--animate {
+				width: calc(50% - 60px);
+			}
+		}
+
+		&__eyes {
+			top: 15%;
+			width: 85px;
+		}
+
+		&__eye {
+			width: 30px;
+			height: 30px;
+		}
+
+		&__pupil {
+			width: 10px;
+			height: 10px;
+		}
+
+		&__wave {
+			width: 25%;
+		}
+	}
 }
 
 .about-me-scroll {
 	&__wrapper {
-		margin-left: 180px;
-		height: calc(100vh - 300px);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 	}
 
-	// &__title {}
-
-	// &__line {}
-
-	.scroll-section__line--animate {
-		transition-delay: 0.6s;
+	&__line--animate {
+		margin-top: 100px;
+		width: 100%;
+		height: 4px;
+		opacity: 1;
+		transition:
+			width 1s ease-out,
+			opacity 1s ease-out;
 	}
 
 	&__text {
-		overflow: hidden;
-		margin-left: 20px;
-		letter-spacing: -4px;
+		position: relative;
+		margin-top: 20px;
 	}
 
 	&__letters {
-		transform: translateY(50px);
-		will-change: transform;
+		position: absolute;
+		left: -100%;
 		display: inline-block;
+
+		@for $i from 1 through 6 {
+			$reverse: 6 - $i;
+			&:nth-child(#{$i}) {
+				transition-delay: $reverse * 0.1s;
+			}
+		}
+
+		&--animate {
+			position: relative;
+			transition: left 0.8s ease-out;
+			left: 0;
+		}
 	}
 
-	&__letters--animate {
-		transform: translateY(0);
-		transition: transform 0.8s ease-out 0.8s;
+	@media (width <= 1024px) {
+		&__line--animate {
+			margin-top: 80px;
+		}
 	}
 
-	@media (width <= 1150px) {
-		&__wrapper {
-			margin-left: 110px;
+	@media (width <= 768px) {
+		&__line--animate {
+			margin-top: 60px;
 		}
 
 		&__text {
-			font-size: 34px;
+			margin-top: 15px;
 		}
 	}
 
-	@media (width <= 800px) {
-		&__text {
-			margin-left: 20px;
-			font-size: 32px;
-			letter-spacing: -3.5px;
-		}
-	}
-
-	@media (width <= 600px) {
-		&__wrapper {
-			margin-left: 100px;
+	@media (width <= 425px) {
+		&__line--animate {
+			margin-top: 40px;
 		}
 
 		&__text {
-			font-size: 30px;
-		}
-	}
-
-	@media (width <= 480px) {
-		&__wrapper {
-			margin-left: 80px;
-		}
-	}
-
-	@media (width <= 430px) {
-		&__wrapper {
-			margin-left: 60px;
-		}
-
-		&__text {
-			font-size: 28px;
-			letter-spacing: -3px;
-		}
-	}
-
-	@media (height <= 730px) {
-		&__wrapper {
-			margin-top: 0;
-			height: 70vh;
+			margin-top: 10px;
 		}
 	}
 }
@@ -407,104 +514,52 @@ $colors: (
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		margin-bottom: 60px;
+		margin-top: 80px;
 	}
-
-	// &__title {}
-
-	// &__line {}
 
 	&__inner-links {
 		display: flex;
-		justify-content: space-between;
-		margin-top: 40px;
-		margin-bottom: 40px;
+		flex-direction: column;
+		margin: 40px 0;
 		padding: 0 20px;
+		row-gap: 10px;
 		width: 100%;
 	}
 
-	&__img-container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-
-	&__img-box {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		overflow: hidden;
-		width: 200px;
-		height: 200px;
-		border: 4px solid $white;
-		border-radius: 50%;
-		opacity: 0;
-	}
-
-	&__img-box--animate {
-		opacity: 1;
-		transition: opacity 1.2s ease-out;
-	}
-
-	&__img {
-		transform: scale(0.9);
-	}
-
-	&__img-text {
-		margin-top: 15px;
-		width: 305px;
-		min-height: 22px;
-		font-size: 18px;
-		color: $about-me-self-text-color;
-	}
-
-	&__img-text--rus-lang {
-		width: 295px;
-		min-height: 22px;
-		font-size: 16px;
-	}
-
-	&__links-box {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		row-gap: 10px;
-	}
-
 	&__links-img {
-		width: 35px;
-		height: 35px;
+		width: 42px;
+		height: 42px;
+		object-fit: contain;
+		transition: transform 0.1s ease-out;
 	}
 
 	&__links-item {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 600px;
-		height: 40px;
-		opacity: 0;
+		padding: 5px 0;
 		column-gap: 10px;
-		box-shadow: 0 0 2px $about-me-self-border-color;
+		box-shadow: 0 0 2px var(--box-shadow-main-color);
+		transform: translateY(-10%);
+		opacity: 0;
+
+		&--animate {
+			transform: translateY(0);
+			opacity: 1;
+			transition:
+				transform 1s ease-out,
+				opacity 1s ease-out;
+		}
 
 		&:hover .about-me-self__links-img {
 			transform: scale(1.2);
 		}
 	}
 
-	&__links-item--left {
-		transform: translateX(20px);
-	}
-
-	&__links-item--right {
-		transform: translateX(-20px);
-	}
-
-	&__links-item--animate {
-		transform: translateX(0) !important;
-		opacity: 1;
-		transition:
-			transform 0.8s ease-out,
-			opacity 0.8s ease-out;
+	@mixin links-hover-color($modifier, $color) {
+		.about-me-self__links-item--#{$modifier}:hover {
+			background-color: $color;
+		}
 	}
 
 	@each $modifier, $color in $colors {
@@ -512,257 +567,140 @@ $colors: (
 	}
 
 	&__links-text {
-		font-size: 18px;
-		color: $about-me-self-text-color;
+		font-size: var(--about-me-links-text-1440);
+		color: var(--text-color);
+		letter-spacing: 0.5px;
 	}
-
-	&__links-text--rus-lang {
-		font-size: 16px;
-	}
-
-	// &__section-line {}
 
 	&__inner-text {
 		display: flex;
 		flex-direction: column;
-		margin: 30px 0;
+		align-items: start;
+		margin: 40px 0;
 		row-gap: 10px;
 	}
 
 	&__text {
 		line-height: 140%;
-		font-size: 18px;
-		color: $about-me-self-text-color;
-		letter-spacing: 0.5px;
-		transform: translateY(20px);
-		opacity: 0;
-	}
-
-	&__text--rus-lang {
-		font-size: 16px;
-	}
-
-	&__text--animate {
-		transform: translateY(0);
-		opacity: 1;
-		transition:
-			transform 0.8s ease-out,
-			opacity 0.8s ease-out;
-	}
-
-	&__accent-text {
-		font-size: 24px;
-		color: $about-me-self-accent-text-color;
+		font-size: var(--about-me-text-font-size-1440);
+		color: var(--text-color);
 		letter-spacing: 0.5px;
 		opacity: 0;
-		transform: translateY(-20px);
-	}
+		transform: translateY(-10%);
 
-	&__accent-text--rus-lang {
-		font-size: 22px;
-	}
-
-	&__accent-text--animate {
-		transform: translateY(0);
-		opacity: 1;
-		transition:
-			transform 0.8s ease-out,
-			opacity 0.8s ease-out;
-	}
-
-	@media (width <= 1060px) {
-		&__inner-links {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			margin-top: 40px;
-			margin-bottom: 40px;
-			width: 100%;
-		}
-
-		&__links-box {
-			align-items: center;
-			margin-top: 40px;
-			width: 100%;
-		}
-
-		&__links-item {
-			width: 90%;
+		&--animate {
+			transform: translateY(0);
+			opacity: 1;
+			transition:
+				transform 1s ease-out,
+				opacity 1s ease-out;
 		}
 	}
 
-	@media (width <= 800px) {
-		&__wrapper {
-			margin-bottom: 50px;
+	&__text-subtitle {
+		font-size: var(--about-me-text-subtitle-font-size-1440);
+		color: var(--change-color);
+		letter-spacing: 0.5px;
+		transform: translateY(-50%);
+		opacity: 0;
+
+		&--animate {
+			transform: translateY(0);
+			opacity: 1;
+			transition:
+				transform 1s ease-out,
+				opacity 1s ease-out,
+				color 0.4s ease-out;
+		}
+	}
+
+	@media (width <= 1024px) {
+		&__inner-text {
+			margin: 35px 0;
 		}
 
-		&__inner-links {
-			margin-top: 35px;
-		}
-
-		&__img-box {
-			transform: scale(0.95);
-		}
-
-		&__img-text {
-			margin-top: 10px;
-		}
-
-		&__links-box {
-			margin-top: 35px;
-		}
-
-		&__accent-text {
-			font-size: 22px;
-		}
-
-		&__accent-text--rus-lang {
-			font-size: 20px;
+		&__text-subtitle {
+			font-size: var(--about-me-text-subtitle-font-size-1024);
 		}
 
 		&__text {
-			font-size: 16px;
-		}
-
-		&__text--rus-lang {
-			font-size: 14px;
-		}
-	}
-
-	@media (width <= 600px) {
-		&__wrapper {
-			margin-bottom: 45px;
+			font-size: var(--about-me-text-font-size-1024);
 		}
 
 		&__inner-links {
-			margin-top: 30px;
+			padding: 0;
+		}
+	}
+
+	@media (width <= 768px) {
+		&__inner-text {
+			margin: 30px 0;
 		}
 
-		&__img-box {
-			transform: scale(0.9);
+		&__text-subtitle {
+			font-size: var(--about-me-text-subtitle-font-size-768);
 		}
 
-		&__links-box {
-			margin-top: 30px;
+		&__text {
+			font-size: var(--about-me-text-font-size-768);
 		}
 
-		&__links-item {
-			width: 100%;
+		&__inner-links {
+			margin: 35px 0;
 		}
 
 		&__links-text {
-			font-size: 16px;
-		}
-
-		&__links-text--rus-lang {
-			font-size: 14px;
+			font-size: var(--about-me-links-text-768);
 		}
 
 		&__links-img {
-			width: 30px;
-			height: 30px;
+			width: 40px;
+			height: 40px;
 		}
 	}
 
-	@media (width <= 480px) {
-		&__wrapper {
-			margin-bottom: 40px;
-		}
-
-		&__inner-links {
-			margin-top: 25px;
-		}
-
-		&__img-box {
-			transform: scale(0.85);
-		}
-
-		&__links-box {
-			margin-top: 30px;
-		}
-
-		&__links-text {
-			font-size: 14px;
-		}
-
-		&__links-text--rus-lang {
-			font-size: 12px;
-		}
-
+	@media (width <= 425px) {
 		&__inner-text {
+			align-items: center;
 			margin: 25px 0;
 		}
 
-		&__accent-text {
-			font-size: 20px;
-		}
-
-		&__accent-text--rus-lang {
-			font-size: 18px;
+		&__text-subtitle {
+			font-size: var(--about-me-text-subtitle-font-size-425);
+			text-align: center;
 		}
 
 		&__text {
-			font-size: 14px;
+			font-size: var(--about-me-text-font-size-425);
+			text-align: center;
 		}
 
-		&__text--rus-lang {
-			font-size: 12px;
-		}
-	}
-
-	@media (width <= 430px) {
 		&__inner-links {
-			margin-top: 20px;
-			padding: 0;
-		}
-
-		&__img-box {
-			transform: scale(0.8);
-		}
-
-		&__img-text {
-			width: 270px;
-			font-size: 16px;
-		}
-
-		&__img-text--rus-lang {
-			width: 255px;
-			font-size: 14px;
-		}
-
-		&__links-box {
-			margin-top: 30px;
-		}
-
-		&__links-item {
-			height: 35px;
-		}
-
-		&__links-item--left {
-			transform: translateX(10px);
-		}
-
-		&__links-item--right {
-			transform: translateX(-10px);
+			margin: 30px 0;
 		}
 
 		&__links-text {
-			font-size: 12px;
+			font-size: var(--about-me-links-text-425);
 		}
 
-		&__links-text--rus-lang {
-			font-size: 12px;
+		&__links-item {
+			padding: 2px 0;
+		}
+
+		&__links-img {
+			width: 36px;
+			height: 36px;
 		}
 	}
 
 	@media (hover: none) and (pointer: coarse) {
 		&__links-item {
-			&:hover {
-				background-color: transparent !important;
-			}
-
 			&:hover .about-me-self__links-img {
 				transform: scale(1);
+			}
+
+			&:hover {
+				background-color: transparent !important;
 			}
 		}
 	}
@@ -773,256 +711,160 @@ $colors: (
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		margin-bottom: 50px;
+		margin: 60px 0 30px;
+		color: var(--text-color);
 	}
-
-	// &__title {}
-
-	// &__line {}
 
 	&__inner-content {
 		display: flex;
 		flex-direction: column;
-		margin-top: 20px;
-		width: 100%;
-		row-gap: 20px;
+		row-gap: 30px;
+		margin: 30px 0;
 	}
 
 	&__period {
 		position: absolute;
-		left: -9999px;
+		width: 0;
+		height: 0;
+		visibility: hidden;
 	}
 
 	&__box {
 		display: flex;
 		flex-direction: column;
-		column-gap: 40px;
+		padding: 10px 0;
+		letter-spacing: 0.5px;
+		border-top: 1px solid var(--box-shadow-secondary-color);
+		border-bottom: 1px solid var(--box-shadow-secondary-color);
+		row-gap: 15px;
+		transform: translateY(-10px);
+		opacity: 0;
+
+		&--animate {
+			transform: translateY(0);
+			opacity: 1;
+			transition:
+				transform 1s ease-out,
+				opacity 1s ease-out;
+		}
 	}
 
 	&__item {
 		display: flex;
 		flex-direction: column;
-		font-weight: 500;
-		font-size: 24px;
-		color: white;
-		letter-spacing: 0.5px;
+		row-gap: 2px;
+		color: var(--text-color);
 	}
 
 	&__profession {
-		display: flex;
-		align-items: center;
-		min-height: 30px;
-	}
-
-	&__profession--rus-lang {
-		font-size: 22px;
+		font-size: var(--about-me-exp-proffession-font-size-1440);
 	}
 
 	&__date {
-		display: flex;
-		align-items: center;
-		min-height: 22px;
-		font-size: 18px;
-		color: $about-me-exp-accent-text-color;
-	}
-
-	&__date--rus-lang {
-		font-size: 16px;
+		font-size: var(--about-me-exp-date-font-size-1440);
+		color: var(--change-color);
+		transition: color 0.4s ease-out;
 	}
 
 	&__company {
-		display: flex;
-		align-items: center;
-		margin-top: 5px;
-		min-height: 22px;
-		font-size: 18px;
-	}
-
-	&__company--rus-lang {
-		font-size: 16px;
+		font-size: var(--about-me-exp-company-font-size-1440);
 	}
 
 	&__text {
-		display: flex;
-		flex-direction: column;
-		margin-top: 20px;
-		font-size: 18px;
-		color: $about-me-exp-text-color;
-		letter-spacing: 0.5px;
-		opacity: 0;
-		transform: translateY(-10px);
-		row-gap: 5px;
-	}
-
-	&__text--animate {
-		transform: translateY(0);
-		opacity: 1;
-		transition:
-			transform 0.6s ease-out,
-			opacity 0.6s ease-out;
-	}
-
-	&__text--rus-lang {
-		font-size: 16px;
-	}
-
-	&__box-line {
-		margin-top: 20px;
+		line-height: 125%;
+		font-size: var(--about-me-text-font-size-1440);
 	}
 
 	&__total-exp {
-		margin-top: 30px;
-		font-size: 24px;
-		color: $about-me-exp-text-color;
-		transform: translateY(20px);
+		margin-top: 20px;
+		font-size: var(--about-me-total-exp-font-size-1440);
+		transform: translateY(-10px);
 		opacity: 0;
-	}
 
-	&__total-date {
-		font-weight: 600;
-		color: $about-me-exp-accent-text-color;
-	}
-
-	&__total-exp--rus-lang {
-		font-size: 22px;
-	}
-
-	&__total-exp--animate {
-		transform: translateY(0);
-		opacity: 1;
-		transition:
-			transform 0.6s ease-out,
-			opacity 0.6s ease-out;
-	}
-
-	@media (width <= 800px) {
-		&__wrapper {
-			margin-bottom: 45px;
+		&--animate {
+			transform: translateY(0);
+			opacity: 1;
+			transition:
+				transform 1s ease-out,
+				opacity 1s ease-out;
 		}
+	}
 
-		&__total-exp {
-			margin-top: 25px;
-			font-size: 22px;
+	&__total {
+		color: var(--text-color);
+
+		&--date {
+			color: var(--change-color);
+			transition: color 0.4s ease-out;
 		}
+	}
 
-		&__total-exp--rus-lang {
-			font-size: 20px;
-		}
-
+	@media (width <= 1024px) {
 		&__profession {
-			min-height: 28px;
-			font-size: 22px;
-		}
-
-		&__profession--rus-lang {
-			font-size: 20px;
-		}
-	}
-
-	@media (width <= 600px) {
-		&__wrapper {
-			margin-bottom: 40px;
-		}
-
-		&__total-exp {
-			font-size: 20px;
-		}
-
-		&__total-exp--rus-lang {
-			font-size: 18px;
-		}
-
-		&__profession {
-			min-height: 25px;
-			font-size: 20px;
-		}
-
-		&__profession--rus-lang {
-			font-size: 18px;
+			font-size: var(--about-me-exp-proffession-font-size-1024);
 		}
 
 		&__date {
-			font-size: 16px;
-		}
-
-		&__date--rus-lang {
-			font-size: 14px;
+			font-size: var(--about-me-exp-date-font-size-1024);
 		}
 
 		&__company {
-			margin-top: 3px;
-			font-size: 16px;
-		}
-
-		&__company--rus-lang {
-			font-size: 14px;
+			font-size: var(--about-me-exp-company-font-size-1024);
 		}
 
 		&__text {
-			font-size: 16px;
-			row-gap: 3px;
-		}
-
-		&__text--rus-lang {
-			font-size: 14px;
-		}
-	}
-
-	@media (width <= 480px) {
-		&__wrapper {
-			margin-bottom: 30px;
+			font-size: var(--about-me-text-font-size-1024);
 		}
 
 		&__total-exp {
-			font-size: 18px;
+			font-size: var(--about-me-total-exp-font-size-1024);
+		}
+	}
+
+	@media (width <= 768px) {
+		&__profession {
+			font-size: var(--about-me-exp-proffession-font-size-768);
 		}
 
-		&__total-exp--rus-lang {
-			font-size: 16px;
+		&__company {
+			font-size: var(--about-me-exp-company-font-size-768);
+		}
+
+		&__text {
+			font-size: var(--about-me-text-font-size-768);
+		}
+
+		&__total-exp {
+			font-size: var(--about-me-total-exp-font-size-768);
+		}
+	}
+
+	@media (width <= 425px) {
+		&__item {
+			row-gap: 5px;
 		}
 
 		&__profession {
-			min-height: 22px;
-			font-size: 18px;
-		}
-
-		&__profession--rus-lang {
-			font-size: 16px;
+			font-size: var(--about-me-exp-proffession-font-size-425);
+			text-align: center;
 		}
 
 		&__date {
-			min-height: 18px;
-			font-size: 14px;
-		}
-
-		&__date--rus-lang {
-			font-size: 12px;
+			text-align: center;
 		}
 
 		&__company {
-			min-height: 18px;
-			font-size: 14px;
-		}
-
-		&__company--rus-lang {
-			font-size: 12px;
+			font-size: var(--about-me-exp-company-font-size-425);
+			text-align: center;
 		}
 
 		&__text {
-			font-size: 14px;
+			font-size: var(--about-me-text-font-size-425);
+			text-align: center;
 		}
 
-		&__text--rus-lang {
-			font-size: 12px;
-		}
-	}
-
-	@media (width <= 360px) {
 		&__total-exp {
-			& span:nth-child(1) {
-				display: block;
-				margin-bottom: 5px;
-			}
+			font-size: var(--about-me-total-exp-font-size-425);
 		}
 	}
 }
